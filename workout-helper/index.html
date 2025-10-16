@@ -833,7 +833,7 @@
             </div>
             
             <!-- Controls Row -->
-            <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 1rem;">
+            <div style="display: grid; grid-template-columns: 1fr auto auto auto; gap: 1rem;">
                 <select id="timezoneSelect">
                     <option value="Asia/Jerusalem" selected>Tel Aviv</option>
                     <option value="America/New_York">New York</option>
@@ -843,6 +843,9 @@
                 </select>
                 <button class="btn btn-secondary" id="calendarBtn" onclick="toggleCalendarView()">
                     <span id="calendarBtnText">📅 Calendar</span>
+                </button>
+                <button class="btn btn-secondary" id="debugBtn" onclick="debugTrainingPeaks()">
+                    🔍 Debug TP
                 </button>
                 <button class="btn btn-primary" id="refreshBtn" onclick="refreshWorkouts()">
                     <span id="btnText">Sync</span>
@@ -1177,16 +1180,34 @@
                 icalUrl = 'https://' + icalUrl.substring(9);
             }
             
-            // Use CORS proxy
-            const proxyUrl = CORS_PROXY + encodeURIComponent(icalUrl);
+            // Use CORS proxy with cache busting
+            const cacheBuster = `&_cb=${Date.now()}`;
+            const proxyUrl = CORS_PROXY + encodeURIComponent(icalUrl) + cacheBuster;
             
-            const response = await fetch(proxyUrl);
+            console.log('Fetching TrainingPeaks data from:', icalUrl);
+            console.log('Using proxy URL:', proxyUrl);
+            
+            const response = await fetch(proxyUrl, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                }
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch Training Peaks data');
             }
             
             const icalData = await response.text();
-            return parseICalData(icalData);
+            console.log('Raw iCal data length:', icalData.length);
+            console.log('First 500 chars of iCal data:', icalData.substring(0, 500));
+            
+            const workouts = parseICalData(icalData);
+            console.log('Parsed workouts:', Object.keys(workouts).length);
+            console.log('Workout details:', Object.values(workouts).slice(0, 3));
+            
+            return workouts;
         }
 
         function parseICalData(icalData) {
@@ -1657,6 +1678,32 @@
                 const workoutDate = workout.start_date || (workout.start_time ? workout.start_time.split('T')[0] : null);
                 return workoutDate === dateStr;
             });
+        }
+
+        async function debugTrainingPeaks() {
+            const tpUrl = document.getElementById('icalUrl').value;
+            if (!tpUrl) {
+                showMessage('Please enter Training Peaks iCal URL first', 'error');
+                return;
+            }
+            
+            showMessage('Debugging TrainingPeaks data... Check browser console (F12)', 'info');
+            
+            try {
+                const workouts = await fetchTrainingPeaksData(tpUrl);
+                
+                // Show summary in UI
+                const workoutCount = Object.keys(workouts).length;
+                const workoutList = Object.values(workouts).slice(0, 5).map(w => 
+                    `• ${w.summary} (${w.start_date || 'no date'})`
+                ).join('\n');
+                
+                showMessage(`Found ${workoutCount} workouts:\n${workoutList}${workoutCount > 5 ? '\n...' : ''}`, 'success');
+                
+            } catch (error) {
+                showMessage(`Debug failed: ${error.message}`, 'error');
+                console.error('TrainingPeaks debug error:', error);
+            }
         }
 
         function renderWorkouts() {
