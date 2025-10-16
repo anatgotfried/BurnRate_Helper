@@ -712,17 +712,23 @@
             </div>
             
             <!-- Strava Section -->
-            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+            <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center;">
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <input type="checkbox" id="stravaCheckbox">
                     <label for="stravaCheckbox" style="font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 500; white-space: nowrap;">Strava</label>
                 </div>
-                <input 
-                    type="text" 
-                    id="stravaToken" 
-                    placeholder="Strava Access Token (optional - see docs for setup)"
-                    value=""
-                >
+                <div id="stravaStatus" style="font-size: 0.9rem; color: var(--text-light); display: flex; align-items: center; gap: 0.5rem;">
+                    <span id="stravaStatusText">Not connected</span>
+                    <span id="stravaStatusIcon" style="width: 8px; height: 8px; border-radius: 50%; background: var(--error);"></span>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="stravaLoginBtn" class="btn" style="background: #fc4c02; color: white; padding: 0.5rem 1rem; font-size: 0.85rem;">
+                        Connect Strava
+                    </button>
+                    <button id="stravaLogoutBtn" class="btn" style="background: var(--text-light); color: white; padding: 0.5rem 1rem; font-size: 0.85rem; display: none;">
+                        Disconnect
+                    </button>
+                </div>
             </div>
             
             <!-- Controls Row -->
@@ -811,18 +817,32 @@
         // CORS Proxy - using allOrigins (free, no signup required)
         const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
         
+        // Strava OAuth Configuration
+        const STRAVA_CLIENT_ID = '180503';
+        const STRAVA_REDIRECT_URI = 'https://callback.burnrate.fit/tp-validator/strava-callback.html';
+        const STRAVA_SCOPE = 'read,activity:read';
+        
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadPreferences();
             loadStoredData();
             setupEventListeners();
+            setupStravaOAuth();
+            checkStravaStatus();
+            
+            // Handle OAuth success redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('strava_connected') === 'true') {
+                showMessage('Successfully connected to Strava!', 'success');
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         });
 
         function loadPreferences() {
             const savedTpEnabled = localStorage.getItem('tpEnabled');
             const savedTpUrl = localStorage.getItem('tpUrl');
             const savedStravaEnabled = localStorage.getItem('stravaEnabled');
-            const savedStravaToken = localStorage.getItem('stravaToken');
             const savedTimezone = localStorage.getItem('timezone');
             
             if (savedTpEnabled !== null) {
@@ -833,9 +853,6 @@
             }
             if (savedStravaEnabled !== null) {
                 document.getElementById('stravaCheckbox').checked = savedStravaEnabled === 'true';
-            }
-            if (savedStravaToken) {
-                document.getElementById('stravaToken').value = savedStravaToken;
             }
             if (savedTimezone) {
                 selectedTimezone = savedTimezone;
@@ -861,10 +878,64 @@
             document.getElementById('stravaCheckbox').addEventListener('change', (e) => {
                 localStorage.setItem('stravaEnabled', e.target.checked);
             });
-
-            document.getElementById('stravaToken').addEventListener('change', (e) => {
-                localStorage.setItem('stravaToken', e.target.value);
+        }
+        
+        function setupStravaOAuth() {
+            document.getElementById('stravaLoginBtn').addEventListener('click', () => {
+                const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(STRAVA_REDIRECT_URI)}&response_type=code&scope=${STRAVA_SCOPE}`;
+                window.location.href = authUrl;
             });
+            
+            document.getElementById('stravaLogoutBtn').addEventListener('click', () => {
+                // Clear Strava tokens
+                localStorage.removeItem('stravaAccessToken');
+                localStorage.removeItem('stravaRefreshToken');
+                localStorage.removeItem('stravaTokenExpiry');
+                localStorage.removeItem('stravaAthlete');
+                localStorage.setItem('stravaEnabled', 'false');
+                
+                checkStravaStatus();
+                showMessage('Disconnected from Strava', 'info');
+            });
+        }
+        
+        function checkStravaStatus() {
+            const accessToken = localStorage.getItem('stravaAccessToken');
+            const athlete = localStorage.getItem('stravaAthlete');
+            
+            const statusText = document.getElementById('stravaStatusText');
+            const statusIcon = document.getElementById('stravaStatusIcon');
+            const loginBtn = document.getElementById('stravaLoginBtn');
+            const logoutBtn = document.getElementById('stravaLogoutBtn');
+            const checkbox = document.getElementById('stravaCheckbox');
+            
+            if (accessToken) {
+                // Connected
+                let displayName = 'Connected';
+                if (athlete) {
+                    try {
+                        const athleteData = JSON.parse(athlete);
+                        displayName = `${athleteData.firstname || ''} ${athleteData.lastname || ''}`.trim() || 'Connected';
+                    } catch (e) {
+                        console.error('Error parsing athlete data:', e);
+                    }
+                }
+                
+                statusText.textContent = displayName;
+                statusIcon.style.background = 'var(--success)';
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                checkbox.disabled = false;
+                checkbox.checked = localStorage.getItem('stravaEnabled') === 'true';
+            } else {
+                // Not connected
+                statusText.textContent = 'Not connected';
+                statusIcon.style.background = 'var(--error)';
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                checkbox.disabled = true;
+                checkbox.checked = false;
+            }
         }
 
         function loadStoredData() {
@@ -896,7 +967,7 @@
             const btnText = document.getElementById('btnText');
             const tpUrl = document.getElementById('icalUrl').value;
             const tpEnabled = document.getElementById('tpCheckbox').checked;
-            const stravaToken = document.getElementById('stravaToken').value;
+            const stravaToken = localStorage.getItem('stravaAccessToken');
             const stravaEnabled = document.getElementById('stravaCheckbox').checked;
             
             if (!tpEnabled && !stravaEnabled) {
@@ -910,7 +981,7 @@
             }
             
             if (stravaEnabled && !stravaToken) {
-                showMessage('Please provide Strava Access Token', 'error');
+                showMessage('Please connect to Strava first', 'error');
                 return;
             }
             
@@ -1111,6 +1182,10 @@
                 // Fetch last 10 days of activities
                 const tenDaysAgo = Math.floor(Date.now() / 1000) - (10 * 24 * 60 * 60);
                 
+                // NOTE: Strava API has CORS restrictions. This will only work if:
+                // 1. Strava enables CORS for your origin, OR
+                // 2. You use a CORS proxy that supports auth headers (most don't for security)
+                // For production use, consider using the Flask version or a serverless function
                 const response = await fetch(
                     `https://www.strava.com/api/v3/athlete/activities?after=${tenDaysAgo}&per_page=200`,
                     {
