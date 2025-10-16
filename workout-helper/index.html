@@ -1180,34 +1180,51 @@
                 icalUrl = 'https://' + icalUrl.substring(9);
             }
             
-            // Use CORS proxy with cache busting
-            const cacheBuster = `&_cb=${Date.now()}`;
-            const proxyUrl = CORS_PROXY + encodeURIComponent(icalUrl) + cacheBuster;
-            
             console.log('Fetching TrainingPeaks data from:', icalUrl);
-            console.log('Using proxy URL:', proxyUrl);
             
-            const response = await fetch(proxyUrl, {
-                cache: 'no-store',
-                headers: {
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache',
-                    'Expires': '0'
+            // Try multiple CORS proxies
+            const proxies = [
+                'https://api.allorigins.win/raw?url=',
+                'https://corsproxy.io/?',
+                'https://api.codetabs.com/v1/proxy?quest=',
+                'https://cors-anywhere.herokuapp.com/'
+            ];
+            
+            for (let i = 0; i < proxies.length; i++) {
+                try {
+                    const cacheBuster = i === 0 ? `&_cb=${Date.now()}` : '';
+                    const proxyUrl = proxies[i] + encodeURIComponent(icalUrl) + cacheBuster;
+                    
+                    console.log(`Trying proxy ${i + 1}:`, proxyUrl);
+                    
+                    const response = await fetch(proxyUrl, {
+                        cache: 'no-store',
+                        headers: {
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const icalData = await response.text();
+                        console.log(`✅ Proxy ${i + 1} success! Raw iCal data length:`, icalData.length);
+                        console.log('First 500 chars of iCal data:', icalData.substring(0, 500));
+                        
+                        const workouts = parseICalData(icalData);
+                        console.log('Parsed workouts:', Object.keys(workouts).length);
+                        console.log('Workout details:', Object.values(workouts).slice(0, 3));
+                        
+                        return workouts;
+                    } else {
+                        console.log(`❌ Proxy ${i + 1} failed:`, response.status, response.statusText);
+                    }
+                } catch (error) {
+                    console.log(`❌ Proxy ${i + 1} error:`, error.message);
                 }
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch Training Peaks data');
             }
             
-            const icalData = await response.text();
-            console.log('Raw iCal data length:', icalData.length);
-            console.log('First 500 chars of iCal data:', icalData.substring(0, 500));
-            
-            const workouts = parseICalData(icalData);
-            console.log('Parsed workouts:', Object.keys(workouts).length);
-            console.log('Workout details:', Object.values(workouts).slice(0, 3));
-            
-            return workouts;
+            throw new Error('All CORS proxies failed. Please try again later or check your TrainingPeaks URL.');
         }
 
         function parseICalData(icalData) {
@@ -1690,15 +1707,75 @@
             showMessage('Debugging TrainingPeaks data... Check browser console (F12)', 'info');
             
             try {
-                const workouts = await fetchTrainingPeaksData(tpUrl);
+                // Step 1: Test direct URL access
+                console.log('=== TrainingPeaks Debug ===');
+                console.log('Original URL:', tpUrl);
                 
-                // Show summary in UI
-                const workoutCount = Object.keys(workouts).length;
-                const workoutList = Object.values(workouts).slice(0, 5).map(w => 
-                    `• ${w.summary} (${w.start_date || 'no date'})`
-                ).join('\n');
+                let testUrl = tpUrl;
+                if (testUrl.startsWith('webcal://')) {
+                    testUrl = 'https://' + testUrl.substring(9);
+                }
+                console.log('Converted URL:', testUrl);
                 
-                showMessage(`Found ${workoutCount} workouts:\n${workoutList}${workoutCount > 5 ? '\n...' : ''}`, 'success');
+                // Step 2: Test proxy URL construction
+                const proxyUrl = CORS_PROXY + encodeURIComponent(testUrl) + `&_cb=${Date.now()}`;
+                console.log('Proxy URL:', proxyUrl);
+                
+                // Step 3: Try different CORS proxies
+                const proxies = [
+                    'https://api.allorigins.win/raw?url=',
+                    'https://cors-anywhere.herokuapp.com/',
+                    'https://corsproxy.io/?',
+                    'https://api.codetabs.com/v1/proxy?quest='
+                ];
+                
+                let success = false;
+                for (let i = 0; i < proxies.length; i++) {
+                    try {
+                        console.log(`Trying proxy ${i + 1}: ${proxies[i]}`);
+                        const testProxyUrl = proxies[i] + encodeURIComponent(testUrl);
+                        
+                        const response = await fetch(testProxyUrl, {
+                            cache: 'no-store',
+                            headers: {
+                                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                                'Pragma': 'no-cache',
+                                'Expires': '0'
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.text();
+                            console.log(`✅ Proxy ${i + 1} success! Data length:`, data.length);
+                            console.log('First 500 chars:', data.substring(0, 500));
+                            
+                            if (data.length > 100) {
+                                // Parse the data
+                                const workouts = parseICalData(data);
+                                console.log('Parsed workouts:', Object.keys(workouts).length);
+                                console.log('Workout details:', Object.values(workouts).slice(0, 3));
+                                
+                                // Show summary in UI
+                                const workoutCount = Object.keys(workouts).length;
+                                const workoutList = Object.values(workouts).slice(0, 5).map(w => 
+                                    `• ${w.summary} (${w.start_date || 'no date'})`
+                                ).join('\n');
+                                
+                                showMessage(`✅ Found ${workoutCount} workouts using proxy ${i + 1}:\n${workoutList}${workoutCount > 5 ? '\n...' : ''}`, 'success');
+                                success = true;
+                                break;
+                            }
+                        } else {
+                            console.log(`❌ Proxy ${i + 1} failed:`, response.status, response.statusText);
+                        }
+                    } catch (proxyError) {
+                        console.log(`❌ Proxy ${i + 1} error:`, proxyError.message);
+                    }
+                }
+                
+                if (!success) {
+                    showMessage(`❌ All proxies failed. Check console for details. Your URL: ${tpUrl}`, 'error');
+                }
                 
             } catch (error) {
                 showMessage(`Debug failed: ${error.message}`, 'error');
