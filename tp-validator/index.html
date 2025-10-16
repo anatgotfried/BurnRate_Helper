@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Peaks Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
+    <!-- iCal.js for parsing iCalendar files -->
+    <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a2332;
+            --primary-light: #2a3544;
+            --accent: #14b8a6;
+            --accent-hover: #0d9488;
+            --text: #1a2332;
+            --text-light: #64748b;
+            --text-lighter: #94a3b8;
+            --bg: #ffffff;
+            --bg-subtle: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6, button, input, select, .nav-link, .stat-label {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            max-width: 900px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        input[type="text"],
+        select {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-lighter);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .section {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        .count-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-lighter);
+            background: var(--bg-subtle);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        /* Workout Card */
+        .workout-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .workout-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateX(4px);
+        }
+
+        .workout-card.completed {
+            border-left-color: var(--success);
+        }
+
+        .workout-card.not-executed {
+            border-left-color: var(--error);
+            opacity: 0.8;
+        }
+
+        .workout-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .workout-time {
+            font-size: 0.9rem;
+            color: var(--text-lighter);
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .workout-description {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .workout-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            background: var(--bg-subtle);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .badge.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        .badge.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border-color: var(--error);
+        }
+
+        .badge.accent {
+            background: rgba(20, 184, 166, 0.1);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .badge.orange {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+            border-color: #f97316;
+        }
+
+        /* Sport Badge Styles */
+        .workout-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sport-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .sport-badge.bike {
+            background: #3b82f6;
+        }
+
+        .sport-badge.run {
+            background: #10b981;
+        }
+
+        .sport-badge.swim {
+            background: #06b6d4;
+        }
+
+        .sport-badge.walk {
+            background: #8b5cf6;
+        }
+
+        .sport-badge.strength {
+            background: #f59e0b;
+        }
+
+        .sport-badge.yoga {
+            background: #ec4899;
+        }
+
+        .sport-badge.hike {
+            background: #84cc16;
+        }
+
+        .sport-badge.activity {
+            background: var(--primary);
+        }
+
+        .sport-badge.rowing {
+            background: #0891b2;
+        }
+
+        /* Change Card */
+        .change-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .change-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .change-card.addition {
+            border-left: 3px solid var(--success);
+        }
+
+        .change-card.modification {
+            border-left: 3px solid var(--warning);
+        }
+
+        .change-card.deletion {
+            border-left: 3px solid var(--error);
+        }
+
+        .change-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .change-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .change-diff {
+            background: var(--bg-subtle);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .diff-line {
+            margin: 0.25rem 0;
+        }
+
+        .diff-label {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .diff-old {
+            color: var(--error);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .diff-new {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        /* History Section */
+        .history-section {
+            grid-column: 1 / -1;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.25rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg);
+        }
+
+        .timeline-timestamp {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-lighter);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-summary {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-lighter);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Messages */
+        .message {
+            max-width: 900px;
+            margin: 1rem auto;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .message.info {
+            background: rgba(20, 184, 166, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        /* Loading */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-subtle);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-lighter);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav {
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 4rem 1rem 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Training Peaks</div>
+            <nav>
+                <a href="#workouts" class="nav-link">Workouts</a>
+                <a href="#changes" class="nav-link">Changes</a>
+                <a href="#history" class="nav-link">History</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Track Every Change</h1>
+        <p>Monitor your training plan evolution with precision. Understand every modification, addition, and adjustment to your workouts.</p>
+    </div>
+
+    <div class="control-panel">
+        <div class="control-grid">
+            <!-- Training Peaks Section -->
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="checkbox" id="tpCheckbox" checked>
+                    <label for="tpCheckbox" style="font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 500; white-space: nowrap;">Training Peaks</label>
+                </div>
+                <input 
+                    type="text" 
+                    id="icalUrl" 
+                    placeholder="Training Peaks iCal URL (e.g., https://www.trainingpeaks.com/ical/YOUR_ID.ics)"
+                    value="https://www.trainingpeaks.com/ical/FQ52PNFB5MWLS.ics"
+                >
+            </div>
+            
+            <!-- Strava Section -->
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="checkbox" id="stravaCheckbox">
+                    <label for="stravaCheckbox" style="font-size: 0.9rem; font-family: 'Inter', sans-serif; font-weight: 500; white-space: nowrap;">Strava</label>
+                </div>
+                <input 
+                    type="text" 
+                    id="stravaToken" 
+                    placeholder="Strava Access Token (optional - see docs for setup)"
+                    value=""
+                >
+            </div>
+            
+            <!-- Controls Row -->
+            <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem;">
+                <select id="timezoneSelect">
+                    <option value="Asia/Jerusalem" selected>Tel Aviv</option>
+                    <option value="America/New_York">New York</option>
+                    <option value="America/Los_Angeles">Los Angeles</option>
+                    <option value="Europe/London">London</option>
+                    <option value="UTC">UTC</option>
+                </select>
+                <button class="btn btn-primary" id="refreshBtn" onclick="refreshWorkouts()">
+                    <span id="btnText">Sync</span>
+                </button>
+            </div>
+        </div>
+        <div id="messageContainer"></div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Last Updated</div>
+                <div class="stat-value" id="lastUpdated">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Workouts</div>
+                <div class="stat-value" id="totalWorkouts">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Recent Changes</div>
+                <div class="stat-value" id="recentChanges">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="content-grid">
+            <section class="section" id="workouts">
+                <div class="section-header">
+                    <h2 class="section-title">Workouts</h2>
+                    <span class="count-badge" id="workoutCount">0</span>
+                </div>
+                <div id="workoutsContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon">—</div>
+                        <p>Sync your training data to begin</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="changes">
+                <div class="section-header">
+                    <h2 class="section-title">Recent</h2>
+                    <span class="count-badge" id="changesCount">0</span>
+                </div>
+                <div id="changesContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon">—</div>
+                        <p>No changes yet</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="section history-section">
+            <div class="section-header">
+                <h2 class="section-title">History</h2>
+                <span class="count-badge" id="historyCount">0</span>
+            </div>
+            <div class="timeline" id="historyContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">—</div>
+                    <p>Change history will appear here</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // State Management
+        let workoutsData = {};
+        let changeLog = [];
+        let selectedTimezone = 'Asia/Jerusalem';
+        
+        // CORS Proxy - using allOrigins (free, no signup required)
+        const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPreferences();
+            loadStoredData();
+            setupEventListeners();
+        });
+
+        function loadPreferences() {
+            const savedTpEnabled = localStorage.getItem('tpEnabled');
+            const savedTpUrl = localStorage.getItem('tpUrl');
+            const savedStravaEnabled = localStorage.getItem('stravaEnabled');
+            const savedStravaToken = localStorage.getItem('stravaToken');
+            const savedTimezone = localStorage.getItem('timezone');
+            
+            if (savedTpEnabled !== null) {
+                document.getElementById('tpCheckbox').checked = savedTpEnabled === 'true';
+            }
+            if (savedTpUrl) {
+                document.getElementById('icalUrl').value = savedTpUrl;
+            }
+            if (savedStravaEnabled !== null) {
+                document.getElementById('stravaCheckbox').checked = savedStravaEnabled === 'true';
+            }
+            if (savedStravaToken) {
+                document.getElementById('stravaToken').value = savedStravaToken;
+            }
+            if (savedTimezone) {
+                selectedTimezone = savedTimezone;
+                document.getElementById('timezoneSelect').value = savedTimezone;
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('timezoneSelect').addEventListener('change', (e) => {
+                selectedTimezone = e.target.value;
+                localStorage.setItem('timezone', e.target.value);
+                renderWorkouts();
+            });
+
+            document.getElementById('icalUrl').addEventListener('change', (e) => {
+                localStorage.setItem('tpUrl', e.target.value);
+            });
+
+            document.getElementById('tpCheckbox').addEventListener('change', (e) => {
+                localStorage.setItem('tpEnabled', e.target.checked);
+            });
+
+            document.getElementById('stravaCheckbox').addEventListener('change', (e) => {
+                localStorage.setItem('stravaEnabled', e.target.checked);
+            });
+
+            document.getElementById('stravaToken').addEventListener('change', (e) => {
+                localStorage.setItem('stravaToken', e.target.value);
+            });
+        }
+
+        function loadStoredData() {
+            const storedWorkouts = localStorage.getItem('workouts');
+            const storedChangeLog = localStorage.getItem('changeLog');
+            const lastUpdated = localStorage.getItem('lastUpdated');
+            
+            if (storedWorkouts) {
+                try {
+                    workoutsData = JSON.parse(storedWorkouts);
+                } catch (e) {
+                    console.error('Error parsing stored workouts:', e);
+                }
+            }
+            
+            if (storedChangeLog) {
+                try {
+                    changeLog = JSON.parse(storedChangeLog);
+                } catch (e) {
+                    console.error('Error parsing stored change log:', e);
+                }
+            }
+            
+            updateUI(lastUpdated);
+        }
+
+        async function refreshWorkouts() {
+            const btn = document.getElementById('refreshBtn');
+            const btnText = document.getElementById('btnText');
+            const tpUrl = document.getElementById('icalUrl').value;
+            const tpEnabled = document.getElementById('tpCheckbox').checked;
+            const stravaToken = document.getElementById('stravaToken').value;
+            const stravaEnabled = document.getElementById('stravaCheckbox').checked;
+            
+            if (!tpEnabled && !stravaEnabled) {
+                showMessage('Please enable at least one data source', 'error');
+                return;
+            }
+            
+            if (tpEnabled && !tpUrl) {
+                showMessage('Please provide Training Peaks iCal URL', 'error');
+                return;
+            }
+            
+            if (stravaEnabled && !stravaToken) {
+                showMessage('Please provide Strava Access Token', 'error');
+                return;
+            }
+            
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span>';
+            clearMessage();
+            
+            try {
+                let newWorkouts = {};
+                
+                // Fetch from Training Peaks if enabled
+                if (tpEnabled && tpUrl) {
+                    try {
+                        const tpWorkouts = await fetchTrainingPeaksData(tpUrl);
+                        newWorkouts = { ...newWorkouts, ...tpWorkouts };
+                    } catch (error) {
+                        showMessage('Training Peaks: ' + error.message, 'error');
+                    }
+                }
+                
+                // Fetch from Strava if enabled
+                if (stravaEnabled && stravaToken) {
+                    try {
+                        const stravaWorkouts = await fetchStravaData(stravaToken);
+                        // Merge Strava workouts (Strava takes precedence for completed workouts)
+                        newWorkouts = mergeWorkouts(newWorkouts, stravaWorkouts);
+                    } catch (error) {
+                        showMessage('Strava: ' + error.message, 'error');
+                    }
+                }
+                
+                if (Object.keys(newWorkouts).length === 0) {
+                    showMessage('No workouts fetched. Please check your settings.', 'error');
+                    return;
+                }
+                
+                // Detect changes and update
+                const changes = detectChanges(workoutsData, newWorkouts);
+                workoutsData = newWorkouts;
+                
+                if (hasChanges(changes)) {
+                    changeLog.unshift(changes);
+                    // Keep only last 50 change logs
+                    if (changeLog.length > 50) {
+                        changeLog = changeLog.slice(0, 50);
+                    }
+                }
+                
+                const now = new Date().toISOString();
+                
+                // Save to localStorage
+                localStorage.setItem('workouts', JSON.stringify(workoutsData));
+                localStorage.setItem('changeLog', JSON.stringify(changeLog));
+                localStorage.setItem('lastUpdated', now);
+                
+                updateUI(now);
+                showMessage(`Successfully synced ${Object.keys(workoutsData).length} workouts`, 'success');
+                
+            } catch (error) {
+                showMessage('Failed to sync: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = 'Sync';
+            }
+        }
+
+        async function fetchTrainingPeaksData(icalUrl) {
+            // Convert webcal to https
+            if (icalUrl.startsWith('webcal://')) {
+                icalUrl = 'https://' + icalUrl.substring(9);
+            }
+            
+            // Use CORS proxy
+            const proxyUrl = CORS_PROXY + encodeURIComponent(icalUrl);
+            
+            const response = await fetch(proxyUrl);
+            if (!response.ok) {
+                throw new Error('Failed to fetch Training Peaks data');
+            }
+            
+            const icalData = await response.text();
+            return parseICalData(icalData);
+        }
+
+        function parseICalData(icalData) {
+            const workouts = {};
+            
+            try {
+                const jcalData = ICAL.parse(icalData);
+                const comp = new ICAL.Component(jcalData);
+                const vevents = comp.getAllSubcomponents('vevent');
+                
+                vevents.forEach(vevent => {
+                    const event = new ICAL.Event(vevent);
+                    const uid = event.uid;
+                    
+                    if (!uid) return;
+                    
+                    const workout = {
+                        uid: uid,
+                        summary: event.summary || '',
+                        description: event.description || '',
+                        start_time: event.startDate ? event.startDate.toJSDate().toISOString() : null,
+                        start_date: event.startDate ? event.startDate.toJSDate().toISOString().split('T')[0] : null,
+                        end_time: event.endDate ? event.endDate.toJSDate().toISOString() : null,
+                        end_date: event.endDate ? event.endDate.toJSDate().toISOString().split('T')[0] : null,
+                        location: event.location || '',
+                        status: event.status || '',
+                        sequence: event.sequence || 0,
+                        is_all_day: !event.startDate?.isDate ? false : true,
+                        has_time: !event.startDate?.isDate ? true : false,
+                        source: 'training_peaks',
+                        parsed_execution_status: 'planned'
+                    };
+                    
+                    // Parse description for additional info
+                    parseWorkoutDescription(workout);
+                    
+                    workouts[uid] = workout;
+                });
+                
+            } catch (error) {
+                console.error('Error parsing iCal data:', error);
+                throw new Error('Failed to parse Training Peaks calendar data');
+            }
+            
+            return workouts;
+        }
+
+        function parseWorkoutDescription(workout) {
+            if (!workout.description) return;
+            
+            const desc = workout.description;
+            
+            // Parse duration
+            const movingTimeMatch = desc.match(/moving\s+time[:\s]*(\d+:\d+(?::\d+)?)/i);
+            if (movingTimeMatch) {
+                workout.parsed_duration = movingTimeMatch[1];
+                workout.parsed_duration_formatted = formatDurationString(movingTimeMatch[1]);
+                workout.duration_type = 'moving_time';
+                workout.parsed_execution_status = 'completed';
+            } else {
+                const elapsedMatch = desc.match(/elapsed\s+time[:\s]*(\d+:\d+(?::\d+)?)/i);
+                if (elapsedMatch) {
+                    workout.parsed_duration = elapsedMatch[1];
+                    workout.parsed_duration_formatted = formatDurationString(elapsedMatch[1]);
+                    workout.duration_type = 'elapsed_time';
+                    workout.parsed_execution_status = 'completed';
+                }
+            }
+            
+            // Parse distance
+            const distanceMatch = desc.match(/(\d+\.?\d*)\s*(km|mi|miles?|meters?|m)\b/i);
+            if (distanceMatch) {
+                workout.parsed_distance = `${distanceMatch[1]} ${distanceMatch[2]}`;
+            }
+            
+            // Parse TSS
+            const tssMatch = desc.match(/tss[:\s]*(\d+)/i);
+            if (tssMatch) {
+                workout.parsed_tss = tssMatch[1];
+            }
+        }
+
+        function formatDurationString(durationStr) {
+            if (!durationStr) return null;
+            
+            try {
+                const parts = durationStr.split(':');
+                if (parts.length === 3) {
+                    const [hours, minutes, seconds] = parts.map(Number);
+                    if (hours > 0) {
+                        return seconds > 0 ? `${hours}h ${minutes}m ${seconds}s` : `${hours}h ${minutes}m`;
+                    } else if (minutes > 0) {
+                        return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+                    } else {
+                        return `${seconds}s`;
+                    }
+                } else if (parts.length === 2) {
+                    const [first, second] = parts.map(Number);
+                    if (first < 24) {
+                        return first > 0 ? `${first}h ${second}m` : `${second}m`;
+                    } else {
+                        return `${first}m ${second}s`;
+                    }
+                }
+            } catch (e) {
+                console.error('Error formatting duration:', e);
+            }
+            
+            return durationStr;
+        }
+
+        async function fetchStravaData(accessToken) {
+            const workouts = {};
+            
+            try {
+                // Fetch last 10 days of activities
+                const tenDaysAgo = Math.floor(Date.now() / 1000) - (10 * 24 * 60 * 60);
+                
+                const response = await fetch(
+                    `https://www.strava.com/api/v3/athlete/activities?after=${tenDaysAgo}&per_page=200`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    }
+                );
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('Invalid Strava access token');
+                    }
+                    throw new Error('Failed to fetch Strava data');
+                }
+                
+                const activities = await response.json();
+                
+                activities.forEach(activity => {
+                    const uid = `strava_${activity.id}`;
+                    
+                    const workout = {
+                        uid: uid,
+                        summary: activity.name || '',
+                        description: activity.description || '',
+                        start_time: activity.start_date,
+                        start_date: activity.start_date_local ? activity.start_date_local.split('T')[0] : null,
+                        is_all_day: false,
+                        has_time: true,
+                        location: `${activity.location_city || ''} ${activity.location_state || ''}`.trim(),
+                        status: 'COMPLETED',
+                        source: 'strava',
+                        activity_type: activity.sport_type || activity.type || '',
+                        sequence: 0,
+                        parsed_execution_status: 'completed',
+                        duration_type: 'moving_time',
+                        
+                        // Format duration
+                        parsed_duration: activity.moving_time ? activity.moving_time.toString() : null,
+                        parsed_duration_formatted: activity.moving_time ? formatDurationString(secondsToTimeString(activity.moving_time)) : null,
+                        parsed_distance: activity.distance ? `${(activity.distance / 1000).toFixed(2)} km` : null,
+                        
+                        // Strava-specific metrics
+                        strava_distance: activity.distance,
+                        strava_moving_time: activity.moving_time,
+                        strava_elapsed_time: activity.elapsed_time,
+                        strava_total_elevation_gain: activity.total_elevation_gain,
+                        strava_average_speed: activity.average_speed,
+                        strava_max_speed: activity.max_speed,
+                        strava_average_heartrate: activity.average_heartrate,
+                        strava_max_heartrate: activity.max_heartrate,
+                        strava_average_watts: activity.average_watts,
+                        strava_kilojoules: activity.kilojoules,
+                        strava_calories: activity.calories
+                    };
+                    
+                    // Calculate end time
+                    if (workout.start_time && activity.elapsed_time) {
+                        const start = new Date(workout.start_time);
+                        const end = new Date(start.getTime() + activity.elapsed_time * 1000);
+                        workout.end_time = end.toISOString();
+                        workout.end_date = end.toISOString().split('T')[0];
+                    }
+                    
+                    workouts[uid] = workout;
+                });
+                
+            } catch (error) {
+                console.error('Error fetching Strava data:', error);
+                throw error;
+            }
+            
+            return workouts;
+        }
+
+        function secondsToTimeString(seconds) {
+            if (!seconds) return null;
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            if (hours > 0) {
+                return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            } else {
+                return `${minutes}:${secs.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function mergeWorkouts(tpWorkouts, stravaWorkouts) {
+            const merged = { ...tpWorkouts };
+            const matched = new Set();
+            
+            // Add Strava workouts, replacing TP workouts if they match
+            Object.values(stravaWorkouts).forEach(stravaWorkout => {
+                // Try to find matching TP workout
+                const matchingTpUid = findMatchingTPWorkout(stravaWorkout, tpWorkouts, matched);
+                
+                if (matchingTpUid) {
+                    // Remove TP workout and add Strava workout
+                    delete merged[matchingTpUid];
+                    matched.add(matchingTpUid);
+                }
+                
+                // Add Strava workout
+                merged[stravaWorkout.uid] = stravaWorkout;
+            });
+            
+            return merged;
+        }
+
+        function findMatchingTPWorkout(stravaWorkout, tpWorkouts, matched) {
+            const stravaDate = stravaWorkout.start_date;
+            const stravaSport = (stravaWorkout.activity_type || '').toLowerCase();
+            
+            for (const [uid, tpWorkout] of Object.entries(tpWorkouts)) {
+                if (matched.has(uid)) continue;
+                
+                const tpDate = tpWorkout.start_date;
+                const tpSummary = (tpWorkout.summary || '').toLowerCase();
+                
+                // Same date
+                if (tpDate !== stravaDate) continue;
+                
+                // Similar sport
+                if (stravaSport.includes('run') && tpSummary.includes('run')) return uid;
+                if ((stravaSport.includes('ride') || stravaSport.includes('bike')) && 
+                    (tpSummary.includes('bike') || tpSummary.includes('ride'))) return uid;
+                if (stravaSport.includes('swim') && tpSummary.includes('swim')) return uid;
+            }
+            
+            return null;
+        }
+
+        function detectChanges(oldWorkouts, newWorkouts) {
+            const changes = {
+                timestamp: new Date().toISOString(),
+                additions: [],
+                modifications: [],
+                deletions: [],
+                movements: []
+            };
+            
+            // Detect additions and modifications
+            for (const [uid, newWorkout] of Object.entries(newWorkouts)) {
+                if (!oldWorkouts[uid]) {
+                    changes.additions.push(newWorkout);
+                } else {
+                    const diff = getWorkoutDiff(oldWorkouts[uid], newWorkout);
+                    if (diff && Object.keys(diff).length > 0) {
+                        changes.modifications.push({
+                            uid: uid,
+                            old: oldWorkouts[uid],
+                            new: newWorkout,
+                            changes: diff
+                        });
+                        
+                        // Check for movements
+                        if (diff.start_time) {
+                            changes.movements.push({
+                                uid: uid,
+                                summary: newWorkout.summary,
+                                old_start: oldWorkouts[uid].start_time,
+                                new_start: newWorkout.start_time
+                            });
+                        }
+                    }
+                }
+            }
+            
+            // Detect deletions
+            for (const [uid, oldWorkout] of Object.entries(oldWorkouts)) {
+                if (!newWorkouts[uid]) {
+                    changes.deletions.push({
+                        ...oldWorkout,
+                        deletion_type: classifyDeletion(oldWorkout)
+                    });
+                }
+            }
+            
+            return changes;
+        }
+
+        function getWorkoutDiff(oldWorkout, newWorkout) {
+            const diff = {};
+            const fields = ['summary', 'description', 'start_time', 'end_time', 'location', 'status', 
+                          'sequence', 'parsed_duration', 'parsed_distance'];
+            
+            fields.forEach(field => {
+                if (oldWorkout[field] !== newWorkout[field]) {
+                    diff[field] = {
+                        old: oldWorkout[field],
+                        new: newWorkout[field]
+                    };
+                }
+            });
+            
+            return diff;
+        }
+
+        function classifyDeletion(workout) {
+            try {
+                const workoutDate = new Date(workout.start_date || workout.start_time);
+                const now = new Date();
+                const daysSince = Math.floor((now - workoutDate) / (1000 * 60 * 60 * 24));
+                
+                if (daysSince < 0) return 'deleted_future';
+                if (daysSince <= 2) return 'deleted_recent';
+                if (daysSince <= 5) return 'not_executed_aged_out';
+                return 'aged_out_not_executed';
+            } catch (e) {
+                return 'deleted';
+            }
+        }
+
+        function hasChanges(changes) {
+            return changes.additions.length > 0 || 
+                   changes.modifications.length > 0 || 
+                   changes.deletions.length > 0;
+        }
+
+        function updateUI(lastUpdated) {
+            document.getElementById('lastUpdated').textContent = 
+                lastUpdated ? formatRelativeTime(lastUpdated) : '—';
+            
+            const workoutCount = Object.keys(workoutsData).length;
+            document.getElementById('totalWorkouts').textContent = workoutCount;
+            document.getElementById('workoutCount').textContent = workoutCount;
+            
+            const recentChangesCount = changeLog.length > 0 ? 
+                changeLog[0].additions.length + 
+                changeLog[0].modifications.length + 
+                changeLog[0].deletions.length : 0;
+            document.getElementById('recentChanges').textContent = recentChangesCount;
+            
+            renderWorkouts();
+            renderRecentChanges();
+            renderHistory();
+        }
+
+        function renderWorkouts() {
+            const container = document.getElementById('workoutsContainer');
+            
+            if (Object.keys(workoutsData).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">—</div>
+                        <p>No workouts found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const workouts = Object.values(workoutsData).sort((a, b) => {
+                const dateA = new Date(a.start_date || a.start_time);
+                const dateB = new Date(b.start_date || b.start_time);
+                return dateB - dateA;
+            });
+            
+            const now = new Date();
+            
+            container.innerHTML = workouts.map(workout => {
+                const startDate = new Date(workout.start_date || workout.start_time);
+                const isPast = startDate < now;
+                
+                let statusClass = '';
+                let statusBadge = '';
+                
+                if (workout.parsed_execution_status === 'completed') {
+                    statusClass = 'completed';
+                    statusBadge = '<span class="badge success">Completed</span>';
+                } else if (isPast && workout.is_all_day) {
+                    statusClass = 'not-executed';
+                    statusBadge = '<span class="badge error">Not Executed</span>';
+                } else if (isPast) {
+                    statusClass = 'completed';
+                    statusBadge = '<span class="badge success">Completed</span>';
+                } else {
+                    statusBadge = '<span class="badge warning">Planned</span>';
+                }
+                
+                let timeDisplay = '';
+                if (workout.is_all_day) {
+                    timeDisplay = formatDateWithTimezone(workout.start_date);
+                } else {
+                    timeDisplay = formatDateTimeWithTimezone(workout.start_time);
+                }
+                
+                let metaBadges = statusBadge;
+                
+                if (workout.is_all_day) {
+                    metaBadges += '<span class="badge accent">Flexible Time</span>';
+                }
+                
+                if (workout.parsed_duration_formatted) {
+                    metaBadges += `<span class="badge">${escapeHtml(workout.parsed_duration_formatted)}</span>`;
+                }
+                
+                if (workout.parsed_distance) {
+                    metaBadges += `<span class="badge">${escapeHtml(workout.parsed_distance)}</span>`;
+                }
+                
+                // Add source indicator
+                if (workout.source === 'strava') {
+                    metaBadges += '<span class="badge orange">Strava</span>';
+                } else {
+                    metaBadges += '<span class="badge accent">Training Peaks</span>';
+                }
+
+                // Add Strava-specific metrics if available
+                if (workout.strava_average_heartrate) {
+                    metaBadges += `<span class="badge">❤️ ${Math.round(workout.strava_average_heartrate)} bpm</span>`;
+                }
+                if (workout.strava_average_watts) {
+                    metaBadges += `<span class="badge">⚡ ${Math.round(workout.strava_average_watts)}W</span>`;
+                }
+                if (workout.strava_calories) {
+                    metaBadges += `<span class="badge">🔥 ${Math.round(workout.strava_calories)} cal</span>`;
+                }
+                if (workout.strava_total_elevation_gain) {
+                    metaBadges += `<span class="badge">⛰️ ${Math.round(workout.strava_total_elevation_gain)}m</span>`;
+                }
+                
+                const sportType = getSportType(workout);
+                
+                return `
+                    <div class="workout-card ${statusClass}">
+                        <div class="workout-header">
+                            <span class="sport-badge ${sportType.toLowerCase()}">${sportType}</span>
+                            <div class="workout-title">${escapeHtml(workout.summary)}</div>
+                        </div>
+                        <div class="workout-time">${timeDisplay}</div>
+                        ${workout.description ? `
+                            <div class="workout-description">${escapeHtml(workout.description)}</div>
+                        ` : ''}
+                        <div class="workout-meta">${metaBadges}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getSportType(workout) {
+            if (workout.activity_type) {
+                const activityType = workout.activity_type.toLowerCase();
+                if (activityType.includes('ride') || activityType.includes('bike') || activityType.includes('virtualride')) return 'Bike';
+                if (activityType.includes('run') || activityType.includes('virtualrun')) return 'Run';
+                if (activityType.includes('swim') || activityType.includes('virtualswim')) return 'Swim';
+                if (activityType.includes('walk')) return 'Walk';
+                if (activityType.includes('weight')) return 'Strength';
+                if (activityType.includes('rowing')) return 'Rowing';
+                return activityType.charAt(0).toUpperCase() + activityType.slice(1);
+            }
+            
+            const summary = (workout.summary || '').toLowerCase();
+            
+            if (summary.includes('zwift')) return 'Bike';
+            if (summary.includes('bike') || summary.includes('ride') || summary.includes('cycling')) return 'Bike';
+            if (summary.includes('run') || summary.includes('running')) return 'Run';
+            if (summary.includes('swim') || summary.includes('swimming')) return 'Swim';
+            if (summary.includes('walk') || summary.includes('walking')) return 'Walk';
+            if (summary.includes('strength') || summary.includes('weight') || summary.includes('gym')) return 'Strength';
+            if (summary.includes('yoga') || summary.includes('stretch')) return 'Yoga';
+            if (summary.includes('hike') || summary.includes('hiking')) return 'Hike';
+            if (summary.includes('ergatta')) return 'Rowing';
+            
+            return 'Activity';
+        }
+
+        function renderRecentChanges() {
+            const container = document.getElementById('changesContainer');
+            
+            if (changeLog.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">—</div>
+                        <p>No changes yet</p>
+                    </div>
+                `;
+                document.getElementById('changesCount').textContent = '0';
+                return;
+            }
+            
+            const recent = changeLog[0];
+            const totalChanges = recent.additions.length + 
+                                recent.modifications.length + 
+                                recent.deletions.length;
+            
+            document.getElementById('changesCount').textContent = totalChanges;
+            
+            let html = '';
+            
+            recent.additions.forEach(workout => {
+                html += `
+                    <div class="change-card addition">
+                        <div class="change-title">✅ Added: ${escapeHtml(workout.summary)}</div>
+                        <div class="change-details">${formatDateWithTimezone(workout.start_date || workout.start_time)}</div>
+                    </div>
+                `;
+            });
+            
+            recent.modifications.forEach(mod => {
+                html += `
+                    <div class="change-card modification">
+                        <div class="change-title">✏️ Modified: ${escapeHtml(mod.new.summary)}</div>
+                        <div class="change-diff">${renderChangeDiff(mod.changes)}</div>
+                    </div>
+                `;
+            });
+            
+            recent.deletions.forEach(workout => {
+                const deletionType = workout.deletion_type || 'deleted';
+                let deletionLabel = '❌ Deleted';
+                let deletionClass = 'deletion';
+                
+                if (deletionType.includes('aged_out')) {
+                    deletionLabel = '📦 Archived';
+                    deletionClass = 'change-card';
+                }
+                
+                html += `
+                    <div class="change-card ${deletionClass}">
+                        <div class="change-title">${deletionLabel}: ${escapeHtml(workout.summary)}</div>
+                        <div class="change-details">${formatDateWithTimezone(workout.start_date || workout.start_time)}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || `
+                <div class="empty-state">
+                    <div class="empty-icon">—</div>
+                    <p>No changes in this sync</p>
+                </div>
+            `;
+        }
+
+        function renderChangeDiff(changes) {
+            let html = '';
+            for (const [field, diff] of Object.entries(changes)) {
+                html += `
+                    <div class="diff-line">
+                        <span class="diff-label">${field}:</span><br>
+                        <span class="diff-old">${escapeHtml(String(diff.old || '—'))}</span> →
+                        <span class="diff-new">${escapeHtml(String(diff.new || '—'))}</span>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyContainer');
+            
+            if (changeLog.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">—</div>
+                        <p>Change history will appear here</p>
+                    </div>
+                `;
+                document.getElementById('historyCount').textContent = '0';
+                return;
+            }
+            
+            document.getElementById('historyCount').textContent = changeLog.length;
+            
+            container.innerHTML = changeLog.map(log => {
+                const parts = [];
+                if (log.additions.length > 0) parts.push(`${log.additions.length} added`);
+                if (log.modifications.length > 0) parts.push(`${log.modifications.length} modified`);
+                if (log.deletions.length > 0) parts.push(`${log.deletions.length} deleted`);
+                
+                return `
+                    <div class="timeline-item">
+                        <div class="timeline-timestamp">${formatRelativeTime(log.timestamp)}</div>
+                        <div class="timeline-summary">${parts.join(', ') || 'No changes'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatDateTimeWithTimezone(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            return date.toLocaleString('en-US', {
+                timeZone: selectedTimezone,
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+
+        function formatDateWithTimezone(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', {
+                timeZone: selectedTimezone,
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function formatRelativeTime(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins}m ago`;
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) return `${diffHours}h ago`;
+            const diffDays = Math.floor(diffHours / 24);
+            if (diffDays < 7) return `${diffDays}d ago`;
+            
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showMessage(message, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="message ${type}">${escapeHtml(message)}</div>`;
+            setTimeout(() => container.innerHTML = '', 10000);
+        }
+
+        function clearMessage() {
+            document.getElementById('messageContainer').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
+

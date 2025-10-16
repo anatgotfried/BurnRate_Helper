@@ -1,6 +1,23 @@
 # Training Peaks Workout Tracker
 
-A local web application for tracking and analyzing Training Peaks workouts with automatic change detection and comprehensive history logging.
+A web application for tracking and analyzing Training Peaks workouts with automatic change detection and comprehensive history logging.
+
+## 🎯 Two Versions Available
+
+### 1. **GitHub Pages Version** (Recommended for most users)
+- ✅ No installation required
+- ✅ Free hosting on GitHub Pages
+- ✅ Works entirely in browser
+- ✅ [Live Demo](https://callback.burnrate.fit/tp-validator/)
+- 📖 [Setup Guide](GITHUB_PAGES_SETUP.md)
+
+### 2. **Flask Local Version** (For developers)
+- ✅ Full Strava OAuth support
+- ✅ Faster performance
+- ✅ File-based storage
+- 📖 Continue reading below for setup
+
+---
 
 ## Features
 
