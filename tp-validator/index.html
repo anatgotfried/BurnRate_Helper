@@ -1006,9 +1006,12 @@
                 if (stravaEnabled && stravaToken) {
                     try {
                         const stravaWorkouts = await fetchStravaData(stravaToken);
+                        console.log('Strava workouts fetched:', Object.keys(stravaWorkouts).length, stravaWorkouts);
                         // Merge Strava workouts (Strava takes precedence for completed workouts)
                         newWorkouts = mergeWorkouts(newWorkouts, stravaWorkouts);
+                        console.log('After merge, total workouts:', Object.keys(newWorkouts).length);
                     } catch (error) {
+                        console.error('Strava fetch error:', error);
                         showMessage('Strava: ' + error.message, 'error');
                     }
                 }
@@ -1442,6 +1445,11 @@
                 const dateB = new Date(b.start_date || b.start_time);
                 return dateB - dateA;
             });
+            
+            console.log('Rendering workouts:', workouts.length, 'total');
+            const stravaCount = workouts.filter(w => w.source === 'strava').length;
+            const tpCount = workouts.filter(w => w.source !== 'strava').length;
+            console.log(`  - Strava: ${stravaCount}, Training Peaks: ${tpCount}`);
             
             const now = new Date();
             
