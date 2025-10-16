@@ -882,7 +882,7 @@
         
         function setupStravaOAuth() {
             document.getElementById('stravaLoginBtn').addEventListener('click', () => {
-                const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(STRAVA_REDIRECT_URI)}&response_type=code&scope=${STRAVA_SCOPE}`;
+                const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(STRAVA_REDIRECT_URI)}&response_type=code&scope=${STRAVA_SCOPE}&state=web_app`;
                 window.location.href = authUrl;
             });
             
