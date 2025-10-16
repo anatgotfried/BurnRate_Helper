@@ -781,7 +781,7 @@
         <div class="header-container">
             <div class="logo">
                 Training Peaks
-                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.9</span>
+                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v3.0</span>
             </div>
             <nav>
                 <a href="#workouts" class="nav-link">Workouts</a>
@@ -1457,7 +1457,7 @@
             }
         }
 
-        function mergeWorkouts(tpWorkouts, stravaWorkouts) {
+        function mergeWorkouts(tpWorkouts, stravaWorkouts, enabledSources = ['tp', 'strava']) {
             // Implementation following documentation:
             // "Strava completed workouts take precedence over TP workouts.
             //  Past planned TP workouts are automatically removed."
@@ -1465,42 +1465,54 @@
             const merged = {};
             const matchedTpUids = new Set();
             
-            // Step 1: Add Strava workouts first (they take precedence for completed)
-            for (const [stravaUid, stravaWorkout] of Object.entries(stravaWorkouts)) {
-                // Try to match with TP workout
-                const matchingTpUid = findMatchingTPWorkout(stravaWorkout, tpWorkouts, matchedTpUids);
-                
-                if (matchingTpUid) {
-                    matchedTpUids.add(matchingTpUid);
-                    // Mark as replaced TP workout
-                    stravaWorkout.replaced_tp_uid = matchingTpUid;
+            // Add Strava workouts if enabled
+            if (enabledSources.includes('strava')) {
+                for (const [stravaUid, stravaWorkout] of Object.entries(stravaWorkouts)) {
+                    // Try to match with TP workout if both sources enabled
+                    let matchingTpUid = null;
+                    if (enabledSources.includes('tp')) {
+                        matchingTpUid = findMatchingTPWorkout(stravaWorkout, tpWorkouts, matchedTpUids);
+                        if (matchingTpUid) {
+                            matchedTpUids.add(matchingTpUid);
+                        }
+                    }
+                    
+                    // If matched, replace TP workout with Strava (Strava takes precedence for completed)
+                    if (matchingTpUid) {
+                        stravaWorkout.replaced_tp_uid = matchingTpUid;
+                        merged[stravaUid] = {
+                            ...stravaWorkout,
+                            source: 'strava'
+                        };
+                    } else {
+                        merged[stravaUid] = {
+                            ...stravaWorkout,
+                            source: 'strava'
+                        };
+                    }
                 }
-                
-                // Add Strava workout (with source tracking)
-                merged[stravaUid] = {
-                    ...stravaWorkout,
-                    source: 'strava'
-                };
             }
             
-            // Step 2: Add unmatched TP workouts (filter out past planned ones)
-            for (const [tpUid, tpWorkout] of Object.entries(tpWorkouts)) {
-                if (matchedTpUids.has(tpUid)) {
-                    // This TP workout was matched and replaced by Strava workout
-                    continue;
+            // Add unmatched TP workouts (filter out past planned ones)
+            if (enabledSources.includes('tp')) {
+                for (const [tpUid, tpWorkout] of Object.entries(tpWorkouts)) {
+                    if (matchedTpUids.has(tpUid)) {
+                        // This TP workout was matched and replaced by Strava workout
+                        continue;
+                    }
+                    
+                    // Skip past planned TP workouts (per documentation guidelines)
+                    if (isPastPlannedWorkout(tpWorkout)) {
+                        console.log(`Skipping past planned workout: ${tpWorkout.summary} (${tpWorkout.start_date})`);
+                        continue;
+                    }
+                    
+                    // Add unmatched TP workout
+                    merged[tpUid] = {
+                        ...tpWorkout,
+                        source: 'training_peaks'
+                    };
                 }
-                
-                // Skip past planned TP workouts (per documentation guidelines)
-                if (isPastPlannedWorkout(tpWorkout)) {
-                    console.log(`Skipping past planned workout: ${tpWorkout.summary} (${tpWorkout.start_date})`);
-                    continue;
-                }
-                
-                // Add unmatched TP workout
-                merged[tpUid] = {
-                    ...tpWorkout,
-                    source: 'training_peaks'
-                };
             }
             
             return merged;
@@ -1688,8 +1700,7 @@
 
         function getWorkoutDiff(oldWorkout, newWorkout) {
             const diff = {};
-            const fields = ['summary', 'description', 'start_time', 'end_time', 'location', 'status', 
-                          'sequence', 'parsed_duration', 'parsed_distance'];
+            const fields = ['summary', 'description', 'start_time', 'end_time', 'location', 'status', 'sequence'];
             
             fields.forEach(field => {
                 if (oldWorkout[field] !== newWorkout[field]) {
