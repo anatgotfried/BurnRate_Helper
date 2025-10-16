@@ -1210,25 +1210,39 @@
                 const comp = new ICAL.Component(jcalData);
                 const vevents = comp.getAllSubcomponents('vevent');
                 
-                vevents.forEach(vevent => {
+                console.log(`Found ${vevents.length} events in iCal data`);
+                
+                vevents.forEach((vevent, index) => {
                     const event = new ICAL.Event(vevent);
                     const uid = event.uid;
                     
-                    if (!uid) return;
+                    if (!uid) {
+                        console.log(`Event ${index} has no UID, skipping`);
+                        return;
+                    }
+                    
+                    const startDate = event.startDate ? event.startDate.toJSDate() : null;
+                    const endDate = event.endDate ? event.endDate.toJSDate() : null;
+                    
+                    console.log(`Event ${index}: "${event.summary}"`);
+                    console.log(`  UID: ${uid}`);
+                    console.log(`  Start: ${startDate ? startDate.toISOString() : 'null'}`);
+                    console.log(`  End: ${endDate ? endDate.toISOString() : 'null'}`);
+                    console.log(`  Is All Day: ${event.startDate?.isDate || false}`);
                     
                     const workout = {
                         uid: uid,
                         summary: event.summary || '',
                         description: event.description || '',
-                        start_time: event.startDate ? event.startDate.toJSDate().toISOString() : null,
-                        start_date: event.startDate ? event.startDate.toJSDate().toISOString().split('T')[0] : null,
-                        end_time: event.endDate ? event.endDate.toJSDate().toISOString() : null,
-                        end_date: event.endDate ? event.endDate.toJSDate().toISOString().split('T')[0] : null,
+                        start_time: startDate ? startDate.toISOString() : null,
+                        start_date: startDate ? startDate.toISOString().split('T')[0] : null,
+                        end_time: endDate ? endDate.toISOString() : null,
+                        end_date: endDate ? endDate.toISOString().split('T')[0] : null,
                         location: event.location || '',
                         status: event.status || '',
                         sequence: event.sequence || 0,
-                        is_all_day: !event.startDate?.isDate ? false : true,
-                        has_time: !event.startDate?.isDate ? true : false,
+                        is_all_day: event.startDate?.isDate || false,
+                        has_time: !event.startDate?.isDate,
                         source: 'training_peaks',
                         parsed_execution_status: 'planned'
                     };
@@ -1236,8 +1250,17 @@
                     // Parse description for additional info
                     parseWorkoutDescription(workout);
                     
+                    console.log(`  Parsed workout:`, {
+                        summary: workout.summary,
+                        start_date: workout.start_date,
+                        parsed_duration: workout.parsed_duration,
+                        parsed_tss: workout.parsed_tss
+                    });
+                    
                     workouts[uid] = workout;
                 });
+                
+                console.log(`Successfully parsed ${Object.keys(workouts).length} workouts`);
                 
             } catch (error) {
                 console.error('Error parsing iCal data:', error);
