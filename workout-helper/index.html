@@ -781,7 +781,7 @@
         <div class="header-container">
             <div class="logo">
                 Training Peaks
-                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.8</span>
+                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.9</span>
             </div>
             <nav>
                 <a href="#workouts" class="nav-link">Workouts</a>
@@ -1547,23 +1547,48 @@
             const stravaDate = stravaWorkout.start_date;
             const stravaType = (stravaWorkout.activity_type || '').toLowerCase();
             const stravaName = (stravaWorkout.summary || '').toLowerCase();
+            const stravaStartTime = stravaWorkout.start_time;
             
             for (const [uid, tpWorkout] of Object.entries(tpWorkouts)) {
                 if (matched.has(uid)) continue;
                 
                 const tpDate = tpWorkout.start_date;
                 const tpSummary = (tpWorkout.summary || '').toLowerCase();
+                const tpStartTime = tpWorkout.start_time;
                 
                 // 1) Same date required for a match
                 if (tpDate !== stravaDate) continue;
                 
                 // 2) Activities must match according to documented rules
-                if (activitiesMatch(stravaType, stravaName, tpSummary)) {
-                    return uid;
+                if (!activitiesMatch(stravaType, stravaName, tpSummary)) continue;
+                
+                // 3) Apply time-based matching logic per documentation
+                const workoutDate = new Date(stravaDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const isFuture = workoutDate >= today;
+                
+                if (isFuture) {
+                    // For future workouts: check time proximity (within 1 hour)
+                    if (!checkTimeProximity(stravaStartTime, tpStartTime)) continue;
                 }
+                // For past workouts: same date + same sport type = automatic match
+                
+                return uid;
             }
             
             return null;
+        }
+
+        function checkTimeProximity(stravaStartTime, tpStartTime) {
+            // Check if workouts are within 1 hour of each other
+            if (!stravaStartTime || !tpStartTime) return false;
+            
+            const stravaTime = new Date(stravaStartTime);
+            const tpTime = new Date(tpStartTime);
+            const timeDifference = Math.abs(stravaTime.getTime() - tpTime.getTime());
+            
+            return timeDifference <= 3600000; // 1 hour in milliseconds
         }
         
         function activitiesMatch(stravaType, stravaName, tpSummary) {
