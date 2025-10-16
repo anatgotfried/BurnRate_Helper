@@ -781,7 +781,7 @@
         <div class="header-container">
             <div class="logo">
                 Training Peaks
-                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.5</span>
+                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.6</span>
             </div>
             <nav>
                 <a href="#workouts" class="nav-link">Workouts</a>
@@ -1545,7 +1545,8 @@
 
         function findMatchingTPWorkout(stravaWorkout, tpWorkouts, matched) {
             const stravaDate = stravaWorkout.start_date;
-            const stravaSport = (stravaWorkout.activity_type || '').toLowerCase();
+            const stravaType = (stravaWorkout.activity_type || '').toLowerCase();
+            const stravaName = (stravaWorkout.summary || '').toLowerCase();
             
             for (const [uid, tpWorkout] of Object.entries(tpWorkouts)) {
                 if (matched.has(uid)) continue;
@@ -1553,17 +1554,36 @@
                 const tpDate = tpWorkout.start_date;
                 const tpSummary = (tpWorkout.summary || '').toLowerCase();
                 
-                // Same date
+                // 1) Same date required for a match
                 if (tpDate !== stravaDate) continue;
                 
-                // Similar sport
-                if (stravaSport.includes('run') && tpSummary.includes('run')) return uid;
-                if ((stravaSport.includes('ride') || stravaSport.includes('bike')) && 
-                    (tpSummary.includes('bike') || tpSummary.includes('ride'))) return uid;
-                if (stravaSport.includes('swim') && tpSummary.includes('swim')) return uid;
+                // 2) Activities must match according to documented rules
+                if (activitiesMatch(stravaType, stravaName, tpSummary)) {
+                    return uid;
+                }
             }
             
             return null;
+        }
+        
+        function activitiesMatch(stravaType, stravaName, tpSummary) {
+            // Direct type matching
+            if (stravaType.includes('run') && tpSummary.includes('run')) return true;
+            
+            const bikeTypes = ['ride', 'bike', 'virtualride'];
+            const bikeKeywords = ['bike', 'ride'];
+            if (bikeTypes.some(t => stravaType.includes(t)) && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            
+            if (stravaType.includes('swim') && tpSummary.includes('swim')) return true;
+            
+            // If the TP summary literally contains the Strava type
+            if (tpSummary.includes(stravaType)) return true;
+            
+            // Special cases (Zwift etc.)
+            if (stravaName.includes('zwift') && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            if (stravaType.includes('virtualride') && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            
+            return false;
         }
 
         function detectChanges(oldWorkouts, newWorkouts) {
