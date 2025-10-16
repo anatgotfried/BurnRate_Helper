@@ -781,7 +781,7 @@
         <div class="header-container">
             <div class="logo">
                 Training Peaks
-                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.7</span>
+                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.8</span>
             </div>
             <nav>
                 <a href="#workouts" class="nav-link">Workouts</a>
@@ -1595,9 +1595,9 @@
                 movements: []
             };
             
-            // Calculate expected date range for iCal feed (typically 2-4 weeks)
+            // Calculate expected date range for iCal feed (much shorter - workouts from yesterday can disappear)
             const today = new Date();
-            const fourWeeksAgo = new Date(today.getTime() - (28 * 24 * 60 * 60 * 1000));
+            const oneWeekAgo = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000));
             const twoWeeksAhead = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
             
             const formatDate = (date) => {
@@ -1606,10 +1606,10 @@
                        String(date.getDate()).padStart(2, '0');
             };
             
-            const minExpectedDate = formatDate(fourWeeksAgo);
+            const minExpectedDate = formatDate(oneWeekAgo);
             const maxExpectedDate = formatDate(twoWeeksAhead);
             
-            console.log(`Expected iCal date range: ${minExpectedDate} to ${maxExpectedDate}`);
+            console.log(`Expected iCal date range: ${minExpectedDate} to ${maxExpectedDate} (short window - yesterday's incomplete workouts can disappear)`);
             
             // Detect additions and modifications
             for (const [uid, newWorkout] of Object.entries(newWorkouts)) {
@@ -1644,7 +1644,7 @@
                     const workoutDate = oldWorkout.start_date;
                     
                     // Only consider it a deletion if the workout date is within expected iCal range
-                    // If it's outside the range, it's just "expired" from the feed (not a real deletion)
+                    // The merge logic already handles past planned workout filtering properly
                     if (workoutDate >= minExpectedDate && workoutDate <= maxExpectedDate) {
                         console.log(`Real deletion detected: ${oldWorkout.summary} (${workoutDate}) - within iCal range`);
                         changes.deletions.push({
