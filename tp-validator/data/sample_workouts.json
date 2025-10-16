@@ -1,0 +1,193 @@
+{
+  "last_updated": "2025-10-11T14:30:00Z",
+  "workouts": {
+    "workout-uid-12345": {
+      "current": {
+        "uid": "workout-uid-12345",
+        "summary": "Morning Easy Run",
+        "description": "45 minutes easy pace, Zone 2 heart rate. Focus on form and breathing.",
+        "start_time": "2025-10-12T06:00:00-04:00",
+        "end_time": "2025-10-12T06:45:00-04:00",
+        "location": "Local Park",
+        "status": "CONFIRMED",
+        "sequence": 1,
+        "created": "2025-10-01T10:00:00Z",
+        "last_modified": "2025-10-10T15:00:00Z",
+        "categories": "Run"
+      },
+      "history": [
+        {
+          "timestamp": "2025-10-10T14:00:00Z",
+          "action": "added",
+          "data": {
+            "uid": "workout-uid-12345",
+            "summary": "Morning Run",
+            "description": "45 minutes easy pace",
+            "start_time": "2025-10-12T06:00:00-04:00",
+            "end_time": "2025-10-12T06:45:00-04:00",
+            "location": "Local Park",
+            "status": "CONFIRMED",
+            "sequence": 0,
+            "created": "2025-10-01T10:00:00Z",
+            "last_modified": "2025-10-01T10:00:00Z",
+            "categories": "Run"
+          }
+        },
+        {
+          "timestamp": "2025-10-11T14:30:00Z",
+          "action": "modified",
+          "data": {
+            "uid": "workout-uid-12345",
+            "summary": "Morning Easy Run",
+            "description": "45 minutes easy pace, Zone 2 heart rate. Focus on form and breathing.",
+            "start_time": "2025-10-12T06:00:00-04:00",
+            "end_time": "2025-10-12T06:45:00-04:00",
+            "location": "Local Park",
+            "status": "CONFIRMED",
+            "sequence": 1,
+            "created": "2025-10-01T10:00:00Z",
+            "last_modified": "2025-10-10T15:00:00Z",
+            "categories": "Run"
+          },
+          "changes": {
+            "summary": {
+              "old": "Morning Run",
+              "new": "Morning Easy Run"
+            },
+            "description": {
+              "old": "45 minutes easy pace",
+              "new": "45 minutes easy pace, Zone 2 heart rate. Focus on form and breathing."
+            },
+            "sequence": {
+              "old": 0,
+              "new": 1
+            }
+          }
+        }
+      ]
+    },
+    "workout-uid-67890": {
+      "current": {
+        "uid": "workout-uid-67890",
+        "summary": "Bike Intervals",
+        "description": "Warm up 15 min, then 5x3min @ FTP with 2min recovery, cool down 15min",
+        "start_time": "2025-10-13T17:00:00-04:00",
+        "end_time": "2025-10-13T18:00:00-04:00",
+        "location": "Indoor Trainer",
+        "status": "CONFIRMED",
+        "sequence": 0,
+        "created": "2025-10-08T12:00:00Z",
+        "last_modified": "2025-10-08T12:00:00Z",
+        "categories": "Bike"
+      },
+      "history": [
+        {
+          "timestamp": "2025-10-11T14:30:00Z",
+          "action": "added",
+          "data": {
+            "uid": "workout-uid-67890",
+            "summary": "Bike Intervals",
+            "description": "Warm up 15 min, then 5x3min @ FTP with 2min recovery, cool down 15min",
+            "start_time": "2025-10-13T17:00:00-04:00",
+            "end_time": "2025-10-13T18:00:00-04:00",
+            "location": "Indoor Trainer",
+            "status": "CONFIRMED",
+            "sequence": 0,
+            "created": "2025-10-08T12:00:00Z",
+            "last_modified": "2025-10-08T12:00:00Z",
+            "categories": "Bike"
+          }
+        }
+      ]
+    }
+  },
+  "change_log": [
+    {
+      "timestamp": "2025-10-11T14:30:00Z",
+      "additions": [
+        {
+          "uid": "workout-uid-67890",
+          "summary": "Bike Intervals",
+          "description": "Warm up 15 min, then 5x3min @ FTP with 2min recovery, cool down 15min",
+          "start_time": "2025-10-13T17:00:00-04:00",
+          "end_time": "2025-10-13T18:00:00-04:00",
+          "location": "Indoor Trainer",
+          "status": "CONFIRMED",
+          "sequence": 0,
+          "created": "2025-10-08T12:00:00Z",
+          "last_modified": "2025-10-08T12:00:00Z",
+          "categories": "Bike"
+        }
+      ],
+      "modifications": [
+        {
+          "uid": "workout-uid-12345",
+          "old": {
+            "uid": "workout-uid-12345",
+            "summary": "Morning Run",
+            "description": "45 minutes easy pace",
+            "start_time": "2025-10-12T06:00:00-04:00",
+            "end_time": "2025-10-12T06:45:00-04:00",
+            "location": "Local Park",
+            "status": "CONFIRMED",
+            "sequence": 0,
+            "created": "2025-10-01T10:00:00Z",
+            "last_modified": "2025-10-01T10:00:00Z",
+            "categories": "Run"
+          },
+          "new": {
+            "uid": "workout-uid-12345",
+            "summary": "Morning Easy Run",
+            "description": "45 minutes easy pace, Zone 2 heart rate. Focus on form and breathing.",
+            "start_time": "2025-10-12T06:00:00-04:00",
+            "end_time": "2025-10-12T06:45:00-04:00",
+            "location": "Local Park",
+            "status": "CONFIRMED",
+            "sequence": 1,
+            "created": "2025-10-01T10:00:00Z",
+            "last_modified": "2025-10-10T15:00:00Z",
+            "categories": "Run"
+          },
+          "changes": {
+            "summary": {
+              "old": "Morning Run",
+              "new": "Morning Easy Run"
+            },
+            "description": {
+              "old": "45 minutes easy pace",
+              "new": "45 minutes easy pace, Zone 2 heart rate. Focus on form and breathing."
+            },
+            "sequence": {
+              "old": 0,
+              "new": 1
+            }
+          }
+        }
+      ],
+      "deletions": [],
+      "movements": []
+    },
+    {
+      "timestamp": "2025-10-10T14:00:00Z",
+      "additions": [
+        {
+          "uid": "workout-uid-12345",
+          "summary": "Morning Run",
+          "description": "45 minutes easy pace",
+          "start_time": "2025-10-12T06:00:00-04:00",
+          "end_time": "2025-10-12T06:45:00-04:00",
+          "location": "Local Park",
+          "status": "CONFIRMED",
+          "sequence": 0,
+          "created": "2025-10-01T10:00:00Z",
+          "last_modified": "2025-10-01T10:00:00Z",
+          "categories": "Run"
+        }
+      ],
+      "modifications": [],
+      "deletions": [],
+      "movements": []
+    }
+  ]
+}
+

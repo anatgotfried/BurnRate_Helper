@@ -1,0 +1,184 @@
+{
+  "last_updated": "2025-10-11T13:36:59.633225+00:00",
+  "workouts": {
+    "completed-123": {
+      "current": {
+        "uid": "completed-123",
+        "summary": "Morning Run - COMPLETED",
+        "start_time": "2025-10-09T06:00:00Z",
+        "start_date": "2025-10-09",
+        "parsed_execution_status": "completed",
+        "has_time": true,
+        "is_all_day": false,
+        "duration": {
+          "formatted": "45m"
+        }
+      },
+      "history": [
+        {
+          "timestamp": "2025-10-09T07:00:00Z",
+          "action": "added",
+          "data": {
+            "uid": "completed-123",
+            "summary": "Morning Run - COMPLETED",
+            "start_time": "2025-10-09T06:00:00Z",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "completed",
+            "has_time": true,
+            "is_all_day": false,
+            "duration": {
+              "formatted": "45m"
+            }
+          }
+        }
+      ]
+    },
+    "planned-456": {
+      "current": null,
+      "history": [
+        {
+          "timestamp": "2025-10-09T12:00:00Z",
+          "action": "added",
+          "data": {
+            "uid": "planned-456",
+            "summary": "Evening Bike - PLANNED",
+            "start_time": "2025-10-09T18:00:00Z",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "planned",
+            "has_time": false,
+            "is_all_day": true
+          }
+        },
+        {
+          "timestamp": "2025-10-11T13:36:28.500240+00:00",
+          "action": "deleted",
+          "deletion_type": "deleted",
+          "data": {
+            "uid": "planned-456",
+            "summary": "Evening Bike - PLANNED",
+            "start_time": "2025-10-09T18:00:00Z",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "planned",
+            "has_time": false,
+            "is_all_day": true
+          }
+        }
+      ]
+    },
+    "completed-run": {
+      "current": {
+        "uid": "completed-run",
+        "summary": "Morning Run",
+        "start_date": "2025-10-09",
+        "parsed_execution_status": "completed",
+        "has_time": true,
+        "is_all_day": false
+      },
+      "history": [
+        {
+          "timestamp": "2025-10-11T13:36:59.632556+00:00",
+          "action": "added",
+          "data": {
+            "uid": "completed-run",
+            "summary": "Morning Run",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "completed",
+            "has_time": true,
+            "is_all_day": false
+          }
+        }
+      ]
+    },
+    "planned-swim": {
+      "current": null,
+      "history": [
+        {
+          "timestamp": "2025-10-11T13:36:59.632556+00:00",
+          "action": "added",
+          "data": {
+            "uid": "planned-swim",
+            "summary": "Evening Swim",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "planned",
+            "has_time": false,
+            "is_all_day": true
+          }
+        },
+        {
+          "timestamp": "2025-10-11T13:36:59.633225+00:00",
+          "action": "deleted",
+          "deletion_type": "not_executed_aged_out",
+          "data": {
+            "uid": "planned-swim",
+            "summary": "Evening Swim",
+            "start_date": "2025-10-09",
+            "parsed_execution_status": "planned",
+            "has_time": false,
+            "is_all_day": true
+          }
+        }
+      ]
+    }
+  },
+  "change_log": [
+    {
+      "timestamp": "2025-10-11T13:36:28.500240+00:00",
+      "additions": [],
+      "modifications": [],
+      "deletions": [
+        {
+          "uid": "planned-456",
+          "summary": "Evening Bike - PLANNED",
+          "start_time": "2025-10-09T18:00:00Z",
+          "start_date": "2025-10-09",
+          "parsed_execution_status": "planned",
+          "has_time": false,
+          "is_all_day": true,
+          "deletion_type": "deleted"
+        }
+      ],
+      "movements": []
+    },
+    {
+      "timestamp": "2025-10-11T13:36:59.632556+00:00",
+      "additions": [
+        {
+          "uid": "completed-run",
+          "summary": "Morning Run",
+          "start_date": "2025-10-09",
+          "parsed_execution_status": "completed",
+          "has_time": true,
+          "is_all_day": false
+        },
+        {
+          "uid": "planned-swim",
+          "summary": "Evening Swim",
+          "start_date": "2025-10-09",
+          "parsed_execution_status": "planned",
+          "has_time": false,
+          "is_all_day": true
+        }
+      ],
+      "modifications": [],
+      "deletions": [],
+      "movements": []
+    },
+    {
+      "timestamp": "2025-10-11T13:36:59.633225+00:00",
+      "additions": [],
+      "modifications": [],
+      "deletions": [
+        {
+          "uid": "planned-swim",
+          "summary": "Evening Swim",
+          "start_date": "2025-10-09",
+          "parsed_execution_status": "planned",
+          "has_time": false,
+          "is_all_day": true,
+          "deletion_type": "not_executed_aged_out"
+        }
+      ],
+      "movements": []
+    }
+  ]
+}
