@@ -448,6 +448,107 @@
             background: #0891b2;
         }
 
+        /* Calendar View Styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .calendar-header {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            background: var(--bg);
+            min-height: 100px;
+            padding: 0.5rem;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .calendar-day:hover {
+            background: var(--bg-subtle);
+        }
+
+        .calendar-day.other-month {
+            background: var(--bg-subtle);
+            color: var(--text-lighter);
+        }
+
+        .calendar-day.today {
+            background: rgba(20, 184, 166, 0.1);
+            border: 2px solid var(--accent);
+        }
+
+        .calendar-day-number {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .calendar-workout {
+            font-size: 0.75rem;
+            padding: 0.125rem 0.25rem;
+            margin: 0.125rem 0;
+            border-radius: 4px;
+            background: var(--accent);
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .calendar-workout.strava {
+            background: #f97316;
+        }
+
+        .calendar-workout.training-peaks {
+            background: #3b82f6;
+        }
+
+        .calendar-workout:hover {
+            opacity: 0.8;
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-nav button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--primary-light);
+        }
+
+        .calendar-month-year {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         /* Change Card */
         .change-card {
             background: var(--bg);
@@ -859,7 +960,7 @@
         <div class="header-container">
             <div class="logo">
                 Training Peaks
-                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v2.2</span>
+                <span style="font-size: 0.65rem; font-weight: 400; color: var(--text-lighter); margin-left: 0.5rem; opacity: 0.7;">v3.1</span>
             </div>
             <nav>
                 <a href="#workouts" class="nav-link">Workouts</a>
@@ -911,7 +1012,7 @@
             </div>
             
             <!-- Controls Row -->
-            <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem;">
+            <div style="display: grid; grid-template-columns: 1fr auto auto auto; gap: 1rem;">
                 <select id="timezoneSelect">
                     <option value="Asia/Jerusalem" selected>Tel Aviv</option>
                     <option value="America/New_York">New York</option>
@@ -919,6 +1020,12 @@
                     <option value="Europe/London">London</option>
                     <option value="UTC">UTC</option>
                 </select>
+                <button class="btn btn-secondary" id="calendarBtn" onclick="toggleCalendarView()">
+                    <span id="calendarBtnText">📅 Calendar</span>
+                </button>
+                <button class="btn btn-secondary" id="debugBtn" onclick="debugTrainingPeaks()">
+                    🔍 Debug TP
+                </button>
                 <button class="btn btn-primary" id="refreshBtn" onclick="refreshWorkouts()">
                     <span id="btnText">Sync</span>
                 </button>
@@ -945,32 +1052,49 @@
     </div>
 
     <div class="main-content">
-        <div class="content-grid">
-            <section class="section" id="workouts">
-                <div class="section-header">
-                    <h2 class="section-title">Workouts</h2>
-                    <span class="count-badge" id="workoutCount">0</span>
+        <!-- Calendar View -->
+        <div id="calendarView" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Workout Calendar</h2>
+                <span class="count-badge" id="calendarCount">0</span>
+            </div>
+            <div id="calendarContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">📅</div>
+                    <p>Sync your training data to see calendar view</p>
                 </div>
-                <div id="workoutsContainer">
-                    <div class="empty-state">
-                        <div class="empty-icon">—</div>
-                        <p>Sync your training data to begin</p>
+            </div>
+        </div>
+        
+        <!-- List View -->
+        <div id="listView">
+            <div class="content-grid">
+                <section class="section" id="workouts">
+                    <div class="section-header">
+                        <h2 class="section-title">Workouts</h2>
+                        <span class="count-badge" id="workoutCount">0</span>
                     </div>
-                </div>
-            </section>
+                    <div id="workoutsContainer">
+                        <div class="empty-state">
+                            <div class="empty-icon">—</div>
+                            <p>Sync your training data to begin</p>
+                        </div>
+                    </div>
+                </section>
 
-            <section class="section" id="changes">
-                <div class="section-header">
-                    <h2 class="section-title">Recent</h2>
-                    <span class="count-badge" id="changesCount">0</span>
-                </div>
-                <div id="changesContainer">
-                    <div class="empty-state">
-                        <div class="empty-icon">—</div>
-                        <p>No changes yet</p>
+                <section class="section" id="changes">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent</h2>
+                        <span class="count-badge" id="changesCount">0</span>
                     </div>
-                </div>
-            </section>
+                    <div id="changesContainer">
+                        <div class="empty-state">
+                            <div class="empty-icon">—</div>
+                            <p>No changes yet</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
 
         <section class="section history-section">
@@ -1008,6 +1132,8 @@
         let workoutsData = {};
         let changeLog = [];
         let selectedTimezone = 'Asia/Jerusalem';
+        let currentView = 'list'; // 'list' or 'calendar'
+        let currentCalendarDate = new Date();
         
         // CORS Proxy - using allOrigins (free, no signup required)
         const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
@@ -1077,7 +1203,7 @@
         
         function setupStravaOAuth() {
             document.getElementById('stravaLoginBtn').addEventListener('click', () => {
-                const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(STRAVA_REDIRECT_URI)}&response_type=code&scope=${STRAVA_SCOPE}&state=web_app`;
+                const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&redirect_uri=${encodeURIComponent(STRAVA_REDIRECT_URI)}&response_type=code&scope=${STRAVA_SCOPE}`;
                 window.location.href = authUrl;
             });
             
@@ -1201,12 +1327,9 @@
                 if (stravaEnabled && stravaToken) {
                     try {
                         const stravaWorkouts = await fetchStravaData(stravaToken);
-                        console.log('Strava workouts fetched:', Object.keys(stravaWorkouts).length, stravaWorkouts);
                         // Merge Strava workouts (Strava takes precedence for completed workouts)
                         newWorkouts = mergeWorkouts(newWorkouts, stravaWorkouts);
-                        console.log('After merge, total workouts:', Object.keys(newWorkouts).length);
                     } catch (error) {
-                        console.error('Strava fetch error:', error);
                         showMessage('Strava: ' + error.message, 'error');
                     }
                 }
@@ -1252,8 +1375,11 @@
                 icalUrl = 'https://' + icalUrl.substring(9);
             }
             
-            // Use CORS proxy
+            console.log('Fetching TrainingPeaks data from:', icalUrl);
+            
+            // Use CORS proxy (simple version that was working)
             const proxyUrl = CORS_PROXY + encodeURIComponent(icalUrl);
+            console.log('Using proxy URL:', proxyUrl);
             
             const response = await fetch(proxyUrl);
             if (!response.ok) {
@@ -1261,7 +1387,14 @@
             }
             
             const icalData = await response.text();
-            return parseICalData(icalData);
+            console.log('Raw iCal data length:', icalData.length);
+            console.log('First 500 chars of iCal data:', icalData.substring(0, 500));
+            
+            const workouts = parseICalData(icalData);
+            console.log('Parsed workouts:', Object.keys(workouts).length);
+            console.log('Workout details:', Object.values(workouts).slice(0, 3));
+            
+            return workouts;
         }
 
         function parseICalData(icalData) {
@@ -1272,34 +1405,82 @@
                 const comp = new ICAL.Component(jcalData);
                 const vevents = comp.getAllSubcomponents('vevent');
                 
-                vevents.forEach(vevent => {
+                console.log(`Found ${vevents.length} events in iCal data`);
+                
+                vevents.forEach((vevent, index) => {
                     const event = new ICAL.Event(vevent);
                     const uid = event.uid;
                     
-                    if (!uid) return;
+                    if (!uid) {
+                        console.log(`Event ${index} has no UID, skipping`);
+                        return;
+                    }
+                    
+                    const startDate = event.startDate ? event.startDate.toJSDate() : null;
+                    const endDate = event.endDate ? event.endDate.toJSDate() : null;
+                    
+                    console.log(`Event ${index}: "${event.summary}"`);
+                    console.log(`  UID: ${uid}`);
+                    console.log(`  Start: ${startDate ? startDate.toISOString() : 'null'}`);
+                    console.log(`  End: ${endDate ? endDate.toISOString() : 'null'}`);
+                    console.log(`  Is All Day: ${event.startDate?.isDate || false}`);
+                    
+                    // Handle all-day events (planned workouts) vs timed events
+                    const isAllDay = event.startDate?.isDate || false;
+                    
+                    // For all-day events, use the date part only (no timezone conversion issues)
+                    let startDateStr = null;
+                    if (startDate) {
+                        if (isAllDay) {
+                            // For all-day events, use local date to avoid timezone issues
+                            startDateStr = startDate.getFullYear() + '-' + 
+                                          String(startDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                          String(startDate.getDate()).padStart(2, '0');
+                        } else {
+                            startDateStr = startDate.toISOString().split('T')[0];
+                        }
+                    }
                     
                     const workout = {
                         uid: uid,
                         summary: event.summary || '',
                         description: event.description || '',
-                        start_time: event.startDate ? event.startDate.toJSDate().toISOString() : null,
-                        start_date: event.startDate ? event.startDate.toJSDate().toISOString().split('T')[0] : null,
-                        end_time: event.endDate ? event.endDate.toJSDate().toISOString() : null,
-                        end_date: event.endDate ? event.endDate.toJSDate().toISOString().split('T')[0] : null,
+                        start_time: isAllDay ? null : (startDate ? startDate.toISOString() : null),
+                        start_date: startDateStr,
+                        end_time: isAllDay ? null : (endDate ? endDate.toISOString() : null),
+                        end_date: endDate ? endDate.toISOString().split('T')[0] : null,
                         location: event.location || '',
                         status: event.status || '',
                         sequence: event.sequence || 0,
-                        is_all_day: !event.startDate?.isDate ? false : true,
-                        has_time: !event.startDate?.isDate ? true : false,
+                        is_all_day: isAllDay,
+                        has_time: !isAllDay,
                         source: 'training_peaks',
-                        parsed_execution_status: 'planned'
+                        parsed_execution_status: isAllDay ? 'planned' : 'completed'
                     };
                     
                     // Parse description for additional info
                     parseWorkoutDescription(workout);
                     
+                    console.log(`  Parsed workout:`, {
+                        summary: workout.summary,
+                        start_date: workout.start_date,
+                        is_all_day: workout.is_all_day,
+                        parsed_execution_status: workout.parsed_execution_status,
+                        parsed_duration: workout.parsed_duration,
+                        parsed_tss: workout.parsed_tss
+                    });
+                    
                     workouts[uid] = workout;
                 });
+                
+                console.log(`Successfully parsed ${Object.keys(workouts).length} workouts`);
+                
+                // Show date range of workouts found
+                const dates = Object.values(workouts).map(w => w.start_date).filter(d => d).sort();
+                if (dates.length > 0) {
+                    console.log(`Date range: ${dates[0]} to ${dates[dates.length - 1]}`);
+                    console.log(`All dates found:`, dates);
+                }
                 
             } catch (error) {
                 console.error('Error parsing iCal data:', error);
@@ -1471,49 +1652,170 @@
             }
         }
 
-        function mergeWorkouts(tpWorkouts, stravaWorkouts) {
-            const merged = { ...tpWorkouts };
-            const matched = new Set();
+        function mergeWorkouts(tpWorkouts, stravaWorkouts, enabledSources = ['tp', 'strava']) {
+            // Implementation following documentation:
+            // "Strava completed workouts take precedence over TP workouts.
+            //  Past planned TP workouts are automatically removed."
             
-            // Add Strava workouts, replacing TP workouts if they match
-            Object.values(stravaWorkouts).forEach(stravaWorkout => {
-                // Try to find matching TP workout
-                const matchingTpUid = findMatchingTPWorkout(stravaWorkout, tpWorkouts, matched);
-                
-                if (matchingTpUid) {
-                    // Remove TP workout and add Strava workout
-                    delete merged[matchingTpUid];
-                    matched.add(matchingTpUid);
+            const merged = {};
+            const matchedTpUids = new Set();
+            
+            // Add Strava workouts if enabled
+            if (enabledSources.includes('strava')) {
+                for (const [stravaUid, stravaWorkout] of Object.entries(stravaWorkouts)) {
+                    // Try to match with TP workout if both sources enabled
+                    let matchingTpUid = null;
+                    if (enabledSources.includes('tp')) {
+                        matchingTpUid = findMatchingTPWorkout(stravaWorkout, tpWorkouts, matchedTpUids);
+                        if (matchingTpUid) {
+                            matchedTpUids.add(matchingTpUid);
+                        }
+                    }
+                    
+                    // If matched, replace TP workout with Strava (Strava takes precedence for completed)
+                    if (matchingTpUid) {
+                        stravaWorkout.replaced_tp_uid = matchingTpUid;
+                        merged[stravaUid] = {
+                            ...stravaWorkout,
+                            source: 'strava'
+                        };
+                    } else {
+                        merged[stravaUid] = {
+                            ...stravaWorkout,
+                            source: 'strava'
+                        };
+                    }
                 }
-                
-                // Add Strava workout
-                merged[stravaWorkout.uid] = stravaWorkout;
-            });
+            }
+            
+            // Add unmatched TP workouts (filter out past planned ones)
+            if (enabledSources.includes('tp')) {
+                for (const [tpUid, tpWorkout] of Object.entries(tpWorkouts)) {
+                    if (matchedTpUids.has(tpUid)) {
+                        // This TP workout was matched and replaced by Strava workout
+                        continue;
+                    }
+                    
+                    // Skip past planned TP workouts (per documentation guidelines)
+                    if (isPastPlannedWorkout(tpWorkout)) {
+                        console.log(`Skipping past planned workout: ${tpWorkout.summary} (${tpWorkout.start_date})`);
+                        continue;
+                    }
+                    
+                    // Add unmatched TP workout
+                    merged[tpUid] = {
+                        ...tpWorkout,
+                        source: 'training_peaks'
+                    };
+                }
+            }
             
             return merged;
         }
 
+        function isPastPlannedWorkout(workout) {
+            // Implementation following documentation:
+            // Must be: (1) in the past, (2) planned, (3) from training_peaks
+            
+            try {
+                const workoutDateStr = workout.start_date || (workout.start_time ? workout.start_time.split('T')[0] : null);
+                if (!workoutDateStr) {
+                    return false;
+                }
+                
+                // Parse workout date
+                const [year, month, day] = workoutDateStr.split('-');
+                const workoutDate = new Date(year, month - 1, day);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Must be in the past
+                if (workoutDate >= today) {
+                    return false;
+                }
+                
+                // Must be planned (not completed)
+                const executionStatus = workout.parsed_execution_status || 'planned';
+                if (executionStatus === 'completed') {
+                    return false;
+                }
+                
+                // Must be from training_peaks
+                const source = workout.source;
+                return source === undefined || source === 'training_peaks';
+                
+            } catch (error) {
+                console.error('Error checking if past planned workout:', error);
+                return false;
+            }
+        }
+
         function findMatchingTPWorkout(stravaWorkout, tpWorkouts, matched) {
             const stravaDate = stravaWorkout.start_date;
-            const stravaSport = (stravaWorkout.activity_type || '').toLowerCase();
+            const stravaType = (stravaWorkout.activity_type || '').toLowerCase();
+            const stravaName = (stravaWorkout.summary || '').toLowerCase();
+            const stravaStartTime = stravaWorkout.start_time;
             
             for (const [uid, tpWorkout] of Object.entries(tpWorkouts)) {
                 if (matched.has(uid)) continue;
                 
                 const tpDate = tpWorkout.start_date;
                 const tpSummary = (tpWorkout.summary || '').toLowerCase();
+                const tpStartTime = tpWorkout.start_time;
                 
-                // Same date
+                // 1) Same date required for a match
                 if (tpDate !== stravaDate) continue;
                 
-                // Similar sport
-                if (stravaSport.includes('run') && tpSummary.includes('run')) return uid;
-                if ((stravaSport.includes('ride') || stravaSport.includes('bike')) && 
-                    (tpSummary.includes('bike') || tpSummary.includes('ride'))) return uid;
-                if (stravaSport.includes('swim') && tpSummary.includes('swim')) return uid;
+                // 2) Activities must match according to documented rules
+                if (!activitiesMatch(stravaType, stravaName, tpSummary)) continue;
+                
+                // 3) Apply time-based matching logic per documentation
+                const workoutDate = new Date(stravaDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const isFuture = workoutDate >= today;
+                
+                if (isFuture) {
+                    // For future workouts: check time proximity (within 1 hour)
+                    if (!checkTimeProximity(stravaStartTime, tpStartTime)) continue;
+                }
+                // For past workouts: same date + same sport type = automatic match
+                
+                return uid;
             }
             
             return null;
+        }
+
+        function checkTimeProximity(stravaStartTime, tpStartTime) {
+            // Check if workouts are within 1 hour of each other
+            if (!stravaStartTime || !tpStartTime) return false;
+            
+            const stravaTime = new Date(stravaStartTime);
+            const tpTime = new Date(tpStartTime);
+            const timeDifference = Math.abs(stravaTime.getTime() - tpTime.getTime());
+            
+            return timeDifference <= 3600000; // 1 hour in milliseconds
+        }
+        
+        function activitiesMatch(stravaType, stravaName, tpSummary) {
+            // Direct type matching
+            if (stravaType.includes('run') && tpSummary.includes('run')) return true;
+            
+            const bikeTypes = ['ride', 'bike', 'virtualride'];
+            const bikeKeywords = ['bike', 'ride'];
+            if (bikeTypes.some(t => stravaType.includes(t)) && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            
+            if (stravaType.includes('swim') && tpSummary.includes('swim')) return true;
+            
+            // If the TP summary literally contains the Strava type
+            if (tpSummary.includes(stravaType)) return true;
+            
+            // Special cases (Zwift etc.)
+            if (stravaName.includes('zwift') && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            if (stravaType.includes('virtualride') && bikeKeywords.some(k => tpSummary.includes(k))) return true;
+            
+            return false;
         }
 
         function detectChanges(oldWorkouts, newWorkouts) {
@@ -1524,6 +1826,22 @@
                 deletions: [],
                 movements: []
             };
+            
+            // Calculate expected date range for iCal feed (much shorter - workouts from yesterday can disappear)
+            const today = new Date();
+            const oneWeekAgo = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000));
+            const twoWeeksAhead = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
+            
+            const formatDate = (date) => {
+                return date.getFullYear() + '-' + 
+                       String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                       String(date.getDate()).padStart(2, '0');
+            };
+            
+            const minExpectedDate = formatDate(oneWeekAgo);
+            const maxExpectedDate = formatDate(twoWeeksAhead);
+            
+            console.log(`Expected iCal date range: ${minExpectedDate} to ${maxExpectedDate} (short window - yesterday's incomplete workouts can disappear)`);
             
             // Detect additions and modifications
             for (const [uid, newWorkout] of Object.entries(newWorkouts)) {
@@ -1552,13 +1870,23 @@
                 }
             }
             
-            // Detect deletions
+            // Detect deletions - ONLY for workouts that should still be in the iCal range
             for (const [uid, oldWorkout] of Object.entries(oldWorkouts)) {
                 if (!newWorkouts[uid]) {
-                    changes.deletions.push({
-                        ...oldWorkout,
-                        deletion_type: classifyDeletion(oldWorkout)
-                    });
+                    const workoutDate = oldWorkout.start_date;
+                    
+                    // Only consider it a deletion if the workout date is within expected iCal range
+                    // The merge logic already handles past planned workout filtering properly
+                    if (workoutDate >= minExpectedDate && workoutDate <= maxExpectedDate) {
+                        console.log(`Real deletion detected: ${oldWorkout.summary} (${workoutDate}) - within iCal range`);
+                        changes.deletions.push({
+                            ...oldWorkout,
+                            deletion_type: classifyDeletion(oldWorkout)
+                        });
+                    } else {
+                        console.log(`Workout expired from iCal feed: ${oldWorkout.summary} (${workoutDate}) - outside range`);
+                        // Don't add to deletions - this is just natural range expiration
+                    }
                 }
             }
             
@@ -1567,8 +1895,7 @@
 
         function getWorkoutDiff(oldWorkout, newWorkout) {
             const diff = {};
-            const fields = ['summary', 'description', 'start_time', 'end_time', 'location', 'status', 
-                          'sequence', 'parsed_duration', 'parsed_distance'];
+            const fields = ['summary', 'description', 'start_time', 'end_time', 'location', 'status', 'sequence'];
             
             fields.forEach(field => {
                 if (oldWorkout[field] !== newWorkout[field]) {
@@ -1620,6 +1947,144 @@
             renderWorkouts();
             renderRecentChanges();
             renderHistory();
+            if (currentView === 'calendar') {
+                renderCalendar();
+            }
+        }
+
+        function toggleCalendarView() {
+            currentView = currentView === 'list' ? 'calendar' : 'list';
+            
+            const listView = document.getElementById('listView');
+            const calendarView = document.getElementById('calendarView');
+            const calendarBtn = document.getElementById('calendarBtnText');
+            
+            if (currentView === 'calendar') {
+                listView.style.display = 'none';
+                calendarView.style.display = 'block';
+                calendarBtn.textContent = '📋 List';
+                renderCalendar();
+            } else {
+                listView.style.display = 'block';
+                calendarView.style.display = 'none';
+                calendarBtn.textContent = '📅 Calendar';
+            }
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('calendarContainer');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            const today = new Date();
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+            
+            let html = `
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)">← Previous</button>
+                    <div class="calendar-month-year">${monthNames[month]} ${year}</div>
+                    <button onclick="changeMonth(1)">Next →</button>
+                </div>
+                <div class="calendar-grid">
+            `;
+            
+            // Add day headers
+            dayNames.forEach(day => {
+                html += `<div class="calendar-header">${day}</div>`;
+            });
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < startingDay; i++) {
+                const prevMonth = new Date(year, month, -startingDay + i + 1);
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${prevMonth.getDate()}</div>
+                </div>`;
+            }
+            
+            // Add days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = date.toDateString() === today.toDateString();
+                
+                html += `<div class="calendar-day ${isToday ? 'today' : ''}">
+                    <div class="calendar-day-number">${day}</div>`;
+                
+                // Add workouts for this day
+                const dayWorkouts = getWorkoutsForDate(dateStr);
+                dayWorkouts.forEach(workout => {
+                    const sourceClass = workout.source === 'strava' ? 'strava' : 'training-peaks';
+                    html += `<div class="calendar-workout ${sourceClass}" onclick="showWorkoutModal('${workout.uid}')" style="cursor: pointer;" title="${escapeHtml(workout.summary)}">
+                        ${escapeHtml(workout.summary.substring(0, 20))}${workout.summary.length > 20 ? '...' : ''}
+                    </div>`;
+                });
+                
+                html += '</div>';
+            }
+            
+            // Add empty cells for days after month ends
+            const remainingCells = 42 - (startingDay + daysInMonth);
+            for (let i = 1; i <= remainingCells; i++) {
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${i}</div>
+                </div>`;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            // Update count
+            const calendarCount = document.getElementById('calendarCount');
+            if (calendarCount) {
+                const totalWorkouts = Object.values(workoutsData).length;
+                calendarCount.textContent = totalWorkouts;
+            }
+        }
+
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            renderCalendar();
+        }
+
+        function getWorkoutsForDate(dateStr) {
+            return Object.values(workoutsData).filter(workout => {
+                const workoutDate = workout.start_date || (workout.start_time ? workout.start_time.split('T')[0] : null);
+                return workoutDate === dateStr;
+            });
+        }
+
+        async function debugTrainingPeaks() {
+            const tpUrl = document.getElementById('icalUrl').value;
+            if (!tpUrl) {
+                showMessage('Please enter Training Peaks iCal URL first', 'error');
+                return;
+            }
+            
+            showMessage('Debugging TrainingPeaks data... Check browser console (F12)', 'info');
+            
+            try {
+                const workouts = await fetchTrainingPeaksData(tpUrl);
+                
+                // Show summary in UI
+                const workoutCount = Object.keys(workouts).length;
+                const workoutList = Object.values(workouts).slice(0, 5).map(w => 
+                    `• ${w.summary} (${w.start_date || 'no date'})`
+                ).join('\n');
+                
+                showMessage(`Found ${workoutCount} workouts:\n${workoutList}${workoutCount > 5 ? '\n...' : ''}`, 'success');
+                
+            } catch (error) {
+                showMessage(`Debug failed: ${error.message}`, 'error');
+                console.error('TrainingPeaks debug error:', error);
+            }
         }
 
         function renderWorkouts() {
@@ -1640,11 +2105,6 @@
                 const dateB = new Date(b.start_date || b.start_time);
                 return dateB - dateA;
             });
-            
-            console.log('Rendering workouts:', workouts.length, 'total');
-            const stravaCount = workouts.filter(w => w.source === 'strava').length;
-            const tpCount = workouts.filter(w => w.source !== 'strava').length;
-            console.log(`  - Strava: ${stravaCount}, Training Peaks: ${tpCount}`);
             
             const now = new Date();
             
@@ -2101,11 +2561,13 @@
         // Close modal when clicking outside
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById('workoutModal');
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeWorkoutModal();
-                }
-            });
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeWorkoutModal();
+                    }
+                });
+            }
 
             // Close on Escape key
             document.addEventListener('keydown', (e) => {
