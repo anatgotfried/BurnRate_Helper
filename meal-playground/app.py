@@ -238,67 +238,74 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'mistralai/mistral-small-latest',
-            'name': 'Mistral Small',
+            'id': 'mistralai/mistral-small-3.2-24b-instruct',
+            'name': 'Mistral Small 3.2',
             'provider': 'Mistral',
             'cost': 'Very Low',
-            'description': 'Fast, reliable JSON, great for daily use (~$0.002/plan) - Recommended'
+            'description': '131k context, ultra-cheap (~$0.001/plan) - Recommended'
         },
         {
-            'id': 'qwen/qwen-2.5-14b-instruct',
-            'name': 'Qwen 2.5 14B',
+            'id': 'qwen/qwen-2.5-72b-instruct',
+            'name': 'Qwen 2.5 72B',
             'provider': 'Qwen',
             'cost': 'Very Low',
-            'description': 'Excellent with numbers and nutrition logic (~$0.001/plan)'
+            'description': 'Great with numbers & logic (~$0.0015/plan)'
         },
         {
-            'id': 'mistralai/mistral-medium-latest',
-            'name': 'Mistral Medium',
-            'provider': 'Mistral',
-            'cost': 'Low',
-            'description': 'Larger context, smarter reasoning (~$0.004/plan)'
-        },
-        {
-            'id': 'cohere/command-r-plus',
-            'name': 'Cohere Command R+',
-            'provider': 'Cohere',
-            'cost': 'Low',
-            'description': 'Very consistent JSON, great fallback (~$0.004/plan)'
-        },
-        {
-            'id': 'anthropic/claude-3-haiku',
-            'name': 'Claude 3 Haiku',
+            'id': 'anthropic/claude-haiku-4.5',
+            'name': 'Claude Haiku 4.5 (NEW)',
             'provider': 'Anthropic',
-            'cost': 'Low',
-            'description': '200k context, reliable (~$0.006/plan)'
+            'cost': 'Very Low',
+            'description': '200k context, newest Claude (~$0.001/plan)'
         },
         {
             'id': 'openai/gpt-4o-mini',
             'name': 'GPT-4o Mini',
             'provider': 'OpenAI',
-            'cost': 'Medium',
-            'description': '128k context, well-tested (~$0.015/plan)'
+            'cost': 'Low',
+            'description': '128k context, well-tested (~$0.003/plan)'
         },
         {
-            'id': 'anthropic/claude-3.5-sonnet',
-            'name': 'Claude 3.5 Sonnet',
+            'id': 'mistralai/mistral-medium-3.1',
+            'name': 'Mistral Medium 3.1',
+            'provider': 'Mistral',
+            'cost': 'Low',
+            'description': '131k context, smarter (~$0.003/plan)'
+        },
+        {
+            'id': 'cohere/command-r-plus-08-2024',
+            'name': 'Cohere Command R+',
+            'provider': 'Cohere',
+            'cost': 'Low',
+            'description': '128k context, consistent JSON (~$0.005/plan)'
+        },
+        {
+            'id': 'anthropic/claude-sonnet-4.5',
+            'name': 'Claude Sonnet 4.5 (NEW)',
             'provider': 'Anthropic',
             'cost': 'Medium',
-            'description': '200k context, best quality & JSON (~$0.025/plan)'
+            'description': '1M context, best quality (~$0.030/plan)'
         },
         {
             'id': 'openai/gpt-4o',
             'name': 'GPT-4o',
             'provider': 'OpenAI',
-            'cost': 'High',
-            'description': '128k context, premium quality (~$0.050/plan)'
+            'cost': 'Medium',
+            'description': '128k context, premium (~$0.050/plan)'
         },
         {
-            'id': 'mistralai/mistral-7b-instruct:free',
-            'name': 'Mistral 7B (Free)',
+            'id': 'mistralai/mistral-small-3.2-24b-instruct:free',
+            'name': 'Mistral Small 3.2 (Free)',
             'provider': 'Mistral',
             'cost': 'FREE',
-            'description': 'Free for testing - may have rate limits'
+            'description': '131k context - FREE, may have rate limits'
+        },
+        {
+            'id': 'qwen/qwen-2.5-72b-instruct:free',
+            'name': 'Qwen 2.5 72B (Free)',
+            'provider': 'Qwen',
+            'cost': 'FREE',
+            'description': '32k context - FREE, may have rate limits'
         }
     ]
     

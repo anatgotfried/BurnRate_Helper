@@ -1,51 +1,56 @@
 // BurnRate Cost Calculator - Track OpenRouter API costs
 
-// Pricing data (per 1M tokens) - Updated Nov 2025
+// Pricing data (per 1M tokens) - Verified from OpenRouter API Nov 2025
 const MODEL_PRICING = {
-    'mistralai/mistral-small-latest': {
-        input: 0.10,
-        output: 0.30,
-        name: 'Mistral Small'
+    'mistralai/mistral-small-3.2-24b-instruct': {
+        input: 0.06,
+        output: 0.18,
+        name: 'Mistral Small 3.2'
     },
-    'qwen/qwen-2.5-14b-instruct': {
+    'qwen/qwen-2.5-72b-instruct': {
         input: 0.07,
-        output: 0.07,
-        name: 'Qwen 2.5 14B'
+        output: 0.26,
+        name: 'Qwen 2.5 72B'
     },
-    'mistralai/mistral-medium-latest': {
-        input: 0.27,
-        output: 0.81,
-        name: 'Mistral Medium'
-    },
-    'cohere/command-r-plus': {
-        input: 0.30,
-        output: 1.50,
-        name: 'Cohere Command R+'
-    },
-    'anthropic/claude-3-haiku': {
-        input: 0.25,
-        output: 1.25,
-        name: 'Claude 3 Haiku'
+    'anthropic/claude-haiku-4.5': {
+        input: 1.0,
+        output: 5.0,
+        name: 'Claude Haiku 4.5'
     },
     'openai/gpt-4o-mini': {
         input: 0.15,
         output: 0.60,
         name: 'GPT-4o Mini'
     },
-    'anthropic/claude-3.5-sonnet': {
+    'mistralai/mistral-medium-3.1': {
+        input: 0.40,
+        output: 2.00,
+        name: 'Mistral Medium 3.1'
+    },
+    'cohere/command-r-plus-08-2024': {
+        input: 2.50,
+        output: 10.00,
+        name: 'Cohere Command R+'
+    },
+    'anthropic/claude-sonnet-4.5': {
         input: 3.00,
         output: 15.00,
-        name: 'Claude 3.5 Sonnet'
+        name: 'Claude Sonnet 4.5'
     },
     'openai/gpt-4o': {
-        input: 5.00,
-        output: 15.00,
+        input: 2.50,
+        output: 10.00,
         name: 'GPT-4o'
     },
-    'mistralai/mistral-7b-instruct:free': {
+    'mistralai/mistral-small-3.2-24b-instruct:free': {
         input: 0,
         output: 0,
-        name: 'Mistral 7B (Free)'
+        name: 'Mistral Small 3.2 (Free)'
+    },
+    'qwen/qwen-2.5-72b-instruct:free': {
+        input: 0,
+        output: 0,
+        name: 'Qwen 2.5 72B (Free)'
     }
 };
 
