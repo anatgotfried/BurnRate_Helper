@@ -52,8 +52,8 @@ async function loadResources() {
         const corpusResponse = await fetch('data/research_corpus.json');
         researchCorpus = await corpusResponse.json();
         
-        // Load prompt template
-        const promptResponse = await fetch('prompts/meal_planner.txt');
+        // Load prompt template (v2 with deterministic targets)
+        const promptResponse = await fetch('prompts/meal_planner_v2.txt');
         promptTemplate = await promptResponse.text();
         
         console.log('Resources loaded successfully');
@@ -231,59 +231,67 @@ async function generateMealPlan() {
 function buildContext() {
     const form = document.getElementById('profileForm');
     
-    const context = {
-        athlete: {
-            weight_kg: parseFloat(document.getElementById('weight').value),
-            height_cm: parseInt(document.getElementById('height').value),
-            gender: document.getElementById('gender').value,
-            training_phase: document.getElementById('trainingPhase').value,
-            goal: document.getElementById('goal').value,
-            diet_pattern: document.getElementById('dietPattern').value,
-            gi_tolerance: document.getElementById('giTolerance').value,
-            timezone: document.getElementById('timezone').value,
-            populations: []
-        },
-        workouts: workouts.map(w => ({
-            type: w.type,
-            duration_min: w.duration,
-            intensity: w.intensity,
-            start_time: w.startTime,
-            environment: {
-                temp_c: w.temperature,
-                humidity_pct: w.humidity,
-                heat_index_flag: (w.temperature >= 27 && w.humidity >= 60)
-            }
-        })),
-        date: new Date().toISOString().split('T')[0]
+    const athlete = {
+        weight_kg: parseFloat(document.getElementById('weight').value),
+        height_cm: parseInt(document.getElementById('height').value),
+        gender: document.getElementById('gender').value,
+        training_phase: document.getElementById('trainingPhase').value,
+        goal: document.getElementById('goal').value,
+        diet_pattern: document.getElementById('dietPattern').value,
+        gi_tolerance: document.getElementById('giTolerance').value,
+        timezone: document.getElementById('timezone').value,
+        populations: []
     };
     
     // Add optional sweat rate
     const sweatRate = document.getElementById('sweatRate').value;
     if (sweatRate) {
-        context.athlete.sweat_rate_ml_hr = parseInt(sweatRate);
+        athlete.sweat_rate_ml_hr = parseInt(sweatRate);
     }
     
     // Add populations
     if (document.getElementById('isMasters').checked) {
-        context.athlete.populations.push('masters');
+        athlete.populations.push('masters');
     }
     if (document.getElementById('isFemaleSpecific').checked) {
-        context.athlete.populations.push('female_specific');
+        athlete.populations.push('female_specific');
     }
     if (document.getElementById('isYouth').checked) {
-        context.athlete.populations.push('youth');
+        athlete.populations.push('youth');
     }
+    
+    const workoutData = workouts.map(w => ({
+        type: w.type,
+        duration_min: w.duration,
+        intensity: w.intensity,
+        start_time: w.startTime,
+        environment: {
+            temp_c: w.temperature,
+            humidity_pct: w.humidity,
+            heat_index_flag: (w.temperature >= 27 && w.humidity >= 60)
+        }
+    }));
     
     // Determine primary population based on workouts
-    const hasEndurance = workouts.some(w => ['run', 'bike', 'swim', 'long_endurance'].includes(w.type));
+    const hasEndurance = workouts.some(w => ['run', 'bike', 'swim', 'long_endurance', 'tempo', 'intervals'].includes(w.type));
     const hasStrength = workouts.some(w => w.type === 'strength');
     
-    if (hasEndurance && !context.athlete.populations.includes('endurance')) {
-        context.athlete.populations.push('endurance');
+    if (hasEndurance && !athlete.populations.includes('endurance')) {
+        athlete.populations.push('endurance');
     }
-    if (hasStrength && !context.athlete.populations.includes('strength_power')) {
-        context.athlete.populations.push('strength_power');
+    if (hasStrength && !athlete.populations.includes('strength_power')) {
+        athlete.populations.push('strength_power');
     }
+    
+    // CALCULATE DETERMINISTIC TARGETS
+    const calculatedTargets = calculateDailyTargets(athlete, workoutData);
+    
+    const context = {
+        athlete: athlete,
+        workouts: workoutData,
+        date: new Date().toISOString().split('T')[0],
+        calculated_targets: calculatedTargets
+    };
     
     return context;
 }
@@ -334,7 +342,7 @@ function renderMeals(meals) {
                     <div class="food-item">
                         <div class="food-name">${food.item}</div>
                         <div class="food-macros">
-                            C: ${food.carbs_g}g | P: ${food.protein_g}g | F: ${food.fat_g}g | ${food.calories} kcal
+                            C: ${food.carbs_g}g | P: ${food.protein_g}g | F: ${food.fat_g}g${food.sodium_mg ? ' | Na: ' + food.sodium_mg + 'mg' : ''} | ${food.calories} kcal
                         </div>
                     </div>
                 `).join('')}
@@ -353,6 +361,12 @@ function renderMeals(meals) {
                     <span class="totals-label">Total Fat:</span>
                     <span class="totals-value">${meal.total_fat_g}g</span>
                 </div>
+                ${meal.total_sodium_mg ? `
+                <div class="totals-row">
+                    <span class="totals-label">Total Sodium:</span>
+                    <span class="totals-value">${meal.total_sodium_mg} mg</span>
+                </div>
+                ` : ''}
                 <div class="totals-row">
                     <span class="totals-label">Total Calories:</span>
                     <span class="totals-value">${meal.total_calories} kcal</span>
@@ -381,10 +395,19 @@ function renderSummary(mealPlan) {
     const totals = mealPlan.daily_totals || {};
     const recommendations = mealPlan.key_recommendations || [];
     const warnings = mealPlan.warnings || [];
+    const qualityCheck = mealPlan.plan_quality_check || {};
+    const explanations = summary.explanations || {};
+    
+    // Calculate match status
+    const caloriesMatch = Math.abs(totals.calories - summary.daily_energy_target_kcal) <= 50;
+    const proteinMatch = Math.abs(totals.protein_g - summary.daily_protein_target_g) <= 5;
+    const carbsMatch = Math.abs(totals.carbs_g - summary.daily_carb_target_g) <= 10;
+    const fatMatch = Math.abs(totals.fat_g - summary.daily_fat_target_g) <= 5;
+    const sodiumMatch = Math.abs(totals.sodium_mg - summary.sodium_target_mg) <= 200;
     
     container.innerHTML = `
         <div class="summary-section">
-            <h3>Daily Targets</h3>
+            <h3>Daily Targets (Calculated Deterministically)</h3>
             <div class="summary-grid">
                 <div class="summary-item">
                     <span class="summary-item-label">Energy Target</span>
@@ -414,38 +437,76 @@ function renderSummary(mealPlan) {
                         <span class="summary-item-unit">g</span>
                     </span>
                 </div>
+                <div class="summary-item">
+                    <span class="summary-item-label">Sodium Target</span>
+                    <span class="summary-item-value">
+                        ${summary.sodium_target_mg || 0}
+                        <span class="summary-item-unit">mg</span>
+                    </span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-item-label">Hydration Target</span>
+                    <span class="summary-item-value">
+                        ${summary.hydration_target_l || 0}
+                        <span class="summary-item-unit">L</span>
+                    </span>
+                </div>
             </div>
         </div>
         
         <div class="summary-section">
-            <h3>Daily Totals (Actual)</h3>
+            <h3>Daily Totals (Actual from Meals) ${caloriesMatch && proteinMatch && carbsMatch && fatMatch && sodiumMatch ? '✅' : '⚠️'}</h3>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Calories</span>
-                    <span class="summary-item-value">
+                    <span class="summary-item-label">Total Calories ${caloriesMatch ? '✅' : '⚠️'}</span>
+                    <span class="summary-item-value" style="color: ${caloriesMatch ? 'var(--success)' : 'var(--warning)'}">
                         ${totals.calories || 0}
                         <span class="summary-item-unit">kcal</span>
                     </span>
+                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
+                        ${summary.daily_energy_target_kcal ? 
+                            (totals.calories > summary.daily_energy_target_kcal ? '+' : '') + 
+                            (totals.calories - summary.daily_energy_target_kcal) + ' vs target' 
+                        : ''}
+                    </span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Protein</span>
-                    <span class="summary-item-value">
+                    <span class="summary-item-label">Total Protein ${proteinMatch ? '✅' : '⚠️'}</span>
+                    <span class="summary-item-value" style="color: ${proteinMatch ? 'var(--success)' : 'var(--warning)'}">
                         ${totals.protein_g || 0}
                         <span class="summary-item-unit">g</span>
                     </span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-item-label">Total Carbs</span>
-                    <span class="summary-item-value">
-                        ${totals.carbs_g || 0}
-                        <span class="summary-item-unit">g</span>
+                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
+                        ${summary.daily_protein_target_g ? 
+                            (totals.protein_g > summary.daily_protein_target_g ? '+' : '') + 
+                            (totals.protein_g - summary.daily_protein_target_g) + 'g vs target' 
+                        : ''}
                     </span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Fat</span>
-                    <span class="summary-item-value">
+                    <span class="summary-item-label">Total Carbs ${carbsMatch ? '✅' : '⚠️'}</span>
+                    <span class="summary-item-value" style="color: ${carbsMatch ? 'var(--success)' : 'var(--warning)'}">
+                        ${totals.carbs_g || 0}
+                        <span class="summary-item-unit">g</span>
+                    </span>
+                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
+                        ${summary.daily_carb_target_g ? 
+                            (totals.carbs_g > summary.daily_carb_target_g ? '+' : '') + 
+                            (totals.carbs_g - summary.daily_carb_target_g) + 'g vs target' 
+                        : ''}
+                    </span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-item-label">Total Fat ${fatMatch ? '✅' : '⚠️'}</span>
+                    <span class="summary-item-value" style="color: ${fatMatch ? 'var(--success)' : 'var(--warning)'}">
                         ${totals.fat_g || 0}
                         <span class="summary-item-unit">g</span>
+                    </span>
+                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
+                        ${summary.daily_fat_target_g ? 
+                            (totals.fat_g > summary.daily_fat_target_g ? '+' : '') + 
+                            (totals.fat_g - summary.daily_fat_target_g) + 'g vs target' 
+                        : ''}
                     </span>
                 </div>
                 <div class="summary-item">
@@ -470,14 +531,45 @@ function renderSummary(mealPlan) {
                     </span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Sodium</span>
-                    <span class="summary-item-value">
+                    <span class="summary-item-label">Total Sodium ${sodiumMatch ? '✅' : '⚠️'}</span>
+                    <span class="summary-item-value" style="color: ${sodiumMatch ? 'var(--success)' : 'var(--warning)'}">
                         ${totals.sodium_mg || 0}
                         <span class="summary-item-unit">mg</span>
+                    </span>
+                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
+                        ${summary.sodium_target_mg ? 
+                            (totals.sodium_mg > summary.sodium_target_mg ? '+' : '') + 
+                            (totals.sodium_mg - summary.sodium_target_mg) + 'mg vs target' 
+                        : ''}
                     </span>
                 </div>
             </div>
         </div>
+        
+        ${Object.keys(explanations).length > 0 ? `
+        <div class="summary-section">
+            <h3>Target Calculations Explained</h3>
+            ${explanations.protein ? `<p style="margin-bottom: 1rem;"><strong>Protein:</strong> ${explanations.protein}</p>` : ''}
+            ${explanations.carbs ? `<p style="margin-bottom: 1rem;"><strong>Carbs:</strong> ${explanations.carbs}</p>` : ''}
+            ${explanations.fat ? `<p style="margin-bottom: 1rem;"><strong>Fat:</strong> ${explanations.fat}</p>` : ''}
+            ${explanations.sodium ? `<p style="margin-bottom: 1rem;"><strong>Sodium:</strong> ${explanations.sodium}</p>` : ''}
+            ${explanations.hydration ? `<p style="margin-bottom: 1rem;"><strong>Hydration:</strong> ${explanations.hydration}</p>` : ''}
+        </div>
+        ` : ''}
+        
+        ${Object.keys(qualityCheck).length > 0 ? `
+        <div class="summary-section">
+            <h3>Quality Check</h3>
+            <ul class="recommendations-list">
+                ${qualityCheck.calories_match ? `<li>Calories: ${qualityCheck.calories_match}</li>` : ''}
+                ${qualityCheck.protein_match ? `<li>Protein: ${qualityCheck.protein_match}</li>` : ''}
+                ${qualityCheck.carbs_match ? `<li>Carbs: ${qualityCheck.carbs_match}</li>` : ''}
+                ${qualityCheck.fat_match ? `<li>Fat: ${qualityCheck.fat_match}</li>` : ''}
+                ${qualityCheck.sodium_match ? `<li>Sodium: ${qualityCheck.sodium_match}</li>` : ''}
+                ${qualityCheck.fluids_match ? `<li>Fluids: ${qualityCheck.fluids_match}</li>` : ''}
+            </ul>
+        </div>
+        ` : ''}
         
         ${recommendations.length > 0 ? `
             <div class="summary-section">
