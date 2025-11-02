@@ -145,15 +145,32 @@ def generate_meal_plan():
                     'model': result.get('model', model)
                 })
             except json.JSONDecodeError as e:
-                # Return raw content if not valid JSON
-                return jsonify({
-                    'success': False,
-                    'error': f'Failed to parse JSON: {str(e)}',
-                    'raw_content': content,
-                    'parse_error': str(e),
-                    'usage': result.get('usage', {}),
-                    'model': result.get('model', model)
-                }), 400
+                # Try to fix common JSON errors
+                try:
+                    # Remove trailing commas before } or ]
+                    import re
+                    fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
+                    meal_plan = json.loads(fixed_content)
+                    
+                    return jsonify({
+                        'success': True,
+                        'meal_plan': meal_plan,
+                        'raw_content': content,
+                        'fixed': True,
+                        'usage': result.get('usage', {}),
+                        'model': result.get('model', model)
+                    })
+                except:
+                    # Return error with helpful context
+                    error_line = str(e).split('line ')[-1].split(' ')[0] if 'line' in str(e) else 'unknown'
+                    return jsonify({
+                        'success': False,
+                        'error': f'Invalid JSON at line {error_line}. Try Claude 3.5 Sonnet for better JSON formatting.',
+                        'raw_content': cleaned_content,
+                        'parse_error': str(e),
+                        'usage': result.get('usage', {}),
+                        'model': result.get('model', model)
+                    }), 400
         else:
             return jsonify({
                 'success': False,

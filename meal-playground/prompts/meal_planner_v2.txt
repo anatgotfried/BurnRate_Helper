@@ -217,7 +217,45 @@ Before you return the JSON, verify:
 5. ✅ Every meal has 2-3 Israel-specific alternatives
 6. ✅ Protein distributed across 3-4 meals (0.25-0.4g/kg each)
 7. ✅ Workout nutrition timing follows research corpus guidelines
-8. ✅ All JSON is valid (no trailing commas, proper quotes)
+8. ✅ All JSON is valid (no trailing commas, proper quotes, no syntax errors)
+
+## COMMON JSON ERRORS TO AVOID
+
+❌ **Trailing commas:**
+```
+"foods": [
+  {"item": "banana", "carbs_g": 27},  // ← NO comma after last item
+]
+```
+
+✅ **Correct:**
+```
+"foods": [
+  {"item": "banana", "carbs_g": 27}   // ← No comma
+]
+```
+
+❌ **Missing commas between objects:**
+```
+{"item": "banana", "carbs_g": 27}
+{"item": "apple", "carbs_g": 25}  // ← Missing comma!
+```
+
+✅ **Correct:**
+```
+{"item": "banana", "carbs_g": 27},
+{"item": "apple", "carbs_g": 25}
+```
+
+❌ **Using single quotes:**
+```
+{'item': 'banana'}  // ← Must use double quotes
+```
+
+✅ **Correct:**
+```
+{"item": "banana"}
+```
 
 If any check fails, FIX IT before returning the JSON.
 
