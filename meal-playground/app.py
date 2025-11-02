@@ -306,11 +306,39 @@ def get_models():
     """Return list of available models"""
     models = [
         {
+            'id': 'google/gemini-flash-1.5',
+            'name': 'Gemini 1.5 Flash ⭐',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': '1M context, FREE with your Google key - Recommended'
+        },
+        {
+            'id': 'google/gemini-2.0-flash-exp',
+            'name': 'Gemini 2.0 Flash (Experimental)',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': '1M context, newest model, FREE'
+        },
+        {
+            'id': 'google/gemini-pro-1.5',
+            'name': 'Gemini 1.5 Pro',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': '2M context, smartest Gemini, FREE'
+        },
+        {
+            'id': 'google/gemini-flash-1.5-8b',
+            'name': 'Gemini 1.5 Flash 8B',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': '1M context, ultra-fast, FREE'
+        },
+        {
             'id': 'mistralai/mistral-small-3.2-24b-instruct',
             'name': 'Mistral Small 3.2',
             'provider': 'Mistral',
             'cost': 'Very Low',
-            'description': '131k context, ultra-cheap (~$0.001/plan) - Recommended'
+            'description': '131k context, ultra-cheap (~$0.001/plan)'
         },
         {
             'id': 'qwen/qwen-2.5-72b-instruct',
@@ -318,13 +346,6 @@ def get_models():
             'provider': 'Qwen',
             'cost': 'Very Low',
             'description': 'Great with numbers & logic (~$0.0015/plan)'
-        },
-        {
-            'id': 'anthropic/claude-haiku-4.5',
-            'name': 'Claude Haiku 4.5 (NEW)',
-            'provider': 'Anthropic',
-            'cost': 'Very Low',
-            'description': '200k context, newest Claude (~$0.001/plan)'
         },
         {
             'id': 'openai/gpt-4o-mini',
