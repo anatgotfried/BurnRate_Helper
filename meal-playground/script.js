@@ -205,6 +205,13 @@ async function generateMealPlan() {
         if (data.meal_plan) {
             currentMealPlan = data.meal_plan;
             renderMealPlan(currentMealPlan);
+            
+            // Calculate and display cost
+            if (data.usage) {
+                const cost = calculateCost(model, data.usage);
+                displayCost(cost, data.fixed);
+            }
+            
             showStatus('Meal plan generated successfully!', 'success');
             
             // Show output section
@@ -688,6 +695,31 @@ function restoreState() {
     } catch (error) {
         console.error('Error restoring state:', error);
     }
+}
+
+// Cost Display
+function displayCost(cost, wasFixed) {
+    const container = document.getElementById('costDisplay');
+    const cumulative = addToCumulativeCost(cost);
+    
+    const costClass = cost.isFree ? 'cost-free' : '';
+    const fixedNote = wasFixed ? ' <span style="color: var(--warning);">(auto-fixed)</span>' : '';
+    
+    container.innerHTML = `
+        <div class="cost-this-generation">This generation:</div>
+        <div class="cost-amount ${costClass}">${formatCost(cost.totalCost)}${fixedNote}</div>
+        <div class="cost-details">
+            ${cost.promptTokens.toLocaleString()} input + ${cost.completionTokens.toLocaleString()} output tokens
+            <br>
+            ${cost.modelName}
+        </div>
+        <div class="cost-cumulative">
+            Total spent: ${formatCost(cumulative.totalSpent)} 
+            (${cumulative.generationCount} ${cumulative.generationCount === 1 ? 'plan' : 'plans'}, 
+            avg ${formatCost(cumulative.averageCost)}/plan)
+            <button onclick="if(confirm('Reset cost tracking?')) { resetCumulativeTracking(); location.reload(); }" class="reset-cost-btn">Reset</button>
+        </div>
+    `;
 }
 
 // UI Helpers

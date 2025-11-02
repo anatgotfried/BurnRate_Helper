@@ -625,6 +625,57 @@ nav {
     color: white;
 }
 
+/* Cost Display */
+.cost-display {
+    font-family: 'Inter', sans-serif;
+    text-align: right;
+}
+
+.cost-this-generation {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+}
+
+.cost-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.cost-free {
+    color: var(--success);
+}
+
+.cost-details {
+    font-size: 0.75rem;
+    color: var(--text-lighter);
+    margin-top: 0.25rem;
+}
+
+.cost-cumulative {
+    font-size: 0.75rem;
+    color: var(--text-lighter);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.reset-cost-btn {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    background: var(--bg-subtle);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.reset-cost-btn:hover {
+    background: var(--border);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero h1 {
