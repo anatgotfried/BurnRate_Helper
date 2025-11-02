@@ -2,6 +2,26 @@
 
 // Pricing data (per 1M tokens) - Verified from OpenRouter API Nov 2025
 const MODEL_PRICING = {
+    'google/gemini-flash-1.5': {
+        input: 0,
+        output: 0,
+        name: 'Gemini 1.5 Flash (FREE)'
+    },
+    'google/gemini-2.0-flash-exp': {
+        input: 0,
+        output: 0,
+        name: 'Gemini 2.0 Flash Exp (FREE)'
+    },
+    'google/gemini-pro-1.5': {
+        input: 0,
+        output: 0,
+        name: 'Gemini 1.5 Pro (FREE)'
+    },
+    'google/gemini-flash-1.5-8b': {
+        input: 0,
+        output: 0,
+        name: 'Gemini 1.5 Flash 8B (FREE)'
+    },
     'mistralai/mistral-small-3.2-24b-instruct': {
         input: 0.06,
         output: 0.18,
