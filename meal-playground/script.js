@@ -1,31 +1,33 @@
-// BurnRate Meal Playground - Main JavaScript
+// BurnRate Meal Playground - Main Script
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5001' 
+    : 'https://burn-rate-helper.vercel.app';
 
-// State
 let workouts = [];
-let workoutIdCounter = 1;
+let researchCorpus = {};
 let currentMealPlan = null;
-let researchCorpus = null;
-let promptTemplate = null;
 
-// API Configuration
-// For local development
-const LOCAL_API = 'http://127.0.0.1:5001';
-// For production - using same domain (Vercel hosts everything)
-const PRODUCTION_API = window.location.origin;
-
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? LOCAL_API
-    : PRODUCTION_API;
-
-// Initialize
-document.addEventListener('DOMContentLoaded', async () => {
-    // Load research corpus and prompt template
-    await loadResources();
+// Load resources on page load
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadResources();
+        showStatus('Ready to generate meal plans!', 'success');
+    } catch (error) {
+        showStatus(`Error loading resources: ${error.message}`, 'error');
+    }
     
-    // Restore saved state from localStorage
-    restoreState();
+    // Load saved session if available
+    const savedSession = localStorage.getItem('mealPlannerSession');
+    if (savedSession) {
+        try {
+            const session = JSON.parse(savedSession);
+            // Restore form state if needed
+        } catch (e) {
+            console.warn('Failed to restore session:', e);
+        }
+    }
     
-    // Add initial workout if none exist
+    // Add initial workout
     if (workouts.length === 0) {
         addWorkout();
     }
@@ -43,117 +45,122 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
     });
-    
-    // Auto-save state on changes
-    document.getElementById('profileForm').addEventListener('input', saveState);
 });
 
-// Load Resources
+// Load research corpus and prompt template
 async function loadResources() {
     try {
         // Load research corpus
         const corpusResponse = await fetch('data/research_corpus.json');
         researchCorpus = await corpusResponse.json();
         
-        // Load prompt template (v2 with deterministic targets)
-        const promptResponse = await fetch('prompts/meal_planner_v2.txt');
-        promptTemplate = await promptResponse.text();
-        
-        console.log('Resources loaded successfully');
+        console.log('✅ Resources loaded');
     } catch (error) {
-        console.error('Error loading resources:', error);
-        showStatus('Error loading required resources', 'error');
+        console.error('Failed to load resources:', error);
+        throw error;
     }
 }
 
-// Workout Management
+// Add workout
 function addWorkout() {
     const workout = {
-        id: workoutIdCounter++,
+        id: Date.now(),
         type: 'run',
-        duration: 60,
+        duration_min: 60,
         intensity: 'moderate',
-        startTime: '09:00',
-        temperature: 20,
-        humidity: 50
+        start_time: '09:00',
+        temp_c: 20,
+        humidity_pct: 60,
+        heat_index: false
     };
     
     workouts.push(workout);
     renderWorkouts();
-    saveState();
 }
 
+// Remove workout
 function removeWorkout(id) {
     workouts = workouts.filter(w => w.id !== id);
     renderWorkouts();
-    saveState();
 }
 
+// Duplicate workout
+function duplicateWorkout(id) {
+    const workout = workouts.find(w => w.id === id);
+    if (workout) {
+        const duplicate = { ...workout, id: Date.now() };
+        workouts.push(duplicate);
+        renderWorkouts();
+    }
+}
+
+// Update workout
 function updateWorkout(id, field, value) {
     const workout = workouts.find(w => w.id === id);
     if (workout) {
-        workout[field] = value;
-        saveState();
+        if (field === 'duration_min' || field === 'temp_c' || field === 'humidity_pct') {
+            workout[field] = parseFloat(value) || 0;
+        } else if (field === 'heat_index') {
+            workout[field] = value;
+        } else {
+            workout[field] = value;
+        }
     }
 }
 
+// Render workouts
 function renderWorkouts() {
     const container = document.getElementById('workoutsList');
-    
-    if (workouts.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-light); text-align: center;">No workouts added yet. Click "Add Workout" to begin.</p>';
-        return;
-    }
-    
     container.innerHTML = workouts.map((workout, index) => `
         <div class="workout-card">
             <div class="workout-header">
-                <span class="workout-number">Workout ${index + 1}</span>
-                <button type="button" class="btn btn-danger" onclick="removeWorkout(${workout.id})">Remove</button>
+                <h3>Workout ${index + 1}</h3>
+                <div class="workout-actions">
+                    <button type="button" class="btn btn-icon" onclick="duplicateWorkout(${workout.id})" title="Duplicate">📋</button>
+                    <button type="button" class="btn btn-icon" onclick="removeWorkout(${workout.id})" title="Remove">🗑️</button>
+                </div>
             </div>
-            <div class="workout-form">
-                <label class="form-label">
-                    <span>Type</span>
-                    <select class="form-select" onchange="updateWorkout(${workout.id}, 'type', this.value)">
+            <div class="workout-inputs">
+                <div class="input-group">
+                    <label>Type</label>
+                    <select onchange="updateWorkout(${workout.id}, 'type', this.value)" value="${workout.type}">
                         <option value="run" ${workout.type === 'run' ? 'selected' : ''}>Run</option>
                         <option value="bike" ${workout.type === 'bike' ? 'selected' : ''}>Bike</option>
                         <option value="swim" ${workout.type === 'swim' ? 'selected' : ''}>Swim</option>
                         <option value="strength" ${workout.type === 'strength' ? 'selected' : ''}>Strength</option>
-                        <option value="hiit" ${workout.type === 'hiit' ? 'selected' : ''}>HIIT</option>
-                        <option value="tempo" ${workout.type === 'tempo' ? 'selected' : ''}>Tempo</option>
-                        <option value="intervals" ${workout.type === 'intervals' ? 'selected' : ''}>Intervals</option>
-                        <option value="long_endurance" ${workout.type === 'long_endurance' ? 'selected' : ''}>Long Endurance</option>
+                        <option value="other" ${workout.type === 'other' ? 'selected' : ''}>Other</option>
                     </select>
-                </label>
-                <label class="form-label">
-                    <span>Duration (minutes)</span>
-                    <input type="number" class="form-input" value="${workout.duration}" min="15" max="600" 
-                        onchange="updateWorkout(${workout.id}, 'duration', parseInt(this.value))">
-                </label>
-                <label class="form-label">
-                    <span>Intensity</span>
-                    <select class="form-select" onchange="updateWorkout(${workout.id}, 'intensity', this.value)">
-                        <option value="low" ${workout.intensity === 'low' ? 'selected' : ''}>Low</option>
+                </div>
+                <div class="input-group">
+                    <label>Duration (min)</label>
+                    <input type="number" value="${workout.duration_min}" onchange="updateWorkout(${workout.id}, 'duration_min', this.value)" min="10" max="480">
+                </div>
+                <div class="input-group">
+                    <label>Intensity</label>
+                    <select onchange="updateWorkout(${workout.id}, 'intensity', this.value)" value="${workout.intensity}">
+                        <option value="easy" ${workout.intensity === 'easy' ? 'selected' : ''}>Easy</option>
                         <option value="moderate" ${workout.intensity === 'moderate' ? 'selected' : ''}>Moderate</option>
-                        <option value="high" ${workout.intensity === 'high' ? 'selected' : ''}>High</option>
-                        <option value="very_high" ${workout.intensity === 'very_high' ? 'selected' : ''}>Very High</option>
+                        <option value="hard" ${workout.intensity === 'hard' ? 'selected' : ''}>Hard</option>
                     </select>
-                </label>
-                <label class="form-label">
-                    <span>Start Time</span>
-                    <input type="time" class="form-input" value="${workout.startTime}" 
-                        onchange="updateWorkout(${workout.id}, 'startTime', this.value)">
-                </label>
-                <label class="form-label">
-                    <span>Temperature (°C)</span>
-                    <input type="number" class="form-input" value="${workout.temperature}" min="-10" max="45" 
-                        onchange="updateWorkout(${workout.id}, 'temperature', parseInt(this.value))">
-                </label>
-                <label class="form-label">
-                    <span>Humidity (%)</span>
-                    <input type="number" class="form-input" value="${workout.humidity}" min="0" max="100" 
-                        onchange="updateWorkout(${workout.id}, 'humidity', parseInt(this.value))">
-                </label>
+                </div>
+                <div class="input-group">
+                    <label>Start Time</label>
+                    <input type="time" value="${workout.start_time}" onchange="updateWorkout(${workout.id}, 'start_time', this.value)">
+                </div>
+                <div class="input-group">
+                    <label>Temp (°C)</label>
+                    <input type="number" value="${workout.temp_c}" onchange="updateWorkout(${workout.id}, 'temp_c', this.value)" min="-10" max="50">
+                </div>
+                <div class="input-group">
+                    <label>Humidity (%)</label>
+                    <input type="number" value="${workout.humidity_pct}" onchange="updateWorkout(${workout.id}, 'humidity_pct', this.value)" min="0" max="100">
+                </div>
+                <div class="input-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" ${workout.heat_index ? 'checked' : ''} onchange="updateWorkout(${workout.id}, 'heat_index', this.checked)">
+                        <span>Heat Index Flag</span>
+                    </label>
+                </div>
             </div>
         </div>
     `).join('');
@@ -268,36 +275,20 @@ async function generateMealPlan() {
             
             // Calculate and display cost
             if (data.usage) {
-                const cost = calculateCost(model, data.usage);
-                displayCost(cost, data.auto_fixed);
+                displayCost(data.usage, model, data.auto_fixed);
             }
             
-            // Show success message with auto-fix indicator
-            let successMsg = 'Meal plan generated successfully!';
-            if (data.auto_fixed === 'trailing_commas') {
-                successMsg += ' (Auto-fixed trailing commas ✨)';
-            } else if (data.auto_fixed === 'self_healing') {
-                successMsg += ' (AI self-healed invalid JSON ✨)';
-            }
+            showStatus('Meal plan generated successfully!', 'success');
             
-            showStatus(successMsg, 'success');
-            
-            // Show output section
-            document.getElementById('outputSection').style.display = 'block';
+            // Scroll to output
             document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (data.raw_content) {
-            // Try to extract JSON from raw content
-            showStatus('Warning: Response may not be properly formatted', 'error');
-            document.getElementById('jsonContent').textContent = data.raw_content;
-            document.getElementById('outputSection').style.display = 'block';
-            switchTab('json');
         } else {
-            throw new Error('No content in response');
+            throw new Error('No meal plan in response');
         }
     } catch (error) {
-        console.error('Error generating meal plan:', error);
+        console.error('Generation failed:', error);
         
-        // Show detailed error if available
+        // Show detailed error
         if (error.response) {
             showDetailedError(error.response);
         } else {
@@ -308,118 +299,226 @@ async function generateMealPlan() {
     }
 }
 
-// Build Context
+// View prompt without generating
+function viewPromptOnly() {
+    // Validate form
+    if (!document.getElementById('profileForm').checkValidity()) {
+        showStatus('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    if (workouts.length === 0) {
+        showStatus('Please add at least one workout', 'error');
+        return;
+    }
+    
+    // Build context and prompt
+    const context = buildContext();
+    const prompt = buildPrompt(context);
+    const model = document.getElementById('modelSelect').value;
+    
+    // Store for viewing
+    window.lastPrompt = prompt;
+    window.lastModel = model;
+    
+    // Update prompt tab
+    document.getElementById('promptContent').textContent = prompt;
+    
+    // Show output section and switch to prompt tab
+    document.getElementById('outputSection').style.display = 'block';
+    switchTab('prompt');
+    
+    // Show stats
+    const promptTokens = Math.ceil(prompt.length / 4);
+    const estimatedCost = estimatePromptCost(model, promptTokens);
+    showStatus(`✅ Prompt ready! ~${promptTokens.toLocaleString()} tokens. Model: ${model}. Estimated cost: ~$${estimatedCost.toFixed(4)}`, 'success');
+    
+    // Scroll to output
+    document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Estimate prompt cost
+function estimatePromptCost(model, promptTokens) {
+    const pricing = MODEL_PRICING[model];
+    if (!pricing) return 0;
+    
+    const inputCost = (promptTokens / 1000000) * pricing.input;
+    const outputCost = (2000 / 1000000) * pricing.output; // Assume ~2k output
+    return inputCost + outputCost;
+}
+
+// Generic copy to clipboard
+function copyToClipboard(elementId, name) {
+    const content = document.getElementById(elementId).textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        showStatus(`${name} copied to clipboard!`, 'success');
+    }).catch(err => {
+        showStatus(`Failed to copy ${name}`, 'error');
+    });
+}
+
+// Build context
 function buildContext() {
     const form = document.getElementById('profileForm');
+    const formData = new FormData(form);
     
     const athlete = {
-        weight_kg: parseFloat(document.getElementById('weight').value),
-        height_cm: parseInt(document.getElementById('height').value),
-        gender: document.getElementById('gender').value,
-        training_phase: document.getElementById('trainingPhase').value,
-        goal: document.getElementById('goal').value,
-        diet_pattern: document.getElementById('dietPattern').value,
-        gi_tolerance: document.getElementById('giTolerance').value,
-        timezone: document.getElementById('timezone').value,
+        weight_kg: parseFloat(formData.get('weight_kg')),
+        height_cm: parseFloat(formData.get('height_cm')),
+        gender: formData.get('gender'),
+        training_phase: formData.get('training_phase'),
+        goal: formData.get('goal'),
+        diet_pattern: formData.get('diet_pattern'),
+        gi_tolerance: formData.get('gi_tolerance'),
+        sweat_rate: formData.get('sweat_rate'),
+        timezone: formData.get('timezone'),
         populations: []
     };
     
-    // Add optional sweat rate
-    const sweatRate = document.getElementById('sweatRate').value;
-    if (sweatRate) {
-        athlete.sweat_rate_ml_hr = parseInt(sweatRate);
-    }
+    // Add population flags
+    if (document.getElementById('masters').checked) athlete.populations.push('masters');
+    if (document.getElementById('female_specific').checked) athlete.populations.push('female_specific');
+    if (document.getElementById('youth').checked) athlete.populations.push('youth');
     
-    // Add populations
-    if (document.getElementById('isMasters').checked) {
-        athlete.populations.push('masters');
-    }
-    if (document.getElementById('isFemaleSpecific').checked) {
-        athlete.populations.push('female_specific');
-    }
-    if (document.getElementById('isYouth').checked) {
-        athlete.populations.push('youth');
-    }
+    // Calculate daily targets using deterministic logic
+    const calculated_targets = calculateDailyTargets(athlete, workouts);
     
-    const workoutData = workouts.map(w => ({
-        type: w.type,
-        duration_min: w.duration,
-        intensity: w.intensity,
-        start_time: w.startTime,
-        environment: {
-            temp_c: w.temperature,
-            humidity_pct: w.humidity,
-            heat_index_flag: (w.temperature >= 27 && w.humidity >= 60)
-        }
-    }));
-    
-    // Determine primary population based on workouts
-    const hasEndurance = workouts.some(w => ['run', 'bike', 'swim', 'long_endurance', 'tempo', 'intervals'].includes(w.type));
-    const hasStrength = workouts.some(w => w.type === 'strength');
-    
-    if (hasEndurance && !athlete.populations.includes('endurance')) {
-        athlete.populations.push('endurance');
-    }
-    if (hasStrength && !athlete.populations.includes('strength_power')) {
-        athlete.populations.push('strength_power');
-    }
-    
-    // CALCULATE DETERMINISTIC TARGETS
-    const calculatedTargets = calculateDailyTargets(athlete, workoutData);
-    
-    const context = {
-        athlete: athlete,
-        workouts: workoutData,
-        date: new Date().toISOString().split('T')[0],
-        calculated_targets: calculatedTargets
+    return {
+        athlete,
+        workouts,
+        calculated_targets
     };
-    
-    return context;
 }
 
-// Build Prompt
+// Build prompt
 function buildPrompt(context) {
-    if (!promptTemplate || !researchCorpus) {
-        throw new Error('Resources not loaded');
-    }
-    
-    // SPEED OPTIMIZATION: Check if fast mode is enabled
+    // Check if fast mode is enabled
     const fastMode = document.getElementById('fastMode')?.checked ?? true;
     
-    let corpusToUse = researchCorpus;
-    let savings = null;
+    let corpus = researchCorpus;
+    let tokenSavings = '';
     
-    if (fastMode) {
-        // Filter corpus to only relevant sections
-        // This reduces prompt from ~15k to ~3-5k tokens = 3-5x faster!
-        corpusToUse = filterRelevantCorpus(
-            researchCorpus,
-            context.athlete,
-            context.workouts
-        );
-        
-        // Log the savings
-        savings = estimateTokenSavings(researchCorpus, corpusToUse);
-        console.log('🚀 Fast mode enabled:', savings.speedupEstimate, 
-                    `(${savings.fullTokens} → ${savings.filteredTokens} tokens,`,
-                    `-${savings.reductionPercent}%)`);
-        
-        // Update status message with estimated time
-        const estimatedSeconds = Math.ceil(savings.filteredTokens / 100); // Rough estimate
-        showStatus(`Generating with fast mode... Estimated time: ${estimatedSeconds}-${estimatedSeconds + 10} seconds`, 'info');
-    } else {
-        console.log('📚 Full corpus mode - using all research (slower but more comprehensive)');
-        showStatus(`Generating with full research corpus... This may take 40-60 seconds.`, 'info');
+    if (fastMode && window.filterRelevantCorpus) {
+        const filtered = filterRelevantCorpus(researchCorpus, context.athlete, context.workouts);
+        corpus = filtered.corpus;
+        tokenSavings = `\n[Fast Mode: Filtered corpus - ${filtered.savings}]`;
+        console.log(`⚡ Fast mode enabled: ${filtered.savings}`);
     }
     
-    const prompt = promptTemplate
-        .replace('{RESEARCH_CORPUS}', JSON.stringify(corpusToUse, null, 2))
-        .replace('{CONTEXT}', JSON.stringify(context, null, 2));
+    // Build the prompt
+    const prompt = `You are a world-class sports nutritionist specializing in endurance athlete nutrition. Generate a complete daily meal plan.
+
+## RESEARCH CORPUS
+${JSON.stringify(corpus, null, 2)}
+
+## ATHLETE PROFILE & CALCULATED TARGETS
+${JSON.stringify(context, null, 2)}
+
+## CRITICAL REQUIREMENTS
+
+1. **Use Calculated Targets**: The calculated_targets in the context were determined using evidence-based formulas. Your meal plan's daily_totals MUST match these targets (within ±2%)
+
+2. **Sodium Tracking**: EVERY food item must include sodium_mg. Add salt/electrolytes to hit sodium target (${context.calculated_targets.sodium_mg}mg).
+
+3. **Detailed Rationales**: Each meal must have 3-5 sentences explaining food choices, timing, portions, and research citations (e.g., ISSN2017, Morton2018).
+
+4. **Israel Alternatives**: Provide 3+ specific Israel products (Tnuva, Osem, Yotvata, Strauss) with portions.
+
+5. **Protein Distribution**: Aim for 0.25-0.4 g/kg per meal for masters athletes (${context.calculated_targets.protein_per_meal_g}g per meal).
+
+6. **Output Format**: Return ONLY valid JSON. No markdown, no code blocks, no explanations. First character { last character }
+
+## JSON STRUCTURE
+
+{
+  "athlete_summary": {
+    "weight_kg": ${context.athlete.weight_kg},
+    "daily_energy_target_kcal": ${context.calculated_targets.daily_energy_kcal},
+    "daily_protein_target_g": ${context.calculated_targets.protein_g},
+    "daily_carb_target_g": ${context.calculated_targets.carbs_g},
+    "daily_fat_target_g": ${context.calculated_targets.fat_g},
+    "hydration_target_l": ${context.calculated_targets.hydration_l},
+    "sodium_target_mg": ${context.calculated_targets.sodium_mg},
+    "explanations": {
+      "energy": "${context.calculated_targets.explanations.energy}",
+      "protein": "${context.calculated_targets.explanations.protein}",
+      "carbs": "${context.calculated_targets.explanations.carbs}",
+      "fat": "${context.calculated_targets.explanations.fat}",
+      "hydration": "${context.calculated_targets.explanations.hydration}",
+      "sodium": "${context.calculated_targets.explanations.sodium}"
+    }
+  },
+  "meals": [
+    {
+      "time": "HH:MM",
+      "name": "Meal name",
+      "type": "breakfast|pre_workout|intra_workout|post_workout|lunch|dinner|snack",
+      "foods": [
+        {
+          "item": "Food name with portion (e.g., 'Banana, 1 medium (120g)')",
+          "carbs_g": number,
+          "protein_g": number,
+          "fat_g": number,
+          "sodium_mg": number,
+          "calories": number
+        }
+      ],
+      "total_carbs_g": number,
+      "total_protein_g": number,
+      "total_fat_g": number,
+      "total_sodium_mg": number,
+      "total_calories": number,
+      "rationale": "3-5 sentences with research citations",
+      "israel_alternatives": ["Product 1", "Product 2", "Product 3"]
+    }
+  ],
+  "daily_totals": {
+    "calories": number (must match daily_energy_target_kcal ±2%),
+    "carbs_g": number (must match daily_carb_target_g ±2%),
+    "protein_g": number (must match daily_protein_target_g ±2%),
+    "fat_g": number (must match daily_fat_target_g ±2%),
+    "sodium_mg": number (must match sodium_target_mg ±2%),
+    "fluids_l": number,
+    "protein_per_kg": number,
+    "carbs_per_kg": number
+  },
+  "key_recommendations": ["Recommendation 1", "Recommendation 2"],
+  "warnings": []
+}
+
+## COMMON JSON ERRORS TO AVOID
+
+❌ WRONG: Trailing comma
+{
+  "meals": [],
+}
+
+✅ CORRECT: No trailing comma
+{
+  "meals": []
+}
+
+Generate the complete meal plan now in valid JSON format.${tokenSavings}`;
     
     return prompt;
 }
 
-// Render Meal Plan
+// Tab switching
+function switchTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(`${tabName}Tab`).classList.add('active');
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+}
+
+// Render meal plan
 function renderMealPlan(mealPlan) {
     // Render meals
     renderMeals(mealPlan.meals);
@@ -429,313 +528,254 @@ function renderMealPlan(mealPlan) {
     
     // Render JSON
     document.getElementById('jsonContent').textContent = JSON.stringify(mealPlan, null, 2);
+    
+    // Switch to meals tab
+    switchTab('meals');
 }
 
+// Render meals
 function renderMeals(meals) {
     const container = document.getElementById('mealsContent');
     
     if (!meals || meals.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-light); text-align: center;">No meals generated</p>';
+        container.innerHTML = '<p class="empty-state">⚠️ No meals generated. Check the "AI Response" tab to see what the model returned.</p>';
         return;
     }
     
     container.innerHTML = meals.map(meal => `
         <div class="meal-card">
-            <div class="meal-card-header">
-                <div class="meal-time">${meal.time}</div>
-                <h3 class="meal-name">${meal.name}</h3>
-                <span class="meal-type-badge">${meal.type.replace('_', ' ')}</span>
+            <div class="meal-header">
+                <h3>${meal.time} - ${meal.name}</h3>
+                <span class="meal-type-badge">${meal.type}</span>
             </div>
-            
             <div class="meal-foods">
                 ${meal.foods.map(food => `
                     <div class="food-item">
-                        <div class="food-name">${food.item}</div>
+                        <span class="food-name">${food.item}</span>
                         <div class="food-macros">
-                            C: ${food.carbs_g}g | P: ${food.protein_g}g | F: ${food.fat_g}g${food.sodium_mg ? ' | Na: ' + food.sodium_mg + 'mg' : ''} | ${food.calories} kcal
+                            <span>C: ${food.carbs_g}g</span>
+                            <span>P: ${food.protein_g}g</span>
+                            <span>F: ${food.fat_g}g</span>
+                            <span>Na: ${food.sodium_mg}mg</span>
+                            <span class="food-calories">${food.calories} kcal</span>
                         </div>
                     </div>
                 `).join('')}
             </div>
-            
             <div class="meal-totals">
-                <div class="totals-row">
-                    <span class="totals-label">Total Carbs:</span>
-                    <span class="totals-value">${meal.total_carbs_g}g</span>
-                </div>
-                <div class="totals-row">
-                    <span class="totals-label">Total Protein:</span>
-                    <span class="totals-value">${meal.total_protein_g}g</span>
-                </div>
-                <div class="totals-row">
-                    <span class="totals-label">Total Fat:</span>
-                    <span class="totals-value">${meal.total_fat_g}g</span>
-                </div>
-                ${meal.total_sodium_mg ? `
-                <div class="totals-row">
-                    <span class="totals-label">Total Sodium:</span>
-                    <span class="totals-value">${meal.total_sodium_mg} mg</span>
-                </div>
-                ` : ''}
-                <div class="totals-row">
-                    <span class="totals-label">Total Calories:</span>
-                    <span class="totals-value">${meal.total_calories} kcal</span>
-                </div>
+                <strong>Meal Totals:</strong>
+                C: ${meal.total_carbs_g}g, 
+                P: ${meal.total_protein_g}g, 
+                F: ${meal.total_fat_g}g, 
+                Na: ${meal.total_sodium_mg}mg, 
+                ${meal.total_calories} kcal
             </div>
-            
-            ${meal.rationale ? `
-                <div class="meal-rationale">
-                    <strong>Why:</strong> ${meal.rationale}
-                </div>
-            ` : ''}
-            
+            <div class="meal-rationale">
+                <strong>Rationale:</strong> ${meal.rationale}
+            </div>
             ${meal.israel_alternatives && meal.israel_alternatives.length > 0 ? `
-                <div class="meal-rationale">
-                    <strong>Israel Alternatives:</strong> ${meal.israel_alternatives.join(', ')}
+                <div class="meal-alternatives">
+                    <strong>🇮🇱 Israel Alternatives:</strong>
+                    <ul>
+                        ${meal.israel_alternatives.map(alt => `<li>${alt}</li>`).join('')}
+                    </ul>
                 </div>
             ` : ''}
         </div>
     `).join('');
 }
 
+// Render summary
 function renderSummary(mealPlan) {
     const container = document.getElementById('summaryContent');
     
-    const summary = mealPlan.athlete_summary || {};
+    const targets = mealPlan.athlete_summary || {};
     const totals = mealPlan.daily_totals || {};
-    const recommendations = mealPlan.key_recommendations || [];
-    const warnings = mealPlan.warnings || [];
-    const qualityCheck = mealPlan.plan_quality_check || {};
-    const explanations = summary.explanations || {};
     
-    // Calculate match status (handle missing data)
-    const caloriesMatch = totals.calories && summary.daily_energy_target_kcal ? 
-        Math.abs(totals.calories - summary.daily_energy_target_kcal) <= 50 : false;
-    const proteinMatch = totals.protein_g && summary.daily_protein_target_g ?
-        Math.abs(totals.protein_g - summary.daily_protein_target_g) <= 5 : false;
-    const carbsMatch = totals.carbs_g && summary.daily_carb_target_g ?
-        Math.abs(totals.carbs_g - summary.daily_carb_target_g) <= 10 : false;
-    const fatMatch = totals.fat_g && summary.daily_fat_target_g ?
-        Math.abs(totals.fat_g - summary.daily_fat_target_g) <= 5 : false;
-    const sodiumMatch = totals.sodium_mg && summary.sodium_target_mg ?
-        Math.abs(totals.sodium_mg - summary.sodium_target_mg) <= 200 : false;
+    const compareValue = (actual, target) => {
+        if (!actual || !target) return '⚠️';
+        const diff = Math.abs(actual - target);
+        const pctDiff = (diff / target) * 100;
+        return pctDiff <= 2 ? '✅' : '⚠️';
+    };
     
     container.innerHTML = `
         <div class="summary-section">
-            <h3>Daily Targets (Calculated Deterministically)</h3>
+            <h3>Daily Targets (Calculated)</h3>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <span class="summary-item-label">Energy Target</span>
-                    <span class="summary-item-value">
-                        ${summary.daily_energy_target_kcal || 0}
-                        <span class="summary-item-unit">kcal</span>
-                    </span>
+                    <span class="summary-label">Target Calories</span>
+                    <span class="summary-value">${targets.daily_energy_target_kcal || 0} kcal</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Protein Target</span>
-                    <span class="summary-item-value">
-                        ${summary.daily_protein_target_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
+                    <span class="summary-label">Target Protein</span>
+                    <span class="summary-value">${targets.daily_protein_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Carbs Target</span>
-                    <span class="summary-item-value">
-                        ${summary.daily_carb_target_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
+                    <span class="summary-label">Target Carbs</span>
+                    <span class="summary-value">${targets.daily_carb_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Fat Target</span>
-                    <span class="summary-item-value">
-                        ${summary.daily_fat_target_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
+                    <span class="summary-label">Target Fat</span>
+                    <span class="summary-value">${targets.daily_fat_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Sodium Target</span>
-                    <span class="summary-item-value">
-                        ${summary.sodium_target_mg || 0}
-                        <span class="summary-item-unit">mg</span>
-                    </span>
+                    <span class="summary-label">Target Sodium</span>
+                    <span class="summary-value">${targets.sodium_target_mg || 0} mg</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Hydration Target</span>
-                    <span class="summary-item-value">
-                        ${summary.hydration_target_l || 0}
-                        <span class="summary-item-unit">L</span>
-                    </span>
+                    <span class="summary-label">Target Hydration</span>
+                    <span class="summary-value">${targets.hydration_target_l || 0} L</span>
                 </div>
             </div>
         </div>
         
         <div class="summary-section">
-            <h3>Daily Totals (Actual from Meals) ${caloriesMatch && proteinMatch && carbsMatch && fatMatch && sodiumMatch ? '✅' : '⚠️'}</h3>
+            <h3>Daily Totals (Actual from Meals) ${compareValue(totals.calories, targets.daily_energy_target_kcal)}</h3>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Calories ${caloriesMatch ? '✅' : '⚠️'}</span>
-                    <span class="summary-item-value" style="color: ${caloriesMatch ? 'var(--success)' : 'var(--warning)'}">
-                        ${totals.calories || 0}
-                        <span class="summary-item-unit">kcal</span>
-                    </span>
-                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.daily_energy_target_kcal && totals.calories ? 
-                            (totals.calories > summary.daily_energy_target_kcal ? '+' : '') + 
-                            (totals.calories - summary.daily_energy_target_kcal) + ' vs target' 
-                        : totals.calories ? 'No target set' : 'No meals generated'}
-                    </span>
+                    <span class="summary-label">Total Calories ${compareValue(totals.calories, targets.daily_energy_target_kcal)}</span>
+                    <span class="summary-value">${totals.calories || 0} kcal <span class="summary-diff">${totals.calories && targets.daily_energy_target_kcal ? (totals.calories - targets.daily_energy_target_kcal).toFixed(0) : 0} vs target</span></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Protein ${proteinMatch ? '✅' : '⚠️'}</span>
-                    <span class="summary-item-value" style="color: ${proteinMatch ? 'var(--success)' : 'var(--warning)'}">
-                        ${totals.protein_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
-                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.daily_protein_target_g ? 
-                            (totals.protein_g > summary.daily_protein_target_g ? '+' : '') + 
-                            (totals.protein_g - summary.daily_protein_target_g) + 'g vs target' 
-                        : ''}
-                    </span>
+                    <span class="summary-label">Total Protein ${compareValue(totals.protein_g, targets.daily_protein_target_g)}</span>
+                    <span class="summary-value">${totals.protein_g || 0} g <span class="summary-diff">${totals.protein_g && targets.daily_protein_target_g ? (totals.protein_g - targets.daily_protein_target_g).toFixed(1) : 0}g vs target</span></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Carbs ${carbsMatch ? '✅' : '⚠️'}</span>
-                    <span class="summary-item-value" style="color: ${carbsMatch ? 'var(--success)' : 'var(--warning)'}">
-                        ${totals.carbs_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
-                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.daily_carb_target_g ? 
-                            (totals.carbs_g > summary.daily_carb_target_g ? '+' : '') + 
-                            (totals.carbs_g - summary.daily_carb_target_g) + 'g vs target' 
-                        : ''}
-                    </span>
+                    <span class="summary-label">Total Carbs ${compareValue(totals.carbs_g, targets.daily_carb_target_g)}</span>
+                    <span class="summary-value">${totals.carbs_g || 0} g <span class="summary-diff">${totals.carbs_g && targets.daily_carb_target_g ? (totals.carbs_g - targets.daily_carb_target_g).toFixed(1) : 0}g vs target</span></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Fat ${fatMatch ? '✅' : '⚠️'}</span>
-                    <span class="summary-item-value" style="color: ${fatMatch ? 'var(--success)' : 'var(--warning)'}">
-                        ${totals.fat_g || 0}
-                        <span class="summary-item-unit">g</span>
-                    </span>
-                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.daily_fat_target_g ? 
-                            (totals.fat_g > summary.daily_fat_target_g ? '+' : '') + 
-                            (totals.fat_g - summary.daily_fat_target_g) + 'g vs target' 
-                        : ''}
-                    </span>
+                    <span class="summary-label">Total Fat ${compareValue(totals.fat_g, targets.daily_fat_target_g)}</span>
+                    <span class="summary-value">${totals.fat_g || 0} g <span class="summary-diff">${totals.fat_g && targets.daily_fat_target_g ? (totals.fat_g - targets.daily_fat_target_g).toFixed(1) : 0}g vs target</span></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Protein per kg</span>
-                    <span class="summary-item-value">
-                        ${totals.protein_per_kg ? totals.protein_per_kg.toFixed(2) : '0'}
-                        <span class="summary-item-unit">g/kg</span>
-                    </span>
+                    <span class="summary-label">Protein per kg</span>
+                    <span class="summary-value">${totals.protein_per_kg || 0} g/kg</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Carbs per kg</span>
-                    <span class="summary-item-value">
-                        ${totals.carbs_per_kg ? totals.carbs_per_kg.toFixed(2) : '0'}
-                        <span class="summary-item-unit">g/kg</span>
-                    </span>
+                    <span class="summary-label">Carbs per kg</span>
+                    <span class="summary-value">${totals.carbs_per_kg || 0} g/kg</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Fluids</span>
-                    <span class="summary-item-value">
-                        ${totals.fluids_l ? totals.fluids_l.toFixed(1) : '0'}
-                        <span class="summary-item-unit">L</span>
-                    </span>
+                    <span class="summary-label">Total Fluids</span>
+                    <span class="summary-value">${totals.fluids_l || 0} L</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-item-label">Total Sodium ${sodiumMatch ? '✅' : '⚠️'}</span>
-                    <span class="summary-item-value" style="color: ${sodiumMatch ? 'var(--success)' : 'var(--warning)'}">
-                        ${totals.sodium_mg || 0}
-                        <span class="summary-item-unit">mg</span>
-                    </span>
-                    <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.sodium_target_mg ? 
-                            (totals.sodium_mg > summary.sodium_target_mg ? '+' : '') + 
-                            (totals.sodium_mg - summary.sodium_target_mg) + 'mg vs target' 
-                        : ''}
-                    </span>
+                    <span class="summary-label">Total Sodium ${compareValue(totals.sodium_mg, targets.sodium_target_mg)}</span>
+                    <span class="summary-value">${totals.sodium_mg || 0} mg <span class="summary-diff">${totals.sodium_mg && targets.sodium_target_mg ? (totals.sodium_mg - targets.sodium_target_mg).toFixed(0) : 0}mg vs target</span></span>
                 </div>
             </div>
         </div>
         
-        ${Object.keys(explanations).length > 0 ? `
-        <div class="summary-section">
-            <h3>Target Calculations Explained</h3>
-            ${explanations.protein ? `<p style="margin-bottom: 1rem;"><strong>Protein:</strong> ${explanations.protein}</p>` : ''}
-            ${explanations.carbs ? `<p style="margin-bottom: 1rem;"><strong>Carbs:</strong> ${explanations.carbs}</p>` : ''}
-            ${explanations.fat ? `<p style="margin-bottom: 1rem;"><strong>Fat:</strong> ${explanations.fat}</p>` : ''}
-            ${explanations.sodium ? `<p style="margin-bottom: 1rem;"><strong>Sodium:</strong> ${explanations.sodium}</p>` : ''}
-            ${explanations.hydration ? `<p style="margin-bottom: 1rem;"><strong>Hydration:</strong> ${explanations.hydration}</p>` : ''}
-        </div>
+        ${targets.explanations ? `
+            <div class="summary-section">
+                <h3>Target Calculations Explained</h3>
+                <div class="explanations-list">
+                    ${Object.entries(targets.explanations).map(([key, value]) => `
+                        <div class="explanation-item">
+                            <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
         ` : ''}
         
-        ${Object.keys(qualityCheck).length > 0 ? `
-        <div class="summary-section">
-            <h3>Quality Check</h3>
-            <ul class="recommendations-list">
-                ${qualityCheck.calories_match ? `<li>Calories: ${qualityCheck.calories_match}</li>` : ''}
-                ${qualityCheck.protein_match ? `<li>Protein: ${qualityCheck.protein_match}</li>` : ''}
-                ${qualityCheck.carbs_match ? `<li>Carbs: ${qualityCheck.carbs_match}</li>` : ''}
-                ${qualityCheck.fat_match ? `<li>Fat: ${qualityCheck.fat_match}</li>` : ''}
-                ${qualityCheck.sodium_match ? `<li>Sodium: ${qualityCheck.sodium_match}</li>` : ''}
-                ${qualityCheck.fluids_match ? `<li>Fluids: ${qualityCheck.fluids_match}</li>` : ''}
-            </ul>
-        </div>
-        ` : ''}
-        
-        ${recommendations.length > 0 ? `
+        ${mealPlan.key_recommendations && mealPlan.key_recommendations.length > 0 ? `
             <div class="summary-section">
                 <h3>Key Recommendations</h3>
                 <ul class="recommendations-list">
-                    ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    ${mealPlan.key_recommendations.map(rec => `<li>${rec}</li>`).join('')}
                 </ul>
             </div>
         ` : ''}
         
-        ${warnings.length > 0 ? `
+        ${mealPlan.warnings && mealPlan.warnings.length > 0 ? `
             <div class="summary-section">
-                <h3>Warnings & Contraindications</h3>
+                <h3>⚠️ Warnings</h3>
                 <ul class="warnings-list">
-                    ${warnings.map(warn => `<li>${warn}</li>`).join('')}
+                    ${mealPlan.warnings.map(warn => `<li>${warn}</li>`).join('')}
                 </ul>
             </div>
         ` : ''}
     `;
 }
 
-// Tab Switching
-function switchTab(tabName) {
-    // Update buttons
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tabName);
-    });
-    
-    // Update panes
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
-    document.getElementById(tabName + 'Tab').classList.add('active');
+// Show/hide loading overlay
+function showLoading(show) {
+    document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
 }
 
-// Export Functions
+// Show status message
+function showStatus(message, type) {
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.textContent = message;
+    statusEl.className = `status-message ${type}`;
+    statusEl.style.display = 'block';
+    
+    if (type === 'success' || type === 'error') {
+        setTimeout(() => {
+            statusEl.style.display = 'none';
+        }, 10000);
+    }
+}
+
+// Show detailed error
+function showDetailedError(errorData) {
+    const message = errorData.error || 'Unknown error';
+    const details = errorData.details || '';
+    const fix = errorData.fix || '';
+    
+    let fullMessage = `⚠️ Error: ${message}`;
+    if (details) fullMessage += `\n\nDetails: ${details}`;
+    if (fix) fullMessage += `\n\nFix: ${fix}`;
+    
+    showStatus(fullMessage, 'error');
+}
+
+// Display cost info
+function displayCost(usage, model, autoFixed) {
+    const costInfo = calculateCost(usage, model);
+    const cumulative = addToCumulativeCost(costInfo.totalCost);
+    
+    const costDisplay = document.getElementById('costDisplay');
+    
+    let fixedBadge = '';
+    if (autoFixed) {
+        fixedBadge = '<span class="cost-badge" title="JSON was auto-corrected">🔧 Auto-fixed</span>';
+    }
+    
+    costDisplay.innerHTML = `
+        <div class="cost-summary">
+            ${costInfo.isFree ? 
+                `<span class="cost-free">✨ FREE</span>` : 
+                `<span class="cost-amount">$${costInfo.totalCost.toFixed(6)}</span>`
+            }
+            ${fixedBadge}
+            <span class="cost-details">
+                ${costInfo.inputTokens.toLocaleString()} in + ${costInfo.outputTokens.toLocaleString()} out | ${model.split('/').pop()}
+            </span>
+            <span class="cost-cumulative">
+                Session: $${cumulative.toFixed(4)} (${cumulative === 0 ? 'All free!' : `${Math.floor(cumulative / costInfo.totalCost)} calls`})
+            </span>
+        </div>
+    `;
+}
+
+// Copy JSON
 function copyJson() {
-    const jsonText = document.getElementById('jsonContent').textContent;
-    navigator.clipboard.writeText(jsonText).then(() => {
+    const json = document.getElementById('jsonContent').textContent;
+    navigator.clipboard.writeText(json).then(() => {
         showStatus('JSON copied to clipboard!', 'success');
-        setTimeout(() => showStatus('', 'info'), 3000);
     }).catch(err => {
         showStatus('Failed to copy JSON', 'error');
     });
 }
 
+// Download JSON
 function downloadJson() {
-    if (!currentMealPlan) return;
-    
-    const jsonText = JSON.stringify(currentMealPlan, null, 2);
-    const blob = new Blob([jsonText], { type: 'application/json' });
+    const json = document.getElementById('jsonContent').textContent;
+    const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -744,150 +784,4 @@ function downloadJson() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
-    showStatus('Meal plan downloaded!', 'success');
-    setTimeout(() => showStatus('', 'info'), 3000);
 }
-
-// State Management
-function saveState() {
-    const state = {
-        profile: {
-            weight: document.getElementById('weight').value,
-            height: document.getElementById('height').value,
-            gender: document.getElementById('gender').value,
-            timezone: document.getElementById('timezone').value,
-            trainingPhase: document.getElementById('trainingPhase').value,
-            goal: document.getElementById('goal').value,
-            dietPattern: document.getElementById('dietPattern').value,
-            giTolerance: document.getElementById('giTolerance').value,
-            sweatRate: document.getElementById('sweatRate').value,
-            isMasters: document.getElementById('isMasters').checked,
-            isFemaleSpecific: document.getElementById('isFemaleSpecific').checked,
-            isYouth: document.getElementById('isYouth').checked
-        },
-        workouts: workouts,
-        workoutIdCounter: workoutIdCounter
-    };
-    
-    localStorage.setItem('mealPlaygroundState', JSON.stringify(state));
-}
-
-function restoreState() {
-    const saved = localStorage.getItem('mealPlaygroundState');
-    if (!saved) return;
-    
-    try {
-        const state = JSON.parse(saved);
-        
-        // Restore profile
-        if (state.profile) {
-            Object.keys(state.profile).forEach(key => {
-                const element = document.getElementById(key);
-                if (element) {
-                    if (element.type === 'checkbox') {
-                        element.checked = state.profile[key];
-                    } else {
-                        element.value = state.profile[key];
-                    }
-                }
-            });
-        }
-        
-        // Restore workouts
-        if (state.workouts) {
-            workouts = state.workouts;
-            workoutIdCounter = state.workoutIdCounter || workouts.length + 1;
-            renderWorkouts();
-        }
-    } catch (error) {
-        console.error('Error restoring state:', error);
-    }
-}
-
-// Cost Display
-function displayCost(cost, autoFixType) {
-    const container = document.getElementById('costDisplay');
-    const cumulative = addToCumulativeCost(cost);
-    
-    const costClass = cost.isFree ? 'cost-free' : '';
-    let fixedNote = '';
-    
-    if (autoFixType === 'trailing_commas') {
-        fixedNote = ' <span style="color: var(--success); font-size: 0.75rem;">✨ auto-fixed</span>';
-    } else if (autoFixType === 'self_healing') {
-        fixedNote = ' <span style="color: var(--success); font-size: 0.75rem;">🔧 AI self-healed</span>';
-    }
-    
-    container.innerHTML = `
-        <div class="cost-this-generation">This generation:</div>
-        <div class="cost-amount ${costClass}">${formatCost(cost.totalCost)}${fixedNote}</div>
-        <div class="cost-details">
-            ${cost.promptTokens.toLocaleString()} input + ${cost.completionTokens.toLocaleString()} output tokens
-            <br>
-            ${cost.modelName}
-        </div>
-        <div class="cost-cumulative">
-            Total spent: ${formatCost(cumulative.totalSpent)} 
-            (${cumulative.generationCount} ${cumulative.generationCount === 1 ? 'plan' : 'plans'}, 
-            avg ${formatCost(cumulative.averageCost)}/plan)
-            <button onclick="if(confirm('Reset cost tracking?')) { resetCumulativeTracking(); location.reload(); }" class="reset-cost-btn">Reset</button>
-        </div>
-    `;
-}
-
-// Error Display
-function showDetailedError(errorData) {
-    const statusEl = document.getElementById('statusMessage');
-    
-    let errorHtml = `<div style="text-align: left; max-width: 600px; margin: 0 auto;">`;
-    errorHtml += `<strong style="color: var(--error);">⚠️ Error: ${errorData.error || 'Unknown error'}</strong><br>`;
-    
-    if (errorData.model_attempted) {
-        errorHtml += `<div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-light);">`;
-        errorHtml += `Model: ${errorData.model_attempted}<br>`;
-        
-        if (errorData.status_code) {
-            errorHtml += `Status: ${errorData.status_code}<br>`;
-        }
-        
-        // Suggestions based on error type
-        if (errorData.status_code === 401) {
-            errorHtml += `<br><strong>Fix:</strong> Check your OpenRouter API key in Vercel settings.`;
-        } else if (errorData.status_code === 402) {
-            errorHtml += `<br><strong>Fix:</strong> Add credits at <a href="https://openrouter.ai/credits" target="_blank">openrouter.ai/credits</a>`;
-        } else if (errorData.status_code === 429) {
-            errorHtml += `<br><strong>Fix:</strong> Wait 30 seconds and try again. Consider upgrading your OpenRouter plan.`;
-        } else if (errorData.error_type === 'invalid_model') {
-            errorHtml += `<br><strong>Fix:</strong> Try switching to Claude 3.5 Sonnet or GPT-4o Mini.`;
-        }
-        
-        errorHtml += `</div>`;
-    }
-    
-    // Add debug details (collapsible)
-    if (errorData.raw_error && errorData.raw_error !== errorData.error) {
-        errorHtml += `<details style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-lighter);">`;
-        errorHtml += `<summary style="cursor: pointer;">Show technical details</summary>`;
-        errorHtml += `<pre style="margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-subtle); border-radius: 4px; overflow-x: auto;">${errorData.raw_error}</pre>`;
-        errorHtml += `</details>`;
-    }
-    
-    errorHtml += `</div>`;
-    
-    statusEl.innerHTML = errorHtml;
-    statusEl.className = 'status-message error';
-}
-
-// UI Helpers
-function showStatus(message, type = 'info') {
-    const statusEl = document.getElementById('statusMessage');
-    statusEl.textContent = message;
-    statusEl.className = `status-message ${type}`;
-}
-
-function showLoading(show) {
-    document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
-    document.getElementById('generateBtn').disabled = show;
-}
-
