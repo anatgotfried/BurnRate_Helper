@@ -1,6 +1,16 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.1 - 2025-01-02 (Current)
+## v1.3.2 - 2025-01-02 (Current)
+**Versioning Policy Added**
+
+### Added
+- 📋 **VERSIONING.md** - Official versioning policy: update version with EVERY change
+- Checklist for version bumps (5 files to update)
+- Semantic versioning guidelines (MAJOR.MINOR.PATCH)
+
+---
+
+## v1.3.1 - 2025-01-02
 **Critical Bug Fixes**
 
 ### Fixed
