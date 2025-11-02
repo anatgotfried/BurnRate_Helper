@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.3';
+const VERSION = '1.3.4';
 const VERSION_DATE = '2025-01-02';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -357,12 +357,12 @@ function viewPromptOnly() {
 
 // Estimate prompt cost
 function estimatePromptCost(model, promptTokens) {
-    const pricing = MODEL_PRICING[model];
-    if (!pricing) return 0;
-    
-    const inputCost = (promptTokens / 1000000) * pricing.input;
-    const outputCost = (2000 / 1000000) * pricing.output; // Assume ~2k output
-    return inputCost + outputCost;
+    const usage = {
+        prompt_tokens: promptTokens,
+        completion_tokens: 2000 // Estimate ~2k output
+    };
+    const costInfo = calculateCost(model, usage);
+    return costInfo.totalCost || 0;
 }
 
 // Generic copy to clipboard
@@ -763,18 +763,13 @@ function showDetailedError(errorData) {
 
 // Display cost info
 function displayCost(usage, model, autoFixed) {
-    // Safety check - if no usage data, show message
-    if (!usage || !usage.prompt_tokens || !usage.completion_tokens) {
-        console.warn('No usage data available for cost display');
-        const costDisplay = document.getElementById('costDisplay');
-        if (costDisplay) {
-            costDisplay.innerHTML = '<div class="cost-summary"><span class="cost-details">Cost info not available</span></div>';
-        }
+    console.log('displayCost called with:', { usage, model, autoFixed });
+    
+    // Safety check - if no usage data, skip display
+    if (!usage || typeof usage.prompt_tokens !== 'number' || typeof usage.completion_tokens !== 'number') {
+        console.warn('Invalid or missing usage data, skipping cost display');
         return;
     }
-    
-    const costInfo = calculateCost(usage, model);
-    const cumulative = addToCumulativeCost(costInfo.totalCost);
     
     const costDisplay = document.getElementById('costDisplay');
     if (!costDisplay) {
@@ -782,26 +777,43 @@ function displayCost(usage, model, autoFixed) {
         return;
     }
     
-    let fixedBadge = '';
-    if (autoFixed) {
-        fixedBadge = '<span class="cost-badge" title="JSON was auto-corrected">🔧 Auto-fixed</span>';
+    try {
+        // CRITICAL: calculateCost expects (modelId, usage) in that order!
+        const costInfo = calculateCost(model, usage);
+        
+        // Validate costInfo
+        if (!costInfo || typeof costInfo.promptTokens !== 'number' || typeof costInfo.completionTokens !== 'number') {
+            console.error('Invalid costInfo returned from calculateCost:', costInfo);
+            costDisplay.innerHTML = '<div class="cost-summary"><span class="cost-details">Cost calculation error</span></div>';
+            return;
+        }
+        
+        const cumulative = addToCumulativeCost(costInfo);
+        
+        let fixedBadge = '';
+        if (autoFixed) {
+            fixedBadge = '<span class="cost-badge" title="JSON was auto-corrected">🔧 Auto-fixed</span>';
+        }
+        
+        costDisplay.innerHTML = `
+            <div class="cost-summary">
+                ${costInfo.isFree ? 
+                    `<span class="cost-free">✨ FREE</span>` : 
+                    `<span class="cost-amount">$${(costInfo.totalCost || 0).toFixed(6)}</span>`
+                }
+                ${fixedBadge}
+                <span class="cost-details">
+                    ${(costInfo.promptTokens || 0).toLocaleString()} in + ${(costInfo.completionTokens || 0).toLocaleString()} out | ${model.split('/').pop()}
+                </span>
+                <span class="cost-cumulative">
+                    Session: $${cumulative.totalSpent.toFixed(4)} (${cumulative.generationCount} calls)
+                </span>
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error in displayCost:', error);
+        costDisplay.innerHTML = '<div class="cost-summary"><span class="cost-details">Cost display error</span></div>';
     }
-    
-    costDisplay.innerHTML = `
-        <div class="cost-summary">
-            ${costInfo.isFree ? 
-                `<span class="cost-free">✨ FREE</span>` : 
-                `<span class="cost-amount">$${costInfo.totalCost.toFixed(6)}</span>`
-            }
-            ${fixedBadge}
-            <span class="cost-details">
-                ${costInfo.inputTokens.toLocaleString()} in + ${costInfo.outputTokens.toLocaleString()} out | ${model.split('/').pop()}
-            </span>
-            <span class="cost-cumulative">
-                Session: $${cumulative.toFixed(4)} (${cumulative === 0 ? 'All free!' : `${Math.floor(cumulative / costInfo.totalCost)} calls`})
-            </span>
-        </div>
-    `;
 }
 
 // Copy JSON
@@ -833,11 +845,13 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.3) - Cost Display Fix
-🐛 Fixed displayCost crash when usage data missing
-✅ Added null checks for safer cost tracking
+CURRENT VERSION (v1.3.4) - Cost Calculator Fix
+🐛 CRITICAL: Fixed parameter order - calculateCost(model, usage)
+🐛 Fixed property names - promptTokens/completionTokens
+✅ Cost display now works properly
 
 RECENT UPDATES:
+v1.3.3 - Cost Display Fix  
 v1.3.2 - Versioning Policy
 v1.3.1 - Critical Bug Fixes (form data, event listeners)
 v1.3.0 - Full Transparency Features

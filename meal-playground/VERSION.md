@@ -1,6 +1,24 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.3 - 2025-01-02 (Current)
+## v1.3.4 - 2025-01-02 (Current)
+**Critical Fix: Cost Calculator Parameter Order**
+
+### Fixed
+- 🐛 **CRITICAL: Fixed calculateCost parameter order** - Was `(usage, model)`, correct is `(model, usage)`
+- 🐛 **Fixed property names** - calculateCost returns `promptTokens`/`completionTokens`, not `inputTokens`/`outputTokens`
+- 🐛 **Fixed addToCumulativeCost** - Pass full costInfo object, not just totalCost number
+- ✅ Cost display now works correctly with proper API integration
+- ✅ Added comprehensive try/catch and validation
+- ✅ Fixed estimatePromptCost to use calculateCost properly
+
+### Code Review
+- Cleaned up parameter passing between functions
+- Added debug logging for troubleshooting
+- Improved error handling across all cost-related functions
+
+---
+
+## v1.3.3 - 2025-01-02
 **Bug Fix: Cost Display**
 
 ### Fixed
