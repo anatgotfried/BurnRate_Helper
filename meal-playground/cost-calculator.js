@@ -2,15 +2,35 @@
 
 // Pricing data (per 1M tokens) - Updated Nov 2025
 const MODEL_PRICING = {
-    'openai/gpt-4o-mini': {
-        input: 0.15,
-        output: 0.60,
-        name: 'GPT-4o Mini'
+    'mistralai/mistral-small-latest': {
+        input: 0.10,
+        output: 0.30,
+        name: 'Mistral Small'
+    },
+    'qwen/qwen-2.5-14b-instruct': {
+        input: 0.07,
+        output: 0.07,
+        name: 'Qwen 2.5 14B'
+    },
+    'mistralai/mistral-medium-latest': {
+        input: 0.27,
+        output: 0.81,
+        name: 'Mistral Medium'
+    },
+    'cohere/command-r-plus': {
+        input: 0.30,
+        output: 1.50,
+        name: 'Cohere Command R+'
     },
     'anthropic/claude-3-haiku': {
         input: 0.25,
         output: 1.25,
         name: 'Claude 3 Haiku'
+    },
+    'openai/gpt-4o-mini': {
+        input: 0.15,
+        output: 0.60,
+        name: 'GPT-4o Mini'
     },
     'anthropic/claude-3.5-sonnet': {
         input: 3.00,
@@ -21,11 +41,6 @@ const MODEL_PRICING = {
         input: 5.00,
         output: 15.00,
         name: 'GPT-4o'
-    },
-    'meta-llama/llama-3.1-8b-instruct:free': {
-        input: 0,
-        output: 0,
-        name: 'Llama 3.1 8B (Free)'
     },
     'mistralai/mistral-7b-instruct:free': {
         input: 0,

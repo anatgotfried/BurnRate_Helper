@@ -34,16 +34,19 @@
                 <label class="form-label">
                     <span>AI Model</span>
                     <select id="modelSelect" class="form-select">
-                        <option value="openai/gpt-4o-mini" selected>GPT-4o Mini (~$0.015 - Recommended)</option>
-                        <option value="anthropic/claude-3-haiku">Claude 3 Haiku (~$0.005 - Budget)</option>
+                        <option value="mistralai/mistral-small-latest" selected>Mistral Small (~$0.002 - Recommended)</option>
+                        <option value="qwen/qwen-2.5-14b-instruct">Qwen 2.5 14B (~$0.001 - Best Value)</option>
+                        <option value="mistralai/mistral-medium-latest">Mistral Medium (~$0.004 - Smarter)</option>
+                        <option value="cohere/command-r-plus">Cohere Command R+ (~$0.004 - Consistent JSON)</option>
+                        <option value="anthropic/claude-3-haiku">Claude 3 Haiku (~$0.006 - Reliable)</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini (~$0.015)</option>
                         <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet (~$0.025 - Best Quality)</option>
                         <option value="openai/gpt-4o">GPT-4o (~$0.050 - Premium)</option>
-                        <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B (FREE)</option>
                         <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (FREE)</option>
                     </select>
                 </label>
                 <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.5rem;">
-                    💡 <strong>Tip:</strong> All models have 128k+ context for large prompts. GPT-4o Mini is best value, Claude 3.5 Sonnet for highest quality.
+                    💡 <strong>Tip:</strong> Mistral Small is fastest and cheapest (~500 plans/$1). Qwen 2.5 for best value. Claude 3.5 Sonnet for highest quality.
                 </div>
             </div>
         </div>

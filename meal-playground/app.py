@@ -238,46 +238,67 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'openai/gpt-4o-mini',
-            'name': 'GPT-4o Mini',
-            'provider': 'OpenAI',
+            'id': 'mistralai/mistral-small-latest',
+            'name': 'Mistral Small',
+            'provider': 'Mistral',
+            'cost': 'Very Low',
+            'description': 'Fast, reliable JSON, great for daily use (~$0.002/plan) - Recommended'
+        },
+        {
+            'id': 'qwen/qwen-2.5-14b-instruct',
+            'name': 'Qwen 2.5 14B',
+            'provider': 'Qwen',
+            'cost': 'Very Low',
+            'description': 'Excellent with numbers and nutrition logic (~$0.001/plan)'
+        },
+        {
+            'id': 'mistralai/mistral-medium-latest',
+            'name': 'Mistral Medium',
+            'provider': 'Mistral',
             'cost': 'Low',
-            'description': '128k context, reliable (~$0.015/plan) - Recommended'
+            'description': 'Larger context, smarter reasoning (~$0.004/plan)'
         },
         {
-            'id': 'openai/gpt-4o',
-            'name': 'GPT-4o',
-            'provider': 'OpenAI',
-            'cost': 'Medium',
-            'description': '128k context, high quality (~$0.050/plan)'
-        },
-        {
-            'id': 'anthropic/claude-3.5-sonnet',
-            'name': 'Claude 3.5 Sonnet',
-            'provider': 'Anthropic',
-            'cost': 'Medium',
-            'description': '200k context, best quality (~$0.025/plan)'
+            'id': 'cohere/command-r-plus',
+            'name': 'Cohere Command R+',
+            'provider': 'Cohere',
+            'cost': 'Low',
+            'description': 'Very consistent JSON, great fallback (~$0.004/plan)'
         },
         {
             'id': 'anthropic/claude-3-haiku',
             'name': 'Claude 3 Haiku',
             'provider': 'Anthropic',
             'cost': 'Low',
-            'description': '200k context, affordable (~$0.005/plan)'
+            'description': '200k context, reliable (~$0.006/plan)'
         },
         {
-            'id': 'meta-llama/llama-3.1-8b-instruct:free',
-            'name': 'Llama 3.1 8B (Free)',
-            'provider': 'Meta',
-            'cost': 'FREE',
-            'description': 'Free, 128k context - may have rate limits'
+            'id': 'openai/gpt-4o-mini',
+            'name': 'GPT-4o Mini',
+            'provider': 'OpenAI',
+            'cost': 'Medium',
+            'description': '128k context, well-tested (~$0.015/plan)'
+        },
+        {
+            'id': 'anthropic/claude-3.5-sonnet',
+            'name': 'Claude 3.5 Sonnet',
+            'provider': 'Anthropic',
+            'cost': 'Medium',
+            'description': '200k context, best quality & JSON (~$0.025/plan)'
+        },
+        {
+            'id': 'openai/gpt-4o',
+            'name': 'GPT-4o',
+            'provider': 'OpenAI',
+            'cost': 'High',
+            'description': '128k context, premium quality (~$0.050/plan)'
         },
         {
             'id': 'mistralai/mistral-7b-instruct:free',
             'name': 'Mistral 7B (Free)',
             'provider': 'Mistral',
             'cost': 'FREE',
-            'description': 'Free, 32k context - may have rate limits'
+            'description': 'Free for testing - may have rate limits'
         }
     ]
     
