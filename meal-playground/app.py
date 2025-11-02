@@ -238,25 +238,11 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'google/gemini-2.0-flash-exp:free',
-            'name': 'Gemini 2.0 Flash (Free)',
-            'provider': 'Google',
-            'cost': 'FREE',
-            'description': 'Free - may have rate limits during peak times'
-        },
-        {
-            'id': 'google/gemini-flash-1.5',
-            'name': 'Gemini 1.5 Flash',
-            'provider': 'Google',
-            'cost': 'Very Low',
-            'description': 'Fast and affordable (~$0.001/plan) - Recommended'
-        },
-        {
             'id': 'anthropic/claude-3-haiku-20240307',
             'name': 'Claude 3 Haiku',
             'provider': 'Anthropic',
             'cost': 'Low',
-            'description': 'Balanced performance and cost (~$0.005/plan)'
+            'description': 'Reliable and affordable (~$0.005/plan) - Recommended'
         },
         {
             'id': 'openai/gpt-3.5-turbo',
@@ -266,18 +252,25 @@ def get_models():
             'description': 'Reliable and well-tested (~$0.008/plan)'
         },
         {
-            'id': 'anthropic/claude-3.5-sonnet-20241022',
-            'name': 'Claude 3.5 Sonnet',
-            'provider': 'Anthropic',
-            'cost': 'Medium',
-            'description': 'Best quality and JSON formatting (~$0.025/plan)'
-        },
-        {
             'id': 'openai/gpt-4o-mini',
             'name': 'GPT-4o Mini',
             'provider': 'OpenAI',
             'cost': 'Medium',
-            'description': 'Good balance of capability and cost (~$0.015/plan)'
+            'description': 'Great balance of capability and cost (~$0.015/plan)'
+        },
+        {
+            'id': 'anthropic/claude-3.5-sonnet-20241022',
+            'name': 'Claude 3.5 Sonnet',
+            'provider': 'Anthropic',
+            'cost': 'Medium',
+            'description': 'Best quality, perfect JSON, detailed explanations (~$0.025/plan)'
+        },
+        {
+            'id': 'google/gemini-2.0-flash-exp:free',
+            'name': 'Gemini 2.0 Flash (Free)',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': 'Free - limited availability, may have rate limits'
         }
     ]
     
