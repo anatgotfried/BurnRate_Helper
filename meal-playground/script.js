@@ -451,12 +451,17 @@ function renderSummary(mealPlan) {
     const qualityCheck = mealPlan.plan_quality_check || {};
     const explanations = summary.explanations || {};
     
-    // Calculate match status
-    const caloriesMatch = Math.abs(totals.calories - summary.daily_energy_target_kcal) <= 50;
-    const proteinMatch = Math.abs(totals.protein_g - summary.daily_protein_target_g) <= 5;
-    const carbsMatch = Math.abs(totals.carbs_g - summary.daily_carb_target_g) <= 10;
-    const fatMatch = Math.abs(totals.fat_g - summary.daily_fat_target_g) <= 5;
-    const sodiumMatch = Math.abs(totals.sodium_mg - summary.sodium_target_mg) <= 200;
+    // Calculate match status (handle missing data)
+    const caloriesMatch = totals.calories && summary.daily_energy_target_kcal ? 
+        Math.abs(totals.calories - summary.daily_energy_target_kcal) <= 50 : false;
+    const proteinMatch = totals.protein_g && summary.daily_protein_target_g ?
+        Math.abs(totals.protein_g - summary.daily_protein_target_g) <= 5 : false;
+    const carbsMatch = totals.carbs_g && summary.daily_carb_target_g ?
+        Math.abs(totals.carbs_g - summary.daily_carb_target_g) <= 10 : false;
+    const fatMatch = totals.fat_g && summary.daily_fat_target_g ?
+        Math.abs(totals.fat_g - summary.daily_fat_target_g) <= 5 : false;
+    const sodiumMatch = totals.sodium_mg && summary.sodium_target_mg ?
+        Math.abs(totals.sodium_mg - summary.sodium_target_mg) <= 200 : false;
     
     container.innerHTML = `
         <div class="summary-section">
@@ -517,10 +522,10 @@ function renderSummary(mealPlan) {
                         <span class="summary-item-unit">kcal</span>
                     </span>
                     <span style="font-size: 0.75rem; color: var(--text-lighter)">
-                        ${summary.daily_energy_target_kcal ? 
+                        ${summary.daily_energy_target_kcal && totals.calories ? 
                             (totals.calories > summary.daily_energy_target_kcal ? '+' : '') + 
                             (totals.calories - summary.daily_energy_target_kcal) + ' vs target' 
-                        : ''}
+                        : totals.calories ? 'No target set' : 'No meals generated'}
                     </span>
                 </div>
                 <div class="summary-item">

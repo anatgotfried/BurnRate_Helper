@@ -177,6 +177,17 @@ def generate_meal_plan():
                 # Try to parse
                 meal_plan = json.loads(cleaned_content)
                 
+                # Validate that meals exist and are populated
+                if not meal_plan.get('meals') or len(meal_plan.get('meals', [])) == 0:
+                    return jsonify({
+                        'success': False,
+                        'error': 'AI returned valid JSON but with no meals. This usually means the prompt was too long or the model failed. Try: 1) Claude 3.5 Sonnet, 2) Turn ON fast mode, or 3) Reduce workouts.',
+                        'raw_content': content,
+                        'meal_plan': meal_plan,
+                        'usage': result.get('usage', {}),
+                        'model': result.get('model', model)
+                    }), 400
+                
                 return jsonify({
                     'success': True,
                     'meal_plan': meal_plan,
@@ -256,6 +267,17 @@ Return the corrected JSON only (no markdown, no explanations):"""
                                 
                                 # Try parsing healed JSON
                                 meal_plan = json.loads(healed_content)
+                                
+                                # Validate that meals exist
+                                if not meal_plan.get('meals') or len(meal_plan.get('meals', [])) == 0:
+                                    return jsonify({
+                                        'success': False,
+                                        'error': 'AI returned valid JSON but no meals were generated. Try Claude 3.5 Sonnet or regenerate.',
+                                        'raw_content': healed_content,
+                                        'meal_plan': meal_plan,
+                                        'usage': result.get('usage', {}),
+                                        'model': result.get('model', model)
+                                    }), 400
                                 
                                 print(f"✅ JSON self-healing successful!")
                                 return jsonify({
