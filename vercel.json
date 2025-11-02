@@ -4,6 +4,26 @@
     {
       "src": "meal-playground/app.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.json",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.txt",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,8 +32,28 @@
       "dest": "meal-playground/app.py"
     },
     {
-      "src": "/(.*)",
-      "dest": "$1"
+      "src": "/(.*\\.(html|css|js|json|txt|png|jpg|jpeg|svg|ico))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/meal-playground",
+      "dest": "/meal-playground/index.html"
+    },
+    {
+      "src": "/meal-playground/(.*)",
+      "dest": "/meal-playground/$1"
+    },
+    {
+      "src": "/tp-validator",
+      "dest": "/tp-validator/index.html"
+    },
+    {
+      "src": "/tp-validator/(.*)",
+      "dest": "/tp-validator/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ],
   "env": {
