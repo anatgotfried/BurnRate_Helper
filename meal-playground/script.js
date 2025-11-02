@@ -10,8 +10,8 @@ let promptTemplate = null;
 // API Configuration
 // For local development
 const LOCAL_API = 'http://127.0.0.1:5001';
-// For production - using Vercel deployment
-const PRODUCTION_API = 'https://burn-rate-helper.vercel.app';
+// For production - using same domain (Vercel hosts everything)
+const PRODUCTION_API = window.location.origin;
 
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? LOCAL_API
