@@ -391,10 +391,14 @@ function buildContext() {
         populations: []
     };
     
-    // Add population flags
-    if (document.getElementById('masters').checked) athlete.populations.push('masters');
-    if (document.getElementById('female_specific').checked) athlete.populations.push('female_specific');
-    if (document.getElementById('youth').checked) athlete.populations.push('youth');
+    // Add population flags (only if checkboxes exist)
+    const mastersCheckbox = document.getElementById('masters');
+    const femaleCheckbox = document.getElementById('female_specific');
+    const youthCheckbox = document.getElementById('youth');
+    
+    if (mastersCheckbox?.checked) athlete.populations.push('masters');
+    if (femaleCheckbox?.checked) athlete.populations.push('female_specific');
+    if (youthCheckbox?.checked) athlete.populations.push('youth');
     
     // Calculate daily targets using deterministic logic
     const calculated_targets = calculateDailyTargets(athlete, workouts);
