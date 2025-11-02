@@ -11,12 +11,21 @@ const FALLBACK_MODEL = 'anthropic/claude-3.5-sonnet';
  */
 async function generateTwoPhase(context, researchCorpus) {
     try {
+        console.log('🚀 Starting two-phase generation...');
+        
         // Phase 1: Get daily structure
-        showStatus('Phase 1/2: Calculating daily structure...', 'info');
+        showStatus('Phase 1/2: Calculating daily structure with Mistral...', 'info');
         const dailyPlan = await generateDailyStructure(context);
         
         if (!dailyPlan || !dailyPlan.meal_structure) {
-            throw new Error('Failed to generate daily structure');
+            console.error('Daily plan invalid:', dailyPlan);
+            throw new Error('Failed to generate daily structure. Try unchecking two-phase mode and using Claude 3.5 Sonnet directly.');
+        }
+        
+        console.log(`Phase 1 success! Planning ${dailyPlan.meal_structure.length} meals`);
+        
+        if (dailyPlan.meal_structure.length === 0) {
+            throw new Error('Daily structure returned but with 0 meals. Try single-phase mode with Claude 3.5 Sonnet.');
         }
         
         // Phase 2: Generate each meal in parallel
@@ -63,26 +72,48 @@ async function generateTwoPhase(context, researchCorpus) {
  * Phase 1: Generate daily meal structure
  */
 async function generateDailyStructure(context) {
-    const promptTemplate = await fetch('prompts/daily_plan_prompt.txt').then(r => r.text());
-    const prompt = promptTemplate.replace('{CONTEXT}', JSON.stringify(context, null, 2));
-    
-    const response = await fetch(`${API_URL}/api/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            model: STRUCTURE_MODEL,
-            prompt: prompt,
-            max_tokens: 2000  // Much smaller - just structure!
-        })
-    });
-    
-    const data = await response.json();
-    
-    if (!data.success) {
-        throw new Error(data.error || 'Failed to generate daily structure');
+    try {
+        const promptTemplate = await fetch('prompts/daily_plan_prompt.txt').then(r => r.text());
+        const prompt = promptTemplate.replace('{CONTEXT}', JSON.stringify(context, null, 2));
+        
+        console.log('📋 Phase 1: Generating daily structure with', STRUCTURE_MODEL);
+        console.log('Prompt size:', Math.ceil(prompt.length / 4), 'tokens (estimated)');
+        
+        const response = await fetch(`${API_URL}/api/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: STRUCTURE_MODEL,
+                prompt: prompt,
+                max_tokens: 2000  // Much smaller - just structure!
+            })
+        });
+        
+        const data = await response.json();
+        
+        console.log('Phase 1 response:', data);
+        
+        if (!data.success) {
+            throw new Error(data.error || 'Failed to generate daily structure');
+        }
+        
+        if (!data.meal_plan) {
+            throw new Error('No meal plan in response');
+        }
+        
+        // Validate structure
+        if (!data.meal_plan.meal_structure || data.meal_plan.meal_structure.length === 0) {
+            console.error('Invalid daily structure:', data.meal_plan);
+            throw new Error('Daily structure has no meals. This might be a prompt/model issue. Switching to single-phase mode might work better.');
+        }
+        
+        console.log(`✅ Phase 1 complete: ${data.meal_plan.meal_structure.length} meals planned`);
+        return data.meal_plan;
+        
+    } catch (error) {
+        console.error('Phase 1 failed:', error);
+        throw new Error(`Daily structure generation failed: ${error.message}`);
     }
-    
-    return data.meal_plan;
 }
 
 /**
