@@ -2,35 +2,35 @@
 
 // Pricing data (per 1M tokens) - Updated Nov 2025
 const MODEL_PRICING = {
-    'google/gemini-2.0-flash-exp:free': {
-        input: 0,
-        output: 0,
-        name: 'Gemini 2.0 Flash (Free)'
-    },
-    'google/gemini-flash-1.5': {
-        input: 0.075,
-        output: 0.30,
-        name: 'Gemini 1.5 Flash'
-    },
-    'anthropic/claude-3-haiku-20240307': {
-        input: 0.25,
-        output: 1.25,
-        name: 'Claude 3 Haiku'
-    },
-    'openai/gpt-3.5-turbo': {
-        input: 0.50,
-        output: 1.50,
-        name: 'GPT-3.5 Turbo'
-    },
-    'anthropic/claude-3.5-sonnet-20241022': {
-        input: 3.00,
-        output: 15.00,
-        name: 'Claude 3.5 Sonnet'
-    },
     'openai/gpt-4o-mini': {
         input: 0.15,
         output: 0.60,
         name: 'GPT-4o Mini'
+    },
+    'anthropic/claude-3-haiku': {
+        input: 0.25,
+        output: 1.25,
+        name: 'Claude 3 Haiku'
+    },
+    'anthropic/claude-3.5-sonnet': {
+        input: 3.00,
+        output: 15.00,
+        name: 'Claude 3.5 Sonnet'
+    },
+    'openai/gpt-4o': {
+        input: 5.00,
+        output: 15.00,
+        name: 'GPT-4o'
+    },
+    'meta-llama/llama-3.1-8b-instruct:free': {
+        input: 0,
+        output: 0,
+        name: 'Llama 3.1 8B (Free)'
+    },
+    'mistralai/mistral-7b-instruct:free': {
+        input: 0,
+        output: 0,
+        name: 'Mistral 7B (Free)'
     }
 };
 

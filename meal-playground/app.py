@@ -238,39 +238,46 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'anthropic/claude-3-haiku-20240307',
-            'name': 'Claude 3 Haiku',
-            'provider': 'Anthropic',
-            'cost': 'Low',
-            'description': 'Reliable and affordable (~$0.005/plan) - Recommended'
-        },
-        {
-            'id': 'openai/gpt-3.5-turbo',
-            'name': 'GPT-3.5 Turbo',
-            'provider': 'OpenAI',
-            'cost': 'Low',
-            'description': 'Reliable and well-tested (~$0.008/plan)'
-        },
-        {
             'id': 'openai/gpt-4o-mini',
             'name': 'GPT-4o Mini',
             'provider': 'OpenAI',
-            'cost': 'Medium',
-            'description': 'Great balance of capability and cost (~$0.015/plan)'
+            'cost': 'Low',
+            'description': '128k context, reliable (~$0.015/plan) - Recommended'
         },
         {
-            'id': 'anthropic/claude-3.5-sonnet-20241022',
+            'id': 'openai/gpt-4o',
+            'name': 'GPT-4o',
+            'provider': 'OpenAI',
+            'cost': 'Medium',
+            'description': '128k context, high quality (~$0.050/plan)'
+        },
+        {
+            'id': 'anthropic/claude-3.5-sonnet',
             'name': 'Claude 3.5 Sonnet',
             'provider': 'Anthropic',
             'cost': 'Medium',
-            'description': 'Best quality, perfect JSON, detailed explanations (~$0.025/plan)'
+            'description': '200k context, best quality (~$0.025/plan)'
         },
         {
-            'id': 'google/gemini-2.0-flash-exp:free',
-            'name': 'Gemini 2.0 Flash (Free)',
-            'provider': 'Google',
+            'id': 'anthropic/claude-3-haiku',
+            'name': 'Claude 3 Haiku',
+            'provider': 'Anthropic',
+            'cost': 'Low',
+            'description': '200k context, affordable (~$0.005/plan)'
+        },
+        {
+            'id': 'meta-llama/llama-3.1-8b-instruct:free',
+            'name': 'Llama 3.1 8B (Free)',
+            'provider': 'Meta',
             'cost': 'FREE',
-            'description': 'Free - limited availability, may have rate limits'
+            'description': 'Free, 128k context - may have rate limits'
+        },
+        {
+            'id': 'mistralai/mistral-7b-instruct:free',
+            'name': 'Mistral 7B (Free)',
+            'provider': 'Mistral',
+            'cost': 'FREE',
+            'description': 'Free, 32k context - may have rate limits'
         }
     ]
     

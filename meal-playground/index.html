@@ -34,15 +34,16 @@
                 <label class="form-label">
                     <span>AI Model</span>
                     <select id="modelSelect" class="form-select">
-                        <option value="anthropic/claude-3-haiku-20240307" selected>Claude 3 Haiku (~$0.005 - Recommended)</option>
-                        <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo (~$0.008)</option>
-                        <option value="openai/gpt-4o-mini">GPT-4o Mini (~$0.015 - Great Balance)</option>
-                        <option value="anthropic/claude-3.5-sonnet-20241022">Claude 3.5 Sonnet (~$0.025 - Best Quality)</option>
-                        <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (FREE - Limited availability)</option>
+                        <option value="openai/gpt-4o-mini" selected>GPT-4o Mini (~$0.015 - Recommended)</option>
+                        <option value="anthropic/claude-3-haiku">Claude 3 Haiku (~$0.005 - Budget)</option>
+                        <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet (~$0.025 - Best Quality)</option>
+                        <option value="openai/gpt-4o">GPT-4o (~$0.050 - Premium)</option>
+                        <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B (FREE)</option>
+                        <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (FREE)</option>
                     </select>
                 </label>
                 <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.5rem;">
-                    💡 <strong>Tip:</strong> Claude 3 Haiku is reliable and affordable (~200 plans for $1). Claude 3.5 Sonnet for best quality.
+                    💡 <strong>Tip:</strong> All models have 128k+ context for large prompts. GPT-4o Mini is best value, Claude 3.5 Sonnet for highest quality.
                 </div>
             </div>
         </div>
