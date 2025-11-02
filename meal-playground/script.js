@@ -66,12 +66,11 @@ function addWorkout() {
     const workout = {
         id: Date.now(),
         type: 'run',
-        duration_min: 60,
+        duration: 60,
         intensity: 'moderate',
-        start_time: '09:00',
-        temp_c: 20,
-        humidity_pct: 60,
-        heat_index: false
+        startTime: '09:00',
+        temperature: 20,
+        humidity: 60
     };
     
     workouts.push(workout);
@@ -98,69 +97,68 @@ function duplicateWorkout(id) {
 function updateWorkout(id, field, value) {
     const workout = workouts.find(w => w.id === id);
     if (workout) {
-        if (field === 'duration_min' || field === 'temp_c' || field === 'humidity_pct') {
-            workout[field] = parseFloat(value) || 0;
-        } else if (field === 'heat_index') {
-            workout[field] = value;
-        } else {
-            workout[field] = value;
-        }
+        workout[field] = value;
     }
 }
 
 // Render workouts
 function renderWorkouts() {
     const container = document.getElementById('workoutsList');
+    
+    if (workouts.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-light); text-align: center;">No workouts added yet. Click "Add Workout" to begin.</p>';
+        return;
+    }
+    
     container.innerHTML = workouts.map((workout, index) => `
         <div class="workout-card">
             <div class="workout-header">
-                <h3>Workout ${index + 1}</h3>
-                <div class="workout-actions">
-                    <button type="button" class="btn btn-icon" onclick="duplicateWorkout(${workout.id})" title="Duplicate">📋</button>
-                    <button type="button" class="btn btn-icon" onclick="removeWorkout(${workout.id})" title="Remove">🗑️</button>
-                </div>
+                <span class="workout-number">Workout ${index + 1}</span>
+                <button type="button" class="btn btn-danger" onclick="removeWorkout(${workout.id})">Remove</button>
             </div>
-            <div class="workout-inputs">
-                <div class="input-group">
-                    <label>Type</label>
-                    <select onchange="updateWorkout(${workout.id}, 'type', this.value)" value="${workout.type}">
+            <div class="workout-form">
+                <label class="form-label">
+                    <span>Type</span>
+                    <select class="form-select" onchange="updateWorkout(${workout.id}, 'type', this.value)">
                         <option value="run" ${workout.type === 'run' ? 'selected' : ''}>Run</option>
                         <option value="bike" ${workout.type === 'bike' ? 'selected' : ''}>Bike</option>
                         <option value="swim" ${workout.type === 'swim' ? 'selected' : ''}>Swim</option>
                         <option value="strength" ${workout.type === 'strength' ? 'selected' : ''}>Strength</option>
-                        <option value="other" ${workout.type === 'other' ? 'selected' : ''}>Other</option>
+                        <option value="hiit" ${workout.type === 'hiit' ? 'selected' : ''}>HIIT</option>
+                        <option value="tempo" ${workout.type === 'tempo' ? 'selected' : ''}>Tempo</option>
+                        <option value="intervals" ${workout.type === 'intervals' ? 'selected' : ''}>Intervals</option>
+                        <option value="long_endurance" ${workout.type === 'long_endurance' ? 'selected' : ''}>Long Endurance</option>
                     </select>
-                </div>
-                <div class="input-group">
-                    <label>Duration (min)</label>
-                    <input type="number" value="${workout.duration_min}" onchange="updateWorkout(${workout.id}, 'duration_min', this.value)" min="10" max="480">
-                </div>
-                <div class="input-group">
-                    <label>Intensity</label>
-                    <select onchange="updateWorkout(${workout.id}, 'intensity', this.value)" value="${workout.intensity}">
-                        <option value="easy" ${workout.intensity === 'easy' ? 'selected' : ''}>Easy</option>
+                </label>
+                <label class="form-label">
+                    <span>Duration (minutes)</span>
+                    <input type="number" class="form-input" value="${workout.duration}" min="15" max="600" 
+                        onchange="updateWorkout(${workout.id}, 'duration', parseInt(this.value))">
+                </label>
+                <label class="form-label">
+                    <span>Intensity</span>
+                    <select class="form-select" onchange="updateWorkout(${workout.id}, 'intensity', this.value)">
+                        <option value="low" ${workout.intensity === 'low' ? 'selected' : ''}>Low</option>
                         <option value="moderate" ${workout.intensity === 'moderate' ? 'selected' : ''}>Moderate</option>
-                        <option value="hard" ${workout.intensity === 'hard' ? 'selected' : ''}>Hard</option>
+                        <option value="high" ${workout.intensity === 'high' ? 'selected' : ''}>High</option>
+                        <option value="very_high" ${workout.intensity === 'very_high' ? 'selected' : ''}>Very High</option>
                     </select>
-                </div>
-                <div class="input-group">
-                    <label>Start Time</label>
-                    <input type="time" value="${workout.start_time}" onchange="updateWorkout(${workout.id}, 'start_time', this.value)">
-                </div>
-                <div class="input-group">
-                    <label>Temp (°C)</label>
-                    <input type="number" value="${workout.temp_c}" onchange="updateWorkout(${workout.id}, 'temp_c', this.value)" min="-10" max="50">
-                </div>
-                <div class="input-group">
-                    <label>Humidity (%)</label>
-                    <input type="number" value="${workout.humidity_pct}" onchange="updateWorkout(${workout.id}, 'humidity_pct', this.value)" min="0" max="100">
-                </div>
-                <div class="input-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" ${workout.heat_index ? 'checked' : ''} onchange="updateWorkout(${workout.id}, 'heat_index', this.checked)">
-                        <span>Heat Index Flag</span>
-                    </label>
-                </div>
+                </label>
+                <label class="form-label">
+                    <span>Start Time</span>
+                    <input type="time" class="form-input" value="${workout.startTime}" 
+                        onchange="updateWorkout(${workout.id}, 'startTime', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Temperature (°C)</span>
+                    <input type="number" class="form-input" value="${workout.temperature}" min="-10" max="45" 
+                        onchange="updateWorkout(${workout.id}, 'temperature', parseInt(this.value))">
+                </label>
+                <label class="form-label">
+                    <span>Humidity (%)</span>
+                    <input type="number" class="form-input" value="${workout.humidity}" min="0" max="100" 
+                        onchange="updateWorkout(${workout.id}, 'humidity', parseInt(this.value))">
+                </label>
             </div>
         </div>
     `).join('');
