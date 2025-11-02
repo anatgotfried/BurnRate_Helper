@@ -34,14 +34,17 @@
                 <label class="form-label">
                     <span>AI Model</span>
                     <select id="modelSelect" class="form-select">
-                        <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (FREE - Recommended)</option>
-                        <option value="google/gemini-flash-1.5-8b">Gemini 1.5 Flash 8B (Very Low Cost)</option>
-                        <option value="anthropic/claude-3-haiku-20240307">Claude 3 Haiku (Low Cost)</option>
-                        <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo (Low Cost)</option>
-                        <option value="anthropic/claude-3.5-sonnet-20241022">Claude 3.5 Sonnet (Medium Cost, High Quality)</option>
-                        <option value="openai/gpt-4o-mini">GPT-4o Mini (Medium Cost)</option>
+                        <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (FREE - May have rate limits)</option>
+                        <option value="google/gemini-flash-1.5-8b" selected>Gemini 1.5 Flash 8B (~$0.001 - Recommended)</option>
+                        <option value="anthropic/claude-3-haiku-20240307">Claude 3 Haiku (~$0.005)</option>
+                        <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo (~$0.008)</option>
+                        <option value="anthropic/claude-3.5-sonnet-20241022">Claude 3.5 Sonnet (~$0.025 - Best Quality)</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini (~$0.015)</option>
                     </select>
                 </label>
+                <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.5rem;">
+                    💡 <strong>Tip:</strong> Free model has shared rate limits. For reliable use, Gemini 1.5 Flash 8B costs ~$0.001/plan.
+                </div>
             </div>
         </div>
 
