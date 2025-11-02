@@ -1,6 +1,16 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.2 - 2025-01-02 (Current)
+## v1.3.3 - 2025-01-02 (Current)
+**Bug Fix: Cost Display**
+
+### Fixed
+- 🐛 **displayCost crash** - Added null checks for missing usage data
+- 🐛 **toLocaleString error** - Validate usage object before accessing properties
+- ✅ Cost display now fails gracefully if data unavailable
+
+---
+
+## v1.3.2 - 2025-01-02
 **Versioning Policy Added**
 
 ### Added

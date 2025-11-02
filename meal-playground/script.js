@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.2';
+const VERSION = '1.3.3';
 const VERSION_DATE = '2025-01-02';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -289,9 +289,11 @@ async function generateMealPlan() {
             currentMealPlan = data.meal_plan;
             renderMealPlan(currentMealPlan);
             
-            // Calculate and display cost
+            // Calculate and display cost (if available)
             if (data.usage) {
                 displayCost(data.usage, model, data.auto_fixed);
+            } else {
+                console.warn('No usage data in response');
             }
             
             showStatus('Meal plan generated successfully!', 'success');
@@ -761,10 +763,24 @@ function showDetailedError(errorData) {
 
 // Display cost info
 function displayCost(usage, model, autoFixed) {
+    // Safety check - if no usage data, show message
+    if (!usage || !usage.prompt_tokens || !usage.completion_tokens) {
+        console.warn('No usage data available for cost display');
+        const costDisplay = document.getElementById('costDisplay');
+        if (costDisplay) {
+            costDisplay.innerHTML = '<div class="cost-summary"><span class="cost-details">Cost info not available</span></div>';
+        }
+        return;
+    }
+    
     const costInfo = calculateCost(usage, model);
     const cumulative = addToCumulativeCost(costInfo.totalCost);
     
     const costDisplay = document.getElementById('costDisplay');
+    if (!costDisplay) {
+        console.warn('Cost display element not found');
+        return;
+    }
     
     let fixedBadge = '';
     if (autoFixed) {
@@ -817,11 +833,12 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.2) - Versioning Policy
-📋 Added VERSIONING.md with update policy
-✅ Commit to updating version with EVERY change
+CURRENT VERSION (v1.3.3) - Cost Display Fix
+🐛 Fixed displayCost crash when usage data missing
+✅ Added null checks for safer cost tracking
 
 RECENT UPDATES:
+v1.3.2 - Versioning Policy
 v1.3.1 - Critical Bug Fixes (form data, event listeners)
 v1.3.0 - Full Transparency Features
 v1.2.0 - Two-Phase Generation (Experimental)
