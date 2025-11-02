@@ -163,14 +163,21 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'google/gemini-flash-1.5',
-            'name': 'Gemini 1.5 Flash',
+            'id': 'google/gemini-2.0-flash-exp:free',
+            'name': 'Gemini 2.0 Flash (Free)',
+            'provider': 'Google',
+            'cost': 'FREE',
+            'description': 'Free and fast - experimental version'
+        },
+        {
+            'id': 'google/gemini-flash-1.5-8b',
+            'name': 'Gemini 1.5 Flash 8B',
             'provider': 'Google',
             'cost': 'Very Low',
             'description': 'Fast and affordable, great for quick meal plans'
         },
         {
-            'id': 'anthropic/claude-3-haiku',
+            'id': 'anthropic/claude-3-haiku-20240307',
             'name': 'Claude 3 Haiku',
             'provider': 'Anthropic',
             'cost': 'Low',
@@ -184,7 +191,7 @@ def get_models():
             'description': 'Reliable and well-tested'
         },
         {
-            'id': 'anthropic/claude-3.5-sonnet',
+            'id': 'anthropic/claude-3.5-sonnet-20241022',
             'name': 'Claude 3.5 Sonnet',
             'provider': 'Anthropic',
             'cost': 'Medium',
