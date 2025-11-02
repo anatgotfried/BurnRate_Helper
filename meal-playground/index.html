@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurnRate Meal Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <h1 class="logo">BurnRate Meal Playground</h1>
+            <nav>
+                <a href="/" class="nav-link">← Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>AI-Powered Meal Planning</h1>
+        <p>Generate evidence-based, personalized meal plans optimized for your training and nutrition goals</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Model Selector -->
+        <div class="control-panel">
+            <div class="control-grid">
+                <label class="form-label">
+                    <span>AI Model</span>
+                    <select id="modelSelect" class="form-select">
+                        <option value="google/gemini-flash-1.5">Gemini 1.5 Flash (Very Low Cost - Recommended)</option>
+                        <option value="anthropic/claude-3-haiku">Claude 3 Haiku (Low Cost)</option>
+                        <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo (Low Cost)</option>
+                        <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet (Medium Cost, High Quality)</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini (Medium Cost)</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="section-card">
+            <h2 class="section-title">Athlete Profile</h2>
+            <form id="profileForm" class="profile-form">
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Weight (kg)</span>
+                        <input type="number" id="weight" step="0.1" min="30" max="200" value="70" required class="form-input">
+                    </label>
+                    <label class="form-label">
+                        <span>Height (cm)</span>
+                        <input type="number" id="height" step="1" min="120" max="230" value="175" required class="form-input">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Gender</span>
+                        <select id="gender" class="form-select" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>Timezone</span>
+                        <select id="timezone" class="form-select" required>
+                            <option value="Asia/Jerusalem">Asia/Jerusalem (Israel)</option>
+                            <option value="America/New_York">America/New York (EST)</option>
+                            <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+                            <option value="Europe/London">Europe/London (GMT)</option>
+                            <option value="Europe/Paris">Europe/Paris (CET)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Training Phase</span>
+                        <select id="trainingPhase" class="form-select" required>
+                            <option value="base">Base (Building endurance)</option>
+                            <option value="build">Build (Increasing intensity)</option>
+                            <option value="race">Race (Peak performance)</option>
+                            <option value="recovery">Recovery (Active rest)</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>Goal</span>
+                        <select id="goal" class="form-select" required>
+                            <option value="performance">Performance</option>
+                            <option value="fat_loss">Fat Loss with Performance</option>
+                            <option value="hypertrophy">Muscle Hypertrophy</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Dietary Pattern</span>
+                        <select id="dietPattern" class="form-select" required>
+                            <option value="omnivore">Omnivore</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="low_fodmap">Low FODMAP</option>
+                            <option value="gluten_free">Gluten Free</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>GI Tolerance</span>
+                        <select id="giTolerance" class="form-select" required>
+                            <option value="low">Low (Sensitive stomach)</option>
+                            <option value="medium" selected>Medium (Normal)</option>
+                            <option value="high">High (Can eat anything)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Sweat Rate (mL/hr, optional)</span>
+                        <input type="number" id="sweatRate" step="50" min="0" max="3000" placeholder="e.g., 1000" class="form-input">
+                    </label>
+                    <div class="form-label">
+                        <span>Special Populations</span>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isMasters">
+                                <span>Masters (>35 years)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isFemaleSpecific">
+                                <span>Female-specific considerations</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isYouth">
+                                <span>Youth athlete</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Workout Builder -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2 class="section-title">Today's Workouts</h2>
+                <button type="button" id="addWorkoutBtn" class="btn btn-secondary">+ Add Workout</button>
+            </div>
+            <div id="workoutsList" class="workouts-list">
+                <!-- Workout cards will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="generate-section">
+            <button type="button" id="generateBtn" class="btn btn-primary btn-large">
+                Generate Meal Plan
+            </button>
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+
+        <!-- Output Section -->
+        <div id="outputSection" class="section-card" style="display: none;">
+            <h2 class="section-title">Generated Meal Plan</h2>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="meals">Meal Cards</button>
+                <button class="tab-btn" data-tab="summary">Daily Summary</button>
+                <button class="tab-btn" data-tab="json">Raw JSON</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Meals Tab -->
+                <div id="mealsTab" class="tab-pane active">
+                    <div id="mealsContent" class="meals-grid">
+                        <!-- Meal cards will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Summary Tab -->
+                <div id="summaryTab" class="tab-pane">
+                    <div id="summaryContent">
+                        <!-- Summary will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- JSON Tab -->
+                <div id="jsonTab" class="tab-pane">
+                    <div class="json-actions">
+                        <button type="button" id="copyJsonBtn" class="btn btn-secondary">Copy JSON</button>
+                        <button type="button" id="downloadJsonBtn" class="btn btn-secondary">Download JSON</button>
+                    </div>
+                    <pre id="jsonContent" class="json-output"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Generating your personalized meal plan...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

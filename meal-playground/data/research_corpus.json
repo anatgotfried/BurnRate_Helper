@@ -1,0 +1,490 @@
+{
+    "schema_version": "1.0.0",
+    "date_generated": "2025-10-26",
+    "populations": [
+        {
+            "name": "endurance",
+            "notes": "Includes endurance athletes (e.g., distance runners, cyclists, triathletes, swimmers). Emphasize carbohydrate availability for training and competition, as their performance relies heavily on glycogen stores. Adequate daily carb intake (5–10+ g/kg) is needed to support high volume training. Also focus on hydration and electrolyte replacement due to large sweat losses."
+        },
+        {
+            "name": "strength_power",
+            "notes": "Includes strength and power athletes (e.g., weightlifters, sprinters, throwers). They typically rely on phosphagen and anaerobic energy systems, meaning less total fuel burn than endurance athletes but high-intensity efforts deplete muscle glycogen and fluids. Emphasize protein intake for muscle repair and growth (about 1.6–2.2 g/kg/day) and sufficient carbs to fuel training quality (especially for high-volume hypertrophy sessions). Hydration is still important, though sweat rates may be lower than in endurance sports."
+        },
+        {
+            "name": "youth",
+            "notes": "Youth athletes (children and adolescents) are still growing and have unique needs. They generally rely more on fat oxidation during exercise and recover quickly, but have lower glycogen stores relative to adults. Prioritize a balanced diet with adequate overall energy, protein, calcium, and iron for growth. Avoid excessive or restrictive diets as they can stunt development. Encourage good hydration habits (children may have less acute thirst drive), and avoid stimulants (no caffeine recommended). Focus on familiar, easily digested foods around workouts and emphasize that consistent fueling supports both performance and maturation."
+        },
+        {
+            "name": "masters",
+            "notes": "Masters athletes (typically age >35) may experience some anabolic resistance and slower recovery, but those who train regularly can maintain muscle responses similar to younger athletes. They should prioritize protein (at least ~0.4 g/kg per meal with ~3 g leucine) to stimulate muscle protein synthesis, and ensure adequate total intake (~1.6–2.0 g/kg/day). Hydration is crucial since thirst sensation might decline with age. Attention to joint health and recovery nutrition (antioxidants, omega-3s, etc.) can be beneficial. Overall, masters need similar strategies to younger athletes but often at the higher end of recommended ranges for protein and recovery time."
+        },
+        {
+            "name": "female_specific",
+            "notes": "Accounts for physiological factors in female athletes. Hormonal fluctuations can affect fuel use and hydration: higher estrogen levels in the mid-luteal phase can spare glycogen (lower carbohydrate utilization) during endurance exercise, potentially reducing fatigue in sustained efforts. However, elevated progesterone in luteal phase raises core temperature, which can increase perceived exertion and risk of overheating, especially in hot/humid conditions. Female athletes should ensure adequate iron intake (to offset menstrual losses) and be cautious of low energy availability (RED-S). Menstrual cycle phase or oral contraceptives may slightly alter substrate metabolism and fluid needs, but fundamental nutrition principles remain – prioritize carbs for intense training, protein for recovery, and adjust sodium/fluid intake upward during luteal phase in the heat if needed. Monitoring menstrual function is key: missing cycles could indicate insufficient fueling."
+        }
+    ],
+    "contexts": [
+        {
+            "workout_type": "long_endurance",
+            "intensity": "moderate",
+            "duration_min": 150,
+            "environment": {
+                "temp_c": 28,
+                "humidity_pct": 70,
+                "heat_index_flag": true
+            },
+            "goal": "performance",
+            "diet_pattern": "omnivore",
+            "gi_tolerance": "medium"
+        },
+        {
+            "workout_type": "intervals",
+            "intensity": "high",
+            "duration_min": 60,
+            "environment": {
+                "temp_c": 20,
+                "humidity_pct": 50,
+                "heat_index_flag": false
+            },
+            "goal": "performance",
+            "diet_pattern": "low_fodmap",
+            "gi_tolerance": "low"
+        },
+        {
+            "workout_type": "strength_hypertrophy",
+            "intensity": "moderate",
+            "duration_min": 90,
+            "environment": {
+                "temp_c": 22,
+                "humidity_pct": 50,
+                "heat_index_flag": false
+            },
+            "goal": "hypertrophy",
+            "diet_pattern": "omnivore",
+            "gi_tolerance": "medium"
+        },
+        {
+            "workout_type": "cross_training",
+            "intensity": "high",
+            "duration_min": 75,
+            "environment": {
+                "temp_c": 30,
+                "humidity_pct": 50,
+                "heat_index_flag": true
+            },
+            "goal": "fat_loss_with_performance",
+            "diet_pattern": "gluten_free",
+            "gi_tolerance": "medium"
+        }
+    ],
+    "recommendations": {
+        "pre_workout": [
+            {
+                "applies_to": "Endurance ≥90 min (especially  >120 min) moderate-to-high intensity sessions",
+                "carb_g_per_kg": 2.0,
+                "carb_range": "1.0–4.0",
+                "protein_g_per_kg": 0.25,
+                "fat_g_per_kg_max": 0.5,
+                "fiber_g_max": 10,
+                "timing_min_before": 180,
+                "carb_mix_glucose_fructose_ratio": "2:1",
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 700,
+                "caffeine_mg_per_kg": 3.0,
+                "contraindications": "Avoid very high fiber (≥10 g) or high-fat meals in this window if prone to GI issues. Test caffeine tolerance in training; avoid if it causes jitters or GI upset. Not for youth (no caffeine).",
+                "notes": "Consume a high-carb meal 3–4 h prior (e.g., ~2 g/kg, mostly low-fiber carbs with some protein). This tops off glycogen stores. If >2 h has passed since the meal, consider a small carb top-up (~20–30 g) 30–60 min pre-workout (e.g., a banana or sports drink). Include ~500–600 mL of an electrolyte beverage with ~700 mg/L sodium in the 2 h pre-exercise to ensure euhydration. Caffeine (~3 mg/kg, ~30-60 min pre) can improve endurance performance, but ensure adequate fluids with it. For morning sessions where a large meal isn't feasible, a smaller snack (1 g/kg carbs) 1 hour prior plus a sports drink during warm-up can substitute.",
+                "evidence_strength": "high",
+                "citations": ["ACSM2016", "ISSN2017"]
+            },
+            {
+                "applies_to": "Endurance <90 min or lower intensity (maintenance/fat-burning focus)",
+                "carb_g_per_kg": 0.5,
+                "carb_range": "0–1.0",
+                "protein_g_per_kg": 0.1,
+                "fat_g_per_kg_max": 0.4,
+                "fiber_g_max": 5,
+                "timing_min_before": 60,
+                "carb_mix_glucose_fructose_ratio": "N/A",
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 500,
+                "caffeine_mg_per_kg": 0.0,
+                "contraindications": "If truly low-intensity and goal is fat adaptation, high-carb fueling is optional; however, do not train hungry if it compromises effort. Avoid caffeine on an empty stomach if sensitive.",
+                "notes": "For an easy run or ride ~60 min, especially in a fat-loss phase, a small snack (~0.5 g/kg carbs, e.g., a piece of fruit or toast) may suffice or some may go fasted if well-tolerated. Ensure hydration (5 mL/kg water 2–4 h before). Even when training fasted, consume water and electrolytes if sweat loss is expected (e.g., ~500 mL with 500 mg/L sodium). If performance during the session is a priority (even in a fat-loss context), err on the side of a bit of carbohydrate to maintain intensity (e.g., a sports drink or half a banana).",
+                "evidence_strength": "moderate",
+                "citations": ["ACSM2016", "Gejl2021"]
+            },
+            {
+                "applies_to": "Strength/power sessions (~60–90 min, hypertrophy or mixed strength)",
+                "carb_g_per_kg": 1.0,
+                "carb_range": "0.5–1.5",
+                "protein_g_per_kg": 0.2,
+                "fat_g_per_kg_max": 0.3,
+                "fiber_g_max": 6,
+                "timing_min_before": 90,
+                "carb_mix_glucose_fructose_ratio": "N/A",
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 500,
+                "caffeine_mg_per_kg": 4.0,
+                "contraindications": "Very large meals right before lifting can cause discomfort – allow at least 60–90 min to digest a full meal. Avoid pre-workout NSAIDs as they may impair muscle protein synthesis and, combined with dehydration, increase kidney stress.",
+                "notes": "Consume a balanced meal ~1.5–2 h before training: e.g., ~1 g/kg carbs (to maintain blood glucose during high-volume training) and ~0.2 g/kg protein, with minimal fat. This could be a bowl of oatmeal with milk and fruit, or chicken and rice. Keep fiber moderate to prevent bloating. Caffeine (3–6 mg/kg) taken ~45 min before can enhance focus and power output, but assess tolerance. Hydrate with ~5 mL/kg in the hours before; even though strength sessions have lower sweat losses, starting hydrated improves performance. Intra-workout carbs are generally not needed for ~1 h sessions unless you're training depleted or doing extended volume. Ensure some protein is ingested either pre or immediately after to start muscle recovery.",
+                "evidence_strength": "high",
+                "citations": ["ISSN2017", "Morton2018"]
+            },
+            {
+                "applies_to": "High-intensity interval training (HIIT) or Cross-training sessions (45–75 min) – especially if later in day",
+                "carb_g_per_kg": 1.0,
+                "carb_range": "0.5–1.5",
+                "protein_g_per_kg": 0.15,
+                "fat_g_per_kg_max": 0.3,
+                "fiber_g_max": 4,
+                "timing_min_before": 60,
+                "carb_mix_glucose_fructose_ratio": "N/A",
+                "hydration_ml_per_kg": 7.0,
+                "sodium_mg_per_l": 600,
+                "caffeine_mg_per_kg": 0.0,
+                "contraindications": "For evening workouts, limit caffeine to avoid sleep issues (consider decaf or just a carb beverage). If GI tolerance is low, avoid lactose, high fructose foods, or gas-forming fibers before intervals.",
+                "notes": "Ensure a mid-afternoon meal or snack with carbohydrates so you're not running on empty for an evening HIIT session. ~1 g/kg carbs about 1–2 h prior (e.g., a granola bar and a piece of fruit, or toast with jam) helps sustain high-intensity efforts. A small amount of protein (~10–15 g) in that snack can curb hunger and aid recovery (like a yogurt or a plant-based protein shake). Hydrate well in the 2–4 h before (aim for ~7 mL/kg fluid; for a 70 kg person ~500 mL, plus additional ~250 mL 30 min prior). Include electrolytes (~600 mg/L Na) to encourage drinking and maintain hydration. If GI issues are a concern (low FODMAP needed), choose easy-to-digest carbs (e.g., rice-based snacks, banana, or a low-FODMAP bar) to avoid runner's gut. The goal is to have readily available fuel and to be well-hydrated, as HIIT relies on quick energy and will be impaired by even mild dehydration.",
+                "evidence_strength": "moderate",
+                "citations": ["Lis2018", "ACSM2016"]
+            }
+        ],
+        "intra_workout": [
+            {
+                "applies_to": "Endurance exercise 60–90 min (especially high-intensity or in heat)",
+                "carb_g_per_hr": 30.0,
+                "carb_mix_glucose_fructose_ratio": "1:0",
+                "fluids_ml_per_hr": 500,
+                "sodium_mg_per_l": 300,
+                "protein_g_per_hr": 0.0,
+                "notes": "For workouts about an hour long, additional carbs are optional but can help if intensity is high. ~30 g/hour (e.g., a half-strength sports drink or a gel) can maintain blood glucose. Pure glucose or maltodextrin sources are fine at this intake. Drink to thirst: roughly ~0.4–0.6 L/hour in temperate conditions, with ~300 mg/L sodium to replace some losses. No protein needed during such short sessions. In heat, prioritize fluids and electrolytes; if you don't want solid food, an isotonic drink can cover both fluid and ~20–30 g carb. If GI tolerance is low, using a lower concentration drink (≤4% carbs) or just doing mouth rinse with carb solution can give performance benefits without ingestion.",
+                "evidence_strength": "high",
+                "citations": ["ISSN2017", "ACSM2016"]
+            },
+            {
+                "applies_to": "Endurance exercise 90+ min (marathons, long rides, Ironman, ultras)",
+                "carb_g_per_hr": 80.0,
+                "carb_mix_glucose_fructose_ratio": "1:0.8",
+                "fluids_ml_per_hr": 750,
+                "sodium_mg_per_l": 800,
+                "protein_g_per_hr": 0.0,
+                "notes": "For prolonged endurance events, aim for 60–90 g of carbs per hour to sustain performance. Use multiple transportable carbohydrates (e.g., maltodextrin+fructose in ~1:0.8 ratio) to achieve higher absorption rates with less GI distress. For example, 1 liter of sports drink with ~60 g glucose + 30 g fructose per hour. Fluids: ~0.7–0.8 L/h, adjusted to conditions and sweat rate, to limit body mass loss to <2%. Include sodium ~700–1000 mg/L if heavy sweating or in hot conditions. In very salty sweaters or extreme heat, sodium could be raised to ~1100 mg/L (via electrolyte mixes or salt capsules) to maintain plasma sodium and help prevent hyponatremia. (If conditions are cool, ~500 mg/L may suffice.) Protein: generally not needed during exercise, though ultra-endurance athletes (events >4–5 h) sometimes ingest small protein (5–10 g/h via BCAA or mix) to reduce muscle breakdown – evidence is mixed. Focus on carbs and fluids; ensure any solids (gels, chews) are tested in training for GI tolerance.",
+                "evidence_strength": "high",
+                "citations": ["ISSN2017", "ACSM2016"]
+            },
+            {
+                "applies_to": "Team sports / intermittent high-intensity (e.g., soccer match, basketball)",
+                "carb_g_per_hr": 30.0,
+                "carb_mix_glucose_fructose_ratio": "1:0",
+                "fluids_ml_per_hr": 600,
+                "sodium_mg_per_l": 500,
+                "protein_g_per_hr": 0.0,
+                "notes": "Team sports typically last 60–90+ min with bursts of intense activity. Consuming ~30–60 g carbs over a match can delay fatigue, especially in second half. Practical approach: consume ~200–300 mL of sports drink (~6–8% carb) at halftime and periodic breaks, totaling ~30 g carb/hour. Fluid needs vary; aim ~0.6 L/h in temperate conditions (more if hot). Include electrolytes (~500 mg/L Na) to encourage drinking and maintain hydration. Too much plain water can risk hyponatremia in long matches if overconsumed, so sports drinks or salted water are preferred. No need for protein during play. Caffeine gum or chews (around 50–100 mg) can be used before or during half-time for an extra boost in later stages, but ensure no GI upset. Practice hydration and fueling strategies in training to avoid stomach issues on game day.",
+                "evidence_strength": "moderate",
+                "citations": ["McCubbin2025", "ACSM2016"]
+            },
+            {
+                "applies_to": "Strength training sessions >90 min or multi-session training days",
+                "carb_g_per_hr": 30.0,
+                "carb_mix_glucose_fructose_ratio": "1:0",
+                "fluids_ml_per_hr": 500,
+                "sodium_mg_per_l": 400,
+                "protein_g_per_hr": 5.0,
+                "notes": "For most strength workouts, intra-workout nutrition is optional if pre-workout fueling was adequate. However, in very long gym sessions (>1.5 h) or double-session days, sipping on a carb-protein drink can help maintain intensity and reduce muscle breakdown. For example, 15–30 g carb/hour from a dilute Gatorade, plus 5–10 g EAAs or whey hydrolysate, might improve endurance in later sets and jump-start recovery. Ensure hydration – about 0.5 L/hour, more if the gym is hot. Keep drinks hypotonic (~4–6% carbs) to absorb quickly and avoid bloating. Sodium ~300–500 mg/L helps maintain drive to drink and replace sweat losses, though indoor strength training sweat loss is usually moderate. Note: Many lifters prefer just water and focus on post-workout nutrition; that's fine if performance is not dropping. Intra-workout BCAA or carb isn't magic if total daily nutrition is on point, but it can be beneficial during marathon training sessions (e.g., powerlifting meet simulations or CrossFit WODs) to sustain energy.",
+                "evidence_strength": "low",
+                "citations": ["ISSN2017", "Morton2018"]
+            }
+        ],
+        "post_workout": [
+            {
+                "applies_to": "Rapid glycogen recovery needed (multiple sessions or events in same day)",
+                "carb_g_per_kg": 1.2,
+                "protein_g_per_kg": 0.3,
+                "carb_to_protein_ratio": "3:1",
+                "timing_min_after": 30,
+                "fat_g_max": 0.2,
+                "leucine_g": 3.0,
+                "recovery_window_hours": 4.0,
+                "hydration_ml_per_kg": 22.0,
+                "sodium_mg_per_l": 1000,
+                "notes": "When the next training or competition is in a few hours, aggressive refueling is critical. Aim for ~1.2 g/kg/hour of high-GI carbohydrates for the first 3–4 hours. Combine with protein ~0.3 g/kg (20–30 g for most) to aid muscle repair and enhance glycogen synthesis. This roughly gives a 3:1 or 4:1 carb:protein ratio. Example recovery feed (immediately post): 70 kg athlete – ~70–80 g carbs + ~20 g protein (e.g., a recovery shake with maltodextrin, fructose, and whey). Keep fat minimal right after exercise (<0.2 g/kg) to speed digestion. Include ~3 g leucine (often met by the 20–25 g whey) to maximize muscle protein synthesis. Continue to snack every 1–2 hours on easy-to-digest carbs + protein. Rehydrate aggressively: for each kg body mass lost, drink ~1.5 L fluid with sufficient sodium (e.g., ~1000+ mg/L) to expedite complete rehydration. In total, ~150% of fluid lost should be consumed over the next few hours. If time permits (e.g., next session >8 hours away), normal meals can resume after this initial recovery window.",
+                "evidence_strength": "high",
+                "citations": ["ISSN2017", "ACSM2016"]
+            },
+            {
+                "applies_to": "General post-exercise recovery (most single daily workouts)",
+                "carb_g_per_kg": 0.8,
+                "protein_g_per_kg": 0.25,
+                "carb_to_protein_ratio": "3:1",
+                "timing_min_after": 60,
+                "fat_g_max": 0.5,
+                "leucine_g": 2.5,
+                "recovery_window_hours": 24.0,
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 700,
+                "notes": "For typical training once a day, focus on restoring muscle and rehydrating in the hours post-exercise. A mixed meal or shake with ~0.8 g/kg carbs and ~0.2–0.3 g/kg high-quality protein within an hour is a good target. For example, a 60 kg athlete could consume ~50 g carbs + 15 g protein (like chocolate milk ~500 mL, or Greek yogurt with fruit and granola). This helps replenish glycogen and initiates muscle repair. Ensure ~2–3 g leucine (usually provided by ~20–25 g whey or 25–30 g high-leucine food protein) to maximally stimulate MPS. Dietary fat is fine in moderation post-workout (it won't impede glycogen synthesis significantly if overall carb is sufficient), but extremely fatty meals may delay carb uptake, so consider keeping fat <~20 g in the immediate post-workout meal. Continue to eat balanced meals every ~3–4 hours with protein to sustain recovery. Hydration: Replace fluid losses gradually – aim for ~1.25 L per kg weight lost over next few hours, including water, electrolytes (sports drink or salty foods ~700 mg/L sodium), to fully restore hydration. If sweat loss was heavy or you have another session next day in heat, prioritize salty fluids. Incorporating tart cherry juice or foods rich in polyphenols can potentially aid recovery (minor benefit for muscle soreness).",
+                "evidence_strength": "high",
+                "citations": ["Morton2018", "ISSN2017"]
+            },
+            {
+                "applies_to": "Strength/power training recovery (muscle repair and hypertrophy focus)",
+                "carb_g_per_kg": 0.5,
+                "protein_g_per_kg": 0.4,
+                "carb_to_protein_ratio": "1.5:1",
+                "timing_min_after": 30,
+                "fat_g_max": 0.3,
+                "leucine_g": 3.0,
+                "recovery_window_hours": 24.0,
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 500,
+                "notes": "After resistance exercise, muscle protein breakdown is elevated and glycogen usage (while less than endurance) still occurs, especially in high-volume bodybuilding-type training. Consuming ~0.3–0.4 g/kg protein promptly (within ~30 min to 1 h) jump-starts muscle protein synthesis. For a 80 kg lifter, ~25–30 g protein (e.g., a shake or a serving of chicken/fish in a meal) is ideal, containing ~3 g leucine to maximally stimulate MPS. Carbohydrate (~0.5 g/kg, or ~40 g for 80 kg) post-workout will help replenish glycogen and lower cortisol, particularly if another training session follows or if volume was high. This could be as simple as fruit or juice alongside the protein. The carb:protein ratio can be ~1–2:1; it doesn't need to be as high as endurance since total glycogen depletion is lower. Some fat in the post-meal is fine (e.g., adding avocado or nuts) as long as protein and carbs needs are met. Ensure next meal in ~3 hours also contains protein (~0.25 g/kg) for sustained synthesis. Staying hydrated supports recovery – drink water or a low-sugar electrolyte drink to quench thirst (strength workouts cause fluid loss from sweat and breath but typically less than endurance; ~5 mL/kg per hour across the day can cover it). If hypertrophy is the goal, remain in slight caloric surplus over the day and get adequate sleep – nutrition and rest together drive muscle growth.",
+                "evidence_strength": "high",
+                "citations": ["Morton2018", "Moore2021"]
+            },
+            {
+                "applies_to": "Body composition focus (fat loss with performance maintenance)",
+                "carb_g_per_kg": 0.5,
+                "protein_g_per_kg": 0.3,
+                "carb_to_protein_ratio": "~1.5:1",
+                "timing_min_after": 20,
+                "fat_g_max": 0.2,
+                "leucine_g": 2.5,
+                "recovery_window_hours": 12.0,
+                "hydration_ml_per_kg": 5.0,
+                "sodium_mg_per_l": 500,
+                "notes": "When the goal is fat loss but you want to preserve performance and muscle, post-workout nutrition should prioritize protein (to protect lean mass) and include enough carbs to refill some glycogen for your next training. About 0.25–0.3 g/kg protein soon after training provides amino acids for repair, which is crucial in a caloric deficit. Pairing this with ~0.5 g/kg carbs (preferably high quality, like fruits or whole grains) will help recovery without excessive calories – e.g., a 70 kg athlete might have ~20 g protein + 35 g carbs (such as a Greek yogurt and a banana). Keep the post-workout feeding relatively lean (low fat) so nutrients are absorbed quickly and overall calories are controlled. This approach yields roughly a 1:1 to 2:1 carb:protein ratio, which is lower carb than typical, but acceptable if overall daily carb is moderate. Ensure to rehydrate (drink water, can include electrolytes especially if you sweat heavily). Additionally, spreading protein evenly across 3–4 meals in the day (each ~0.3 g/kg) will help maintain muscle during fat loss. Note: If you have another intense session soon or are in-season, don't skimp too much on carbs post-exercise – performance could suffer. Always balance the day's deficit around training needs (fuel for the work, then cut calories elsewhere).",
+                "evidence_strength": "moderate",
+                "citations": ["IOC2018", "Morton2018"]
+            }
+        ],
+        "personalization_logic": {
+            "algorithm_notes": "Rules to adjust recommendations based on specific context and individual needs. These ensure critical factors (hydration, carbs) are prioritized in key scenarios (e.g., long hot workouts, female-specific needs) and prevent generic plans from causing issues (like inadequate fueling for hard sessions or unsafe supplement use). The logic is applied before fine-tuning the plan to account for personal traits (machine learning or further expert adjustment could follow, but base rules guard fundamental principles).",
+            "rules": [
+                {
+                    "if": "duration_min >= 120 AND intensity in ['moderate','high','very_high']",
+                    "then": "Ensure intra_workout carb intake is set to at least 60 g/hr (up to 90 g/hr for very high intensity ultra-endurance) with a glucose:fructose mix ~1:0.8."
+                },
+                {
+                    "if": "environment.heat_index_flag == true AND workout_type in ['long_endurance','tempo','intervals']",
+                    "then": "Increase sodium in hydration to ~800–1000 mg/L and fluids to upper range (0.8+ L/hr); consider pre-cooling strategies."
+                },
+                {
+                    "if": "female_specific AND luteal_phase == true",
+                    "then": "Slightly elevate sodium (e.g., +200 mg/L) and fluid intake if training in heat, due to higher core temp in luteal. Emphasize carbs pre-workout if feeling lower energy in late luteal."
+                },
+                {
+                    "if": "diet_pattern in ['vegetarian','vegan']",
+                    "then": "Set protein target to higher end (+10% more) to account for lower digestibility; emphasize leucine-rich sources (soy, pea, or add supplemental BCAAs) to reach ~3 g leucine per meal."
+                },
+                {
+                    "if": "gi_tolerance == 'low'",
+                    "then": "Prefer low-FODMAP, low-fiber carb options around workouts. E.g., use rice, potato, or glucose-based drinks/gels instead of high-fructose or fibrous foods."
+                },
+                {
+                    "if": "goal == 'fat_loss_with_performance' AND workout_type in ['long_endurance','tempo','intervals']",
+                    "then": "Do not eliminate carbs around training – maintain at least ~0.5–0.6 g/kg pre and ~0.5 g/kg post to fuel performance and recovery, and create calorie deficit via other meals."
+                },
+                {
+                    "if": "populations includes 'youth'",
+                    "then": "Avoid caffeine recommendations; focus on whole-food carbs (fruit, milk) for energy and include fun flavors to encourage hydration (e.g., lightly flavored water) rather than strict electrolyte formulas."
+                },
+                {
+                    "if": "intensity == 'very_high' AND duration_min < 45",
+                    "then": "Emphasize neurological priming over fueling: a small carb mouth rinse can boost performance even if intake is minimal; no large carb load needed, just ensure not fasted."
+                }
+            ]
+        }
+    },
+    "practical_examples": [
+        {
+            "use_case": "2.5h cycling ride (hot weather, high sweat rate)",
+            "pre_workout_meal": "About 3 hours before: a large bowl of white rice (~2 cups cooked) with two eggs and soy sauce, plus a banana. Drink ~600 ml of an electrolyte drink (700 mg/L sodium) over the 2 hours pre-ride.",
+            "post_workout_meal": "Within 30 min: a recovery shake (40 g maltodextrin + 20 g whey, ~700 ml water, plus a pinch of salt). Within 2 hours: a balanced meal – rice bowl with salmon (or tofu), mango, cucumber, and tahini sauce, plus a cup of yogurt with honey.",
+            "fast_options": [
+                "Two rice cakes with jam and ~20 g whey protein (shake) as soon as possible if a full meal must wait.",
+                "500 ml isotonic sports drink + one energy gel (~25 g carb each) during quick kit change before next session."
+            ],
+            "israel_available_subs": [
+                "Osem rice cakes (for quick carbs)",
+                "Tnuva Skyr yogurt (high protein)",
+                "SIS Beta Fuel drink mix (high-carb, glucose:fructose 1:0.8)",
+                "SaltStick electrolyte capsules (for sodium)"
+            ],
+            "gi_notes": "If low FODMAP needed, replace mango with pineapple (lower fructose). All pre-race foods are low fiber to reduce GI load. The recovery shake uses maltodextrin (glucose polymer) which is gentle on stomach."
+        },
+        {
+            "use_case": "Evening HIIT running session (intervals, GI-sensitive athlete)",
+            "pre_workout_meal": "At 4 PM (workout at 6 PM): 1 cup of gluten-free oatmeal made with almond milk, topped with a sliced banana and a little peanut butter. (~60 g carb, 10 g protein, low lactose/FODMAP). 30 min pre-run: a small espresso and a few saltine crackers.",
+            "post_workout_meal": "7 PM: Grilled chicken breast (~25 g protein), white rice (~40–50 g carb), and steamed zucchini. 8:30 PM snack: lactose-free Greek yogurt with 2 tablespoons of cocoa Krispies cereal for carbs (fun crunch, low fiber).",
+            "fast_options": [
+                "1 ripe banana plus a handful of almonds immediately after run (carb + some protein/fat)",
+                "A packet of chocolate milk (Shoko) if tolerated, for quick carb-protein replenishment"
+            ],
+            "israel_available_subs": [
+                "Yotvata chocolate milk (Shoko) 500 ml (carb ~50 g, protein ~16 g)",
+                "Telma cornflakes or Rice Krispies (low-fiber carb) to mix with yogurt",
+                "Prigat 100% orange juice (quick sugar and fluids post-run)",
+                "Medjool dates from Jordan Valley (quick natural carb bites)"
+            ],
+            "gi_notes": "Kept pre-run meal low fiber and low dairy to prevent GI distress. Chose almond milk and gluten-free oats to reduce FODMAPs. Post-run uses lactose-free dairy. Athlete avoids high-fructan veggies in post-meal (zucchini is low FODMAP)."
+        },
+        {
+            "use_case": "Morning strength hypertrophy workout",
+            "pre_workout_meal": "6:30 AM: Overnight oats (1/2 cup oats, 200 ml low-fat milk) prepared night before, with raisins (~1 tbsp) – provides ~40 g carb, 12 g protein. If short on time, a banana plus a scoop of protein powder in water (~20 g protein) 30 min pre-lifting.",
+            "post_workout_meal": "9 AM: 3-egg omelette with spinach and tomato, 2 slices whole-grain toast with cottage cheese and jam. (~30 g protein, 50 g carbs). Also, 1 glass of orange juice for extra carbs and vitamin C.",
+            "fast_options": [
+                "250 ml Elite \"Up&Go\" protein milk drink (if available) or Yotvata chocolate milk on the drive to work (quick 20 g protein, 30 g carb)",
+                "A simple homemade shake: banana + 1 tbsp date syrup + 1 scoop whey + water (blend in a shaker) for quick consumption"
+            ],
+            "israel_available_subs": [
+                "Tnuva 5% cottage cheese (high protein, can mix with sweet or savory)",
+                "Strauss Achla hummus on rice cakes (for some protein and carb)",
+                "Egged hard-boiled eggs (convenience from supermarket, ready-to-eat protein)",
+                "Tapuzina orange juice (for carb fluids post-workout)"
+            ],
+            "gi_notes": "Strength sessions are lower GI stress, so moderate fiber (whole-grain bread, vegetables) is fine post-workout for overall health. The pre-workout options avoid heavy foods to prevent sluggishness during lifts."
+        }
+    ],
+    "mistakes_and_risks": [
+        {
+            "issue": "Under-salting in prolonged exercise with heavy sweating",
+            "why_it_hurts": "Can lead to hyponatremia (low blood sodium) if large volumes of plain water are consumed. Insufficient sodium also impairs fluid retention, increasing dehydration risk. Performance drops as electrolyte imbalances cause muscle cramps or dizziness.",
+            "fix": "Use sports drinks or add salt in events >90 min, especially in heat. Target ~700–1000 mg sodium per liter in hot conditions. Include salty snacks for ultra-endurance. Post-exercise, replace salt lost (e.g., broth, electrolyte tabs) to speed rehydration."
+        },
+        {
+            "issue": "Overdrinking plain water during endurance events",
+            "why_it_hurts": "Can cause \"water intoxication\" – diluting blood sodium (exercise-associated hyponatremia). Symptoms range from nausea to severe headache, confusion, or even seizures in extreme cases. Performance declines and it's potentially life-threatening.",
+            "fix": "Drink to thirst rather than forcing water. Prefer drinks with electrolytes when sweating heavily. For marathons or long races, aim not to gain weight from fluid. Include ~300–800 mg/L sodium in fluids to maintain balance. Post-race, rehydrate with a mix of water and electrolytes instead of plain water only."
+        },
+        {
+            "issue": "Too much fiber or fat before exercise",
+            "why_it_hurts": "High fiber or fatty meals close to exercise can cause gastrointestinal distress (bloating, gas, even diarrhea) because they slow digestion and sit in the gut. This is especially problematic for runners or high-intensity workouts, potentially causing pit stops or discomfort mid-session.",
+            "fix": "Keep pre-workout meals relatively low in fiber (<~10 g) and fat, particularly within 1–2 h of exercise. Choose refined carbs (e.g., white bread, rice, ripe banana) over heavy whole grains if <2 h out. Save salads, beans, and high-fat items for well after workouts. If fiber intake is needed for health, consume it at times far from training."
+        },
+        {
+            "issue": "NSAIDs (ibuprofen, etc.) used around intense exercise or dehydration",
+            "why_it_hurts": "Taking NSAIDs when dehydrated or before extreme endurance events can reduce kidney blood flow and, combined with exercise stress, increase risk of kidney injury. NSAIDs also may impair muscle protein synthesis and gut lining integrity, hindering recovery and potentially causing GI bleeding under heavy exercise stress.",
+            "fix": "Avoid routine NSAID use for training pain; focus on proper nutrition and recovery for aches. If an NSAID is absolutely needed, ensure full hydration and take the lowest effective dose. Use other pain management (stretching, ice, rest) when possible. For race discomfort, use sparingly if at all. Always rehydrate and eat post-exercise before considering NSAIDs."
+        },
+        {
+            "issue": "\"Fasted training\" every session and chronic low-carb intake",
+            "why_it_hurts": "While some fasted sessions can boost fat metabolism, doing all sessions low-carb can lead to subpar high-intensity training quality. Chronic glycogen depletion increases risk of overtraining, poor immunity, hormonal disruptions (RED-S), and loss of muscle mass. Performance in high-intensity efforts suffers without adequate fuel.",
+            "fix": "Periodize nutrition: use fasted/low-carb training occasionally for adaptation, but ensure key workouts are fueled. Incorporate moderate carbs on intense days to maintain power output. Monitor energy availability (especially for signs of RED-S like menstrual disruptions or low libido/energy) and include refeed days. Balance \"train low\" with \"train smart\": fuel for quality work, and utilize low-carb sessions only when strategically appropriate."
+        }
+    ],
+    "evidence_map": [
+        {
+            "id": "ISSN2017",
+            "type": "position_stand",
+            "title": "International Society of Sports Nutrition Position Stand: Nutrient Timing",
+            "year": 2017,
+            "authors": "Kerksick et al.",
+            "strength": "high",
+            "url_or_doi": "10.1186/s12970-017-0189-4",
+            "pmid": "28919842",
+            "key_findings": "ISSN's 2017 consensus on nutrient timing. Key points: Daily carbs 8–12 g/kg for heavy training maximize glycogen. For rapid recovery (<4 h), consume 1.2 g/kg/h high-GI carbs + 0.2–0.4 g/kg/h protein + 3–8 mg/kg caffeine to expedite glycogen re-synthesis. During extended exercise >60 min, take ~30–60 g carbs/h (6–8% solution) to sustain performance. Combining protein with carbs during training can reduce muscle damage and improve recovery. Total protein 1.4–2.0 g/kg/day spread evenly (0.25–0.4 g/kg per meal, ~every 3 h) maximizes MPS. A 20–40 g protein dose (with ~10 g EAAs, ~3 g leucine) is sufficient to stimulate MPS, especially post-exercise. Pre- vs post-workout protein timing is less critical if total and distribution are adequate, but having protein+carb either pre or post supports strength and body comp gains.",
+            "applies_to": "pre/post"
+        },
+        {
+            "id": "ACSM2016",
+            "type": "position_stand",
+            "title": "Nutrition and Athletic Performance (Joint ACSM/AND/DC Position Stand)",
+            "year": 2016,
+            "authors": "Thomas et al.",
+            "strength": "high",
+            "url_or_doi": "10.1249/MSS.0000000000000852",
+            "pmid": "26891166",
+            "key_findings": "Comprehensive guidelines for athletes. Pre-exercise: 1–4 g/kg carbs in the 1–4 h before exercise improves endurance; include ~5–7 mL/kg fluid 2–4 h prior (with sodium if needed) for optimal hydration. During exercise: 30–60 g carb/h for events >1 h (up to 90 g/h for ultra-endurance with multiple transportable carbs) helps maintain performance. Post-exercise: for rapid glycogen recovery, 1.0–1.2 g/kg/hour carbs for first 4h; adding protein (~0.3 g/kg) to carbs post-exercise enhances glycogen storage and muscle repair. Total daily needs: Carbs ~5–10+ g/kg depending on training load, protein 1.2–2.0 g/kg (higher end for strength or energy deficit) spread through day, fat ~20–35% of calories (not below 20%). Proper nutrition supports immune function and reduces injury risk. Individualized plans (with sports dietitian) are emphasized.",
+            "applies_to": "all"
+        },
+        {
+            "id": "IOC2018",
+            "type": "position_stand",
+            "title": "IOC Consensus Statement on Relative Energy Deficiency in Sport (RED-S): 2018 Update",
+            "year": 2018,
+            "authors": "Mountjoy et al.",
+            "strength": "high",
+            "url_or_doi": "10.1136/bjsports-2018-099193",
+            "pmid": "29773536",
+            "key_findings": "Expanded the Female Athlete Triad into RED-S, applicable to all athletes. Low energy availability (energy intake insufficient for exercise demands) leads to impaired physiological function: menstrual disturbances, low bone density, metabolic and immune suppression, and poor performance. Even male athletes can suffer hormonal disruptions and bone issues from RED-S. Emphasizes monitoring energy availability (≥45 kcal/kg FFM recommended for health), and that carbohydrate intake is crucial for high-intensity training adaptation (chronic low-carb can depress training capacity and endocrine health). Stresses importance of education and early detection (e.g., changes in menstrual function, chronic fatigue) and a multidisciplinary approach (nutrition, medical, training adjustments) to restore energy balance. Highlights that performance decrements from RED-S can include decreased endurance, strength, coordination, and increased injury risk.",
+            "applies_to": "female_specific"
+        },
+        {
+            "id": "Morton2018",
+            "type": "meta_analysis",
+            "title": "Effect of Protein Supplementation on Resistance Training-Induced Gains in Muscle Mass and Strength",
+            "year": 2018,
+            "authors": "Morton et al.",
+            "strength": "high",
+            "url_or_doi": "10.1136/bjsports-2017-097608",
+            "pmid": "28698222",
+            "key_findings": "Meta-analysis of 49 RCTs: protein supplementation significantly increases muscle mass and strength gains during prolonged resistance training. Average additional gains ~0.3 kg lean mass and +2.49 kg 1-RM strength vs placebo. The benefit of extra protein diminished with age (older individuals saw smaller gains) and was more pronounced in training novices. A breakpoint analysis showed total protein intake beyond ~1.6 g/kg/day did not further enhance gains in fat-free mass (95% CI upper bound ~2.2 g/kg/day). In other words, ~1.6 g/kg is sufficient for most, and more gives no additional muscle gain in resistance-trained adults. In summary, ~1.6 g/kg/day (split into ~0.4 g/kg doses) is enough to maximize training adaptations, with older athletes benefiting from the same strategy albeit with slightly attenuated responses.",
+            "applies_to": "post"
+        },
+        {
+            "id": "Moore2021",
+            "type": "systematic_review",
+            "title": "Protein Requirements for Master Athletes: Just Older Versions of Their Younger Selves",
+            "year": 2021,
+            "authors": "Daniel R. Moore",
+            "strength": "moderate",
+            "url_or_doi": "10.1007/s40279-021-01510-0",
+            "pmid": "34515969",
+            "key_findings": "Examines if older athletes need more protein. Master athletes (>35 yrs) who remain highly active have muscle characteristics and protein metabolism akin to younger athletes. The anabolic resistance seen in sedentary elderly is largely absent in trained older adults. Therefore, masters likely do not require more protein than young athletes – similar recommendations (1.4–2.0 g/kg/day) apply. However, masters are advised to aim for the upper end of the range to be safe and include high-leucine protein sources (~3 g leucine per meal) to fully stimulate MPS. Key recommendation: distribute protein (0.3–0.4 g/kg per meal, 4x/day) to optimize recovery and adaptation. Essentially, well-trained older athletes respond to protein almost as well as younger, so the focus should be on maintaining sufficient intake and timing rather than fundamentally higher doses.",
+            "applies_to": "masters"
+        },
+        {
+            "id": "Gejl2021",
+            "type": "meta_analysis",
+            "title": "Periodized Carbohydrate Restriction in Endurance Athletes – A Systematic Review and Meta-Analysis",
+            "year": 2021,
+            "authors": "Gejl & Nybo",
+            "strength": "high",
+            "url_or_doi": "10.1186/s12970-021-00435-3",
+            "pmid": "34020701",
+            "key_findings": "Analyzed 9 studies on \"train-low\" (periodic low carbohydrate availability) vs normal high-carb training in well-trained endurance athletes. Result: no significant overall performance benefit to periodized carb restriction. Endurance performance improvements were similar with or without carb periodization (SMD +0.17, p=0.29). While training with low glycogen can induce some favorable muscular adaptations, it often compromises the quality of high-intensity workouts. Chronic or excessive carb restriction showed no performance gain and can impair top-end intensity and increase fatigue. The conclusion is that fueling properly for key sessions is crucial; any \"train-low\" sessions should be used sparingly and strategically, as evidence does not show a clear performance enhancement from them alone.",
+            "applies_to": "endurance"
+        },
+        {
+            "id": "Lis2018",
+            "type": "RCT",
+            "title": "Low FODMAP Diet Reduces Exercise-Related GI Symptoms in Runners",
+            "year": 2018,
+            "authors": "Lis et al.",
+            "strength": "moderate",
+            "url_or_doi": "10.1249/MSS.0000000000001419",
+            "pmid": "28891824",
+            "key_findings": "First RCT exploring low-FODMAP diet in athletes with GI issues. 11 runners with exercise-induced GI distress followed 6-day low-FODMAP vs high-FODMAP diets in a crossover. Results: Daily GI symptoms were significantly lower on low-FODMAP (AUC reduction by ~13.4 points, p=0.003). Flatulence, urge to defecate, loose stool, and diarrhea scores were all significantly improved on low-FODMAP. During exercise, GI symptoms did not differ significantly between diets (likely due to short intervention), but athletes reported better overall GI comfort on low-FODMAP. Suggests that a short-term low-FODMAP protocol in the days leading up to competition or heavy training could benefit athletes prone to GI issues, though long-term effects need study. Key caution: maintain adequate carb intake while choosing low-FODMAP sources to avoid energy deficits.",
+            "applies_to": "gi_tolerance"
+        },
+        {
+            "id": "McCubbin2025",
+            "type": "systematic_review",
+            "title": "Sodium Intake for Athletes Before, During and After Exercise: Review and Recommendations",
+            "year": 2025,
+            "authors": "McCubbin AJ",
+            "strength": "moderate",
+            "url_or_doi": "10.1186/s44410-025-00011-9",
+            "pmid": "",
+            "key_findings": "Latest review giving quantifiable sodium guidelines. Key points: Pre-exercise, 5–10 mL/kg fluid 2–4 h prior with some sodium (~300–700 mg total) improves fluid retention. Beverages with >~1000 mg/L sodium prevent dilutional urine loss better than plain water. During exercise, replace sodium mainly to maintain palatability and thirst – typical sports drinks (~300–600 mg/L) suit most. For heavy salt sweaters or ultra events, ~700–1100 mg/L may be needed to maintain serum sodium, especially if high fluid intake. Overdrinking water without sodium can cause hyponatremia; the review reinforces \"drink to thirst\" with electrolyte support in long events. Post-exercise, including sodium (~500–700+ mg/L in fluids or salt on foods) enhances rehydration by improving fluid retention. Overall: athletes likely get enough sodium from diet (often >3-4 g/day); specific sodium loading is mainly useful for pre-hydration in heat or avoiding hyponatremia in ultra-endurance. More is not better beyond replacing what you lose.",
+            "applies_to": "hydration"
+        }
+    ],
+    "research_gaps": [
+        {
+            "topic": "Female-specific fuel and hydration strategies across the menstrual cycle",
+            "why_it_matters": "Current guidelines largely ignore menstrual phase, yet hormone fluctuations may alter substrate use and thermoregulation. For example, higher luteal phase progesterone raises core temp and may increase carb needs in heat, but evidence is sparse. Research could optimize training diet in follicular vs luteal phases and for women on oral contraceptives vs eumenorrheic.",
+            "suggested_study_design": "Randomized crossover trial in trained female athletes, comparing performance and metabolism in hot conditions during follicular vs luteal phase with tailored nutrition (e.g., higher sodium+fluid in luteal, adjusted carb load). Measure endurance performance, sweat sodium, core temp, and use phase verification via hormones. Could reveal if phase-based tweaks improve outcomes."
+        },
+        {
+            "topic": "Long-term impacts of low-FODMAP and restrictive diets on athlete gut health and performance",
+            "why_it_matters": "Short-term low-FODMAP diets reduce GI symptoms, but long-term restriction could alter gut microbiota or nutrient status. Athletes with sensitive guts often self-restrict certain carbs (dairy, wheat) chronically; we need to know if this affects energy availability, immunity, or performance over time.",
+            "suggested_study_design": "6–12 month longitudinal study tracking athletes with IBS or self-chosen dietary restrictions (gluten-free, low-FODMAP). Monitor gut microbiome diversity, nutrient status, and performance metrics vs. a control group on a balanced diet. Include periodic lab performance tests and symptom logs. Possibly a randomized trial where one group reintroduces some FODMAP foods under dietitian guidance to see if symptoms remain controlled and if performance or microbiota improve."
+        },
+        {
+            "topic": "Optimizing nutrition for youth athletes without hindering growth",
+            "why_it_matters": "Youth athletes are often subject to scaled-down adult guidelines, but their caloric and protein needs relative to body size might differ due to growth spurts. Overzealous dieting or heavy training without tailored fueling can impair growth (RED-S in adolescents). Understanding how to fuel young athletes for performance AND growth is critical for long-term development.",
+            "suggested_study_design": "Longitudinal cohort study of adolescent athletes (both sexes, multiple sports) tracking dietary intake, growth (height, bone density), and performance over pubertal years. Identify those with energy deficits (via RMR, hormones) and correlate with injuries or stagnated growth. As an intervention, implement a nutrition education program for one group (with emphasis on meeting calcium, iron, and total energy needs) and compare their growth and performance progression to a control group. Alternatively, an RCT providing protein supplementation to young athletes with suboptimal protein might reveal effects on lean mass accrual during training."
+        }
+    ]
+}
+
