@@ -318,8 +318,37 @@ function buildPrompt(context) {
         throw new Error('Resources not loaded');
     }
     
+    // SPEED OPTIMIZATION: Check if fast mode is enabled
+    const fastMode = document.getElementById('fastMode')?.checked ?? true;
+    
+    let corpusToUse = researchCorpus;
+    let savings = null;
+    
+    if (fastMode) {
+        // Filter corpus to only relevant sections
+        // This reduces prompt from ~15k to ~3-5k tokens = 3-5x faster!
+        corpusToUse = filterRelevantCorpus(
+            researchCorpus,
+            context.athlete,
+            context.workouts
+        );
+        
+        // Log the savings
+        savings = estimateTokenSavings(researchCorpus, corpusToUse);
+        console.log('🚀 Fast mode enabled:', savings.speedupEstimate, 
+                    `(${savings.fullTokens} → ${savings.filteredTokens} tokens,`,
+                    `-${savings.reductionPercent}%)`);
+        
+        // Update status message with estimated time
+        const estimatedSeconds = Math.ceil(savings.filteredTokens / 100); // Rough estimate
+        showStatus(`Generating with fast mode... Estimated time: ${estimatedSeconds}-${estimatedSeconds + 10} seconds`, 'info');
+    } else {
+        console.log('📚 Full corpus mode - using all research (slower but more comprehensive)');
+        showStatus(`Generating with full research corpus... This may take 40-60 seconds.`, 'info');
+    }
+    
     const prompt = promptTemplate
-        .replace('{RESEARCH_CORPUS}', JSON.stringify(researchCorpus, null, 2))
+        .replace('{RESEARCH_CORPUS}', JSON.stringify(corpusToUse, null, 2))
         .replace('{CONTEXT}', JSON.stringify(context, null, 2));
     
     return prompt;
