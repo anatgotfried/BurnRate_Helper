@@ -172,14 +172,48 @@ async function generateMealPlan() {
     // Build context
     const context = buildContext();
     
-    // Build prompt
-    const prompt = buildPrompt(context);
-    
-    // Get selected model
-    const model = document.getElementById('modelSelect').value;
+    // Check if two-phase mode is enabled
+    const twoPhaseMode = document.getElementById('twoPhaseMode')?.checked ?? true;
     
     // Show loading
     showLoading(true);
+    
+    if (twoPhaseMode) {
+        // Use new two-phase generation
+        showStatus('🚀 Two-phase generation: Calculating structure...', 'info');
+        
+        try {
+            const mealPlan = await generateTwoPhase(context, researchCorpus);
+            
+            currentMealPlan = mealPlan;
+            renderMealPlan(mealPlan);
+            
+            // Show cost info
+            const fallbackCount = mealPlan.phases_used?.fallback_count || 0;
+            let successMsg = 'Meal plan generated successfully!';
+            if (fallbackCount > 0) {
+                successMsg += ` (${fallbackCount} meals used Claude fallback)`;
+            }
+            showStatus(successMsg, 'success');
+            
+            // Show output section
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+        } catch (error) {
+            console.error('Two-phase generation failed:', error);
+            showStatus(`Error: ${error.message}. Try single-phase mode or Claude 3.5 Sonnet.`, 'error');
+        } finally {
+            showLoading(false);
+        }
+        
+        return;
+    }
+    
+    // Original single-phase generation
+    const prompt = buildPrompt(context);
+    const model = document.getElementById('modelSelect').value;
+    
     showStatus('Generating meal plan... This may take 30-60 seconds.', 'info');
     
     try {

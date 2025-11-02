@@ -51,11 +51,22 @@
             </div>
             <div class="control-grid" style="margin-top: 1rem;">
                 <label class="checkbox-label" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 8px;">
+                    <input type="checkbox" id="twoPhaseMode" checked>
+                    <span>
+                        <strong>🚀 Two-Phase Generation</strong> (More reliable, faster) - RECOMMENDED
+                        <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.25rem;">
+                            Phase 1: Calculate structure (Mistral). Phase 2: Generate each meal separately (parallel). Auto-fallback to Claude if needed. Higher success rate!
+                        </div>
+                    </span>
+                </label>
+            </div>
+            <div class="control-grid" style="margin-top: 0.5rem;">
+                <label class="checkbox-label" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 8px;">
                     <input type="checkbox" id="fastMode" checked>
                     <span>
-                        <strong>⚡ Fast Mode</strong> (3-5x faster) - Sends only relevant research sections
+                        <strong>⚡ Fast Mode</strong> (Filter research corpus)
                         <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.25rem;">
-                            Reduces prompt size from ~15k to ~3-5k tokens. Generation: ~10-15 seconds vs ~40-60 seconds.
+                            Reduces prompt size 70%. Only relevant for single-phase mode. Two-phase already optimized!
                         </div>
                     </span>
                 </label>
@@ -234,6 +245,7 @@
     <script src="macro-calculator.js"></script>
     <script src="cost-calculator.js"></script>
     <script src="corpus-filter.js"></script>
+    <script src="two-phase-generator.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
