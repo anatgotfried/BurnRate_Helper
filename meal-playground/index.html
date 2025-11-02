@@ -191,6 +191,9 @@
             <button type="button" id="generateBtn" class="btn btn-primary btn-large">
                 Generate Meal Plan
             </button>
+            <button type="button" id="viewPromptBtn" class="btn btn-secondary" style="margin-left: 1rem;">
+                👁️ View Prompt
+            </button>
             <div id="statusMessage" class="status-message"></div>
         </div>
 
@@ -206,6 +209,8 @@
                 <button class="tab-btn active" data-tab="meals">Meal Cards</button>
                 <button class="tab-btn" data-tab="summary">Daily Summary</button>
                 <button class="tab-btn" data-tab="json">Raw JSON</button>
+                <button class="tab-btn" data-tab="prompt">Prompt Sent</button>
+                <button class="tab-btn" data-tab="response">AI Response</button>
             </div>
 
             <!-- Tab Content -->
@@ -231,6 +236,22 @@
                         <button type="button" id="downloadJsonBtn" class="btn btn-secondary">Download JSON</button>
                     </div>
                     <pre id="jsonContent" class="json-output"></pre>
+                </div>
+
+                <!-- Prompt Tab -->
+                <div id="promptTab" class="tab-pane">
+                    <div class="json-actions">
+                        <button type="button" id="copyPromptBtn" class="btn btn-secondary">Copy Prompt</button>
+                    </div>
+                    <pre id="promptContent" class="json-output"></pre>
+                </div>
+
+                <!-- Response Tab -->
+                <div id="responseTab" class="tab-pane">
+                    <div class="json-actions">
+                        <button type="button" id="copyResponseBtn" class="btn btn-secondary">Copy Response</button>
+                    </div>
+                    <pre id="responseContent" class="json-output"></pre>
                 </div>
             </div>
         </div>

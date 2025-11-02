@@ -33,8 +33,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Event listeners
     document.getElementById('addWorkoutBtn').addEventListener('click', addWorkout);
     document.getElementById('generateBtn').addEventListener('click', generateMealPlan);
+    document.getElementById('viewPromptBtn').addEventListener('click', viewPromptOnly);
     document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
     document.getElementById('downloadJsonBtn').addEventListener('click', downloadJson);
+    document.getElementById('copyPromptBtn')?.addEventListener('click', () => copyToClipboard('promptContent', 'Prompt'));
+    document.getElementById('copyResponseBtn')?.addEventListener('click', () => copyToClipboard('responseContent', 'Response'));
     
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -172,13 +175,14 @@ async function generateMealPlan() {
     // Build context
     const context = buildContext();
     
-    // Check if two-phase mode is enabled
-    const twoPhaseMode = document.getElementById('twoPhaseMode')?.checked ?? true;
+    // ALWAYS use selected model (ignore two-phase for now)
+    const selectedModel = document.getElementById('modelSelect').value;
+    const twoPhaseMode = false; // Disabled - always use single-phase with selected model
     
     // Show loading
     showLoading(true);
     
-    if (twoPhaseMode) {
+    if (false && twoPhaseMode) { // Disabled for debugging
         // Use new two-phase generation
         showStatus('🚀 Two-phase generation: Calculating structure...', 'info');
         
@@ -210,11 +214,20 @@ async function generateMealPlan() {
         return;
     }
     
-    // Original single-phase generation
+    // Single-phase generation with selected model
     const prompt = buildPrompt(context);
-    const model = document.getElementById('modelSelect').value;
+    const model = selectedModel;
     
-    showStatus('Generating meal plan... This may take 30-60 seconds.', 'info');
+    // Store prompt for viewing
+    window.lastPrompt = prompt;
+    window.lastModel = model;
+    
+    // Show prompt stats
+    const promptTokens = Math.ceil(prompt.length / 4);
+    showStatus(`Generating with ${model}... (prompt: ~${promptTokens.toLocaleString()} tokens)`, 'info');
+    
+    // Update prompt tab
+    document.getElementById('promptContent').textContent = prompt;
     
     try {
         const response = await fetch(`${API_URL}/api/generate`, {
@@ -231,7 +244,17 @@ async function generateMealPlan() {
         
         const data = await response.json();
         
+        // ALWAYS show raw response for debugging
+        window.lastResponse = data;
+        document.getElementById('responseContent').textContent = JSON.stringify(data, null, 2);
+        
+        // Show output section so user can see response
+        document.getElementById('outputSection').style.display = 'block';
+        
         if (!data.success) {
+            // Show error but also the response
+            switchTab('response');
+            
             // Create detailed error object
             const error = new Error(data.error || 'Unknown error occurred');
             error.response = data;
