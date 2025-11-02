@@ -74,6 +74,10 @@ def generate_meal_plan():
             'model': model,
             'messages': [
                 {
+                    'role': 'system',
+                    'content': 'You are a JSON API. Return ONLY valid JSON. No markdown, no code blocks, no explanations. Your response must start with { and end with }.'
+                },
+                {
                     'role': 'user',
                     'content': prompt
                 }
