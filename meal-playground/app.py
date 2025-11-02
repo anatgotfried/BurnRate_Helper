@@ -185,9 +185,8 @@ def generate_meal_plan():
                     'model': result.get('model', model)
                 })
             except json.JSONDecodeError as e:
-                # Try to fix common JSON errors
+                # Try to fix common JSON errors first
                 try:
-                    # Remove trailing commas before } or ]
                     import re
                     fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
                     meal_plan = json.loads(fixed_content)
@@ -196,16 +195,85 @@ def generate_meal_plan():
                         'success': True,
                         'meal_plan': meal_plan,
                         'raw_content': content,
-                        'fixed': True,
+                        'auto_fixed': 'trailing_commas',
                         'usage': result.get('usage', {}),
                         'model': result.get('model', model)
                     })
                 except:
-                    # Return error with helpful context
+                    # Auto-retry: Send back to AI to fix its own JSON
+                    print(f"JSON parse failed, attempting self-healing with model {model}...")
+                    
+                    try:
+                        healing_prompt = f"""The following JSON is invalid. Fix all syntax errors and return ONLY valid JSON. Do not add any text before or after the JSON.
+
+Common errors to fix:
+- Trailing commas before }} or ]
+- Missing commas between objects
+- Unescaped quotes in strings
+- Unclosed brackets
+
+Invalid JSON:
+{cleaned_content}
+
+Return the corrected JSON only (no markdown, no explanations):"""
+
+                        healing_response = requests.post(
+                            OPENROUTER_API_URL,
+                            headers=headers,
+                            json={
+                                'model': model,
+                                'messages': [
+                                    {
+                                        'role': 'system',
+                                        'content': 'You are a JSON validator. Fix the broken JSON and return only valid JSON. No explanations.'
+                                    },
+                                    {
+                                        'role': 'user',
+                                        'content': healing_prompt
+                                    }
+                                ],
+                                'max_tokens': max_tokens,
+                                'temperature': 0.3  # Lower temp for precise fixing
+                            },
+                            timeout=30
+                        )
+                        
+                        if healing_response.status_code == 200:
+                            healing_result = healing_response.json()
+                            if 'choices' in healing_result and len(healing_result['choices']) > 0:
+                                healed_content = healing_result['choices'][0]['message']['content']
+                                
+                                # Extract JSON
+                                if '```json' in healed_content:
+                                    healed_content = healed_content.split('```json')[1].split('```')[0].strip()
+                                elif '```' in healed_content:
+                                    healed_content = healed_content.split('```')[1].split('```')[0].strip()
+                                
+                                first_brace = healed_content.find('{')
+                                last_brace = healed_content.rfind('}')
+                                if first_brace != -1 and last_brace != -1:
+                                    healed_content = healed_content[first_brace:last_brace + 1]
+                                
+                                # Try parsing healed JSON
+                                meal_plan = json.loads(healed_content)
+                                
+                                print(f"✅ JSON self-healing successful!")
+                                return jsonify({
+                                    'success': True,
+                                    'meal_plan': meal_plan,
+                                    'raw_content': content,
+                                    'auto_fixed': 'self_healing',
+                                    'usage': result.get('usage', {}),
+                                    'model': result.get('model', model)
+                                })
+                    except Exception as healing_error:
+                        print(f"Self-healing failed: {healing_error}")
+                    
+                    # If all fixes fail, return error
                     error_line = str(e).split('line ')[-1].split(' ')[0] if 'line' in str(e) else 'unknown'
                     return jsonify({
                         'success': False,
-                        'error': f'Invalid JSON at line {error_line}. Try Claude 3.5 Sonnet for better JSON formatting.',
+                        'error': f'Invalid JSON at line {error_line}. Auto-fix failed. Try Claude 3.5 Sonnet for better JSON formatting.',
                         'raw_content': cleaned_content,
                         'parse_error': str(e),
                         'usage': result.get('usage', {}),

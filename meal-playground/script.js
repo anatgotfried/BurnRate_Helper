@@ -212,10 +212,18 @@ async function generateMealPlan() {
             // Calculate and display cost
             if (data.usage) {
                 const cost = calculateCost(model, data.usage);
-                displayCost(cost, data.fixed);
+                displayCost(cost, data.auto_fixed);
             }
             
-            showStatus('Meal plan generated successfully!', 'success');
+            // Show success message with auto-fix indicator
+            let successMsg = 'Meal plan generated successfully!';
+            if (data.auto_fixed === 'trailing_commas') {
+                successMsg += ' (Auto-fixed trailing commas ✨)';
+            } else if (data.auto_fixed === 'self_healing') {
+                successMsg += ' (AI self-healed invalid JSON ✨)';
+            }
+            
+            showStatus(successMsg, 'success');
             
             // Show output section
             document.getElementById('outputSection').style.display = 'block';
@@ -736,12 +744,18 @@ function restoreState() {
 }
 
 // Cost Display
-function displayCost(cost, wasFixed) {
+function displayCost(cost, autoFixType) {
     const container = document.getElementById('costDisplay');
     const cumulative = addToCumulativeCost(cost);
     
     const costClass = cost.isFree ? 'cost-free' : '';
-    const fixedNote = wasFixed ? ' <span style="color: var(--warning);">(auto-fixed)</span>' : '';
+    let fixedNote = '';
+    
+    if (autoFixType === 'trailing_commas') {
+        fixedNote = ' <span style="color: var(--success); font-size: 0.75rem;">✨ auto-fixed</span>';
+    } else if (autoFixType === 'self_healing') {
+        fixedNote = ' <span style="color: var(--success); font-size: 0.75rem;">🔧 AI self-healed</span>';
+    }
     
     container.innerHTML = `
         <div class="cost-this-generation">This generation:</div>
