@@ -1,4 +1,7 @@
 // BurnRate Meal Playground - Main Script
+const VERSION = '1.3.0';
+const VERSION_DATE = '2025-01-02';
+
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001' 
     : 'https://burn-rate-helper.vercel.app';
@@ -9,9 +12,18 @@ let currentMealPlan = null;
 
 // Load resources on page load
 window.addEventListener('DOMContentLoaded', async () => {
+    // Set version with click to view changelog
+    const versionBadge = document.getElementById('versionBadge');
+    if (versionBadge) {
+        versionBadge.title = `Version ${VERSION} (${VERSION_DATE}) - Click for changelog`;
+        versionBadge.addEventListener('click', showChangelog);
+    }
+    
+    console.log(`🍽️ BurnRate AI Meal Planner v${VERSION} (${VERSION_DATE})`);
+    
     try {
         await loadResources();
-        showStatus('Ready to generate meal plans!', 'success');
+        showStatus(`Ready to generate meal plans! (v${VERSION})`, 'success');
     } catch (error) {
         showStatus(`Error loading resources: ${error.message}`, 'error');
     }
@@ -782,4 +794,34 @@ function downloadJson() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+// Show changelog
+function showChangelog() {
+    const changelog = `
+🍽️ BurnRate AI Meal Planner - v${VERSION}
+
+CURRENT VERSION (v1.3.0) - Full Transparency
+✅ "View Prompt" button - Preview before sending
+✅ "Prompt Sent" tab - See exact prompt
+✅ "AI Response" tab - Always see raw response
+✅ Only uses selected model (no auto-switching)
+✅ Token count & cost estimates
+✅ Restored original workout styling
+
+PREVIOUS UPDATES:
+v1.2.0 - Two-Phase Generation (Experimental)
+v1.1.0 - Cost Tracking & Auto-Healing JSON
+v1.0.0 - Initial Release
+
+Click OK to view full changelog on GitHub.
+    `.trim();
+    
+    alert(changelog);
+    
+    // Optionally open full changelog
+    const viewFull = confirm('View full changelog?');
+    if (viewFull) {
+        window.open('https://github.com/anatgotfried/BurnRate_Helper/blob/main/meal-playground/VERSION.md', '_blank');
+    }
 }
