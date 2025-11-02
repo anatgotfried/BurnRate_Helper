@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.4';
+const VERSION = '1.3.5';
 const VERSION_DATE = '2025-01-02';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -261,15 +261,37 @@ async function generateMealPlan() {
             body: JSON.stringify({
                 model: model,
                 prompt: prompt,
-                max_tokens: 4000
+                max_tokens: 6000  // Increased from 4000 to allow longer responses
             })
         });
         
         const data = await response.json();
         
-        // ALWAYS show raw response for debugging
+        // ALWAYS show raw response for debugging  
         window.lastResponse = data;
-        document.getElementById('responseContent').textContent = JSON.stringify(data, null, 2);
+        
+        // Format response for better readability
+        let responseDisplay = JSON.stringify(data, null, 2);
+        
+        // If raw_content exists and is large, show it separately
+        if (data.raw_content && data.raw_content.length > 1000) {
+            responseDisplay = `=== RESPONSE METADATA ===
+${JSON.stringify({
+    success: data.success,
+    error: data.error,
+    parse_error: data.parse_error,
+    model: data.model,
+    truncated: data.truncated,
+    raw_content_length: data.raw_content?.length || 0,
+    usage: data.usage
+}, null, 2)}
+
+=== RAW AI CONTENT (${data.raw_content.length} characters) ===
+${data.raw_content}
+`;
+        }
+        
+        document.getElementById('responseContent').textContent = responseDisplay;
         
         // Show output section so user can see response
         document.getElementById('outputSection').style.display = 'block';
@@ -845,12 +867,14 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.4) - Cost Calculator Fix
-🐛 CRITICAL: Fixed parameter order - calculateCost(model, usage)
-🐛 Fixed property names - promptTokens/completionTokens
-✅ Cost display now works properly
+CURRENT VERSION (v1.3.5) - Token Limit & Response Display
+🐛 Fixed token truncation detection
+🐛 Increased max_tokens 4000→6000
+✅ Better raw response display
+✅ Shows full AI content in Response tab
 
 RECENT UPDATES:
+v1.3.4 - Cost Calculator Fix
 v1.3.3 - Cost Display Fix  
 v1.3.2 - Versioning Policy
 v1.3.1 - Critical Bug Fixes (form data, event listeners)

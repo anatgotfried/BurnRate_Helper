@@ -291,15 +291,28 @@ Return the corrected JSON only (no markdown, no explanations):"""
                     except Exception as healing_error:
                         print(f"Self-healing failed: {healing_error}")
                     
-                    # If all fixes fail, return error
+                    # If all fixes fail, return error with full details
                     error_line = str(e).split('line ')[-1].split(' ')[0] if 'line' in str(e) else 'unknown'
+                    
+                    # Check if response was truncated due to token limit
+                    usage = result.get('usage', {})
+                    was_truncated = usage.get('completion_tokens', 0) >= (max_tokens - 10)
+                    
+                    error_msg = f'Invalid JSON at line {error_line}. Auto-fix failed.'
+                    if was_truncated:
+                        error_msg += f' ⚠️ RESPONSE TRUNCATED: AI hit {usage.get("completion_tokens")} token limit. Increase max_tokens or use Claude 3.5 Sonnet.'
+                    else:
+                        error_msg += ' Try Claude 3.5 Sonnet for better JSON formatting.'
+                    
                     return jsonify({
                         'success': False,
-                        'error': f'Invalid JSON at line {error_line}. Auto-fix failed. Try Claude 3.5 Sonnet for better JSON formatting.',
+                        'error': error_msg,
                         'raw_content': cleaned_content,
                         'parse_error': str(e),
-                        'usage': result.get('usage', {}),
-                        'model': result.get('model', model)
+                        'usage': usage,
+                        'model': result.get('model', model),
+                        'truncated': was_truncated,
+                        'raw_content_length': len(cleaned_content)
                     }), 400
         else:
             return jsonify({

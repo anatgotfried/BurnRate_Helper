@@ -1,6 +1,23 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.4 - 2025-01-02 (Current)
+## v1.3.5 - 2025-01-02 (Current)
+**Fix: Token Limit & Raw Response Display**
+
+### Fixed
+- 🐛 **Token truncation detection** - Backend now detects when AI hits token limit
+- 🐛 **Increased max_tokens** - From 4000 → 6000 to allow longer meal plans
+- ✅ **Better raw response display** - Shows FULL raw_content separately from metadata
+- ✅ **Truncation warnings** - Clear error message when response is cut off
+- 📊 **Response length tracking** - Shows character count in error responses
+
+### Changed
+- AI Response tab now formats large responses for better readability
+- Separates metadata from raw AI content
+- Shows raw_content length for debugging
+
+---
+
+## v1.3.4 - 2025-01-02
 **Critical Fix: Cost Calculator Parameter Order**
 
 ### Fixed
