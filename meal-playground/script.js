@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.0';
+const VERSION = '1.3.1';
 const VERSION_DATE = '2025-01-02';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -817,15 +817,16 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.0) - Full Transparency
-✅ "View Prompt" button - Preview before sending
-✅ "Prompt Sent" tab - See exact prompt
-✅ "AI Response" tab - Always see raw response
-✅ Only uses selected model (no auto-switching)
-✅ Token count & cost estimates
-✅ Restored original workout styling
+CURRENT VERSION (v1.3.1) - Bug Fixes
+🐛 Fixed form data not being read (added name attributes)
+🐛 Fixed checkbox IDs (masters, female_specific, youth)
+🐛 Fixed event listeners not attaching properly
+🐛 Fixed null reference errors
+✅ Generate button now works!
+✅ All form fields properly captured
 
-PREVIOUS UPDATES:
+RECENT UPDATES:
+v1.3.0 - Full Transparency Features
 v1.2.0 - Two-Phase Generation (Experimental)
 v1.1.0 - Cost Tracking & Auto-Healing JSON
 v1.0.0 - Initial Release

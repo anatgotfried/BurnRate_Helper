@@ -1,6 +1,25 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.0 - 2025-01-XX (Current)
+## v1.3.1 - 2025-01-02 (Current)
+**Critical Bug Fixes**
+
+### Fixed
+- 🐛 **Form data not being read** - Added `name` attributes to all form fields
+- 🐛 **Checkbox IDs incorrect** - Changed `isMasters` → `masters`, `isFemaleSpecific` → `female_specific`, `isYouth` → `youth`
+- 🐛 **Event listeners not attaching** - Moved listener attachment before async resource loading
+- 🐛 **Null reference errors** - Added safe null checks for missing checkboxes
+- 🐛 **Generate button not working** - All above fixes combined to make generation work
+
+### Result
+- ✅ Generate Meal Plan button now fully functional
+- ✅ All form data properly captured (weight, height, gender, etc.)
+- ✅ Calculated targets now have real values instead of NaN
+- ✅ Research corpus properly loaded
+- ✅ AI receives complete, valid prompt
+
+---
+
+## v1.3.0 - 2025-01-02
 **Full Transparency & Debugging**
 
 ### Added
