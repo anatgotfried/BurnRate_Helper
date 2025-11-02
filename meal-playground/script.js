@@ -12,31 +12,42 @@ let currentMealPlan = null;
 
 // Load resources on page load
 window.addEventListener('DOMContentLoaded', async () => {
-    // Set version with click to view changelog
+    console.log('🍽️ BurnRate AI Meal Planner v' + VERSION + ' - Loading...');
+    
+    // Event listeners FIRST (before anything that could error)
+    try {
+        document.getElementById('addWorkoutBtn').addEventListener('click', addWorkout);
+        document.getElementById('generateBtn').addEventListener('click', generateMealPlan);
+        document.getElementById('viewPromptBtn').addEventListener('click', viewPromptOnly);
+        document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
+        document.getElementById('downloadJsonBtn').addEventListener('click', downloadJson);
+        document.getElementById('copyPromptBtn')?.addEventListener('click', () => copyToClipboard('promptContent', 'Prompt'));
+        document.getElementById('copyResponseBtn')?.addEventListener('click', () => copyToClipboard('responseContent', 'Response'));
+        
+        console.log('✅ Event listeners attached');
+    } catch (error) {
+        console.error('❌ Failed to attach event listeners:', error);
+    }
+    
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
+    });
+    
+    // Set version badge
     const versionBadge = document.getElementById('versionBadge');
     if (versionBadge) {
         versionBadge.title = `Version ${VERSION} (${VERSION_DATE}) - Click for changelog`;
         versionBadge.addEventListener('click', showChangelog);
     }
     
-    console.log(`🍽️ BurnRate AI Meal Planner v${VERSION} (${VERSION_DATE})`);
-    
+    // Load resources
     try {
         await loadResources();
         showStatus(`Ready to generate meal plans! (v${VERSION})`, 'success');
     } catch (error) {
+        console.error('Failed to load resources:', error);
         showStatus(`Error loading resources: ${error.message}`, 'error');
-    }
-    
-    // Load saved session if available
-    const savedSession = localStorage.getItem('mealPlannerSession');
-    if (savedSession) {
-        try {
-            const session = JSON.parse(savedSession);
-            // Restore form state if needed
-        } catch (e) {
-            console.warn('Failed to restore session:', e);
-        }
     }
     
     // Add initial workout
@@ -44,19 +55,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         addWorkout();
     }
     
-    // Event listeners
-    document.getElementById('addWorkoutBtn').addEventListener('click', addWorkout);
-    document.getElementById('generateBtn').addEventListener('click', generateMealPlan);
-    document.getElementById('viewPromptBtn').addEventListener('click', viewPromptOnly);
-    document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
-    document.getElementById('downloadJsonBtn').addEventListener('click', downloadJson);
-    document.getElementById('copyPromptBtn')?.addEventListener('click', () => copyToClipboard('promptContent', 'Prompt'));
-    document.getElementById('copyResponseBtn')?.addEventListener('click', () => copyToClipboard('responseContent', 'Response'));
-    
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
-    });
+    console.log('✅ Initialization complete');
 });
 
 // Load research corpus and prompt template
