@@ -85,25 +85,25 @@
                 <div class="form-row">
                     <label class="form-label">
                         <span>Weight (kg)</span>
-                        <input type="number" id="weight" step="0.1" min="30" max="200" value="70" required class="form-input">
+                        <input type="number" id="weight" name="weight_kg" step="0.1" min="30" max="200" value="70" required class="form-input">
                     </label>
                     <label class="form-label">
                         <span>Height (cm)</span>
-                        <input type="number" id="height" step="1" min="120" max="230" value="175" required class="form-input">
+                        <input type="number" id="height" name="height_cm" step="1" min="120" max="230" value="175" required class="form-input">
                     </label>
                 </div>
 
                 <div class="form-row">
                     <label class="form-label">
                         <span>Gender</span>
-                        <select id="gender" class="form-select" required>
+                        <select id="gender" name="gender" class="form-select" required>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
                     </label>
                     <label class="form-label">
                         <span>Timezone</span>
-                        <select id="timezone" class="form-select" required>
+                        <select id="timezone" name="timezone" class="form-select" required>
                             <option value="Asia/Jerusalem">Asia/Jerusalem (Israel)</option>
                             <option value="America/New_York">America/New York (EST)</option>
                             <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
@@ -116,7 +116,7 @@
                 <div class="form-row">
                     <label class="form-label">
                         <span>Training Phase</span>
-                        <select id="trainingPhase" class="form-select" required>
+                        <select id="trainingPhase" name="training_phase" class="form-select" required>
                             <option value="base">Base (Building endurance)</option>
                             <option value="build">Build (Increasing intensity)</option>
                             <option value="race">Race (Peak performance)</option>
@@ -125,7 +125,7 @@
                     </label>
                     <label class="form-label">
                         <span>Goal</span>
-                        <select id="goal" class="form-select" required>
+                        <select id="goal" name="goal" class="form-select" required>
                             <option value="performance">Performance</option>
                             <option value="fat_loss">Fat Loss with Performance</option>
                             <option value="hypertrophy">Muscle Hypertrophy</option>
@@ -136,7 +136,7 @@
                 <div class="form-row">
                     <label class="form-label">
                         <span>Dietary Pattern</span>
-                        <select id="dietPattern" class="form-select" required>
+                        <select id="dietPattern" name="diet_pattern" class="form-select" required>
                             <option value="omnivore">Omnivore</option>
                             <option value="vegetarian">Vegetarian</option>
                             <option value="vegan">Vegan</option>
@@ -146,7 +146,7 @@
                     </label>
                     <label class="form-label">
                         <span>GI Tolerance</span>
-                        <select id="giTolerance" class="form-select" required>
+                        <select id="giTolerance" name="gi_tolerance" class="form-select" required>
                             <option value="low">Low (Sensitive stomach)</option>
                             <option value="medium" selected>Medium (Normal)</option>
                             <option value="high">High (Can eat anything)</option>
