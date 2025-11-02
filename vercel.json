@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "meal-playground/app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "meal-playground/app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "$1"
+    }
+  ],
+  "env": {
+    "FLASK_ENV": "production"
+  }
+}
+
