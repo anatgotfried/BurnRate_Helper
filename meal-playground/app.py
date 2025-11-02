@@ -110,15 +110,28 @@ def generate_meal_plan():
         if 'choices' in result and len(result['choices']) > 0:
             content = result['choices'][0]['message']['content']
             
-            # Try to parse as JSON
+            # Try to parse as JSON with aggressive cleaning
             try:
-                # Remove markdown code blocks if present
-                if '```json' in content:
-                    content = content.split('```json')[1].split('```')[0].strip()
-                elif '```' in content:
-                    content = content.split('```')[1].split('```')[0].strip()
+                cleaned_content = content
                 
-                meal_plan = json.loads(content)
+                # Remove markdown code blocks if present
+                if '```json' in cleaned_content:
+                    cleaned_content = cleaned_content.split('```json')[1].split('```')[0].strip()
+                elif '```' in cleaned_content:
+                    # Find content between first ``` and last ```
+                    parts = cleaned_content.split('```')
+                    if len(parts) >= 3:
+                        cleaned_content = parts[1].strip()
+                
+                # Remove any leading/trailing text before first { or after last }
+                first_brace = cleaned_content.find('{')
+                last_brace = cleaned_content.rfind('}')
+                
+                if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+                    cleaned_content = cleaned_content[first_brace:last_brace + 1]
+                
+                # Try to parse
+                meal_plan = json.loads(cleaned_content)
                 
                 return jsonify({
                     'success': True,
@@ -130,12 +143,13 @@ def generate_meal_plan():
             except json.JSONDecodeError as e:
                 # Return raw content if not valid JSON
                 return jsonify({
-                    'success': True,
+                    'success': False,
+                    'error': f'Failed to parse JSON: {str(e)}',
                     'raw_content': content,
                     'parse_error': str(e),
                     'usage': result.get('usage', {}),
                     'model': result.get('model', model)
-                })
+                }), 400
         else:
             return jsonify({
                 'success': False,

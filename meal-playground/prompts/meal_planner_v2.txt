@@ -127,9 +127,17 @@ total_fluids_l = sum(all fluids in meals)
 
 If they don't match, ADJUST PORTIONS and recalculate until they do.
 
-## OUTPUT FORMAT
+## OUTPUT FORMAT - CRITICAL
 
-Return ONLY valid JSON with this exact structure (no markdown, no code blocks):
+You MUST return ONLY the JSON object below. Do NOT include:
+- ❌ Markdown code blocks (no ```json or ```)
+- ❌ Explanatory text before or after the JSON
+- ❌ Comments in the JSON
+- ❌ Any text except the JSON object itself
+
+Your response must START with { and END with }. Nothing else.
+
+Return this exact JSON structure:
 
 {
   "athlete_summary": {
@@ -213,5 +221,14 @@ Before you return the JSON, verify:
 
 If any check fails, FIX IT before returning the JSON.
 
-Begin generating the meal plan now.
+## ABSOLUTELY CRITICAL - FINAL REMINDER
+
+Your ENTIRE response must be ONLY the JSON object. 
+- First character: {
+- Last character: }
+- Nothing before or after
+- No markdown
+- No explanations outside the JSON
+
+Begin generating the meal plan now. Return ONLY JSON.
 
