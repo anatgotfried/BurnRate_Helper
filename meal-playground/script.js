@@ -198,7 +198,10 @@ async function generateMealPlan() {
         const data = await response.json();
         
         if (!data.success) {
-            throw new Error(data.error || 'Unknown error occurred');
+            // Create detailed error object
+            const error = new Error(data.error || 'Unknown error occurred');
+            error.response = data;
+            throw error;
         }
         
         // Handle response
@@ -228,7 +231,13 @@ async function generateMealPlan() {
         }
     } catch (error) {
         console.error('Error generating meal plan:', error);
-        showStatus(`Error: ${error.message}`, 'error');
+        
+        // Show detailed error if available
+        if (error.response) {
+            showDetailedError(error.response);
+        } else {
+            showStatus(`Error: ${error.message}`, 'error');
+        }
     } finally {
         showLoading(false);
     }
@@ -720,6 +729,49 @@ function displayCost(cost, wasFixed) {
             <button onclick="if(confirm('Reset cost tracking?')) { resetCumulativeTracking(); location.reload(); }" class="reset-cost-btn">Reset</button>
         </div>
     `;
+}
+
+// Error Display
+function showDetailedError(errorData) {
+    const statusEl = document.getElementById('statusMessage');
+    
+    let errorHtml = `<div style="text-align: left; max-width: 600px; margin: 0 auto;">`;
+    errorHtml += `<strong style="color: var(--error);">⚠️ Error: ${errorData.error || 'Unknown error'}</strong><br>`;
+    
+    if (errorData.model_attempted) {
+        errorHtml += `<div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-light);">`;
+        errorHtml += `Model: ${errorData.model_attempted}<br>`;
+        
+        if (errorData.status_code) {
+            errorHtml += `Status: ${errorData.status_code}<br>`;
+        }
+        
+        // Suggestions based on error type
+        if (errorData.status_code === 401) {
+            errorHtml += `<br><strong>Fix:</strong> Check your OpenRouter API key in Vercel settings.`;
+        } else if (errorData.status_code === 402) {
+            errorHtml += `<br><strong>Fix:</strong> Add credits at <a href="https://openrouter.ai/credits" target="_blank">openrouter.ai/credits</a>`;
+        } else if (errorData.status_code === 429) {
+            errorHtml += `<br><strong>Fix:</strong> Wait 30 seconds and try again. Consider upgrading your OpenRouter plan.`;
+        } else if (errorData.error_type === 'invalid_model') {
+            errorHtml += `<br><strong>Fix:</strong> Try switching to Claude 3.5 Sonnet or GPT-4o Mini.`;
+        }
+        
+        errorHtml += `</div>`;
+    }
+    
+    // Add debug details (collapsible)
+    if (errorData.raw_error && errorData.raw_error !== errorData.error) {
+        errorHtml += `<details style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-lighter);">`;
+        errorHtml += `<summary style="cursor: pointer;">Show technical details</summary>`;
+        errorHtml += `<pre style="margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-subtle); border-radius: 4px; overflow-x: auto;">${errorData.raw_error}</pre>`;
+        errorHtml += `</details>`;
+    }
+    
+    errorHtml += `</div>`;
+    
+    statusEl.innerHTML = errorHtml;
+    statusEl.className = 'status-message error';
 }
 
 // UI Helpers

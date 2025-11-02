@@ -96,16 +96,56 @@ def generate_meal_plan():
 
         if response.status_code != 200:
             error_detail = response.text
+            error_type = 'Unknown error'
+            
             try:
                 error_json = response.json()
-                error_detail = error_json.get('error', {}).get('message', error_detail)
-            except:
-                pass
+                # OpenRouter error structure
+                if 'error' in error_json:
+                    error_obj = error_json['error']
+                    if isinstance(error_obj, dict):
+                        error_detail = error_obj.get('message', str(error_obj))
+                        error_type = error_obj.get('code', 'unknown')
+                        # Get provider-specific error if available
+                        if 'metadata' in error_obj:
+                            provider_error = error_obj['metadata'].get('raw', '')
+                            if provider_error:
+                                error_detail += f"\n\nProvider details: {provider_error}"
+                    else:
+                        error_detail = str(error_obj)
+            except Exception as parse_err:
+                error_detail = f"Could not parse error response: {response.text[:500]}"
+            
+            # Create helpful error message based on common patterns
+            helpful_msg = error_detail
+            error_lower = error_detail.lower()
+            
+            if response.status_code == 401:
+                helpful_msg = "🔑 Authentication failed. Your OpenRouter API key is invalid or missing. Check Vercel environment variables."
+            elif response.status_code == 402:
+                helpful_msg = "💳 Insufficient credits. Add credits at https://openrouter.ai/credits (even $5 gives you 1000+ meal plans!)"
+            elif response.status_code == 429:
+                helpful_msg = "⏱️ Rate limit exceeded. You've made too many requests. Wait 30-60 seconds and try again."
+            elif 'context_length_exceeded' in error_lower or 'maximum context' in error_lower:
+                helpful_msg = "📏 Prompt too long for this model. Try: 1) Remove some workouts, 2) Use a model with larger context (Claude or GPT-4o), or 3) Simplify your profile."
+            elif 'invalid model' in error_lower or 'not found' in error_lower or 'no endpoints' in error_lower:
+                helpful_msg = f"🤖 Model '{model}' is not available or has no active endpoints. Try these working models: 'Claude 3.5 Sonnet', 'GPT-4o Mini', or 'Claude 3 Haiku'."
+            elif 'moderation' in error_lower or 'policy' in error_lower:
+                helpful_msg = "🚫 Content was flagged by moderation. This shouldn't happen with meal plans - try a different model."
+            elif 'timeout' in error_lower:
+                helpful_msg = "⏰ Request timed out. The model took too long to respond. Try again or use a faster model like Gemini Flash."
+            elif 'provider returned error' in error_lower:
+                helpful_msg = f"⚡ The AI provider ({model.split('/')[0]}) encountered an error. This usually means: 1) Model is temporarily unavailable, 2) Your prompt triggered a safety filter, or 3) Model has an outage. Try a different model (Claude 3.5 Sonnet is very reliable)."
+            elif 'bad gateway' in error_lower or '502' in error_detail or '503' in error_detail:
+                helpful_msg = "🔧 OpenRouter or the AI provider is temporarily down. Wait a minute and try again, or switch models."
             
             return jsonify({
                 'success': False,
-                'error': f'OpenRouter API error: {error_detail}',
-                'status_code': response.status_code
+                'error': helpful_msg,
+                'error_type': error_type,
+                'raw_error': error_detail,
+                'status_code': response.status_code,
+                'model_attempted': model
             }), response.status_code
 
         result = response.json()
