@@ -242,42 +242,42 @@ def get_models():
             'name': 'Gemini 2.0 Flash (Free)',
             'provider': 'Google',
             'cost': 'FREE',
-            'description': 'Free and fast - experimental version'
+            'description': 'Free - may have rate limits during peak times'
         },
         {
-            'id': 'google/gemini-flash-1.5-8b',
-            'name': 'Gemini 1.5 Flash 8B',
+            'id': 'google/gemini-flash-1.5',
+            'name': 'Gemini 1.5 Flash',
             'provider': 'Google',
             'cost': 'Very Low',
-            'description': 'Fast and affordable, great for quick meal plans'
+            'description': 'Fast and affordable (~$0.001/plan) - Recommended'
         },
         {
             'id': 'anthropic/claude-3-haiku-20240307',
             'name': 'Claude 3 Haiku',
             'provider': 'Anthropic',
             'cost': 'Low',
-            'description': 'Balanced performance and cost'
+            'description': 'Balanced performance and cost (~$0.005/plan)'
         },
         {
             'id': 'openai/gpt-3.5-turbo',
             'name': 'GPT-3.5 Turbo',
             'provider': 'OpenAI',
             'cost': 'Low',
-            'description': 'Reliable and well-tested'
+            'description': 'Reliable and well-tested (~$0.008/plan)'
         },
         {
             'id': 'anthropic/claude-3.5-sonnet-20241022',
             'name': 'Claude 3.5 Sonnet',
             'provider': 'Anthropic',
             'cost': 'Medium',
-            'description': 'High quality, detailed responses'
+            'description': 'Best quality and JSON formatting (~$0.025/plan)'
         },
         {
             'id': 'openai/gpt-4o-mini',
             'name': 'GPT-4o Mini',
             'provider': 'OpenAI',
             'cost': 'Medium',
-            'description': 'Good balance of capability and cost'
+            'description': 'Good balance of capability and cost (~$0.015/plan)'
         }
     ]
     

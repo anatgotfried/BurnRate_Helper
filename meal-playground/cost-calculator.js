@@ -7,10 +7,10 @@ const MODEL_PRICING = {
         output: 0,
         name: 'Gemini 2.0 Flash (Free)'
     },
-    'google/gemini-flash-1.5-8b': {
-        input: 0.0375,
-        output: 0.15,
-        name: 'Gemini 1.5 Flash 8B'
+    'google/gemini-flash-1.5': {
+        input: 0.075,
+        output: 0.30,
+        name: 'Gemini 1.5 Flash'
     },
     'anthropic/claude-3-haiku-20240307': {
         input: 0.25,
