@@ -177,19 +177,26 @@ function renderWorkouts() {
 
 // Generate Meal Plan
 async function generateMealPlan() {
+    console.log('🚀 Generate button clicked!');
+    
     // Validate form
     if (!document.getElementById('profileForm').checkValidity()) {
+        console.log('❌ Form validation failed');
         showStatus('Please fill in all required fields', 'error');
         return;
     }
     
     if (workouts.length === 0) {
+        console.log('❌ No workouts');
         showStatus('Please add at least one workout', 'error');
         return;
     }
     
+    console.log('✅ Validation passed, building context...');
+    
     // Build context
     const context = buildContext();
+    console.log('✅ Context built:', context);
     
     // ALWAYS use selected model (ignore two-phase for now)
     const selectedModel = document.getElementById('modelSelect').value;
@@ -712,7 +719,13 @@ function renderSummary(mealPlan) {
 
 // Show/hide loading overlay
 function showLoading(show) {
-    document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+    console.log('Loading overlay:', show ? 'SHOW' : 'HIDE');
+    const overlay = document.getElementById('loadingOverlay');
+    if (!overlay) {
+        console.error('❌ Loading overlay element not found!');
+        return;
+    }
+    overlay.style.display = show ? 'flex' : 'none';
 }
 
 // Show status message
