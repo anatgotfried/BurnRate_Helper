@@ -306,32 +306,32 @@ def get_models():
     """Return list of available models"""
     models = [
         {
-            'id': 'google/gemini-flash-1.5',
-            'name': 'Gemini 1.5 Flash ⭐',
+            'id': 'google/gemini-2.5-flash',
+            'name': 'Gemini 2.5 Flash ⭐',
             'provider': 'Google',
             'cost': 'FREE',
-            'description': '1M context, FREE with your Google key - Recommended'
+            'description': '1M context, newest & best, FREE with your Google key - Recommended'
         },
         {
-            'id': 'google/gemini-2.0-flash-exp',
-            'name': 'Gemini 2.0 Flash (Experimental)',
+            'id': 'google/gemini-2.5-pro',
+            'name': 'Gemini 2.5 Pro',
             'provider': 'Google',
             'cost': 'FREE',
-            'description': '1M context, newest model, FREE'
+            'description': '1M context, smartest Gemini, FREE'
         },
         {
-            'id': 'google/gemini-pro-1.5',
-            'name': 'Gemini 1.5 Pro',
+            'id': 'google/gemini-2.0-flash-001',
+            'name': 'Gemini 2.0 Flash',
             'provider': 'Google',
             'cost': 'FREE',
-            'description': '2M context, smartest Gemini, FREE'
+            'description': '1M context, stable version, FREE'
         },
         {
-            'id': 'google/gemini-flash-1.5-8b',
-            'name': 'Gemini 1.5 Flash 8B',
+            'id': 'google/gemini-2.0-flash-exp:free',
+            'name': 'Gemini 2.0 Flash Exp (Free Tier)',
             'provider': 'Google',
             'cost': 'FREE',
-            'description': '1M context, ultra-fast, FREE'
+            'description': '1M context, experimental, shared limits'
         },
         {
             'id': 'mistralai/mistral-small-3.2-24b-instruct',
