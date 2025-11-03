@@ -14,34 +14,35 @@ This guide shows how to set up n8n to collect feedback submissions and save them
 
 ```
 A: timestamp
-B: athlete_name  
-C: weight_kg
-D: goal
-E: training_phase
-F: model_used
-G: fast_mode
-H: calories_target
-I: calories_actual
-J: calories_diff
-K: protein_target
-L: protein_actual
-M: protein_diff
-N: carbs_target
-O: carbs_actual
-P: carbs_diff
-Q: sodium_target
-R: sodium_actual
-S: sodium_diff
-T: has_daily_totals
-U: meal_count
-V: food_count
-W: cost_total
-X: prompt_length
-Y: response_length
-Z: rating
-AA: issues
-AB: comments
-AC: full_json_url
+B: version
+C: athlete_name  
+D: weight_kg
+E: goal
+F: training_phase
+G: model_used
+H: fast_mode
+I: calories_target
+J: calories_actual
+K: calories_diff
+L: protein_target
+M: protein_actual
+N: protein_diff
+O: carbs_target
+P: carbs_actual
+Q: carbs_diff
+R: sodium_target
+S: sodium_actual
+T: sodium_diff
+U: has_daily_totals
+V: meal_count
+W: food_count
+X: cost_total
+Y: prompt_length
+Z: response_length
+AA: rating
+AB: issues
+AC: comments
+AD: full_json_url
 ```
 
 4. **Share** the sheet with your Google service account email (or make it public for editing)
