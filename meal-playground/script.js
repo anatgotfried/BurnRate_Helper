@@ -23,6 +23,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
         document.getElementById('loadAthleteSelect').addEventListener('change', loadAthleteProfile);
         document.getElementById('downloadJsonBtn').addEventListener('click', downloadJson);
+        document.getElementById('feedbackBtn').addEventListener('click', openFeedbackModal);
         document.getElementById('copyPromptBtn')?.addEventListener('click', () => copyToClipboard('promptContent', 'Prompt'));
         document.getElementById('copyResponseBtn')?.addEventListener('click', () => copyToClipboard('responseContent', 'Response'));
         
@@ -1196,6 +1197,111 @@ function downloadJson() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+// Open feedback modal
+function openFeedbackModal() {
+    if (!currentMealPlan) {
+        showStatus('Please generate a meal plan first', 'error');
+        return;
+    }
+    
+    const modal = document.getElementById('feedbackModal');
+    modal.style.display = 'flex';
+    
+    // Reset form
+    document.getElementById('feedbackComments').value = '';
+    document.querySelectorAll('.feedback-issue').forEach(cb => cb.checked = false);
+    document.querySelector('[name="feedbackRating"][value="good"]').checked = true;
+}
+
+// Close feedback modal
+window.closeFeedbackModal = function() {
+    document.getElementById('feedbackModal').style.display = 'none';
+};
+
+// Submit feedback
+window.submitFeedback = async function() {
+    const submitBtn = document.getElementById('submitFeedbackBtn');
+    const statusDiv = document.getElementById('feedbackStatus');
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Sending...';
+    
+    try {
+        // Collect feedback data
+        const rating = document.querySelector('[name="feedbackRating"]:checked').value;
+        const issues = Array.from(document.querySelectorAll('.feedback-issue:checked')).map(cb => cb.value);
+        const comments = document.getElementById('feedbackComments').value;
+        
+        // Collect current state
+        const context = buildContext();
+        const selectedModel = document.getElementById('modelSelect').value;
+        const fastMode = document.getElementById('fastMode')?.checked ?? true;
+        
+        // Build feedback payload
+        const feedbackData = {
+            timestamp: new Date().toISOString(),
+            version: VERSION,
+            
+            // Athlete & Workouts
+            athlete: context.athlete,
+            workouts: context.workouts,
+            
+            // Model & Settings
+            model_used: selectedModel,
+            fast_mode_enabled: fastMode,
+            
+            // Targets vs Actuals
+            calculated_targets: context.calculated_targets,
+            actual_totals: currentMealPlan.daily_totals || null,
+            
+            // Accuracy metrics
+            has_daily_totals: !!currentMealPlan.daily_totals,
+            meal_count: currentMealPlan.meals?.length || 0,
+            food_count: currentMealPlan.meals?.reduce((sum, m) => sum + (m.foods?.length || 0), 0) || 0,
+            
+            // Prompt & Response
+            prompt_sent: window.lastPrompt || null,
+            prompt_length_chars: window.lastPrompt?.length || 0,
+            ai_response: currentMealPlan,
+            response_length_chars: JSON.stringify(currentMealPlan).length,
+            
+            // Cost
+            cost_info: window.lastCostInfo || null,
+            
+            // User Feedback
+            user_feedback: {
+                rating: rating,
+                issues: issues,
+                comments: comments
+            }
+        };
+        
+        // Send to backend (which forwards to n8n)
+        const response = await fetch(`${API_URL}/api/feedback`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(feedbackData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            statusDiv.innerHTML = '<p style="color: var(--success); font-weight: 600;">✅ ' + result.message + '</p>';
+            setTimeout(() => {
+                closeFeedbackModal();
+            }, 2000);
+        } else {
+            statusDiv.innerHTML = '<p style="color: var(--error);">❌ ' + result.error + '</p>';
+        }
+        
+    } catch (error) {
+        statusDiv.innerHTML = '<p style="color: var(--error);">❌ Failed to send feedback: ' + error.message + '</p>';
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '📤 Send Feedback';
+    }
+};
 
 // Show changelog
 function showChangelog() {

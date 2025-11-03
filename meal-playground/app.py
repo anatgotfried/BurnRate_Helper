@@ -15,6 +15,9 @@ CORS(app)
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
 OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
+# n8n Feedback webhook (optional)
+N8N_FEEDBACK_WEBHOOK = os.getenv('N8N_FEEDBACK_WEBHOOK')
+
 @app.route('/')
 def index():
     """Serve the main HTML file"""
@@ -437,6 +440,56 @@ def get_models():
         'success': True,
         'models': models
     })
+
+@app.route('/api/feedback', methods=['POST'])
+def submit_feedback():
+    """
+    Submit user feedback to n8n webhook
+    Sends complete context: athlete, workouts, prompt, response, feedback
+    """
+    try:
+        data = request.json
+        
+        if not N8N_FEEDBACK_WEBHOOK:
+            return jsonify({
+                'success': False,
+                'error': 'Feedback webhook not configured. Add N8N_FEEDBACK_WEBHOOK to .env file.'
+            }), 500
+        
+        # Forward to n8n webhook
+        response = requests.post(
+            N8N_FEEDBACK_WEBHOOK,
+            json=data,
+            headers={'Content-Type': 'application/json'},
+            timeout=10
+        )
+        
+        if response.status_code == 200:
+            return jsonify({
+                'success': True,
+                'message': 'Feedback submitted successfully! Thank you for helping improve the AI meal planner.'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': f'n8n webhook returned status {response.status_code}'
+            }), response.status_code
+            
+    except requests.exceptions.Timeout:
+        return jsonify({
+            'success': False,
+            'error': 'n8n webhook timeout. Please check your n8n instance is running.'
+        }), 504
+    except requests.exceptions.RequestException as e:
+        return jsonify({
+            'success': False,
+            'error': f'Failed to connect to n8n: {str(e)}'
+        }), 500
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Server error: {str(e)}'
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)

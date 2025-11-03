@@ -31,7 +31,7 @@
 
     <!-- Version Badge (Top Right) -->
     <div class="version-badge" id="versionBadge" title="Click for changelog" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
-        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.5.3</span>
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.6.0</span>
     </div>
 
     <!-- Hero Section -->
@@ -236,6 +236,7 @@
                     <div class="json-actions">
                         <button type="button" id="copyJsonBtn" class="btn btn-secondary">Copy JSON</button>
                         <button type="button" id="downloadJsonBtn" class="btn btn-secondary">Download JSON</button>
+                        <button type="button" id="feedbackBtn" class="btn btn-primary" style="margin-left: auto;">📝 Send Feedback</button>
                     </div>
                     <pre id="jsonContent" class="json-output"></pre>
                 </div>
@@ -263,6 +264,115 @@
     <div id="loadingOverlay" class="loading-overlay" style="display: none;">
         <div class="loading-spinner"></div>
         <p class="loading-text">Generating your personalized meal plan...</p>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="info-modal" style="display: none;">
+        <div class="info-modal-content" style="max-width: 700px;">
+            <div class="info-modal-header">
+                <h3>📝 Send Feedback</h3>
+                <button class="info-modal-close" onclick="closeFeedbackModal()">×</button>
+            </div>
+            <div class="info-modal-body">
+                <p style="margin-bottom: 1rem; color: var(--text-light);">
+                    Help improve the AI meal planner! Your feedback will be sent with the current meal plan, prompt, and athlete data.
+                </p>
+                
+                <!-- What will be sent -->
+                <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+                    <h4>📦 What Will Be Sent:</h4>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8; font-size: 0.9rem;">
+                        <li>Athlete profile & workout data</li>
+                        <li>Model used & settings (Fast Mode, etc.)</li>
+                        <li>Calculated targets vs actual totals</li>
+                        <li>Full prompt sent to AI</li>
+                        <li>Complete AI response (JSON)</li>
+                        <li>Cost & token usage</li>
+                        <li>Your feedback & rating</li>
+                    </ul>
+                </div>
+                
+                <!-- Rating -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        Overall Quality:
+                    </label>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="feedbackRating" value="excellent" style="margin-right: 0.5rem;">
+                            😍 Excellent
+                        </label>
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="feedbackRating" value="good" checked style="margin-right: 0.5rem;">
+                            😊 Good
+                        </label>
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="feedbackRating" value="neutral" style="margin-right: 0.5rem;">
+                            😐 Neutral
+                        </label>
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="feedbackRating" value="poor" style="margin-right: 0.5rem;">
+                            😞 Poor
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Common Issues -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        Issues Found (check all that apply):
+                    </label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="missing_daily_totals" style="margin-right: 0.5rem;">
+                            <span>Missing daily_totals</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="totals_off_target" style="margin-right: 0.5rem;">
+                            <span>Totals off target (>5%)</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="low_sodium" style="margin-right: 0.5rem;">
+                            <span>Sodium too low</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="poor_timing" style="margin-right: 0.5rem;">
+                            <span>Poor meal timing</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="weak_rationales" style="margin-right: 0.5rem;">
+                            <span>Weak rationales</span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="feedback-issue" value="invalid_json" style="margin-right: 0.5rem;">
+                            <span>Invalid JSON</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Comments -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        Additional Comments:
+                    </label>
+                    <textarea 
+                        id="feedbackComments" 
+                        placeholder="What worked well? What needs improvement? Specific issues with meals, timing, or calculations?"
+                        style="width: 100%; min-height: 100px; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; resize: vertical;"
+                    ></textarea>
+                </div>
+                
+                <!-- Submit -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="closeFeedbackModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="submitFeedback()" id="submitFeedbackBtn">
+                        📤 Send Feedback
+                    </button>
+                </div>
+                
+                <div id="feedbackStatus" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
     </div>
 
     <script src="macro-calculator.js"></script>

@@ -1,0 +1,117 @@
+<!-- Feedback Modal (to be inserted into index.html) -->
+<div id="feedbackModal" class="info-modal" style="display: none;">
+    <div class="info-modal-content" style="max-width: 700px;">
+        <div class="info-modal-header">
+            <h3>📝 Send Feedback</h3>
+            <button class="info-modal-close" onclick="closeFeedbackModal()">×</button>
+        </div>
+        <div class="info-modal-body">
+            <p style="margin-bottom: 1rem; color: var(--text-light);">
+                Help improve the AI meal planner! Your feedback will be sent with the current meal plan, prompt, and athlete data.
+            </p>
+            
+            <!-- What will be sent -->
+            <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+                <h4>📦 What Will Be Sent:</h4>
+                <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8; font-size: 0.9rem;">
+                    <li>Athlete profile & workout data</li>
+                    <li>Model used & settings (Fast Mode, etc.)</li>
+                    <li>Calculated targets vs actual totals</li>
+                    <li>Full prompt sent to AI</li>
+                    <li>Complete AI response (JSON)</li>
+                    <li>Cost & token usage</li>
+                    <li>Your feedback & rating</li>
+                </ul>
+            </div>
+            
+            <!-- Rating -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                    Overall Quality:
+                </label>
+                <div style="display: flex; gap: 1rem;">
+                    <label class="rating-option">
+                        <input type="radio" name="feedbackRating" value="excellent" style="margin-right: 0.5rem;">
+                        😍 Excellent
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="feedbackRating" value="good" checked style="margin-right: 0.5rem;">
+                        😊 Good
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="feedbackRating" value="neutral" style="margin-right: 0.5rem;">
+                        😐 Neutral
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="feedbackRating" value="poor" style="margin-right: 0.5rem;">
+                        😞 Poor
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Common Issues -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                    Issues Found (check all that apply):
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="missing_daily_totals">
+                        <span>Missing daily_totals</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="totals_off_target">
+                        <span>Totals way off target (>5%)</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="low_sodium">
+                        <span>Sodium too low</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="poor_timing">
+                        <span>Poor meal timing</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="weak_rationales">
+                        <span>Weak or missing rationales</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="invalid_json">
+                        <span>Invalid JSON / Auto-fixed</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="hallucinated_workouts">
+                        <span>Hallucinated workouts</span>
+                    </label>
+                    <label class="checkbox-label" style="padding: 0.5rem;">
+                        <input type="checkbox" class="feedback-issue" value="unrealistic_foods">
+                        <span>Unrealistic Israeli foods</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Comments -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                    Additional Comments:
+                </label>
+                <textarea 
+                    id="feedbackComments" 
+                    placeholder="What worked well? What needs improvement? Specific issues with meals, timing, or calculations?"
+                    style="width: 100%; min-height: 100px; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; resize: vertical;"
+                ></textarea>
+            </div>
+            
+            <!-- Submit -->
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="closeFeedbackModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitFeedback()" id="submitFeedbackBtn">
+                    📤 Send Feedback
+                </button>
+            </div>
+            
+            <div id="feedbackStatus" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+</div>
+
