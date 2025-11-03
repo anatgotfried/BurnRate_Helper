@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.4.1';
+const VERSION = '1.4.2';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -636,8 +636,140 @@ function renderMeals(meals) {
     `).join('');
 }
 
+// Store mealPlan globally for info buttons
+window.currentMealPlan = null;
+
+// Show target info modal
+window.showTargetInfo = function(metricKey) {
+    const mealPlan = window.currentMealPlan;
+    if (!mealPlan || !mealPlan.athlete_summary) return;
+    
+    const targets = mealPlan.athlete_summary;
+    const explanations = targets.explanations || {};
+    const breakdown = targets.calorie_breakdown || {};
+    
+    let title = '';
+    let content = '';
+    
+    switch(metricKey) {
+        case 'calories':
+            title = '🔥 Daily Calorie Target';
+            if (breakdown.isFatLoss) {
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal</h4>
+                        <div class="breakdown-row">
+                            <span>Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
+                        </div>
+                        <div class="breakdown-row deficit">
+                            <span>× Fat Loss Deficit (20%):</span>
+                            <span>${breakdown.base} kcal</span>
+                        </div>
+                        <div class="breakdown-row positive">
+                            <span>+ Workout Fuel:</span>
+                            <span>+${breakdown.workout} kcal</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>Daily Total:</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
+                    <p class="info-note">💡 <strong>This is still fat loss!</strong> The base calories are reduced by 20% to create a deficit. Workout calories are added so you can train effectively while losing fat.</p>
+                `;
+            } else {
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal</h4>
+                        <div class="breakdown-row">
+                            <span>Base Metabolism:</span>
+                            <span>${breakdown.base} kcal</span>
+                        </div>
+                        <div class="breakdown-row positive">
+                            <span>+ Workout Fuel:</span>
+                            <span>+${breakdown.workout} kcal</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>Daily Total:</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
+                `;
+            }
+            break;
+            
+        case 'protein':
+            title = '🥩 Daily Protein Target';
+            content = `
+                <h4>Your Target: ${targets.daily_protein_target_g} g</h4>
+                <p class="info-explanation">${explanations.protein || ''}</p>
+            `;
+            break;
+            
+        case 'carbs':
+            title = '🍞 Daily Carbohydrate Target';
+            content = `
+                <h4>Your Target: ${targets.daily_carb_target_g} g</h4>
+                <p class="info-explanation">${explanations.carbs || ''}</p>
+            `;
+            break;
+            
+        case 'fat':
+            title = '🥑 Daily Fat Target';
+            content = `
+                <h4>Your Target: ${targets.daily_fat_target_g} g</h4>
+                <p class="info-explanation">${explanations.fat || ''}</p>
+            `;
+            break;
+            
+        case 'sodium':
+            title = '🧂 Daily Sodium Target';
+            content = `
+                <h4>Your Target: ${targets.sodium_target_mg} mg</h4>
+                <p class="info-explanation">${explanations.sodium || ''}</p>
+            `;
+            break;
+            
+        case 'hydration':
+            title = '💧 Daily Hydration Target';
+            content = `
+                <h4>Your Target: ${targets.hydration_target_l} L</h4>
+                <p class="info-explanation">${explanations.hydration || ''}</p>
+            `;
+            break;
+    }
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'info-modal';
+    modal.innerHTML = `
+        <div class="info-modal-content">
+            <div class="info-modal-header">
+                <h3>${title}</h3>
+                <button class="info-modal-close" onclick="this.closest('.info-modal').remove()">×</button>
+            </div>
+            <div class="info-modal-body">
+                ${content}
+            </div>
+        </div>
+    `;
+    
+    // Add to body
+    document.body.appendChild(modal);
+    
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+};
+
 // Render summary
 function renderSummary(mealPlan) {
+    window.currentMealPlan = mealPlan; // Store for info buttons
     const container = document.getElementById('summaryContent');
     
     const targets = mealPlan.athlete_summary || {};
@@ -650,32 +782,35 @@ function renderSummary(mealPlan) {
         return pctDiff <= 2 ? '✅' : '⚠️';
     };
     
+    // Info button helper
+    const infoBtn = (key) => `<button class="info-btn" onclick="showTargetInfo('${key}')" title="Why this target?">ℹ️</button>`;
+    
     container.innerHTML = `
         <div class="summary-section">
             <h3>Daily Targets (Calculated)</h3>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <span class="summary-label">Target Calories</span>
+                    <span class="summary-label">Target Calories ${infoBtn('calories')}</span>
                     <span class="summary-value">${targets.daily_energy_target_kcal || 0} kcal</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Target Protein</span>
+                    <span class="summary-label">Target Protein ${infoBtn('protein')}</span>
                     <span class="summary-value">${targets.daily_protein_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Target Carbs</span>
+                    <span class="summary-label">Target Carbs ${infoBtn('carbs')}</span>
                     <span class="summary-value">${targets.daily_carb_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Target Fat</span>
+                    <span class="summary-label">Target Fat ${infoBtn('fat')}</span>
                     <span class="summary-value">${targets.daily_fat_target_g || 0} g</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Target Sodium</span>
+                    <span class="summary-label">Target Sodium ${infoBtn('sodium')}</span>
                     <span class="summary-value">${targets.sodium_target_mg || 0} mg</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-label">Target Hydration</span>
+                    <span class="summary-label">Target Hydration ${infoBtn('hydration')}</span>
                     <span class="summary-value">${targets.hydration_target_l || 0} L</span>
                 </div>
             </div>

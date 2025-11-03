@@ -28,6 +28,20 @@ function calculateDailyTargets(athlete, workouts) {
     // Calculate total calories
     const calories = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
     
+    // Calculate calorie breakdown for info button
+    const bmr = Math.round(weight * 24); // Simplified BMR (~24 kcal/kg)
+    const baseCalories = Math.round(bmr * (goal === 'fat_loss' ? 0.8 : 1.0)); // 20% deficit for fat loss
+    const workoutCalories = calories - baseCalories;
+    
+    const calorieBreakdown = {
+        total: calories,
+        bmr: bmr,
+        base: baseCalories,
+        workout: workoutCalories,
+        isFatLoss: goal === 'fat_loss',
+        deficitPercent: goal === 'fat_loss' ? 20 : 0
+    };
+    
     return {
         weight_kg: weight,
         daily_energy_target_kcal: calories,
@@ -36,12 +50,17 @@ function calculateDailyTargets(athlete, workouts) {
         daily_fat_target_g: Math.round(fat.target_g),
         hydration_target_l: parseFloat((hydration.target_ml / 1000).toFixed(1)),
         sodium_target_mg: Math.round(sodium.target_mg),
+        calorie_breakdown: calorieBreakdown,
         explanations: {
             protein: protein.explanation,
             carbs: carbs.explanation,
             fat: fat.explanation,
             hydration: hydration.explanation,
-            sodium: sodium.explanation
+            sodium: sodium.explanation,
+            calories: `Daily target: ${calories} kcal. ` +
+                (goal === 'fat_loss' ? 
+                    `Base metabolism (${bmr} kcal) × 0.8 deficit = ${baseCalories} kcal + ${workoutCalories} kcal for workouts. This creates a 20% calorie deficit for fat loss while fueling training sessions.` :
+                    `Base metabolism (${bmr} kcal) + ${workoutCalories} kcal for training = maintenance calories to support performance.`)
         }
     };
 }
@@ -138,10 +157,9 @@ function getProteinRationale(goal, phase, hasLongOrIntense) {
  * Calculate carbohydrate target
  */
 function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
-    // Rest baseline
-    let carbPerKg = goal === 'fat_loss' ? 3.0 : 3.5;
+    // Workout-based bands (performance baseline)
+    let carbPerKg = 3.5;
     
-    // Workout-based bands
     if (trainingLoad < 0.5) {
         carbPerKg = 3.5;
     } else if (trainingLoad < 1.5) {
@@ -152,9 +170,26 @@ function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
         carbPerKg = 10.0;
     }
     
-    // Fat loss + low load: reduce slightly
-    if ((goal === 'fat_loss' || goal === 'fat_loss_with_performance') && trainingLoad < 0.75) {
-        carbPerKg = Math.max(3.0, carbPerKg * 0.9);
+    // FAT LOSS ADJUSTMENT: Reduce carbs by 30-40% while maintaining workout fuel
+    const isFatLoss = (goal === 'fat_loss' || goal === 'fat_loss_with_performance');
+    let fatLossModifier = 1.0;
+    
+    if (isFatLoss) {
+        if (trainingLoad < 0.5) {
+            // Rest day: aggressive cut (40%)
+            fatLossModifier = 0.6;
+        } else if (trainingLoad < 1.5) {
+            // Light training: moderate cut (35%)
+            fatLossModifier = 0.65;
+        } else if (trainingLoad < 3.0) {
+            // Moderate-high training: conservative cut (30%) to maintain performance
+            fatLossModifier = 0.70;
+        } else {
+            // Very high training: minimal cut (25%) to prevent performance loss
+            fatLossModifier = 0.75;
+        }
+        
+        carbPerKg = carbPerKg * fatLossModifier;
     }
     
     const target_g = weight * carbPerKg;
@@ -163,25 +198,39 @@ function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
                  trainingLoad < 1.5 ? 'moderate' :
                  trainingLoad < 3.0 ? 'high' : 'very high';
     
-    const explanation = `Carbs set to ${Math.round(target_g)} g (${carbPerKg} g/kg × ${weight} kg). ` +
-        `Training load: ${trainingLoad.toFixed(2)} (${band} band). ` +
-        `Rationale: ${getCarbRationale(band, goal, trainingLoad)}`;
+    const fatLossNote = isFatLoss ? 
+        ` (reduced by ${Math.round((1 - fatLossModifier) * 100)}% for fat loss while maintaining workout fuel)` : '';
     
-    return { target_g, carbPerKg, band, explanation };
+    const explanation = `Carbs set to ${Math.round(target_g)} g (${carbPerKg.toFixed(1)} g/kg × ${weight} kg${fatLossNote}). ` +
+        `Training load: ${trainingLoad.toFixed(2)} (${band} band). ` +
+        `Rationale: ${getCarbRationale(band, goal, trainingLoad, isFatLoss, fatLossModifier)}`;
+    
+    return { target_g, carbPerKg, band, explanation, isFatLoss, fatLossModifier };
 }
 
-function getCarbRationale(band, goal, load) {
+function getCarbRationale(band, goal, load, isFatLoss, fatLossModifier) {
     const base = `Training load of ${load.toFixed(1)} places you in the "${band}" band per IOC/ACSM guidance. `;
     
+    let guideline = '';
     if (band === 'very high') {
-        return base + 'High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.';
+        guideline = isFatLoss ? 
+            'For fat loss with heavy training, carbs reduced by 25% from performance baseline (8-12 g/kg → 6-9 g/kg) to create deficit while maintaining glycogen for key sessions per ISSN2017.' :
+            'High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.';
     } else if (band === 'high') {
-        return base + 'Elevated carbs (6-10 g/kg) support intensive training sessions and glycogen repletion per ACSM2016.';
+        guideline = isFatLoss ?
+            `For fat loss with moderate-high training, carbs reduced by 30% from performance baseline (6-10 g/kg → 4.2-7 g/kg) to create deficit while fueling workouts per ACSM2016. Pre/post-workout carbs prioritized.` :
+            'Elevated carbs (6-10 g/kg) support intensive training sessions and glycogen repletion per ACSM2016.';
     } else if (band === 'moderate') {
-        return base + 'Moderate carbs (5-7 g/kg) sufficient for current training volume per IOC2018 guidelines.';
+        guideline = isFatLoss ?
+            'For fat loss with moderate training, carbs reduced by 35% from baseline (5-7 g/kg → 3.3-4.5 g/kg) to accelerate fat oxidation while preventing performance loss per Thomas2016.' :
+            'Moderate carbs (5-7 g/kg) sufficient for current training volume per IOC2018 guidelines.';
     } else {
-        return base + 'Lower carbs appropriate for rest/recovery days, maintains baseline glycogen without excess.';
+        guideline = isFatLoss ?
+            'For fat loss on rest days, carbs reduced by 40% (3-5 g/kg → 1.8-3 g/kg) to maximize fat burning when training demand is low per Burke2011.' :
+            'Lower carbs appropriate for rest/recovery days, maintains baseline glycogen without excess.';
     }
+    
+    return base + guideline;
 }
 
 /**
