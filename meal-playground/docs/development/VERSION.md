@@ -1,6 +1,35 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.5.0 - 2025-11-04 (Current) 🏥
+## v1.5.1 - 2025-11-04 (Current) 🎯
+**Enhanced AI Prompt Quality**
+
+### Improved Prompt Template
+- ✅ **Behavioral rules** - 9 specific rules for AI to follow
+- 🔧 **Auto-correction logic** - AI automatically adjusts if totals don't match targets
+  - If carbs < target by >5%: add rice, oats, banana, juice
+  - If fat > target by >10%: reduce oils, avocado, hummus
+  - If protein > target by >20%: reduce protein portions by 10-20%
+- 📊 **Validation hook** - AI recalculates totals before returning JSON
+- 🎲 **Specific thresholds** - Clear ±2%, ±5%, ±10%, ±20% tolerances
+- 📝 **Meal distribution rules** - Requires 7-9 entries with intra/post for every workout
+- 🥗 **Digestibility logic** - Explicit pre/intra/post-workout food composition rules
+- 🧂 **Sodium enforcement** - Every food must have sodium_mg, auto-add salt if needed
+- 🇮🇱 **Localization** - Enhanced Israeli product examples
+
+### Bug Fixes
+- Fixed "undefined" appearing in RESEARCH CORPUS section when corpus fails to load
+- Added fallback: "Research corpus not available - use general sports nutrition principles"
+- Better corpus validation with `corpus && Object.keys(corpus).length > 0` check
+
+### Expected Impact
+- Higher accuracy in daily totals matching targets
+- Better sodium tracking (fewer warnings)
+- More complete meal plans (7-9 entries)
+- Better timing around workouts
+
+---
+
+## v1.5.0 - 2025-11-04 🏥
 **MAJOR: Research-Based Calorie Calculations**
 
 ### Critical Fixes
