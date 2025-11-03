@@ -31,7 +31,7 @@
 
     <!-- Version Badge (Top Right) -->
     <div class="version-badge" id="versionBadge" title="Click for changelog" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
-        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.6.0</span>
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.6.1</span>
     </div>
 
     <!-- Hero Section -->
@@ -236,7 +236,6 @@
                     <div class="json-actions">
                         <button type="button" id="copyJsonBtn" class="btn btn-secondary">Copy JSON</button>
                         <button type="button" id="downloadJsonBtn" class="btn btn-secondary">Download JSON</button>
-                        <button type="button" id="feedbackBtn" class="btn btn-primary" style="margin-left: auto;">📝 Send Feedback</button>
                     </div>
                     <pre id="jsonContent" class="json-output"></pre>
                 </div>
@@ -256,6 +255,16 @@
                     </div>
                     <pre id="responseContent" class="json-output"></pre>
                 </div>
+            </div>
+            
+            <!-- Feedback Section (Bottom of Output) -->
+            <div class="section-card" style="margin-top: 2rem; text-align: center; background: var(--bg-subtle);">
+                <p style="margin-bottom: 1rem; color: var(--text-light);">
+                    Help improve the AI meal planner! Share feedback on the quality of this meal plan.
+                </p>
+                <button type="button" id="feedbackBtn" class="btn btn-primary btn-large">
+                    📝 Send Feedback on This Meal Plan
+                </button>
             </div>
         </div>
     </div>
