@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.5.1';
+const VERSION = '1.5.2';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -877,10 +877,22 @@ function renderSummary(mealPlan) {
     const totals = mealPlan.daily_totals || {};
     
     const compareValue = (actual, target) => {
-        if (!actual || !target) return '⚠️';
+        // Handle edge cases properly (0 is a valid number!)
+        if (typeof actual !== 'number' || typeof target !== 'number' || target === 0) {
+            return '⚠️';
+        }
         const diff = Math.abs(actual - target);
         const pctDiff = (diff / target) * 100;
-        return pctDiff <= 2 ? '✅' : '⚠️';
+        return pctDiff <= 2 ? '✅' : pctDiff <= 5 ? '⚠️' : '❌';
+    };
+    
+    const formatDiff = (actual, target) => {
+        if (typeof actual !== 'number' || typeof target !== 'number') {
+            return 'no data';
+        }
+        const diff = actual - target;
+        const sign = diff >= 0 ? '+' : '';
+        return `${sign}${diff.toFixed(0)} vs target`;
     };
     
     // Info button helper
@@ -919,22 +931,24 @@ function renderSummary(mealPlan) {
         
         <div class="summary-section">
             <h3>Daily Totals (Actual from Meals) ${compareValue(totals.calories, targets.daily_energy_target_kcal)}</h3>
+            ${totals.calories === 0 || !totals.calories ? 
+                '<p class="warning-message">⚠️ No meal data available. The meal plan may have failed to generate or is still loading.</p>' : ''}
             <div class="summary-grid">
                 <div class="summary-item">
                     <span class="summary-label">Total Calories ${compareValue(totals.calories, targets.daily_energy_target_kcal)}</span>
-                    <span class="summary-value">${totals.calories || 0} kcal <span class="summary-diff">${totals.calories && targets.daily_energy_target_kcal ? (totals.calories - targets.daily_energy_target_kcal).toFixed(0) : 0} vs target</span></span>
+                    <span class="summary-value">${totals.calories || 0} kcal <span class="summary-diff">${formatDiff(totals.calories, targets.daily_energy_target_kcal)}</span></span>
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Total Protein ${compareValue(totals.protein_g, targets.daily_protein_target_g)}</span>
-                    <span class="summary-value">${totals.protein_g || 0} g <span class="summary-diff">${totals.protein_g && targets.daily_protein_target_g ? (totals.protein_g - targets.daily_protein_target_g).toFixed(1) : 0}g vs target</span></span>
+                    <span class="summary-value">${totals.protein_g || 0} g <span class="summary-diff">${formatDiff(totals.protein_g, targets.daily_protein_target_g)}</span></span>
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Total Carbs ${compareValue(totals.carbs_g, targets.daily_carb_target_g)}</span>
-                    <span class="summary-value">${totals.carbs_g || 0} g <span class="summary-diff">${totals.carbs_g && targets.daily_carb_target_g ? (totals.carbs_g - targets.daily_carb_target_g).toFixed(1) : 0}g vs target</span></span>
+                    <span class="summary-value">${totals.carbs_g || 0} g <span class="summary-diff">${formatDiff(totals.carbs_g, targets.daily_carb_target_g)}</span></span>
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Total Fat ${compareValue(totals.fat_g, targets.daily_fat_target_g)}</span>
-                    <span class="summary-value">${totals.fat_g || 0} g <span class="summary-diff">${totals.fat_g && targets.daily_fat_target_g ? (totals.fat_g - targets.daily_fat_target_g).toFixed(1) : 0}g vs target</span></span>
+                    <span class="summary-value">${totals.fat_g || 0} g <span class="summary-diff">${formatDiff(totals.fat_g, targets.daily_fat_target_g)}</span></span>
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Protein per kg</span>
@@ -950,7 +964,7 @@ function renderSummary(mealPlan) {
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Total Sodium ${compareValue(totals.sodium_mg, targets.sodium_target_mg)}</span>
-                    <span class="summary-value">${totals.sodium_mg || 0} mg <span class="summary-diff">${totals.sodium_mg && targets.sodium_target_mg ? (totals.sodium_mg - targets.sodium_target_mg).toFixed(0) : 0}mg vs target</span></span>
+                    <span class="summary-value">${totals.sodium_mg || 0} mg <span class="summary-diff">${formatDiff(totals.sodium_mg, targets.sodium_target_mg)}</span></span>
                 </div>
             </div>
         </div>
