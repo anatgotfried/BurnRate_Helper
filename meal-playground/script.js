@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.6.2';
+const VERSION = '1.6.3';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -1200,18 +1200,35 @@ function downloadJson() {
 
 // Open feedback modal
 function openFeedbackModal() {
+    console.log('📝 Feedback button clicked!');
+    console.log('Current meal plan:', currentMealPlan ? 'exists' : 'null');
+    
     if (!currentMealPlan) {
+        console.log('❌ No meal plan - showing error');
         showStatus('Please generate a meal plan first', 'error');
         return;
     }
     
     const modal = document.getElementById('feedbackModal');
+    if (!modal) {
+        console.error('❌ Feedback modal not found in DOM!');
+        alert('Error: Feedback modal not found. Please refresh the page.');
+        return;
+    }
+    
+    console.log('✅ Opening feedback modal...');
     modal.style.display = 'flex';
     
     // Reset form
-    document.getElementById('feedbackComments').value = '';
+    const commentsBox = document.getElementById('feedbackComments');
+    if (commentsBox) commentsBox.value = '';
+    
     document.querySelectorAll('.feedback-issue').forEach(cb => cb.checked = false);
-    document.querySelector('[name="feedbackRating"][value="good"]').checked = true;
+    
+    const goodRadio = document.querySelector('[name="feedbackRating"][value="good"]');
+    if (goodRadio) goodRadio.checked = true;
+    
+    console.log('✅ Feedback modal opened');
 }
 
 // Close feedback modal
