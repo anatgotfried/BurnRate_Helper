@@ -1,0 +1,270 @@
+{
+  "test_type": "full_meals",
+  "scored_by": "openai/gpt-4o",
+  "scores": [
+    {
+      "model": "qwen-qwen-2.5-72b-instruct",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are exact and food items are realistic and practical."
+      },
+      "macro_accuracy": {
+        "score": 10,
+        "notes": "Daily totals match targets exactly."
+      },
+      "sodium_tracking": {
+        "score": 9,
+        "notes": "Every food has sodium listed; total is very close to target."
+      },
+      "rationale_quality": {
+        "score": 9,
+        "notes": "Detailed explanations with research citations are provided."
+      },
+      "israel_alternatives": {
+        "score": 9,
+        "notes": "Specific products with portions are mentioned."
+      },
+      "meal_timing": {
+        "score": 10,
+        "notes": "Meals are well-timed relative to workouts."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "Clean, valid, and well-structured JSON."
+      },
+      "overall_score": 9.4,
+      "summary": "The meal plan is well-structured with precise portions and realistic food choices. Macro and sodium targets are accurately met, and the rationale is supported by research. Israel alternatives are well integrated, and meal timing is optimal for workouts."
+    },
+    {
+      "model": "openai-gpt-4o",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are exact and food items are realistic and practical."
+      },
+      "macro_accuracy": {
+        "score": 5,
+        "notes": "Protein target exceeded, carbs significantly under target, calories slightly under target."
+      },
+      "sodium_tracking": {
+        "score": 4,
+        "notes": "Sodium is tracked for each food, but total is significantly below target."
+      },
+      "rationale_quality": {
+        "score": 8,
+        "notes": "Rationales are detailed with research citations, though not all meals have them."
+      },
+      "israel_alternatives": {
+        "score": 9,
+        "notes": "Specific products with portions are provided for each meal."
+      },
+      "meal_timing": {
+        "score": 9,
+        "notes": "Meals are well-timed relative to workouts."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "JSON is clean, valid, and well-structured."
+      },
+      "overall_score": 7,
+      "summary": "The meal plan is well-structured with specific and practical food items, and meal timing is appropriate. However, there are discrepancies in macro targets, particularly with carbohydrates and sodium, which need adjustment to meet the athlete's needs."
+    },
+    {
+      "model": "google-gemini-2.5-flash",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are specific and food items are practical for athletes."
+      },
+      "macro_accuracy": {
+        "score": 8,
+        "notes": "Macros are close to targets but slightly off, especially carbs."
+      },
+      "sodium_tracking": {
+        "score": 9,
+        "notes": "Sodium is tracked for each food, total is close to target."
+      },
+      "rationale_quality": {
+        "score": 10,
+        "notes": "Detailed explanations with citations are provided for each meal."
+      },
+      "israel_alternatives": {
+        "score": 10,
+        "notes": "Specific Israeli products are listed with realistic options."
+      },
+      "meal_timing": {
+        "score": 10,
+        "notes": "Meals are well-timed relative to workout schedule."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "JSON is clean, valid, and well-structured."
+      },
+      "overall_score": 9,
+      "summary": "The meal plan is well-structured with detailed rationales and practical food choices. Macro and sodium targets are nearly met, and timing aligns well with workouts. Israel-specific alternatives enhance practicality."
+    },
+    {
+      "model": "openai-gpt-4o-mini",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are specific and practical, with common food items."
+      },
+      "macro_accuracy": {
+        "score": 10,
+        "notes": "Daily totals match the targets perfectly."
+      },
+      "sodium_tracking": {
+        "score": 9,
+        "notes": "Sodium is tracked for each food, and total is close to target."
+      },
+      "rationale_quality": {
+        "score": 8,
+        "notes": "Rationales are detailed with some research citations."
+      },
+      "israel_alternatives": {
+        "score": 7,
+        "notes": "Alternatives are listed but lack specific portions."
+      },
+      "meal_timing": {
+        "score": 10,
+        "notes": "Meals are well-timed around workouts."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "JSON is clean, valid, and well-structured."
+      },
+      "overall_score": 9,
+      "summary": "The meal plan is well-structured and meets nutritional targets with precise portions and timing. Sodium tracking and rationale quality are strong, though Israel alternatives could be more detailed. Overall, it's a comprehensive plan for athletic performance."
+    },
+    {
+      "model": "google-gemini-2.0-flash-exp:free",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are exact and food items are realistic and practical for an athlete."
+      },
+      "macro_accuracy": {
+        "score": 8,
+        "notes": "Daily totals are close to targets, but protein slightly exceeds the target."
+      },
+      "sodium_tracking": {
+        "score": 9,
+        "notes": "Every food has sodium listed and total is close to the target."
+      },
+      "rationale_quality": {
+        "score": 10,
+        "notes": "Detailed explanations with research citations provided for each meal."
+      },
+      "israel_alternatives": {
+        "score": 9,
+        "notes": "Specific products with portions are listed for each meal."
+      },
+      "meal_timing": {
+        "score": 10,
+        "notes": "Meals are well-timed relative to workouts, ensuring optimal performance and recovery."
+      },
+      "json_quality": {
+        "score": 9,
+        "notes": "Clean, valid, and well-structured JSON with minor formatting issues."
+      },
+      "overall_score": 9,
+      "summary": "The meal plan is well-structured and detailed, providing specific food portions and realistic alternatives. Macro and sodium targets are closely met, with excellent rationale and timing for workouts. Slight adjustments in protein intake could improve macro accuracy."
+    },
+    {
+      "model": "google-gemini-2.0-flash-001",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are exact and food items are realistic and practical."
+      },
+      "macro_accuracy": {
+        "score": 6,
+        "notes": "Protein exceeds target, carbs and fat are below targets."
+      },
+      "sodium_tracking": {
+        "score": 5,
+        "notes": "Sodium is tracked for each food, but total is well below target."
+      },
+      "rationale_quality": {
+        "score": 9,
+        "notes": "Detailed explanations with research citations are provided."
+      },
+      "israel_alternatives": {
+        "score": 8,
+        "notes": "Specific products are listed, but portions are not always clear."
+      },
+      "meal_timing": {
+        "score": 9,
+        "notes": "Meals are well-timed relative to workouts."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "Clean, valid, and well-structured JSON."
+      },
+      "overall_score": 8,
+      "summary": "The meal plan is well-structured with specific portions and realistic food items. While the rationale is well-supported with research, the macronutrient and sodium targets are not fully met. The inclusion of Israeli alternatives is a helpful touch, though portion clarity could be improved."
+    },
+    {
+      "model": "mistralai-mistral-small-3.2-24b-instruct",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are specific and practical; food items are realistic."
+      },
+      "macro_accuracy": {
+        "score": 10,
+        "notes": "Daily totals match targets perfectly."
+      },
+      "sodium_tracking": {
+        "score": 9,
+        "notes": "All foods have sodium listed; total is on target."
+      },
+      "rationale_quality": {
+        "score": 8,
+        "notes": "Rationales are detailed with research citations."
+      },
+      "israel_alternatives": {
+        "score": 9,
+        "notes": "Specific products and portions are provided."
+      },
+      "meal_timing": {
+        "score": 9,
+        "notes": "Meals are well-timed relative to workouts."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "JSON is clean, valid, and well-structured."
+      },
+      "overall_score": 9,
+      "summary": "The meal plan is well-structured, with accurate macro and sodium tracking, and provides specific food alternatives for Israel. Rationales are well-supported by research, and meal timing is appropriate for workout schedules. Overall, it is a highly effective plan."
+    },
+    {
+      "model": "anthropic-claude-3.5-sonnet",
+      "food_specificity": {
+        "score": 9,
+        "notes": "Portions are specific and realistic, with practical food items."
+      },
+      "macro_accuracy": {
+        "score": 7,
+        "notes": "Daily totals are under target for calories and carbs but exceed protein target."
+      },
+      "sodium_tracking": {
+        "score": 5,
+        "notes": "Not all foods have sodium listed, and total is below target."
+      },
+      "rationale_quality": {
+        "score": 8,
+        "notes": "Rationales are detailed and reference guidelines, but lack specific citations."
+      },
+      "israel_alternatives": {
+        "score": 9,
+        "notes": "Specific and relevant alternatives are provided for each meal."
+      },
+      "meal_timing": {
+        "score": 8,
+        "notes": "Meals are well-timed relative to workouts, but could optimize pre-workout timing."
+      },
+      "json_quality": {
+        "score": 10,
+        "notes": "JSON is clean, valid, and well-structured."
+      },
+      "overall_score": 8,
+      "summary": "The meal plan is well-structured with specific food portions and practical items. While macro targets are not fully met, the plan provides detailed rationales and appropriate meal timing. Improvements in sodium tracking and macro accuracy could enhance the plan."
+    }
+  ]
+}

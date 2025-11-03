@@ -1,0 +1,268 @@
+{
+  "model": "openai/gpt-4o",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T11:00:46.596651",
+  "duration_ms": 15747,
+  "usage": {
+    "prompt_tokens": 513,
+    "completion_tokens": 2049,
+    "total_tokens": 2562,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, 1 cup cooked (180g)",
+            "carbs_g": 27,
+            "protein_g": 6,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana, 1 medium (118g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Greek Yogurt, 1 cup (245g)",
+            "carbs_g": 9,
+            "protein_g": 20,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 63,
+        "total_protein_g": 27,
+        "total_fat_g": 3,
+        "total_sodium_mg": 86,
+        "total_calories": 375,
+        "rationale": "A balanced breakfast with a focus on carbohydrates to fuel morning workouts, moderate protein to support muscle maintenance, and low fat to ensure quick digestion (ISSN2017). Bananas provide potassium, aiding muscle function during runs (ACSM2016).",
+        "israel_alternatives": [
+          "Tnuva Yogurt",
+          "Osem Oatmeal",
+          "Yotvata Banana"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Post-Workout Snack",
+        "type": "recovery",
+        "foods": [
+          {
+            "item": "Protein Shake, 1 serving",
+            "carbs_g": 20,
+            "protein_g": 30,
+            "fat_g": 1,
+            "sodium_mg": 200,
+            "calories": 250
+          },
+          {
+            "item": "Apple, 1 medium (182g)",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 95
+          }
+        ],
+        "total_carbs_g": 45,
+        "total_protein_g": 30,
+        "total_fat_g": 1,
+        "total_sodium_mg": 202,
+        "total_calories": 345,
+        "rationale": "Post-workout nutrition focuses on replenishing glycogen stores with carbohydrates and repairing muscles with protein (ISSN2017). Apples add additional carbohydrates and fiber for digestion.",
+        "israel_alternatives": [
+          "Elite Protein Shake",
+          "Golan Apples"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Grilled Chicken Breast, 200g",
+            "carbs_g": 0,
+            "protein_g": 50,
+            "fat_g": 5,
+            "sodium_mg": 120,
+            "calories": 265
+          },
+          {
+            "item": "Brown Rice, 1 cup cooked (195g)",
+            "carbs_g": 45,
+            "protein_g": 5,
+            "fat_g": 1,
+            "sodium_mg": 10,
+            "calories": 215
+          },
+          {
+            "item": "Steamed Broccoli, 1 cup (156g)",
+            "carbs_g": 11,
+            "protein_g": 4,
+            "fat_g": 1,
+            "sodium_mg": 40,
+            "calories": 55
+          }
+        ],
+        "total_carbs_g": 56,
+        "total_protein_g": 59,
+        "total_fat_g": 7,
+        "total_sodium_mg": 170,
+        "total_calories": 535,
+        "rationale": "A high-protein lunch to support muscle repair and growth, with complex carbs for sustained energy. Broccoli provides fiber and micronutrients (ACSM2016).",
+        "israel_alternatives": [
+          "Tivall Chicken",
+          "Osem Rice",
+          "Tnuva Broccoli"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Afternoon Snack",
+        "type": "light_snack",
+        "foods": [
+          {
+            "item": "Almonds, 30g",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 170
+          },
+          {
+            "item": "Rice Cake, 2 pieces",
+            "carbs_g": 14,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 20,
+            "calories": 70
+          }
+        ],
+        "total_carbs_g": 20,
+        "total_protein_g": 8,
+        "total_fat_g": 14,
+        "total_sodium_mg": 20,
+        "total_calories": 240,
+        "rationale": "An energy-boosting snack with healthy fats and protein to sustain energy levels and manage hunger (ISSN2017).",
+        "israel_alternatives": [
+          "Tnuva Almonds",
+          "Osem Rice Cakes"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Salmon Fillet, 200g",
+            "carbs_g": 0,
+            "protein_g": 40,
+            "fat_g": 20,
+            "sodium_mg": 70,
+            "calories": 350
+          },
+          {
+            "item": "Quinoa, 1 cup cooked (185g)",
+            "carbs_g": 39,
+            "protein_g": 8,
+            "fat_g": 4,
+            "sodium_mg": 13,
+            "calories": 222
+          },
+          {
+            "item": "Mixed Salad (lettuce, tomato, cucumber), 200g",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 15,
+            "calories": 50
+          }
+        ],
+        "total_carbs_g": 49,
+        "total_protein_g": 50,
+        "total_fat_g": 24,
+        "total_sodium_mg": 98,
+        "total_calories": 622,
+        "rationale": "A nutrient-dense dinner providing omega-3 fatty acids from salmon, supporting cardiovascular health and inflammation reduction (ACSM2016). Quinoa offers a complete protein source and fiber.",
+        "israel_alternatives": [
+          "Tnuva Salmon",
+          "Osem Quinoa",
+          "Tnuva Mixed Salad"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "light_snack",
+        "foods": [
+          {
+            "item": "Cottage Cheese, 1 cup (226g)",
+            "carbs_g": 6,
+            "protein_g": 28,
+            "fat_g": 5,
+            "sodium_mg": 900,
+            "calories": 206
+          },
+          {
+            "item": "Whole Wheat Toast, 2 slices (56g)",
+            "carbs_g": 24,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 200,
+            "calories": 140
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 34,
+        "total_fat_g": 7,
+        "total_sodium_mg": 1100,
+        "total_calories": 346,
+        "rationale": "A casein-rich snack to provide a steady protein release overnight, supporting muscle recovery (ISSN2017). The toast adds complex carbohydrates for sustained energy.",
+        "israel_alternatives": [
+          "Tnuva Cottage Cheese",
+          "Osem Whole Wheat Bread"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3163,
+      "carbs_g": 260,
+      "protein_g": 208,
+      "fat_g": 56,
+      "sodium_mg": 1676,
+      "protein_per_kg": 2.97,
+      "carbs_per_kg": 3.71
+    },
+    "key_recommendations": [
+      "Ensure carb intake is distributed evenly throughout the day to maintain energy levels.",
+      "Adjust portion sizes based on workout intensity and duration to meet caloric needs."
+    ]
+  }
+}

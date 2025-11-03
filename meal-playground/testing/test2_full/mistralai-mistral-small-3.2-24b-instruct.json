@@ -1,0 +1,326 @@
+{
+  "model": "mistralai/mistral-small-3.2-24b-instruct",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:55:44.940839",
+  "duration_ms": 67894,
+  "usage": {
+    "prompt_tokens": 571,
+    "completion_tokens": 2950,
+    "total_tokens": 3521,
+    "prompt_tokens_details": null
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, 1 cup cooked (180g)",
+            "carbs_g": 27,
+            "protein_g": 6,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana, 1 medium (118g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Almond Butter, 2 tbsp (32g)",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 16,
+            "sodium_mg": 0,
+            "calories": 198
+          },
+          {
+            "item": "Greek Yogurt, 1 cup (227g)",
+            "carbs_g": 9,
+            "protein_g": 17,
+            "fat_g": 0,
+            "sodium_mg": 68,
+            "calories": 130
+          }
+        ],
+        "total_carbs_g": 69,
+        "total_protein_g": 30,
+        "total_fat_g": 19,
+        "total_sodium_mg": 74,
+        "total_calories": 583,
+        "rationale": "Oatmeal provides complex carbohydrates for sustained energy, while banana offers quick-digesting carbs for immediate fuel. Almond butter adds healthy fats and a bit of protein, and Greek yogurt boosts protein intake. This combination supports both immediate and prolonged energy needs for the upcoming workouts. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Oatmeal",
+          "Osem Banana",
+          "Yotvata Almond Butter",
+          "Tnuva Greek Yogurt"
+        ]
+      },
+      {
+        "time": "10:30",
+        "name": "Post-Workout Snack",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Protein Shake, 1 scoop (30g) mixed with water",
+            "carbs_g": 3,
+            "protein_g": 24,
+            "fat_g": 1,
+            "sodium_mg": 50,
+            "calories": 120
+          },
+          {
+            "item": "Rice Cakes, 2 cakes (14g)",
+            "carbs_g": 28,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 110
+          },
+          {
+            "item": "Honey, 1 tbsp (21g)",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 64
+          }
+        ],
+        "total_carbs_g": 48,
+        "total_protein_g": 25,
+        "total_fat_g": 1,
+        "total_sodium_mg": 51,
+        "total_calories": 294,
+        "rationale": "A protein shake provides high-quality protein for muscle repair and recovery. Rice cakes offer easily digestible carbohydrates to replenish glycogen stores, and honey adds quick-digesting carbs to spike insulin and promote muscle recovery. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Protein Shake",
+          "Osem Rice Cakes",
+          "Yotvata Honey"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "regular",
+        "foods": [
+          {
+            "item": "Chicken Breast, 150g cooked",
+            "carbs_g": 0,
+            "protein_g": 46,
+            "fat_g": 4,
+            "sodium_mg": 75,
+            "calories": 231
+          },
+          {
+            "item": "Quinoa, 1 cup cooked (185g)",
+            "carbs_g": 40,
+            "protein_g": 8,
+            "fat_g": 4,
+            "sodium_mg": 15,
+            "calories": 220
+          },
+          {
+            "item": "Broccoli, 1 cup (91g)",
+            "carbs_g": 6,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 31
+          },
+          {
+            "item": "Olive Oil, 1 tbsp (14g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          },
+          {
+            "item": "Salt, 1 tsp (5g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2325,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 46,
+        "total_protein_g": 57,
+        "total_fat_g": 22,
+        "total_sodium_mg": 2425,
+        "total_calories": 602,
+        "rationale": "Chicken breast provides lean protein for muscle repair and growth. Quinoa is a complex carbohydrate with added protein, and broccoli offers fiber and micronutrients. Olive oil adds healthy fats, and salt ensures sodium intake is met. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Chicken Breast",
+          "Osem Quinoa",
+          "Yotvata Broccoli",
+          "Osem Olive Oil",
+          "Tnuva Salt"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Pre-Workout Snack",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "White Bread, 2 slices (56g)",
+            "carbs_g": 24,
+            "protein_g": 4,
+            "fat_g": 1,
+            "sodium_mg": 170,
+            "calories": 140
+          },
+          {
+            "item": "Tuna, 1 can (80g drained weight)",
+            "carbs_g": 0,
+            "protein_g": 20,
+            "fat_g": 1,
+            "sodium_mg": 240,
+            "calories": 92
+          },
+          {
+            "item": "Mayonnaise, 1 tbsp (15g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 10,
+            "sodium_mg": 95,
+            "calories": 90
+          }
+        ],
+        "total_carbs_g": 24,
+        "total_protein_g": 24,
+        "total_fat_g": 12,
+        "total_sodium_mg": 505,
+        "total_calories": 322,
+        "rationale": "White bread offers quick-digesting carbohydrates for immediate energy, while tuna provides protein and healthy fats. Mayonnaise adds additional fats to support energy needs. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Osem White Bread",
+          "Tnuva Tuna",
+          "Osem Mayonnaise"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "regular",
+        "foods": [
+          {
+            "item": "Salmon, 150g cooked",
+            "carbs_g": 0,
+            "protein_g": 34,
+            "fat_g": 18,
+            "sodium_mg": 60,
+            "calories": 328
+          },
+          {
+            "item": "Sweet Potato, 1 medium (130g)",
+            "carbs_g": 31,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 130
+          },
+          {
+            "item": "Spinach, 1 cup (30g)",
+            "carbs_g": 1,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 24,
+            "calories": 7
+          },
+          {
+            "item": "Avocado, 0.5 medium (70g)",
+            "carbs_g": 6,
+            "protein_g": 1,
+            "fat_g": 10,
+            "sodium_mg": 6,
+            "calories": 120
+          },
+          {
+            "item": "Salt, 1 tsp (5g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2325,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 38,
+        "total_protein_g": 39,
+        "total_fat_g": 28,
+        "total_sodium_mg": 2475,
+        "total_calories": 605,
+        "rationale": "Salmon provides high-quality protein and healthy fats, while sweet potato offers complex carbohydrates for sustained energy. Spinach and avocado add fiber, micronutrients, and additional healthy fats. Salt ensures sodium intake is met. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Salmon",
+          "Osem Sweet Potato",
+          "Yotvata Spinach",
+          "Tnuva Avocado",
+          "Tnuva Salt"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "regular",
+        "foods": [
+          {
+            "item": "Cottage Cheese, 1 cup (225g)",
+            "carbs_g": 8,
+            "protein_g": 28,
+            "fat_g": 2,
+            "sodium_mg": 800,
+            "calories": 180
+          },
+          {
+            "item": "Pineapple, 1 cup (165g)",
+            "carbs_g": 22,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 82
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 29,
+        "total_fat_g": 2,
+        "total_sodium_mg": 802,
+        "total_calories": 262,
+        "rationale": "Cottage cheese provides a slow-digesting protein source to support overnight muscle recovery, while pineapple offers a small amount of quick-digesting carbs and vitamin C. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Cottage Cheese",
+          "Osem Pineapple"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "carbs_g": 560,
+      "protein_g": 126,
+      "fat_g": 56,
+      "sodium_mg": 4000,
+      "protein_per_kg": 1.8,
+      "carbs_per_kg": 8.0
+    },
+    "key_recommendations": [
+      "Ensure adequate hydration throughout the day, aiming for at least 3-4 liters of water.",
+      "Consume a variety of colorful fruits and vegetables to meet micronutrient needs.",
+      "Adjust portion sizes based on hunger and fullness cues, and consult with a registered dietitian for personalized advice."
+    ]
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "model": "openai/gpt-4o-mini",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:59:13.064696",
+  "duration_ms": 40325,
+  "usage": {
+    "prompt_tokens": 513,
+    "completion_tokens": 2198,
+    "total_tokens": 2711,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, 1 cup cooked (180g)",
+            "carbs_g": 27,
+            "protein_g": 6,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana, medium (118g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Almond butter, 1 tbsp (16g)",
+            "carbs_g": 3,
+            "protein_g": 4,
+            "fat_g": 9,
+            "sodium_mg": 1,
+            "calories": 98
+          }
+        ],
+        "total_carbs_g": 57,
+        "total_protein_g": 11,
+        "total_fat_g": 12,
+        "total_sodium_mg": 7,
+        "total_calories": 353,
+        "rationale": "This breakfast provides a good balance of carbohydrates for energy from the oatmeal and banana, while the almond butter adds healthy fats and protein. Timing is crucial as consuming carbs before workouts can enhance performance (ISSN2017, ACSM2016).",
+        "israel_alternatives": [
+          "Tnuva product 1",
+          "Osem product 2",
+          "Yotvata product 3"
+        ]
+      },
+      {
+        "time": "09:30",
+        "name": "Post-Workout Snack",
+        "type": "post-workout",
+        "foods": [
+          {
+            "item": "Protein shake (whey), 1 scoop (30g)",
+            "carbs_g": 3,
+            "protein_g": 24,
+            "fat_g": 1,
+            "sodium_mg": 50,
+            "calories": 120
+          },
+          {
+            "item": "Rice cakes, 2 pieces (14g)",
+            "carbs_g": 14,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 17,
+        "total_protein_g": 25,
+        "total_fat_g": 1,
+        "total_sodium_mg": 51,
+        "total_calories": 180,
+        "rationale": "A post-workout snack rich in protein and carbohydrates promotes recovery after the morning run. The protein shake aids muscle repair, while rice cakes help replenish glycogen stores quickly.",
+        "israel_alternatives": [
+          "Tnuva product 2",
+          "Osem product 3",
+          "Yotvata product 1"
+        ]
+      },
+      {
+        "time": "12:30",
+        "name": "Lunch",
+        "type": "main meal",
+        "foods": [
+          {
+            "item": "Grilled chicken breast, 200g",
+            "carbs_g": 0,
+            "protein_g": 46,
+            "fat_g": 4,
+            "sodium_mg": 80,
+            "calories": 240
+          },
+          {
+            "item": "Brown rice, cooked, 1.5 cups (300g)",
+            "carbs_g": 66,
+            "protein_g": 12,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 330
+          },
+          {
+            "item": "Steamed broccoli, 1 cup (156g)",
+            "carbs_g": 11,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 64,
+            "calories": 55
+          }
+        ],
+        "total_carbs_g": 78,
+        "total_protein_g": 62,
+        "total_fat_g": 7,
+        "total_sodium_mg": 149,
+        "total_calories": 625,
+        "rationale": "A balanced lunch with lean protein, complex carbs, and fiber-rich vegetables supports muscle recovery and provides sustained energy for the afternoon workout. Chicken is an excellent protein source, while brown rice offers complex carbohydrates.",
+        "israel_alternatives": [
+          "Tnuva product 3",
+          "Osem product 1",
+          "Yotvata product 2"
+        ]
+      },
+      {
+        "time": "15:30",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek yogurt, plain, 1 cup (245g)",
+            "carbs_g": 9,
+            "protein_g": 23,
+            "fat_g": 10,
+            "sodium_mg": 115,
+            "calories": 220
+          },
+          {
+            "item": "Honey, 1 tbsp (21g)",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 64
+          },
+          {
+            "item": "Mixed nuts, 1 oz (28g)",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 14,
+            "sodium_mg": 1,
+            "calories": 170
+          }
+        ],
+        "total_carbs_g": 32,
+        "total_protein_g": 29,
+        "total_fat_g": 24,
+        "total_sodium_mg": 117,
+        "total_calories": 454,
+        "rationale": "This snack is rich in protein and healthy fats, which aids muscle repair and keeps hunger at bay until dinner. Greek yogurt provides probiotics and calcium, while honey gives a quick energy boost.",
+        "israel_alternatives": [
+          "Tnuva product 1",
+          "Osem product 2",
+          "Yotvata product 3"
+        ]
+      },
+      {
+        "time": "18:00",
+        "name": "Dinner",
+        "type": "main meal",
+        "foods": [
+          {
+            "item": "Salmon, grilled, 200g",
+            "carbs_g": 0,
+            "protein_g": 40,
+            "fat_g": 22,
+            "sodium_mg": 80,
+            "calories": 400
+          },
+          {
+            "item": "Quinoa, cooked, 1 cup (185g)",
+            "carbs_g": 39,
+            "protein_g": 8,
+            "fat_g": 4,
+            "sodium_mg": 13,
+            "calories": 222
+          },
+          {
+            "item": "Mixed vegetables (carrots, bell peppers, zucchini), 1 cup (150g)",
+            "carbs_g": 12,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 51,
+        "total_protein_g": 51,
+        "total_fat_g": 26,
+        "total_sodium_mg": 143,
+        "total_calories": 682,
+        "rationale": "Dinner features a rich source of omega-3 fatty acids from salmon, which is crucial for recovery and inflammation reduction. Quinoa provides additional complete proteins and carbs for recovery, while mixed vegetables contribute vitamins and minerals.",
+        "israel_alternatives": [
+          "Tnuva product 2",
+          "Osem product 3",
+          "Yotvata product 1"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Cottage cheese, 1 cup (226g)",
+            "carbs_g": 6,
+            "protein_g": 28,
+            "fat_g": 10,
+            "sodium_mg": 918,
+            "calories": 206
+          },
+          {
+            "item": "Apple, medium (182g)",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 95
+          }
+        ],
+        "total_carbs_g": 31,
+        "total_protein_g": 28,
+        "total_fat_g": 10,
+        "total_sodium_mg": 920,
+        "total_calories": 301,
+        "rationale": "Cottage cheese is an excellent source of casein protein, which digests slowly and is beneficial for overnight recovery. Pairing it with an apple adds fiber and natural sugars for a satisfying snack before bed.",
+        "israel_alternatives": [
+          "Tnuva product 1",
+          "Osem product 2",
+          "Yotvata product 3"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "carbs_g": 560,
+      "protein_g": 126,
+      "fat_g": 56,
+      "sodium_mg": 4000,
+      "protein_per_kg": 1.8,
+      "carbs_per_kg": 8.0
+    },
+    "key_recommendations": [
+      "Stay hydrated throughout the day, especially around workouts.",
+      "Consider timing meals around training sessions for optimal performance and recovery."
+    ]
+  }
+}

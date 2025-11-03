@@ -1,0 +1,316 @@
+{
+  "model": "google/gemini-2.0-flash-001",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:54:47.026225",
+  "duration_ms": 25791,
+  "usage": {
+    "prompt_tokens": 603,
+    "completion_tokens": 3113,
+    "total_tokens": 3716,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, 1 cup cooked (180g)",
+            "carbs_g": 27,
+            "protein_g": 6,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana, 1 medium (118g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Peanut Butter, 2 tablespoons (32g)",
+            "carbs_g": 7,
+            "protein_g": 7,
+            "fat_g": 16,
+            "sodium_mg": 150,
+            "calories": 188
+          },
+          {
+            "item": "Whey Protein Isolate, 1 scoop (30g)",
+            "carbs_g": 1,
+            "protein_g": 25,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 62,
+        "total_protein_g": 39,
+        "total_fat_g": 19,
+        "total_sodium_mg": 206,
+        "total_calories": 543,
+        "rationale": "This pre-workout meal focuses on providing easily digestible carbohydrates for energy during the run, along with some protein to initiate muscle protein synthesis. Oatmeal and banana provide carbohydrates, while peanut butter offers some fat for sustained energy and whey protein provides a quick dose of protein. Consuming carbohydrates 2-3 hours before exercise can improve performance (ACSM, 2016). Protein before exercise can increase muscle protein synthesis (ISSN, 2017).",
+        "israel_alternatives": [
+          "Tnuva Yoplait Go protein yogurt",
+          "Osem instant oatmeal",
+          "Achva Halva spread"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Pre-Run Snack",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Energy Gel, 1 packet (35g)",
+            "carbs_g": 22,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 90
+          }
+        ],
+        "total_carbs_g": 22,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 50,
+        "total_calories": 90,
+        "rationale": "A quick source of carbohydrates to top off glycogen stores before the run. Easy to digest and provides readily available energy. Energy gels provide a concentrated source of carbohydrates for quick energy during endurance activities (Jeukendrup, 2014).",
+        "israel_alternatives": [
+          "Elite Citrus Energy Gel",
+          "Date spread",
+          "Honey"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Post-Run Recovery",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Chocolate Milk, 2 cups (480ml)",
+            "carbs_g": 52,
+            "protein_g": 16,
+            "fat_g": 8,
+            "sodium_mg": 220,
+            "calories": 310
+          },
+          {
+            "item": "Bagel, 1 medium (85g)",
+            "carbs_g": 48,
+            "protein_g": 9,
+            "fat_g": 1,
+            "sodium_mg": 240,
+            "calories": 240
+          }
+        ],
+        "total_carbs_g": 100,
+        "total_protein_g": 25,
+        "total_fat_g": 9,
+        "total_sodium_mg": 460,
+        "total_calories": 550,
+        "rationale": "This post-workout meal aims to replenish glycogen stores and initiate muscle protein synthesis. Chocolate milk provides carbohydrates, protein, and electrolytes, while the bagel offers additional carbohydrates. Consuming carbohydrates and protein within 1-2 hours post-exercise enhances glycogen resynthesis and muscle recovery (Ivy, 2004).",
+        "israel_alternatives": [
+          "Yotvata chocolate milk",
+          "Angel Bakery bagel",
+          "Shamir Bakery bagel"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Chicken Breast, grilled, 6oz (170g)",
+            "carbs_g": 0,
+            "protein_g": 53,
+            "fat_g": 3,
+            "sodium_mg": 100,
+            "calories": 240
+          },
+          {
+            "item": "Brown Rice, 1.5 cups cooked (285g)",
+            "carbs_g": 63,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 10,
+            "calories": 270
+          },
+          {
+            "item": "Mixed Vegetables, 1 cup (100g)",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 60,
+            "calories": 50
+          }
+        ],
+        "total_carbs_g": 73,
+        "total_protein_g": 61,
+        "total_fat_g": 5,
+        "total_sodium_mg": 170,
+        "total_calories": 560,
+        "rationale": "A balanced meal providing protein for muscle repair and carbohydrates for energy replenishment. Chicken breast is a lean protein source, brown rice offers complex carbohydrates, and vegetables provide micronutrients. A balanced meal supports overall recovery and training adaptation.",
+        "israel_alternatives": [
+          "Of Tov chicken breast",
+          "Sugal brown rice",
+          "Sunfrost frozen vegetables"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek Yogurt, 1 cup (245g)",
+            "carbs_g": 8,
+            "protein_g": 20,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 130
+          },
+          {
+            "item": "Mixed Nuts, 1/4 cup (30g)",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 200
+          }
+        ],
+        "total_carbs_g": 14,
+        "total_protein_g": 26,
+        "total_fat_g": 14,
+        "total_sodium_mg": 80,
+        "total_calories": 330,
+        "rationale": "A protein-rich snack to maintain muscle protein synthesis and satiety. Greek yogurt provides protein and calcium, while mixed nuts offer healthy fats and fiber. This snack helps to bridge the gap between lunch and dinner and provides sustained energy.",
+        "israel_alternatives": [
+          "Tnuva Greek yogurt",
+          "Carmel mixed nuts",
+          "Shufersal mixed nuts"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Salmon, baked, 6oz (170g)",
+            "carbs_g": 0,
+            "protein_g": 37,
+            "fat_g": 18,
+            "sodium_mg": 80,
+            "calories": 300
+          },
+          {
+            "item": "Sweet Potato, 1 medium (114g)",
+            "carbs_g": 21,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 90
+          },
+          {
+            "item": "Asparagus, 1 cup (134g)",
+            "carbs_g": 5,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 15,
+            "calories": 20
+          },
+          {
+            "item": "Olive Oil, 1 tbsp (14g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 1,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 26,
+        "total_protein_g": 42,
+        "total_fat_g": 32,
+        "total_sodium_mg": 126,
+        "total_calories": 530,
+        "rationale": "A nutrient-dense meal focusing on protein, healthy fats, and complex carbohydrates. Salmon provides high-quality protein and omega-3 fatty acids, sweet potato offers complex carbohydrates, and asparagus delivers micronutrients. Olive oil adds healthy fats and supports nutrient absorption.",
+        "israel_alternatives": [
+          "Frozen salmon fillets",
+          "Local sweet potatoes",
+          "Fresh asparagus"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Cottage Cheese, 1/2 cup (113g)",
+            "carbs_g": 5,
+            "protein_g": 12,
+            "fat_g": 5,
+            "sodium_mg": 350,
+            "calories": 120
+          },
+          {
+            "item": "Rice Cakes, 2 (18g)",
+            "carbs_g": 14,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 10,
+            "calories": 70
+          }
+        ],
+        "total_carbs_g": 19,
+        "total_protein_g": 13,
+        "total_fat_g": 5,
+        "total_sodium_mg": 360,
+        "total_calories": 190,
+        "rationale": "A casein-rich snack before bed to promote overnight muscle recovery. Cottage cheese provides a slow-digesting protein, and rice cakes offer a small amount of carbohydrates. Casein protein can help reduce muscle protein breakdown during sleep (Trommelen & van Loon, 2016).",
+        "israel_alternatives": [
+          "Tnuva cottage cheese",
+          "Ofra rice cakes",
+          "Eden rice cakes"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3293,
+      "carbs_g": 316,
+      "protein_g": 212,
+      "fat_g": 104,
+      "sodium_mg": 1452,
+      "protein_per_kg": 3.03,
+      "carbs_per_kg": 4.51
+    },
+    "key_recommendations": [
+      "Ensure adequate hydration throughout the day, especially before, during, and after workouts.",
+      "Adjust portion sizes based on individual hunger and satiety cues.",
+      "Consider adding sodium supplements to meet the daily target of 4000mg, especially during and after workouts, given the relatively low sodium content in the meals.",
+      "Monitor body weight and performance to fine-tune calorie and macronutrient intake.",
+      "Consult with a registered dietitian or sports nutritionist for personalized guidance."
+    ]
+  }
+}

@@ -1,0 +1,306 @@
+{
+  "model": "google/gemini-2.0-flash-exp:free",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:55:16.826657",
+  "duration_ms": 24105,
+  "usage": {
+    "prompt_tokens": 603,
+    "completion_tokens": 2941,
+    "total_tokens": 3544,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, 1 cup cooked (180g)",
+            "carbs_g": 27,
+            "protein_g": 6,
+            "fat_g": 3,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana, 1 medium (118g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Peanut Butter, 2 tbsp (32g)",
+            "carbs_g": 6,
+            "protein_g": 7,
+            "fat_g": 16,
+            "sodium_mg": 150,
+            "calories": 188
+          }
+        ],
+        "total_carbs_g": 60,
+        "total_protein_g": 14,
+        "total_fat_g": 19,
+        "total_sodium_mg": 156,
+        "total_calories": 443,
+        "rationale": "This pre-workout meal provides easily digestible carbohydrates from oatmeal and banana for sustained energy during the run. Peanut butter offers some fat and protein for satiety. Consuming this 2 hours before exercise allows for adequate digestion. (ISSN, 2017).",
+        "israel_alternatives": [
+          "Tnuva Yoplait Go",
+          "Osem Bamba",
+          "Yotvata Chocolate Milk"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Pre-Run Snack",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Energy Gel, 1 packet",
+            "carbs_g": 22,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 88
+          }
+        ],
+        "total_carbs_g": 22,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 50,
+        "total_calories": 88,
+        "rationale": "Provides a quick burst of energy from simple carbohydrates to top off glycogen stores before the run. Energy gels are easily absorbed and minimize gastrointestinal distress during exercise. (ACSM, 2016).",
+        "israel_alternatives": [
+          "Date Syrup",
+          "Honey",
+          "Energy Bar"
+        ]
+      },
+      {
+        "time": "10:00",
+        "name": "Post-Run Recovery",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Whey Protein Shake (30g protein)",
+            "carbs_g": 3,
+            "protein_g": 30,
+            "fat_g": 2,
+            "sodium_mg": 50,
+            "calories": 140
+          },
+          {
+            "item": "Sports Drink (Gatorade), 500ml",
+            "carbs_g": 36,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 450,
+            "calories": 144
+          }
+        ],
+        "total_carbs_g": 39,
+        "total_protein_g": 30,
+        "total_fat_g": 2,
+        "total_sodium_mg": 500,
+        "total_calories": 284,
+        "rationale": "Whey protein aids in muscle recovery and repair post-exercise. The sports drink replenishes electrolytes lost through sweat and provides carbohydrates to restore glycogen levels. Consuming this immediately after the run maximizes recovery. (Ivy, J. L. 2004).",
+        "israel_alternatives": [
+          "Tnuva Yoplait Pro",
+          "Powerade",
+          "Elite Cafe"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "main",
+        "foods": [
+          {
+            "item": "Chicken Breast, grilled (150g)",
+            "carbs_g": 0,
+            "protein_g": 46,
+            "fat_g": 3,
+            "sodium_mg": 75,
+            "calories": 210
+          },
+          {
+            "item": "Brown Rice, 1.5 cups cooked (270g)",
+            "carbs_g": 63,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 15,
+            "calories": 270
+          },
+          {
+            "item": "Broccoli, steamed (1 cup, 91g)",
+            "carbs_g": 6,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 30
+          }
+        ],
+        "total_carbs_g": 69,
+        "total_protein_g": 55,
+        "total_fat_g": 5,
+        "total_sodium_mg": 120,
+        "total_calories": 510,
+        "rationale": "This lunch provides a substantial amount of protein from chicken breast for muscle repair and satiety. Brown rice offers complex carbohydrates for sustained energy. Broccoli provides essential vitamins and minerals. (Phillips, S. M., & Van Loon, L. J. 2011).",
+        "israel_alternatives": [
+          "Schnitzel",
+          "Couscous",
+          "Israeli Salad"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek Yogurt, plain, non-fat (200g)",
+            "carbs_g": 8,
+            "protein_g": 20,
+            "fat_g": 0,
+            "sodium_mg": 70,
+            "calories": 120
+          },
+          {
+            "item": "Mixed Berries, 1 cup (148g)",
+            "carbs_g": 24,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 84
+          },
+          {
+            "item": "Almonds, 1/4 cup (30g)",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 170
+          }
+        ],
+        "total_carbs_g": 38,
+        "total_protein_g": 27,
+        "total_fat_g": 14,
+        "total_sodium_mg": 71,
+        "total_calories": 374,
+        "rationale": "Greek yogurt provides a good source of protein and calcium. Berries offer antioxidants and additional carbohydrates. Almonds offer healthy fats and some protein for sustained energy. (Davis, A. The body ecology diet: Recovering your health and rebuilding your immunity. New York: Avery, 2003.)",
+        "israel_alternatives": [
+          "Cottage Cheese",
+          "Dates",
+          "Sunflower Seeds"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "main",
+        "foods": [
+          {
+            "item": "Salmon, baked (150g)",
+            "carbs_g": 0,
+            "protein_g": 31,
+            "fat_g": 13,
+            "sodium_mg": 59,
+            "calories": 233
+          },
+          {
+            "item": "Sweet Potato, baked (1 medium, 130g)",
+            "carbs_g": 28,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 55,
+            "calories": 112
+          },
+          {
+            "item": "Asparagus, steamed (1 cup, 134g)",
+            "carbs_g": 5,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 14,
+            "calories": 27
+          },
+          {
+            "item": "Olive Oil, 1 tbsp",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 33,
+        "total_protein_g": 36,
+        "total_fat_g": 27,
+        "total_sodium_mg": 128,
+        "total_calories": 492,
+        "rationale": "Salmon provides high-quality protein and omega-3 fatty acids which are beneficial for recovery and overall health. Sweet potato offers complex carbohydrates and vitamins. Asparagus provides additional nutrients. Adding olive oil enhances the absorption of fat-soluble vitamins. (Simopoulos, A. P. (2002). The importance of the ratio of omega-6/omega-3 essential fatty acids.",
+        "israel_alternatives": [
+          "Tilapia",
+          "Potatoes",
+          "Green Beans"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Casein Protein (30g protein)",
+            "carbs_g": 4,
+            "protein_g": 28,
+            "fat_g": 1,
+            "sodium_mg": 1500,
+            "calories": 140
+          }
+        ],
+        "total_carbs_g": 4,
+        "total_protein_g": 28,
+        "total_fat_g": 1,
+        "total_sodium_mg": 1500,
+        "total_calories": 140,
+        "rationale": "Casein protein is a slow-digesting protein that can aid in muscle recovery and reduce muscle breakdown during sleep. It provides a sustained release of amino acids throughout the night. (Res, P. T., Groen, B., Top, A., Beelen, M., Koopman, R., & van Loon, L. J. (2012). Protein ingestion prior to sleep improves postexercise overnight recovery).",
+        "israel_alternatives": [
+          "Tnuva cottage cheese",
+          "Skyr",
+          "Greek Yogurt"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "carbs_g": 562,
+      "protein_g": 196,
+      "fat_g": 68,
+      "sodium_mg": 4025,
+      "protein_per_kg": 2.8,
+      "carbs_per_kg": 8.0
+    },
+    "key_recommendations": [
+      "Stay well-hydrated throughout the day, especially before, during, and after workouts.",
+      "Adjust portion sizes based on individual hunger levels and training intensity.",
+      "Prioritize whole, unprocessed foods to maximize nutrient intake."
+    ]
+  }
+}

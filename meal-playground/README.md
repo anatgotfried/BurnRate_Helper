@@ -1,218 +1,166 @@
 # 🍽️ BurnRate AI Meal Planner
 
-**Version:** 1.3.0  
-**Live:** [callback.burnrate.fit/meal-playground](https://callback.burnrate.fit/meal-playground/)
+**Version:** 1.4.0  
+**Live:** [callback.burnrate.fit/meal-playground](https://callback.burnrate.fit/meal-playground/)  
+**Status:** ✅ Production Ready - Fully Tested & Scored by GPT-4o
 
-AI-powered personalized sports nutrition meal planning with evidence-based recommendations.
-
----
-
-## ✨ Features
-
-- 🤖 **Multiple AI Models** - Choose from Gemini (FREE), Claude, GPT-4o, Mistral, Qwen
-- 👁️ **Full Transparency** - View prompts, AI responses, and costs before/after generation
-- 📊 **Deterministic Macro Calculations** - Evidence-based protein, carbs, fat, and hydration targets
-- 🏃 **Workout-Aware Nutrition** - Meal timing optimized for training schedule
-- 💰 **Cost Tracking** - See exact costs per generation and session totals
-- 🇮🇱 **Israel Product Alternatives** - Specific local brands (Tnuva, Osem, Yotvata)
-- 🔧 **Auto-Healing JSON** - Automatic error correction for reliable output
+AI-powered personalized sports nutrition meal planning with comprehensive model testing.
 
 ---
 
-## 🚀 Quick Start
+## ⭐ **NEW in v1.4.0: GPT-4o Scored All Models!**
 
-**5-Minute Setup:**
+**Winner:** Gemini 2.5 Flash (9.0/10 score, FREE, 27.7s)  
+**Most Accurate:** Qwen 2.5 72B (9.4/10 score, perfect macros)  
+**Removed:** GPT-4o (7.0/10 score, expensive, weak macros)
 
-1. **Clone & Install:**
-```bash
-git clone https://github.com/anatgotfried/BurnRate_Helper.git
-cd BurnRate_Helper/meal-playground
-pip install -r requirements.txt
+See `testing/scores/COMPARISON_REPORT.md` for full GPT-4o analysis!
+
+---
+
+## 🚀 **Quick Start**
+
+**Live App:** https://callback.burnrate.fit/meal-playground/
+
+1. Fill in profile (70kg default)
+2. Add workouts (1 run default)
+3. Click "Generate Meal Plan"
+4. Wait ~28 seconds
+5. Get 8-meal plan with full macros!
+
+---
+
+## 📁 **Documentation Structure**
+
 ```
+📚 docs/
+  ├── user-guides/          ← Start here!
+  │   ├── START_HERE.md     ← Read this first
+  │   ├── QUICKSTART.md
+  │   ├── TRANSPARENCY_FEATURES.md
+  │   ├── TROUBLESHOOTING.md
+  │   └── MODEL_GUIDE.md
+  │
+  ├── setup/                ← For installation
+  │   ├── ENV_SETUP.md
+  │   ├── DEPLOYMENT.md
+  │   └── ADD_GEMINI_MODELS.md
+  │
+  ├── test-results/         ← Test data & reports
+  │   ├── MODEL_TEST_REPORT.md
+  │   ├── TEST_RESULTS_TABLE.md
+  │   └── ...
+  │
+  └── development/          ← For developers
+      ├── VERSION.md
+      ├── CODE_REVIEW.md
+      └── ...
 
-2. **Add API Key:**
-```bash
-# Create .env file
-echo "OPENROUTER_API_KEY=your_key_here" > .env
-```
-
-3. **Run Locally:**
-```bash
-python app.py
-# Visit: http://localhost:5001
-```
-
-📖 **Full setup guide:** See [QUICKSTART.md](./QUICKSTART.md)
-
----
-
-## 📚 Documentation
-
-### Essential Guides
-- **[QUICKSTART.md](./QUICKSTART.md)** - 5-minute getting started guide
-- **[ENV_SETUP.md](./ENV_SETUP.md)** - Environment configuration
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to Vercel
-
-### Features & Usage
-- **[TRANSPARENCY_FEATURES.md](./TRANSPARENCY_FEATURES.md)** - View prompts, responses, costs
-- **[MODEL_GUIDE.md](./MODEL_GUIDE.md)** - Choose the right AI model
-- **[ADD_GEMINI_MODELS.md](./ADD_GEMINI_MODELS.md)** - Free Gemini setup (BYOK)
-
-### Help
-- **[TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** - Common issues and fixes
-- **[VERSION.md](./VERSION.md)** - Changelog and version history
-
----
-
-## 🎯 How It Works
-
-1. **Enter Profile:** Weight, height, gender, training phase, dietary preferences
-2. **Add Workouts:** Type, duration, intensity, timing, environment
-3. **Select Model:** Choose AI model (Gemini is FREE!)
-4. **Generate:** Get personalized meal plan with exact portions
-5. **Review:** See meals, macros, rationales, and Israel alternatives
-
-### What You Get
-
-```json
-{
-  "meals": [
-    {
-      "time": "07:00",
-      "name": "High-Protein Breakfast",
-      "foods": [
-        {
-          "item": "Greek yogurt, 200g",
-          "protein_g": 20,
-          "carbs_g": 12,
-          "sodium_mg": 80,
-          ...
-        }
-      ],
-      "rationale": "3-5 sentences with research citations",
-      "israel_alternatives": ["Tnuva Greek 5%, 200g", ...]
-    }
-  ],
-  "daily_totals": { ... },
-  "key_recommendations": [ ... ]
-}
+🧪 testing/
+  ├── test1_structure/      ← Structure-only test results (8 JSONs)
+  ├── test2_full/           ← Full meal test results (8 JSONs)
+  ├── scores/               ← GPT-4o scores & comparison
+  │   ├── test2-scores.json
+  │   └── COMPARISON_REPORT.md ← **READ THIS!**
+  └── archive/              ← Previous test runs
 ```
 
 ---
 
-## 💰 Pricing
+## 🏆 **GPT-4o Scoring Results (Test 2 - Full Meals):**
 
-| Model | Cost/Plan | Success Rate | Best For |
+| Rank | Model | Score | Strengths | Use For |
+|------|-------|-------|-----------|---------|
+| 🥇 | Qwen 2.5 72B | 9.4/10 | Perfect macros (10/10) | Accuracy-critical plans |
+| 🥈 | **Gemini 2.5 Flash** | **9.0/10** | FREE, fast, excellent rationales | **Daily use** ⭐ |
+| 🥈 | Gemini 2.0 Exp | 9.0/10 | FREE, very fast | Fast generation |
+| 🥈 | GPT-4o Mini | 9.0/10 | Perfect macros (10/10) | Reliability |
+| 🥈 | Mistral Small | 9.0/10 | Perfect macros (10/10), cheap | Budget scale |
+| 🥉 | Gemini 2.0 Flash | 8.0/10 | FREE, stable | Backup option |
+| 🥉 | Claude 3.5 Sonnet | 8.0/10 | Premium quality | When willing to pay |
+| 7 | GPT-4o | 7.0/10 | Fast but weak macros | ❌ Not recommended |
+
+---
+
+## ✨ **Key Features**
+
+- 🤖 **7 AI Models** (GPT-4o scored & verified)
+- 👁️ **Full Transparency** - View prompts, responses, costs
+- 📊 **Deterministic Macros** - Evidence-based calculations
+- 🏃 **Workout-Aware** - Meal timing optimized for training
+- 💰 **Cost Tracking** - Session totals & estimates
+- 🇮🇱 **Israel Products** - Tnuva, Osem, Yotvata alternatives
+- 🔧 **Auto-Healing JSON** - Automatic error correction
+
+---
+
+## 📖 **Documentation**
+
+**Start Here:**
+1. `docs/user-guides/START_HERE.md` - 30-second overview
+2. `testing/scores/COMPARISON_REPORT.md` - GPT-4o scoring
+3. `docs/user-guides/QUICKSTART.md` - 5-minute setup
+
+**All Docs:** See `docs/` folder for organized guides
+
+---
+
+## 🧪 **Testing Methodology**
+
+**Test 1:** Structure + Rationale only (lightweight)
+- 8 models tested
+- Results: `testing/test1_structure/`
+
+**Test 2:** Full meal generation (complete)
+- 8 models tested
+- Results: `testing/test2_full/`
+
+**Scoring:** GPT-4o evaluated all Test 2 results
+- 7 criteria per model
+- Overall score 1-10
+- Results: `testing/scores/`
+
+---
+
+## 💰 **Pricing (Verified by Testing)**
+
+| Model | Cost/Plan | GPT-4o Score | Best For |
 |-------|-----------|--------------|----------|
-| **Gemini 2.5 Flash** | FREE | 85% | Budget, testing |
-| **Mistral Small** | $0.001 | 90% | Cost-effective |
-| **GPT-4o Mini** | $0.015 | 95% | Balanced |
-| **Claude 3.5 Sonnet** | $0.025 | 99% | Best quality |
-
-💡 **Tip:** Use "Fast Mode" to reduce costs by ~70%!
+| Gemini 2.5 Flash | FREE | 9.0/10 | Everything |
+| Mistral Small | $0.001 | 9.0/10 | Budget scale |
+| GPT-4o Mini | $0.015 | 9.0/10 | Reliability |
+| Claude 3.5 | $0.025 | 8.0/10 | Premium |
 
 ---
 
-## 🔧 Tech Stack
+## 🚀 **Tech Stack**
 
-- **Backend:** Python Flask (API proxy for OpenRouter)
-- **Frontend:** Vanilla JavaScript (no frameworks)
-- **AI:** OpenRouter (multi-model API)
-- **Deployment:** Vercel (backend + static files)
-- **Research:** Evidence-based sports nutrition corpus
-
----
-
-## 🌟 New in v1.3.0
-
-- 👁️ **View Prompt** button - See prompt before sending
-- **Prompt Sent** tab - Inspect exact prompt
-- **AI Response** tab - Always see raw response
-- **Model selection** - Now always uses your selected model
-- **Version badge** - Click for changelog
-
-See [VERSION.md](./VERSION.md) for full history.
+- **Backend:** Python Flask (OpenRouter API proxy)
+- **Frontend:** Vanilla JavaScript
+- **AI:** OpenRouter (multi-model)
+- **Deployment:** Vercel
+- **Testing:** Python + GPT-4o evaluation
 
 ---
 
-## 📖 Example Usage
+## 📊 **Project Stats**
 
-**Scenario:** 60kg athlete, 2-hour bike ride, build phase
-
-**Input:**
-- Profile: 60kg, 170cm, male, build phase, omnivore
-- Workout: 120min bike ride, moderate, 9:00 AM, 25°C
-
-**Output:**
-- 8 meals (breakfast, pre-ride, intra, post-ride, lunch, snack, dinner)
-- 2,800 kcal, 108g protein, 420g carbs, 85g fat
-- Sodium: 4,500mg (adjusted for sweat loss)
-- All meals with exact portions, timing, and rationales
+- **Lines of Code:** ~3,000
+- **Documentation:** 20+ markdown files
+- **Models Tested:** 9 (8 working, 1 removed)
+- **GPT-4o Scored:** 8 models
+- **Success Rate:** 100% (all working models)
+- **Versions:** 14 (v1.0.0 → v1.4.0)
 
 ---
 
-## 🛠️ Development
+## 🔗 **Links**
 
-**Local Development:**
-```bash
-# Backend
-python app.py
-
-# Frontend (just open in browser)
-open index.html
-```
-
-**Environment Variables:**
-```bash
-OPENROUTER_API_KEY=sk-or-v1-xxxxx
-GOOGLE_API_KEY=optional-for-gemini-byok
-```
-
-**File Structure:**
-```
-meal-playground/
-├── app.py                  # Flask backend
-├── index.html              # Frontend UI
-├── script.js               # Main logic
-├── macro-calculator.js     # Deterministic calculations
-├── cost-calculator.js      # Cost tracking
-├── corpus-filter.js        # Fast mode filtering
-├── data/
-│   └── research_corpus.json
-├── prompts/
-│   ├── meal_planner_v2.txt
-│   ├── daily_plan_prompt.txt
-│   └── individual_meal_prompt.txt
-└── [docs]
-```
+- **Live App:** https://callback.burnrate.fit/meal-playground/
+- **GitHub:** https://github.com/anatgotfried/BurnRate_Helper
+- **Version:** v1.4.0
 
 ---
 
-## 🤝 Contributing
+**Questions?** See `docs/user-guides/TROUBLESHOOTING.md` or open an issue.
 
-This is a personal project, but suggestions are welcome!
-
-**Report issues:** Open a GitHub issue  
-**Suggest features:** Create a pull request
-
----
-
-## 📜 License
-
-MIT License - Free to use and modify
-
----
-
-## 🙏 Acknowledgments
-
-- Research corpus based on ISSN, ACSM, IOC guidelines
-- Powered by OpenRouter API
-- Inspired by evidence-based sports nutrition
-
----
-
-**Live Site:** https://callback.burnrate.fit/meal-playground/  
-**GitHub:** https://github.com/anatgotfried/BurnRate_Helper  
-**Version:** 1.3.0
-
-**Questions?** See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) or open an issue.

@@ -1,0 +1,856 @@
+{
+  "test_date": "2025-11-03T10:53:19.422702",
+  "test_type": "structure_only",
+  "models_tested": 8,
+  "successful": 8,
+  "results": [
+    {
+      "test_type": "structure_only",
+      "model": "google/gemini-2.5-flash",
+      "model_name": "gemini-2.5-flash",
+      "test_number": 1,
+      "timestamp": "2025-11-03T10:50:28.347017",
+      "success": true,
+      "duration_ms": 14316,
+      "usage": {
+        "prompt_tokens": 383,
+        "completion_tokens": 1853,
+        "total_tokens": 2236,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "meal_count": 8,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "This pre-workout meal focuses on easily digestible carbohydrates to top off glycogen stores, providing readily available energy for the morning's double workout session. A moderate amount of protein helps reduce muscle protein breakdown during exercise, while low fat content ensures rapid gastric emptying to prevent gastrointestinal distress during activity (ACSM, 2016; Kerksick et al., 2017). Sodium contributes to hydration and helps maintain fluid balance.",
+            "timing_notes": "Consumed 2 hours before the first workout (09:00) to allow for sufficient digestion and absorption of nutrients, minimizing the risk of stomach upset during exercise."
+          },
+          {
+            "time": "08:45",
+            "type": "intra_workout_pre_run1",
+            "calories_target": 100,
+            "protein_target_g": 0,
+            "carbs_target_g": 25,
+            "fat_target_g": 0,
+            "sodium_target_mg": 150,
+            "rationale": "A small, rapidly absorbed carbohydrate source taken just before the first run can provide an immediate energy boost and signal to the body that fuel is available, potentially enhancing performance and delaying fatigue (ACSM, 2016). Sodium helps to prime the body for fluid retention and electrolyte balance during exercise.",
+            "timing_notes": "Taken 15 minutes before the 09:00 run to offer a quick energy supply at the onset of exercise."
+          },
+          {
+            "time": "09:45",
+            "type": "intra_workout_between_runs",
+            "calories_target": 150,
+            "protein_target_g": 0,
+            "carbs_target_g": 37,
+            "fat_target_g": 0,
+            "sodium_target_mg": 250,
+            "rationale": "This intra-workout fuel is crucial between two moderate-intensity runs to rapidly replenish glycogen stores and provide continuous energy for the second workout. Concentrated carbohydrates, often from a sports drink or gel, are preferred for quick absorption (ACSM, 2016; Kerksick et al., 2017). Sodium is vital for replacing losses through sweat and maintaining hydration.",
+            "timing_notes": "Consumed immediately after the first 09:00 run and before the 10:00 run to bridge the energy gap and prepare for the subsequent exertion."
+          },
+          {
+            "time": "11:15",
+            "type": "post_workout_recovery",
+            "calories_target": 600,
+            "protein_target_g": 30,
+            "carbs_target_g": 90,
+            "fat_target_g": 10,
+            "sodium_target_mg": 700,
+            "rationale": "This post-workout meal is critical for initiating recovery, focusing on a carbohydrate-to-protein ratio of approximately 3:1 or 4:1 to optimize muscle glycogen resynthesis and repair muscle damage (Kerksick et al., 2017; J\u00e4ger et al., 2017). Adequate protein intake supports muscle protein synthesis, while carbohydrates refuel depleted glycogen stores. Sodium helps rehydrate and replete electrolyte losses from sweating.",
+            "timing_notes": "Consumed within 60-90 minutes of completing the second workout to take advantage of the 'anabolic window' for optimal nutrient uptake and recovery."
+          },
+          {
+            "time": "13:30",
+            "type": "lunch",
+            "calories_target": 650,
+            "protein_target_g": 28,
+            "carbs_target_g": 100,
+            "fat_target_g": 15,
+            "sodium_target_mg": 800,
+            "rationale": "Lunch provides a substantial contribution to daily energy, carbohydrate, and protein targets, supporting ongoing recovery and general energy needs. It helps to further replenish glycogen stores and maintain positive nitrogen balance (ACSM, 2016). The sodium content supports overall electrolyte balance and fluid retention throughout the day.",
+            "timing_notes": "Scheduled approximately 2 hours after the post-workout meal to maintain consistent nutrient delivery and energy levels throughout the afternoon."
+          },
+          {
+            "time": "16:30",
+            "type": "afternoon_snack",
+            "calories_target": 350,
+            "protein_target_g": 15,
+            "carbs_target_g": 60,
+            "fat_target_g": 5,
+            "sodium_target_mg": 400,
+            "rationale": "This snack acts as a bridge between lunch and dinner, preventing excessive hunger and providing a steady supply of carbohydrates to continue glycogen replenishment. Protein contributes to muscle repair and satiety. It helps to ensure that the athlete meets their ambitious daily carbohydrate and protein targets (ACSM, 2016).",
+            "timing_notes": "Placed mid-afternoon to prevent energy dips and ensure consistent nutrient intake, roughly 3 hours before dinner."
+          },
+          {
+            "time": "19:30",
+            "type": "dinner",
+            "calories_target": 700,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 15,
+            "sodium_target_mg": 1000,
+            "rationale": "Dinner is a major meal contributing significantly to the daily caloric, carbohydrate, and protein goals, essential for sustained recovery and preparing the body for the next day's training. Ample carbohydrates ensure full glycogen repletion overnight, while protein supports muscle repair and growth (Kerksick et al., 2017). The sodium content aids in full rehydration and electrolyte balance after the day's activities.",
+            "timing_notes": "Scheduled at a regular evening time, providing sufficient nutrients for overnight recovery and allowing adequate digestion before sleep."
+          },
+          {
+            "time": "21:30",
+            "type": "bedtime_snack",
+            "calories_target": 198,
+            "protein_target_g": 23,
+            "carbs_target_g": 28,
+            "fat_target_g": 3,
+            "sodium_target_mg": 100,
+            "rationale": "A bedtime snack, particularly one rich in slow-digesting protein (e.g., casein), can support muscle protein synthesis during overnight sleep, enhancing recovery and adaptation (J\u00e4ger et al., 2017). A small amount of carbohydrates can further aid in glycogen topping off and improve sleep quality for some individuals.",
+            "timing_notes": "Consumed approximately 1-2 hours before sleep to provide sustained amino acid release during the overnight fasting period."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy is well-structured to support a 70kg male athlete in a base training phase with two moderate morning runs. It effectively front-loads carbohydrates around the training window, prioritizes immediate post-workout recovery, and distributes protein intake across the day. The inclusion of intra-workout nutrition and a bedtime snack further optimizes performance and recovery for the double training session."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/google-gemini-2.5-flash.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "google/gemini-2.0-flash-001",
+      "model_name": "gemini-2.0-flash-001",
+      "test_number": 2,
+      "timestamp": "2025-11-03T10:50:45.670155",
+      "success": true,
+      "duration_ms": 11723,
+      "usage": {
+        "prompt_tokens": 381,
+        "completion_tokens": 1264,
+        "total_tokens": 1645,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "meal_count": 6,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "This pre-workout meal prioritizes readily available carbohydrates to fuel the upcoming runs and provides some protein for muscle protein synthesis. Carbohydrate ingestion before endurance exercise can improve performance by maintaining blood glucose levels and sparing muscle glycogen (ACSM, 2016). A small amount of fat is included for satiety and sustained energy release. Sodium helps to prime hydration before exercise.",
+            "timing_notes": "Consumed two hours before the first workout to allow for digestion and absorption of nutrients, minimizing gastrointestinal distress during exercise."
+          },
+          {
+            "time": "08:30",
+            "type": "intra_workout",
+            "calories_target": 200,
+            "protein_target_g": 0,
+            "carbs_target_g": 50,
+            "fat_target_g": 0,
+            "sodium_target_mg": 500,
+            "rationale": "During prolonged endurance exercise, carbohydrate intake is crucial for maintaining blood glucose levels and preventing glycogen depletion. Sodium replacement is also critical during longer workouts. Consuming carbohydrates during exercise can improve performance and delay fatigue (Jeukendrup, 2014).",
+            "timing_notes": "Sipped gradually during the first run to provide a consistent energy source."
+          },
+          {
+            "time": "10:00",
+            "type": "intra_workout",
+            "calories_target": 200,
+            "protein_target_g": 0,
+            "carbs_target_g": 50,
+            "fat_target_g": 0,
+            "sodium_target_mg": 500,
+            "rationale": "During prolonged endurance exercise, carbohydrate intake is crucial for maintaining blood glucose levels and preventing glycogen depletion. Sodium replacement is also critical during longer workouts. Consuming carbohydrates during exercise can improve performance and delay fatigue (Jeukendrup, 2014).",
+            "timing_notes": "Sipped gradually during the second run to provide a consistent energy source."
+          },
+          {
+            "time": "11:30",
+            "type": "post_workout",
+            "calories_target": 748,
+            "protein_target_g": 36,
+            "carbs_target_g": 120,
+            "fat_target_g": 12,
+            "sodium_target_mg": 700,
+            "rationale": "This post-workout meal is designed to replenish glycogen stores and initiate muscle protein synthesis. Carbohydrates are prioritized to restore glycogen levels depleted during exercise (Ivy, 2004). Protein is included to stimulate muscle repair and growth (ISSN, 2017). Sodium continues to assist with rehydration.",
+            "timing_notes": "Consumed within 1-2 hours after the second workout to maximize glycogen resynthesis and muscle recovery."
+          },
+          {
+            "time": "15:00",
+            "type": "mid_day_meal",
+            "calories_target": 800,
+            "protein_target_g": 30,
+            "carbs_target_g": 150,
+            "fat_target_g": 14,
+            "sodium_target_mg": 1000,
+            "rationale": "This meal helps maintain energy levels and supports continued muscle recovery throughout the afternoon. It provides a balanced mix of macronutrients to ensure satiety and sustained energy release. Sodium replacement continues.",
+            "timing_notes": "Mid-afternoon to prevent energy crashes and hunger before the evening meal."
+          },
+          {
+            "time": "19:00",
+            "type": "evening_meal",
+            "calories_target": 800,
+            "protein_target_g": 40,
+            "carbs_target_g": 110,
+            "fat_target_g": 22,
+            "sodium_target_mg": 1000,
+            "rationale": "The final meal of the day provides a substantial dose of protein to support overnight muscle repair and recovery. Complex carbohydrates help replenish glycogen stores and ensure adequate energy for the following day. Includes healthy fats to support hormone production and overall health.",
+            "timing_notes": "Consumed at least 2-3 hours before bedtime to allow for digestion."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "This meal timing strategy is designed to optimize fuel availability for the athlete's workouts, promote recovery, and meet daily macronutrient targets. The distribution of calories and macronutrients is tailored to the demands of the base training phase, with a focus on carbohydrate availability to fuel endurance exercise and protein intake to support muscle protein synthesis. Sodium intake is strategically timed to support hydration needs."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/google-gemini-2.0-flash-001.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "google/gemini-2.0-flash-exp:free",
+      "model_name": "gemini-2.0-flash-exp:free",
+      "test_number": 3,
+      "timestamp": "2025-11-03T10:51:00.398906",
+      "success": true,
+      "duration_ms": 12642,
+      "usage": {
+        "prompt_tokens": 381,
+        "completion_tokens": 1335,
+        "total_tokens": 1716,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "meal_count": 6,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "This pre-workout meal prioritizes easily digestible carbohydrates to fuel the upcoming runs and a moderate amount of protein to initiate muscle protein synthesis. Carbohydrate intake before endurance exercise enhances performance by increasing glycogen stores and maintaining blood glucose levels (Jeukendrup, 2017). A small amount of fat is included for sustained energy, but kept low to avoid gastrointestinal distress during exercise (ACSM, 2016). Sodium helps to pre-load electrolytes before exercise.",
+            "timing_notes": "Consumed 2 hours before the first run to allow for digestion and absorption of nutrients, minimizing the risk of GI distress during exercise."
+          },
+          {
+            "time": "08:30",
+            "type": "intra_workout",
+            "calories_target": 200,
+            "protein_target_g": 0,
+            "carbs_target_g": 50,
+            "fat_target_g": 0,
+            "sodium_target_mg": 400,
+            "rationale": "This intra-workout nutrition focuses on replenishing carbohydrate stores and maintaining hydration during the back-to-back runs. Consuming carbohydrates during prolonged endurance exercise helps to spare muscle glycogen and improve performance (Jeukendrup, 2014). Electrolytes, particularly sodium, are included to replace losses through sweat and maintain fluid balance. Protein intake is not necessary during shorter workouts.",
+            "timing_notes": "Consumed in the 30-minute period between workouts, providing immediate fuel for the second run."
+          },
+          {
+            "time": "11:00",
+            "type": "post_workout",
+            "calories_target": 800,
+            "protein_target_g": 40,
+            "carbs_target_g": 120,
+            "fat_target_g": 18,
+            "sodium_target_mg": 500,
+            "rationale": "This post-workout meal is crucial for replenishing glycogen stores and initiating muscle recovery. A combination of carbohydrates and protein stimulates insulin release, which promotes glycogen synthesis and muscle protein synthesis (Ivy, 2004). Protein intake aids in muscle repair and adaptation to training. Sodium helps with fluid retention.",
+            "timing_notes": "Consumed immediately after the second run to maximize glycogen replenishment and muscle recovery."
+          },
+          {
+            "time": "14:00",
+            "type": "lunch",
+            "calories_target": 748,
+            "protein_target_g": 33,
+            "carbs_target_g": 150,
+            "fat_target_g": 8,
+            "sodium_target_mg": 800,
+            "rationale": "Lunch provides a sustained source of energy and continues to support muscle recovery. A balanced meal with carbohydrates, protein, and fats helps to maintain blood glucose levels and provide essential nutrients. Adequate protein intake throughout the day is crucial for muscle protein synthesis and overall recovery (Phillips, 2014). Sodium helps to maintain fluid balance.",
+            "timing_notes": "A mid-day meal to sustain energy levels and continue the recovery process."
+          },
+          {
+            "time": "17:00",
+            "type": "snack",
+            "calories_target": 500,
+            "protein_target_g": 13,
+            "carbs_target_g": 100,
+            "fat_target_g": 8,
+            "sodium_target_mg": 500,
+            "rationale": "This afternoon snack provides a boost of energy and helps to prevent excessive hunger before dinner. Carbohydrates help to maintain blood glucose levels and provide fuel for daily activities. A small amount of protein contributes to satiety and supports muscle protein synthesis. Sodium helps to maintain fluid balance.",
+            "timing_notes": "Timed several hours after lunch to bridge the gap to dinner and maintain energy levels."
+          },
+          {
+            "time": "20:00",
+            "type": "dinner",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 60,
+            "fat_target_g": 14,
+            "sodium_target_mg": 1500,
+            "rationale": "Dinner provides a final opportunity to replenish glycogen stores and support overnight muscle recovery. A balanced meal with carbohydrates, protein, and fats ensures a sustained release of energy throughout the night. While the sodium target is hit, it is important to distribute intake evenly throughout the day.",
+            "timing_notes": "Consumed several hours before bedtime to allow for digestion and absorption of nutrients."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy prioritizes carbohydrate intake around workouts to fuel performance and replenish glycogen stores. Protein is distributed throughout the day to support muscle protein synthesis and recovery. Sodium intake is strategically planned to replace losses during exercise and maintain fluid balance. The timing of meals is designed to optimize nutrient absorption and minimize gastrointestinal distress during exercise."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/google-gemini-2.0-flash-exp:free.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "mistralai/mistral-small-3.2-24b-instruct",
+      "model_name": "mistral-small-3.2-24b-instruct",
+      "test_number": 4,
+      "timestamp": "2025-11-03T10:51:16.044215",
+      "success": true,
+      "duration_ms": 13693,
+      "usage": {
+        "prompt_tokens": 361,
+        "completion_tokens": 1326,
+        "total_tokens": 1687
+      },
+      "meal_count": 7,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "Consuming a balanced meal 1-2 hours before exercise can enhance performance and delay fatigue. Carbohydrates provide immediate energy, while protein supports muscle preservation. A small amount of fat aids in satiety and hormone regulation. Sodium helps maintain fluid balance during prolonged exercise (ISSN2017, ACSM2016).",
+            "timing_notes": "This timing allows for digestion and absorption of nutrients before the first workout, ensuring optimal energy levels and reducing the risk of gastrointestinal discomfort."
+          },
+          {
+            "time": "09:30",
+            "type": "post_workout",
+            "calories_target": 500,
+            "protein_target_g": 40,
+            "carbs_target_g": 100,
+            "fat_target_g": 5,
+            "sodium_target_mg": 500,
+            "rationale": "Post-workout nutrition is crucial for recovery and muscle repair. A higher protein intake supports muscle synthesis, while carbohydrates replenish glycogen stores. A moderate amount of sodium helps replace electrolytes lost through sweat (ISSN2017, ACSM2016).",
+            "timing_notes": "Consuming this meal within 30-60 minutes after the first workout maximizes the anabolic window for muscle recovery and growth."
+          },
+          {
+            "time": "12:00",
+            "type": "lunch",
+            "calories_target": 600,
+            "protein_target_g": 25,
+            "carbs_target_g": 100,
+            "fat_target_g": 10,
+            "sodium_target_mg": 600,
+            "rationale": "A balanced lunch supports sustained energy levels and overall nutrient intake. Carbohydrates provide energy, protein aids in muscle repair, and fats support hormone function and vitamin absorption (ISSN2017, ACSM2016).",
+            "timing_notes": "This timing allows for adequate digestion before the second workout and maintains steady energy levels throughout the day."
+          },
+          {
+            "time": "14:30",
+            "type": "pre_workout",
+            "calories_target": 400,
+            "protein_target_g": 15,
+            "carbs_target_g": 70,
+            "fat_target_g": 5,
+            "sodium_target_mg": 400,
+            "rationale": "A smaller pre-workout meal provides additional energy for the second workout. Carbohydrates are the primary focus to fuel exercise, while a small amount of protein and fat supports overall nutrient needs (ISSN2017, ACSM2016).",
+            "timing_notes": "This timing ensures that the meal is digested and absorbed before the second workout, providing energy without causing discomfort."
+          },
+          {
+            "time": "16:30",
+            "type": "post_workout",
+            "calories_target": 500,
+            "protein_target_g": 40,
+            "carbs_target_g": 100,
+            "fat_target_g": 5,
+            "sodium_target_mg": 500,
+            "rationale": "Post-workout nutrition is essential for recovery and muscle repair. A higher protein intake supports muscle synthesis, while carbohydrates replenish glycogen stores. A moderate amount of sodium helps replace electrolytes lost through sweat (ISSN2017, ACSM2016).",
+            "timing_notes": "Consuming this meal within 30-60 minutes after the second workout maximizes the anabolic window for muscle recovery and growth."
+          },
+          {
+            "time": "19:00",
+            "type": "dinner",
+            "calories_target": 600,
+            "protein_target_g": 25,
+            "carbs_target_g": 100,
+            "fat_target_g": 10,
+            "sodium_target_mg": 600,
+            "rationale": "A balanced dinner supports overall nutrient intake and recovery. Carbohydrates provide energy, protein aids in muscle repair, and fats support hormone function and vitamin absorption (ISSN2017, ACSM2016).",
+            "timing_notes": "This timing allows for adequate digestion and absorption of nutrients before bedtime, supporting overnight recovery."
+          },
+          {
+            "time": "21:00",
+            "type": "snack",
+            "calories_target": 148,
+            "protein_target_g": 1,
+            "carbs_target_g": 30,
+            "fat_target_g": 2,
+            "sodium_target_mg": 100,
+            "rationale": "A small snack before bed can support overnight recovery and muscle protein synthesis. Carbohydrates provide a small energy boost, while a minimal amount of protein supports muscle repair (ISSN2017, ACSM2016).",
+            "timing_notes": "This timing ensures that the snack is consumed close to bedtime, supporting overnight recovery and muscle protein synthesis."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy is well-balanced, providing adequate nutrition before and after workouts to support energy levels, performance, and recovery. The distribution of macronutrients and sodium throughout the day ensures optimal nutrient utilization and hydration."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/mistralai-mistral-small-3.2-24b-instruct.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "qwen/qwen-2.5-72b-instruct",
+      "model_name": "qwen-2.5-72b-instruct",
+      "test_number": 5,
+      "timestamp": "2025-11-03T10:51:32.744029",
+      "success": true,
+      "duration_ms": 26395,
+      "usage": {
+        "prompt_tokens": 356,
+        "completion_tokens": 1113,
+        "total_tokens": 1469,
+        "prompt_tokens_details": null
+      },
+      "meal_count": 7,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "A pre-workout meal should be consumed 2-3 hours before exercise to optimize glycogen stores and reduce the risk of gastrointestinal discomfort (ISSN2017, ACSM2016).",
+            "timing_notes": "This meal is timed to be consumed 2 hours before the first workout to ensure optimal energy levels."
+          },
+          {
+            "time": "09:00",
+            "type": "workout_1",
+            "calories_target": 0,
+            "protein_target_g": 0,
+            "carbs_target_g": 0,
+            "fat_target_g": 0,
+            "sodium_target_mg": 0,
+            "rationale": "The first workout session is scheduled at this time to utilize the pre-workout meal for energy.",
+            "timing_notes": "Workout timing is immediately after the pre-workout meal."
+          },
+          {
+            "time": "10:00",
+            "type": "workout_2",
+            "calories_target": 0,
+            "protein_target_g": 0,
+            "carbs_target_g": 0,
+            "fat_target_g": 0,
+            "sodium_target_mg": 0,
+            "rationale": "The second workout session follows the first without additional food intake to maintain a moderate intensity and utilize existing energy stores.",
+            "timing_notes": "Workout timing is immediately after the first workout to maintain intensity and energy utilization."
+          },
+          {
+            "time": "11:00",
+            "type": "post_workout",
+            "calories_target": 600,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 12,
+            "sodium_target_mg": 600,
+            "rationale": "A post-workout meal should be consumed within 30-60 minutes after exercise to maximize muscle recovery and glycogen replenishment (ISSN2017, ACSM2016).",
+            "timing_notes": "This meal is timed to be consumed immediately after the second workout to aid recovery."
+          },
+          {
+            "time": "14:00",
+            "type": "lunch",
+            "calories_target": 700,
+            "protein_target_g": 25,
+            "carbs_target_g": 130,
+            "fat_target_g": 15,
+            "sodium_target_mg": 800,
+            "rationale": "Lunch should provide a balanced meal to maintain energy levels and support muscle recovery throughout the day (ISSN2017, ACSM2016).",
+            "timing_notes": "Lunch is timed to be 3 hours after the post-workout meal to ensure sustained energy levels."
+          },
+          {
+            "time": "18:00",
+            "type": "dinner",
+            "calories_target": 800,
+            "protein_target_g": 30,
+            "carbs_target_g": 150,
+            "fat_target_g": 15,
+            "sodium_target_mg": 1000,
+            "rationale": "Dinner should be a substantial meal to support ongoing recovery and prepare for the next day's training (ISSN2017, ACSM2016).",
+            "timing_notes": "Dinner is timed to be 4 hours after lunch to maintain energy levels and support recovery."
+          },
+          {
+            "time": "21:00",
+            "type": "snack",
+            "calories_target": 648,
+            "protein_target_g": 21,
+            "carbs_target_g": 80,
+            "fat_target_g": 6,
+            "sodium_target_mg": 300,
+            "rationale": "A pre-sleep snack can help maintain muscle protein synthesis and prevent catabolism during sleep (ISSN2017, ACSM2016).",
+            "timing_notes": "This snack is timed to be consumed 1-2 hours before bedtime to support overnight recovery."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy is well-balanced and aligns with the athlete's training schedule. Pre- and post-workout meals are appropriately timed to optimize performance and recovery, while the remaining meals provide sustained energy and support ongoing recovery throughout the day."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/qwen-qwen-2.5-72b-instruct.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "openai/gpt-4o-mini",
+      "model_name": "gpt-4o-mini",
+      "test_number": 6,
+      "timestamp": "2025-11-03T10:52:02.145705",
+      "success": true,
+      "duration_ms": 19061,
+      "usage": {
+        "prompt_tokens": 319,
+        "completion_tokens": 960,
+        "total_tokens": 1279,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "meal_count": 6,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "Consuming a meal rich in carbohydrates and moderate in protein before workouts can enhance performance by providing readily available energy. Studies suggest that a meal 1-3 hours prior to exercise can optimize glycogen stores and improve endurance (ISSN 2017, ACSM 2016). The inclusion of sodium helps maintain fluid balance during prolonged exercise.",
+            "timing_notes": "This timing allows for optimal digestion and energy availability during the first workout at 09:00."
+          },
+          {
+            "time": "11:00",
+            "type": "post_workout",
+            "calories_target": 600,
+            "protein_target_g": 30,
+            "carbs_target_g": 90,
+            "fat_target_g": 12,
+            "sodium_target_mg": 500,
+            "rationale": "Post-workout nutrition is crucial for recovery, where protein aids in muscle repair and carbohydrates replenish glycogen stores. A combination of both macronutrients within 30 minutes post-exercise is recommended for optimal recovery (ACSM 2016, ISSN 2017). Sodium is essential to replace losses during sweating.",
+            "timing_notes": "This meal is scheduled immediately after the first workout to maximize recovery before the second workout."
+          },
+          {
+            "time": "13:00",
+            "type": "lunch",
+            "calories_target": 800,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 20,
+            "sodium_target_mg": 800,
+            "rationale": "A balanced lunch with adequate carbohydrates and proteins supports sustained energy levels and muscle recovery throughout the day. Including healthy fats helps in the absorption of fat-soluble vitamins and provides additional energy.",
+            "timing_notes": "Scheduled after the second workout to continue refueling and recovery."
+          },
+          {
+            "time": "16:00",
+            "type": "snack",
+            "calories_target": 400,
+            "protein_target_g": 15,
+            "carbs_target_g": 60,
+            "fat_target_g": 10,
+            "sodium_target_mg": 300,
+            "rationale": "An afternoon snack helps maintain energy levels and provides additional nutrients to support muscle recovery and performance. It is vital to keep energy levels stable as training continues.",
+            "timing_notes": "This timing helps prevent energy dips before dinner."
+          },
+          {
+            "time": "19:00",
+            "type": "dinner",
+            "calories_target": 800,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 6,
+            "sodium_target_mg": 800,
+            "rationale": "Dinner should provide a mix of protein, carbohydrates, and fats for recovery and to prepare for the next training day. A balanced meal helps in overnight recovery and muscle synthesis (ACSM 2016).",
+            "timing_notes": "Dinner is scheduled to allow adequate digestion before bedtime."
+          },
+          {
+            "time": "21:00",
+            "type": "evening snack",
+            "calories_target": 300,
+            "protein_target_g": 15,
+            "carbs_target_g": 50,
+            "fat_target_g": 0,
+            "sodium_target_mg": 300,
+            "rationale": "An evening snack can help meet daily caloric and macronutrient targets and support overnight recovery. A light snack before bed can aid in muscle recovery without being too heavy.",
+            "timing_notes": "This timing allows for nutrient intake before sleep."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy is structured to support performance and recovery, with a focus on nutrient timing that aligns with workout sessions. The distribution of meals ensures adequate energy availability and recovery throughout the day."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/openai-gpt-4o-mini.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "anthropic/claude-3.5-sonnet",
+      "model_name": "claude-3.5-sonnet",
+      "test_number": 7,
+      "timestamp": "2025-11-03T10:52:24.214267",
+      "success": true,
+      "duration_ms": 23163,
+      "usage": {
+        "prompt_tokens": 367,
+        "completion_tokens": 1060,
+        "total_tokens": 1427
+      },
+      "meal_count": 6,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "06:30",
+            "type": "pre_workout_breakfast",
+            "calories_target": 600,
+            "protein_target_g": 20,
+            "carbs_target_g": 100,
+            "fat_target_g": 10,
+            "sodium_target_mg": 500,
+            "rationale": "Pre-exercise meal 2.5h before first workout provides adequate fuel for both sessions. ACSM2016 recommends 1-4g/kg carbs 1-4h pre-exercise. Lower fiber and fat content reduces GI distress risk (ISSN2018). Moderate protein supports muscle protein synthesis during exercise (Burke et al., 2021).",
+            "timing_notes": "Allow 2.5h digestion before first run"
+          },
+          {
+            "time": "08:30",
+            "type": "intra_workout_snack",
+            "calories_target": 200,
+            "protein_target_g": 0,
+            "carbs_target_g": 50,
+            "fat_target_g": 0,
+            "sodium_target_mg": 400,
+            "rationale": "Carbohydrate intake during exercise maintains blood glucose and performance across multiple sessions (ACSM2016). Sodium replacement crucial for longer duration exercise (ISSN2018).",
+            "timing_notes": "Consumed between workouts to maintain energy"
+          },
+          {
+            "time": "11:30",
+            "type": "recovery_meal",
+            "calories_target": 748,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 12,
+            "sodium_target_mg": 1000,
+            "rationale": "Post-exercise recovery meal within 30min of second session maximizes glycogen resynthesis. Combined protein/carb intake promotes muscle recovery (ISSN2017). Higher sodium aids rehydration (Burke et al., 2021).",
+            "timing_notes": "Immediate post-workout nutrition window"
+          },
+          {
+            "time": "14:00",
+            "type": "lunch",
+            "calories_target": 700,
+            "protein_target_g": 35,
+            "carbs_target_g": 110,
+            "fat_target_g": 15,
+            "sodium_target_mg": 800,
+            "rationale": "Continues recovery process while maintaining steady energy intake. Moderate protein distribution throughout day optimizes MPS (ISSN2017).",
+            "timing_notes": "Mid-day meal maintaining recovery"
+          },
+          {
+            "time": "17:00",
+            "type": "afternoon_snack",
+            "calories_target": 400,
+            "protein_target_g": 15,
+            "carbs_target_g": 80,
+            "fat_target_g": 7,
+            "sodium_target_mg": 500,
+            "rationale": "Bridges gap between lunch and dinner, maintaining steady energy availability. Prevents evening overeating (ACSM2016).",
+            "timing_notes": "Prevents long gap between meals"
+          },
+          {
+            "time": "20:00",
+            "type": "dinner",
+            "calories_target": 600,
+            "protein_target_g": 26,
+            "carbs_target_g": 100,
+            "fat_target_g": 12,
+            "sodium_target_mg": 800,
+            "rationale": "Final daily meal provides nutrients for overnight recovery. Moderate carbs support glycogen resynthesis, protein supports overnight MPS (ISSN2017).",
+            "timing_notes": "Evening meal allowing 2-3h before sleep"
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "Well-distributed meal timing supporting dual-session training day. Emphasizes pre/during/post workout nutrition with appropriate spacing. Matches energy availability with training demands while maintaining consistent protein distribution."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/anthropic-claude-3.5-sonnet.json'"
+    },
+    {
+      "test_type": "structure_only",
+      "model": "openai/gpt-4o",
+      "model_name": "gpt-4o",
+      "test_number": 8,
+      "timestamp": "2025-11-03T10:52:50.384300",
+      "success": true,
+      "duration_ms": 29037,
+      "usage": {
+        "prompt_tokens": 319,
+        "completion_tokens": 965,
+        "total_tokens": 1284,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "meal_count": 6,
+      "has_rationales": true,
+      "json_valid": true,
+      "response": {
+        "meal_structure": [
+          {
+            "time": "07:00",
+            "type": "pre_workout",
+            "calories_target": 500,
+            "protein_target_g": 20,
+            "carbs_target_g": 80,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "Consuming a balanced pre-workout meal 1-2 hours before exercise can enhance performance and reduce the risk of gastrointestinal discomfort (ISSN2017). Carbohydrates are prioritized to top off glycogen stores, protein supports muscle repair, and moderate fat and sodium balance energy density and electrolyte needs (ACSM2016).",
+            "timing_notes": "Eaten 2 hours before the first workout to allow for digestion and optimal nutrient availability during exercise."
+          },
+          {
+            "time": "11:30",
+            "type": "post_workout",
+            "calories_target": 700,
+            "protein_target_g": 30,
+            "carbs_target_g": 120,
+            "fat_target_g": 10,
+            "sodium_target_mg": 800,
+            "rationale": "Post-workout nutrition accelerates recovery by replenishing glycogen stores and providing amino acids for muscle repair (ACSM2016). High glycemic index carbohydrates and proteins consumed within 30 minutes post-exercise optimize glycogen resynthesis and muscle protein synthesis (ISSN2017).",
+            "timing_notes": "Consumed within 30 minutes post-exercise to leverage the anabolic window for optimal recovery."
+          },
+          {
+            "time": "14:00",
+            "type": "lunch",
+            "calories_target": 600,
+            "protein_target_g": 25,
+            "carbs_target_g": 100,
+            "fat_target_g": 15,
+            "sodium_target_mg": 700,
+            "rationale": "A nutrient-dense lunch maintains energy levels and continues recovery post-training, with a focus on whole foods to provide a range of micronutrients essential for an athlete's health (ISSN2017).",
+            "timing_notes": "Timed for midday to ensure sustained energy and nutrient intake for the remainder of the day."
+          },
+          {
+            "time": "17:00",
+            "type": "snack",
+            "calories_target": 300,
+            "protein_target_g": 15,
+            "carbs_target_g": 40,
+            "fat_target_g": 8,
+            "sodium_target_mg": 300,
+            "rationale": "An afternoon snack provides a smaller energy boost to bridge the gap between lunch and dinner, preventing energy dips and supporting ongoing recovery (ISSN2017).",
+            "timing_notes": "Provides energy without overloading the digestive system before dinner."
+          },
+          {
+            "time": "20:00",
+            "type": "dinner",
+            "calories_target": 800,
+            "protein_target_g": 30,
+            "carbs_target_g": 160,
+            "fat_target_g": 10,
+            "sodium_target_mg": 900,
+            "rationale": "Dinner contributes significantly to daily energy and nutrient targets, helping to restore muscle glycogen and repair tissues overnight (ACSM2016).",
+            "timing_notes": "Allows for adequate digestion time before bedtime while maximizing recovery."
+          },
+          {
+            "time": "22:00",
+            "type": "evening_snack",
+            "calories_target": 348,
+            "protein_target_g": 6,
+            "carbs_target_g": 60,
+            "fat_target_g": 5,
+            "sodium_target_mg": 1000,
+            "rationale": "A light snack before bed can prevent overnight catabolism by providing slow-digesting proteins and carbohydrates, supporting muscle repair (ISSN2017). The sodium content helps to replenish electrolytes lost during the day.",
+            "timing_notes": "Consumed 1-2 hours before sleep to aid in recovery and support overnight muscle protein synthesis."
+          }
+        ],
+        "daily_totals_check": {
+          "total_calories": 3248,
+          "total_protein_g": 126,
+          "total_carbs_g": 560,
+          "total_fat_g": 56,
+          "total_sodium_mg": 4000
+        },
+        "structure_quality": "The meal timing strategy effectively distributes energy and nutrients throughout the day to support training demands and promote recovery, aligning with guidelines for athletic performance nutrition."
+      },
+      "error": "[Errno 2] No such file or directory: 'test1_structure/openai-gpt-4o.json'"
+    }
+  ]
+}

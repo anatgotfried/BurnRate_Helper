@@ -1,0 +1,393 @@
+{
+  "model": "google/gemini-2.5-flash",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:54:15.278656",
+  "duration_ms": 27740,
+  "usage": {
+    "prompt_tokens": 609,
+    "completion_tokens": 4040,
+    "total_tokens": 4649,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Pre-Workout Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, cooked (150g dry, 450g cooked)",
+            "carbs_g": 90,
+            "protein_g": 15,
+            "fat_g": 9,
+            "sodium_mg": 10,
+            "calories": 450
+          },
+          {
+            "item": "Banana, large (150g)",
+            "carbs_g": 34,
+            "protein_g": 1.6,
+            "fat_g": 0.5,
+            "sodium_mg": 1,
+            "calories": 133
+          },
+          {
+            "item": "Honey (2 tbsp, 42g)",
+            "carbs_g": 34,
+            "protein_g": 0.1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 128
+          }
+        ],
+        "total_carbs_g": 158,
+        "total_protein_g": 16.7,
+        "total_fat_g": 9.5,
+        "total_sodium_mg": 12,
+        "total_calories": 711,
+        "rationale": "This pre-workout meal focuses on easily digestible carbohydrates to provide sustained energy for the upcoming back-to-back moderate runs. Low fat and fiber content minimizes gastrointestinal distress, which is crucial for performance. The timing allows for adequate digestion and absorption before the first workout (ISSN 2017).",
+        "israel_alternatives": [
+          "Telma Quick Quaker Oats",
+          "Banana from local markets",
+          "Yad Mordechai Honey"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Pre-Workout Fuel",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Sports drink (e.g., Gatorade), 500ml",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 225,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 225,
+        "total_calories": 120,
+        "rationale": "Consuming a sports drink shortly before the first workout provides additional readily available carbohydrates and electrolytes, particularly sodium, to help maintain hydration and fuel muscle activity during prolonged exercise (ACSM 2016). This top-up ensures optimal energy levels.",
+        "israel_alternatives": [
+          "Gatorade",
+          "Powerade",
+          "Isostar"
+        ]
+      },
+      {
+        "time": "09:00-11:00",
+        "name": "During Workout Fuel (2 x 60min moderate runs)",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Sports drink (e.g., Gatorade), 1000ml (500ml per hour)",
+            "carbs_g": 60,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 450,
+            "calories": 240
+          },
+          {
+            "item": "Energy gel (2 units, 25g carbs each)",
+            "carbs_g": 50,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 100,
+            "calories": 200
+          }
+        ],
+        "total_carbs_g": 110,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 550,
+        "total_calories": 440,
+        "rationale": "During prolonged exercise, especially back-to-back sessions, carbohydrate intake is crucial to prevent glycogen depletion and maintain performance. The combination of sports drink and energy gels provides a steady supply of easily absorbed carbohydrates and electrolytes, preventing dehydration and muscle fatigue (ISSN 2017). Aim for 30-60g carbs per hour.",
+        "israel_alternatives": [
+          "Gatorade",
+          "Powerade",
+          "SiS GO Isotonic Energy Gel",
+          "GU Energy Gel"
+        ]
+      },
+      {
+        "time": "11:30",
+        "name": "Post-Workout Recovery Shake",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Whey protein isolate (30g powder)",
+            "carbs_g": 3,
+            "protein_g": 27,
+            "fat_g": 1,
+            "sodium_mg": 60,
+            "calories": 120
+          },
+          {
+            "item": "Skim milk (300ml)",
+            "carbs_g": 15,
+            "protein_g": 10,
+            "fat_g": 0.5,
+            "sodium_mg": 150,
+            "calories": 99
+          },
+          {
+            "item": "Maltodextrin/Dextrose (50g)",
+            "carbs_g": 50,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 200
+          },
+          {
+            "item": "Sodium (e.g., salt) (0.5g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 200,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 68,
+        "total_protein_g": 37,
+        "total_fat_g": 1.5,
+        "total_sodium_mg": 410,
+        "total_calories": 419,
+        "rationale": "This recovery shake provides a rapid source of carbohydrates and protein to initiate glycogen replenishment and muscle protein synthesis immediately post-workout. The high glycemic index carbohydrates (maltodextrin/dextrose) facilitate faster glycogen resynthesis, while whey protein supports muscle repair and growth. Sodium helps with rehydration and electrolyte balance (ISSN 2017, ACSM 2016).",
+        "israel_alternatives": [
+          "Optimum Nutrition Gold Standard Whey",
+          "Tnuva Skim Milk",
+          "Bulk Powders Maltodextrin",
+          "Fine Salt"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Chicken breast, grilled (150g)",
+            "carbs_g": 0,
+            "protein_g": 46.5,
+            "fat_g": 4.5,
+            "sodium_mg": 75,
+            "calories": 225
+          },
+          {
+            "item": "White rice, cooked (300g)",
+            "carbs_g": 81,
+            "protein_g": 6,
+            "fat_g": 0.6,
+            "sodium_mg": 3,
+            "calories": 378
+          },
+          {
+            "item": "Steamed broccoli (200g)",
+            "carbs_g": 14,
+            "protein_g": 5.6,
+            "fat_g": 0.4,
+            "sodium_mg": 60,
+            "calories": 68
+          },
+          {
+            "item": "Olive oil (1 tbsp, 14g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          },
+          {
+            "item": "Salt (0.5g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 200,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 95,
+        "total_protein_g": 58.1,
+        "total_fat_g": 19.5,
+        "total_sodium_mg": 338,
+        "total_calories": 791,
+        "rationale": "This lunch provides a substantial amount of protein and carbohydrates for continued recovery and energy replenishment. Lean protein from chicken breast supports muscle repair, while white rice offers easily digestible carbohydrates for glycogen restoration. Broccoli provides essential micronutrients and fiber. Adding salt helps replenish sodium lost during exercise (ISSN 2017).",
+        "israel_alternatives": [
+          "Of Tov Chicken Breast",
+          "Osem White Rice",
+          "Fresh Broccoli from local markets",
+          "Shemen Zayit Olive Oil"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek yogurt, 0% fat (200g)",
+            "carbs_g": 10,
+            "protein_g": 20,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 120
+          },
+          {
+            "item": "Berries, mixed (150g)",
+            "carbs_g": 18,
+            "protein_g": 1.5,
+            "fat_g": 0.5,
+            "sodium_mg": 2,
+            "calories": 78
+          },
+          {
+            "item": "Small pretzel stick (50g)",
+            "carbs_g": 38,
+            "protein_g": 5,
+            "fat_g": 0.5,
+            "sodium_mg": 700,
+            "calories": 180
+          }
+        ],
+        "total_carbs_g": 66,
+        "total_protein_g": 26.5,
+        "total_fat_g": 1,
+        "total_sodium_mg": 782,
+        "total_calories": 378,
+        "rationale": "This snack offers a good balance of protein and carbohydrates. Greek yogurt provides casein protein for sustained amino acid release, while berries offer natural sugars and antioxidants. The pretzel stick adds quick carbohydrates and a significant amount of sodium, helping to maintain electrolyte balance throughout the day (ACSM 2016).",
+        "israel_alternatives": [
+          "Tnuva Greek Yogurt",
+          "Fresh or frozen mixed berries",
+          "Osem Pretzels"
+        ]
+      },
+      {
+        "time": "19:30",
+        "name": "Dinner",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Salmon fillet, baked (150g)",
+            "carbs_g": 0,
+            "protein_g": 33,
+            "fat_g": 21,
+            "sodium_mg": 80,
+            "calories": 345
+          },
+          {
+            "item": "Sweet potato, baked (250g)",
+            "carbs_g": 57.5,
+            "protein_g": 4.5,
+            "fat_g": 0.5,
+            "sodium_mg": 100,
+            "calories": 240
+          },
+          {
+            "item": "Mixed green salad (200g)",
+            "carbs_g": 8,
+            "protein_g": 2,
+            "fat_g": 0.5,
+            "sodium_mg": 10,
+            "calories": 40
+          },
+          {
+            "item": "Balsamic vinaigrette (2 tbsp, 30ml)",
+            "carbs_g": 6,
+            "protein_g": 0,
+            "fat_g": 10,
+            "sodium_mg": 200,
+            "calories": 110
+          },
+          {
+            "item": "Salt (0.5g)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 200,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 71.5,
+        "total_protein_g": 39.5,
+        "total_fat_g": 32,
+        "total_sodium_mg": 590,
+        "total_calories": 735,
+        "rationale": "Dinner provides a balanced meal with quality protein, complex carbohydrates, and healthy fats. Salmon offers omega-3 fatty acids, important for recovery and overall health. Sweet potato provides sustained energy, while the salad ensures micronutrient intake. The fat content helps with satiety and absorption of fat-soluble vitamins (ISSN 2017).",
+        "israel_alternatives": [
+          "Fresh Salmon Fillet from local fish markets",
+          "Sweet Potatoes from local markets",
+          "Fresh Mixed Greens",
+          "Private label Balsamic Vinaigrette"
+        ]
+      },
+      {
+        "time": "21:30",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Cottage cheese, 5% fat (200g)",
+            "carbs_g": 6,
+            "protein_g": 26,
+            "fat_g": 10,
+            "sodium_mg": 800,
+            "calories": 210
+          },
+          {
+            "item": "Whole wheat crackers (50g)",
+            "carbs_g": 35,
+            "protein_g": 5,
+            "fat_g": 5,
+            "sodium_mg": 600,
+            "calories": 200
+          }
+        ],
+        "total_carbs_g": 41,
+        "total_protein_g": 31,
+        "total_fat_g": 15,
+        "total_sodium_mg": 1400,
+        "total_calories": 410,
+        "rationale": "This evening snack provides slow-digesting protein from cottage cheese (casein), which can support muscle protein synthesis overnight. Whole wheat crackers offer additional carbohydrates and a considerable amount of sodium, contributing to the daily sodium target and aiding with hydration and electrolyte balance (ISSN 2017).",
+        "israel_alternatives": [
+          "Tnuva Cottage Cheese",
+          "Osem Whole Wheat Crackers"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3293,
+      "carbs_g": 541.5,
+      "protein_g": 209.8,
+      "fat_g": 78,
+      "sodium_mg": 3897,
+      "protein_per_kg": 2.99,
+      "carbs_per_kg": 7.74
+    },
+    "key_recommendations": [
+      "Adjust portion sizes slightly to precisely hit macro targets if needed, especially for carbs and sodium.",
+      "Ensure consistent hydration throughout the day, beyond just during workouts, by consuming water and electrolyte-rich fluids.",
+      "Monitor individual tolerance to foods and adjust choices as necessary to prevent gastrointestinal discomfort during training.",
+      "Consider supplementing with a multivitamin/mineral if dietary intake of micronutrients is a concern, though this plan is designed to be nutrient-dense.",
+      "Listen to your body's hunger and fullness cues, adjusting intake slightly if energy levels or recovery feel suboptimal."
+    ]
+  }
+}

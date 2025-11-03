@@ -1,0 +1,290 @@
+{
+  "model": "anthropic/claude-3.5-sonnet",
+  "test_type": "full_meals",
+  "timestamp": "2025-11-03T10:59:57.397054",
+  "duration_ms": 45190,
+  "usage": {
+    "prompt_tokens": 592,
+    "completion_tokens": 2539,
+    "total_tokens": 3131
+  },
+  "response": {
+    "athlete_summary": {
+      "weight_kg": 70,
+      "daily_energy_target_kcal": 3248,
+      "daily_protein_target_g": 126,
+      "daily_carb_target_g": 560,
+      "daily_fat_target_g": 56,
+      "sodium_target_mg": 4000
+    },
+    "meals": [
+      {
+        "time": "06:30",
+        "name": "Pre-workout Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal, cooked (100g)",
+            "carbs_g": 27,
+            "protein_g": 4,
+            "fat_g": 2,
+            "sodium_mg": 5,
+            "calories": 150
+          },
+          {
+            "item": "Banana (120g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Honey (15g)",
+            "carbs_g": 12,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 45
+          }
+        ],
+        "total_carbs_g": 66,
+        "total_protein_g": 5,
+        "total_fat_g": 2,
+        "total_sodium_mg": 6,
+        "total_calories": 300,
+        "rationale": "Low-fiber, easily digestible carbs 2.5 hours before first workout. Provides quick energy from banana and honey while oats offer sustained release. Based on ACSM pre-exercise fueling guidelines.",
+        "israel_alternatives": [
+          "Telma Oatmeal",
+          "Shufersal Honey",
+          "Local Bananas"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Inter-workout Snack",
+        "type": "during_training",
+        "foods": [
+          {
+            "item": "Sports drink (500ml)",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 250,
+            "calories": 120
+          },
+          {
+            "item": "Energy gel",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 100,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 55,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 350,
+        "total_calories": 220,
+        "rationale": "Quick-absorbing carbs and electrolytes between workouts. Aims for 60-90g carbs/hour during extended training as per ISSN guidelines.",
+        "israel_alternatives": [
+          "Schweppes Sport",
+          "Gatorade",
+          "PowerGel"
+        ]
+      },
+      {
+        "time": "11:30",
+        "name": "Recovery Meal",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Greek yogurt (200g)",
+            "carbs_g": 8,
+            "protein_g": 20,
+            "fat_g": 4,
+            "sodium_mg": 70,
+            "calories": 150
+          },
+          {
+            "item": "Granola (60g)",
+            "carbs_g": 40,
+            "protein_g": 6,
+            "fat_g": 8,
+            "sodium_mg": 150,
+            "calories": 280
+          },
+          {
+            "item": "Mixed berries (150g)",
+            "carbs_g": 18,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 5,
+            "calories": 75
+          }
+        ],
+        "total_carbs_g": 66,
+        "total_protein_g": 27,
+        "total_fat_g": 12,
+        "total_sodium_mg": 225,
+        "total_calories": 505,
+        "rationale": "4:1 carb:protein ratio optimal for glycogen replenishment. Protein supports muscle recovery. Antioxidants from berries help reduce exercise-induced inflammation.",
+        "israel_alternatives": [
+          "Tnuva Greek Yogurt",
+          "Fitness Granola",
+          "Frozen Mixed Berries"
+        ]
+      },
+      {
+        "time": "14:00",
+        "name": "Lunch",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Brown rice (200g cooked)",
+            "carbs_g": 44,
+            "protein_g": 5,
+            "fat_g": 2,
+            "sodium_mg": 10,
+            "calories": 215
+          },
+          {
+            "item": "Grilled chicken breast (150g)",
+            "carbs_g": 0,
+            "protein_g": 45,
+            "fat_g": 3,
+            "sodium_mg": 400,
+            "calories": 225
+          },
+          {
+            "item": "Sweet potato (200g)",
+            "carbs_g": 40,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 70,
+            "calories": 180
+          },
+          {
+            "item": "Mixed vegetables (200g)",
+            "carbs_g": 20,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 104,
+        "total_protein_g": 58,
+        "total_fat_g": 5,
+        "total_sodium_mg": 560,
+        "total_calories": 720,
+        "rationale": "Balance of complex carbs for glycogen restoration and lean protein for muscle repair. Vegetables provide micronutrients essential for recovery and adaptation.",
+        "israel_alternatives": [
+          "Sugat Brown Rice",
+          "Off Tov Chicken Breast",
+          "Local Sweet Potatoes"
+        ]
+      },
+      {
+        "time": "16:30",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Whole grain bread (2 slices)",
+            "carbs_g": 30,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 300,
+            "calories": 160
+          },
+          {
+            "item": "Peanut butter (30g)",
+            "carbs_g": 6,
+            "protein_g": 7,
+            "fat_g": 16,
+            "sodium_mg": 150,
+            "calories": 180
+          },
+          {
+            "item": "Banana (120g)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          }
+        ],
+        "total_carbs_g": 63,
+        "total_protein_g": 14,
+        "total_fat_g": 18,
+        "total_sodium_mg": 451,
+        "total_calories": 445,
+        "rationale": "Sustained energy release from complex carbs and healthy fats. Moderate protein content supports ongoing recovery.",
+        "israel_alternatives": [
+          "Angel Whole Grain Bread",
+          "Skippy Peanut Butter",
+          "Local Bananas"
+        ]
+      },
+      {
+        "time": "19:30",
+        "name": "Dinner",
+        "type": "main_meal",
+        "foods": [
+          {
+            "item": "Salmon fillet (180g)",
+            "carbs_g": 0,
+            "protein_g": 46,
+            "fat_g": 12,
+            "sodium_mg": 125,
+            "calories": 360
+          },
+          {
+            "item": "Quinoa (150g cooked)",
+            "carbs_g": 39,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 13,
+            "calories": 200
+          },
+          {
+            "item": "Roasted vegetables (250g)",
+            "carbs_g": 30,
+            "protein_g": 5,
+            "fat_g": 5,
+            "sodium_mg": 200,
+            "calories": 200
+          }
+        ],
+        "total_carbs_g": 69,
+        "total_protein_g": 57,
+        "total_fat_g": 19,
+        "total_sodium_mg": 338,
+        "total_calories": 760,
+        "rationale": "Omega-3 rich protein source aids recovery. Complex carbs restore glycogen while providing sustained energy for overnight recovery.",
+        "israel_alternatives": [
+          "Fresh Market Salmon",
+          "Sugat Quinoa",
+          "Local Seasonal Vegetables"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 2950,
+      "carbs_g": 423,
+      "protein_g": 161,
+      "fat_g": 56,
+      "sodium_mg": 1930,
+      "protein_per_kg": 2.3,
+      "carbs_per_kg": 6.0
+    },
+    "key_recommendations": [
+      "Consume additional sports drink during workouts to meet sodium and carb targets",
+      "Consider adding evening snack if weight maintenance is a challenge",
+      "Time largest meals 3-4 hours before training sessions",
+      "Stay hydrated with electrolyte-enhanced beverages throughout the day"
+    ]
+  }
+}
