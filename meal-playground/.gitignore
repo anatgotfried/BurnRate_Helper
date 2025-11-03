@@ -28,3 +28,7 @@ Thumbs.db
 # Logs
 *.log
 
+# Test Results
+model-test-results-*.json
+model-test-log.txt
+
