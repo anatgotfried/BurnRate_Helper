@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.6.1';
+const VERSION = '1.6.2';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -340,7 +340,7 @@ async function generateMealPlan() {
             body: JSON.stringify({
                 model: model,
                 prompt: prompt,
-                max_tokens: 6000  // Increased from 4000 to allow longer responses
+                max_tokens: 10000  // Increased to 10k to prevent truncated JSON
             })
         });
         
