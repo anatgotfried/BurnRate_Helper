@@ -453,8 +453,12 @@ def submit_feedback():
         if not N8N_FEEDBACK_WEBHOOK:
             return jsonify({
                 'success': False,
-                'error': 'Feedback webhook not configured. Add N8N_FEEDBACK_WEBHOOK to .env file.'
+                'error': 'Feedback webhook not configured. Add N8N_FEEDBACK_WEBHOOK to .env file.',
+                'debug': 'N8N_FEEDBACK_WEBHOOK is None or empty'
             }), 500
+        
+        print(f"🔗 Sending feedback to webhook: {N8N_FEEDBACK_WEBHOOK}")
+        print(f"📦 Payload size: {len(json.dumps(data))} bytes")
         
         # Forward to n8n webhook
         response = requests.post(
@@ -464,6 +468,9 @@ def submit_feedback():
             timeout=10
         )
         
+        print(f"📥 n8n response: {response.status_code}")
+        print(f"📄 n8n body: {response.text[:200]}")
+        
         if response.status_code == 200:
             return jsonify({
                 'success': True,
@@ -472,7 +479,11 @@ def submit_feedback():
         else:
             return jsonify({
                 'success': False,
-                'error': f'n8n webhook returned status {response.status_code}'
+                'error': f'n8n webhook returned status {response.status_code}',
+                'debug': {
+                    'webhook_url': N8N_FEEDBACK_WEBHOOK,
+                    'response_body': response.text[:500]
+                }
             }), response.status_code
             
     except requests.exceptions.Timeout:
