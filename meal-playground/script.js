@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.4.2';
+const VERSION = '1.4.3';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -491,7 +491,16 @@ ${JSON.stringify(context, null, 2)}
     "daily_fat_target_g": ${context.calculated_targets.daily_fat_target_g},
     "hydration_target_l": ${context.calculated_targets.hydration_target_l},
     "sodium_target_mg": ${context.calculated_targets.sodium_target_mg},
+    "calorie_breakdown": {
+      "total": ${context.calculated_targets.calorie_breakdown?.total || context.calculated_targets.daily_energy_target_kcal},
+      "bmr": ${context.calculated_targets.calorie_breakdown?.bmr || 0},
+      "base": ${context.calculated_targets.calorie_breakdown?.base || 0},
+      "workout": ${context.calculated_targets.calorie_breakdown?.workout || 0},
+      "isFatLoss": ${context.calculated_targets.calorie_breakdown?.isFatLoss || false},
+      "deficitPercent": ${context.calculated_targets.calorie_breakdown?.deficitPercent || 0}
+    },
     "explanations": {
+      "calories": "${context.calculated_targets.explanations.calories || 'Calorie target calculated'}",
       "protein": "${context.calculated_targets.explanations.protein || 'Protein target calculated'}",
       "carbs": "${context.calculated_targets.explanations.carbs || 'Carbs target calculated'}",
       "fat": "${context.calculated_targets.explanations.fat || 'Fat target calculated'}",
@@ -647,6 +656,10 @@ window.showTargetInfo = function(metricKey) {
     const targets = mealPlan.athlete_summary;
     const explanations = targets.explanations || {};
     const breakdown = targets.calorie_breakdown || {};
+    
+    console.log('📊 Info button clicked:', metricKey);
+    console.log('Targets:', targets);
+    console.log('Breakdown:', breakdown);
     
     let title = '';
     let content = '';
