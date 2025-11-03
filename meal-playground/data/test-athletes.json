@@ -334,6 +334,34 @@
         "populations": ["female_specific"]
       },
       "workouts": []
+    },
+    {
+      "id": "athlete_11",
+      "name": "🏃‍♂️ Lior - Masters Long Run",
+      "description": "75kg man, build phase, single 2.5h long run",
+      "profile": {
+        "weight_kg": 75,
+        "height_cm": 178,
+        "age": 48,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["masters"]
+      },
+      "workouts": [
+        {
+          "type": "long_endurance",
+          "duration": 150,
+          "intensity": "moderate",
+          "startTime": "07:00",
+          "temperature": 18,
+          "humidity": 65
+        }
+      ]
     }
   ]
 }
