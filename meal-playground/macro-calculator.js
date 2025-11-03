@@ -9,6 +9,9 @@
  */
 function calculateDailyTargets(athlete, workouts) {
     const weight = athlete.weight_kg;
+    const height = athlete.height_cm;
+    const gender = athlete.gender;
+    const age = athlete.age || 30; // Default age if not provided
     const goal = athlete.goal; // 'performance', 'fat_loss', 'hypertrophy'
     const phase = athlete.training_phase; // 'base', 'build', 'race', 'recovery'
     
@@ -25,26 +28,55 @@ function calculateDailyTargets(athlete, workouts) {
     const hydration = calculateHydration(weight, workouts, context);
     const sodium = calculateSodium(workouts, weight, hydration.target_ml);
     
-    // Calculate total calories
-    const calories = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
+    // PROPER CALORIE CALCULATION (Research-Based)
+    // Step 1: Calculate BMR using Harris-Benedict equation
+    const bmr = calculateBMR(weight, height, age, gender);
     
-    // Calculate calorie breakdown for info button
-    const bmr = Math.round(weight * 24); // Simplified BMR (~24 kcal/kg)
-    const baseCalories = Math.round(bmr * (goal === 'fat_loss' ? 0.8 : 1.0)); // 20% deficit for fat loss
-    const workoutCalories = calories - baseCalories;
+    // Step 2: Calculate activity factor based on training load
+    const activityFactor = getActivityFactor(trainingLoad);
     
+    // Step 3: Calculate TDEE (Total Daily Energy Expenditure)
+    const tdee = Math.round(bmr * activityFactor);
+    
+    // Step 4: Apply deficit or surplus based on goal
+    let targetCalories = tdee;
+    let deficitPercent = 0;
+    
+    if (goal === 'fat_loss' || goal === 'fat_loss_with_performance') {
+        targetCalories = Math.round(tdee * 0.80); // 20% deficit
+        deficitPercent = 20;
+        
+        // SAFETY: Enforce minimum calorie thresholds (ADA/AND guidelines)
+        const minimumCalories = gender === 'female' ? 1200 : 1500;
+        if (targetCalories < minimumCalories) {
+            console.warn(`⚠️ Calculated ${targetCalories} kcal below safe minimum. Adjusting to ${minimumCalories} kcal.`);
+            targetCalories = minimumCalories;
+            deficitPercent = Math.round(((tdee - targetCalories) / tdee) * 100);
+        }
+    } else if (goal === 'muscle_gain' || goal === 'hypertrophy') {
+        targetCalories = Math.round(tdee * 1.10); // 10% surplus
+        deficitPercent = -10;
+    }
+    
+    // Calculate calories from macros (may differ slightly from target)
+    const caloriesFromMacros = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
+    
+    // Calorie breakdown for info modal
     const calorieBreakdown = {
-        total: calories,
-        bmr: bmr,
-        base: baseCalories,
-        workout: workoutCalories,
-        isFatLoss: goal === 'fat_loss',
-        deficitPercent: goal === 'fat_loss' ? 20 : 0
+        total: targetCalories,
+        bmr: Math.round(bmr),
+        tdee: tdee,
+        activityFactor: activityFactor,
+        activityLevel: getActivityLevelName(activityFactor),
+        isFatLoss: goal === 'fat_loss' || goal === 'fat_loss_with_performance',
+        isSurplus: goal === 'muscle_gain' || goal === 'hypertrophy',
+        deficitPercent: deficitPercent,
+        caloriesFromMacros: caloriesFromMacros
     };
     
     return {
         weight_kg: weight,
-        daily_energy_target_kcal: calories,
+        daily_energy_target_kcal: targetCalories,
         daily_protein_target_g: Math.round(protein.target_g),
         daily_carb_target_g: Math.round(carbs.target_g),
         daily_fat_target_g: Math.round(fat.target_g),
@@ -57,12 +89,72 @@ function calculateDailyTargets(athlete, workouts) {
             fat: fat.explanation,
             hydration: hydration.explanation,
             sodium: sodium.explanation,
-            calories: `Daily target: ${calories} kcal. ` +
-                (goal === 'fat_loss' ? 
-                    `Base metabolism (${bmr} kcal) × 0.8 deficit = ${baseCalories} kcal + ${workoutCalories} kcal for workouts. This creates a 20% calorie deficit for fat loss while fueling training sessions.` :
-                    `Base metabolism (${bmr} kcal) + ${workoutCalories} kcal for training = maintenance calories to support performance.`)
+            calories: buildCalorieExplanation(bmr, tdee, targetCalories, activityFactor, goal, gender, deficitPercent)
         }
     };
+}
+
+/**
+ * Calculate BMR using Harris-Benedict equation (revised)
+ * Most accurate formula for athletes
+ */
+function calculateBMR(weight_kg, height_cm, age, gender) {
+    if (gender === 'female') {
+        // Harris-Benedict for women: 655 + (9.6 × weight) + (1.8 × height) - (4.7 × age)
+        return 655 + (9.6 * weight_kg) + (1.8 * height_cm) - (4.7 * age);
+    } else {
+        // Harris-Benedict for men: 66 + (13.7 × weight) + (5 × height) - (6.8 × age)
+        return 66 + (13.7 * weight_kg) + (5 * height_cm) - (6.8 * age);
+    }
+}
+
+/**
+ * Get activity factor based on training load
+ * Based on standard activity multipliers
+ */
+function getActivityFactor(trainingLoad) {
+    if (trainingLoad < 0.5) return 1.2;   // Sedentary
+    if (trainingLoad < 1.5) return 1.375; // Lightly active
+    if (trainingLoad < 3.0) return 1.55;  // Moderately active
+    if (trainingLoad < 4.5) return 1.725; // Very active
+    return 1.9;                            // Extremely active
+}
+
+/**
+ * Get activity level name for display
+ */
+function getActivityLevelName(factor) {
+    if (factor <= 1.2) return 'Sedentary';
+    if (factor <= 1.375) return 'Lightly Active';
+    if (factor <= 1.55) return 'Moderately Active';
+    if (factor <= 1.725) return 'Very Active';
+    return 'Extremely Active';
+}
+
+/**
+ * Build calorie explanation text
+ */
+function buildCalorieExplanation(bmr, tdee, targetCalories, activityFactor, goal, gender, deficitPercent) {
+    const activityLevel = getActivityLevelName(activityFactor);
+    const isFatLoss = goal === 'fat_loss' || goal === 'fat_loss_with_performance';
+    const isSurplus = goal === 'muscle_gain' || goal === 'hypertrophy';
+    
+    let explanation = `BMR (${Math.round(bmr)} kcal) × ${activityFactor} (${activityLevel}) = TDEE ${tdee} kcal. `;
+    
+    if (isFatLoss) {
+        const minimumCalories = gender === 'female' ? 1200 : 1500;
+        if (targetCalories === minimumCalories) {
+            explanation += `Calculated deficit would be below safe minimum (${minimumCalories} kcal for ${gender}s per ADA guidelines). Target set to minimum for health and metabolic function.`;
+        } else {
+            explanation += `Fat loss: ${deficitPercent}% deficit = ${targetCalories} kcal. This moderate deficit promotes sustainable fat loss (~0.5-1% bodyweight/week) while preserving muscle mass and supporting training per ACSM2016.`;
+        }
+    } else if (isSurplus) {
+        explanation += `Muscle gain: ${Math.abs(deficitPercent)}% surplus = ${targetCalories} kcal to support hypertrophy and recovery per ISSN2017.`;
+    } else {
+        explanation += `Maintenance calories to support current training load and performance.`;
+    }
+    
+    return explanation;
 }
 
 /**

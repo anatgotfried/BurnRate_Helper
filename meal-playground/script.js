@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.4.3';
+const VERSION = '1.5.0';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -494,10 +494,13 @@ ${JSON.stringify(context, null, 2)}
     "calorie_breakdown": {
       "total": ${context.calculated_targets.calorie_breakdown?.total || context.calculated_targets.daily_energy_target_kcal},
       "bmr": ${context.calculated_targets.calorie_breakdown?.bmr || 0},
-      "base": ${context.calculated_targets.calorie_breakdown?.base || 0},
-      "workout": ${context.calculated_targets.calorie_breakdown?.workout || 0},
+      "tdee": ${context.calculated_targets.calorie_breakdown?.tdee || 0},
+      "activityFactor": ${context.calculated_targets.calorie_breakdown?.activityFactor || 1.2},
+      "activityLevel": "${context.calculated_targets.calorie_breakdown?.activityLevel || 'Unknown'}",
       "isFatLoss": ${context.calculated_targets.calorie_breakdown?.isFatLoss || false},
-      "deficitPercent": ${context.calculated_targets.calorie_breakdown?.deficitPercent || 0}
+      "isSurplus": ${context.calculated_targets.calorie_breakdown?.isSurplus || false},
+      "deficitPercent": ${context.calculated_targets.calorie_breakdown?.deficitPercent || 0},
+      "caloriesFromMacros": ${context.calculated_targets.calorie_breakdown?.caloriesFromMacros || 0}
     },
     "explanations": {
       "calories": "${context.calculated_targets.explanations.calories || 'Calorie target calculated'}",
@@ -668,43 +671,76 @@ window.showTargetInfo = function(metricKey) {
         case 'calories':
             title = '🔥 Daily Calorie Target';
             if (breakdown.isFatLoss) {
+                const deficitAmount = breakdown.tdee - breakdown.total;
                 content = `
                     <div class="info-breakdown">
-                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal</h4>
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
                         <div class="breakdown-row">
-                            <span>Base Metabolism (BMR):</span>
+                            <span>1️⃣ Base Metabolism (BMR):</span>
                             <span>${breakdown.bmr} kcal</span>
                         </div>
-                        <div class="breakdown-row deficit">
-                            <span>× Fat Loss Deficit (20%):</span>
-                            <span>${breakdown.base} kcal</span>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
                         </div>
-                        <div class="breakdown-row positive">
-                            <span>+ Workout Fuel:</span>
-                            <span>+${breakdown.workout} kcal</span>
+                        <div class="breakdown-row">
+                            <span>3️⃣ TDEE (Maintenance):</span>
+                            <span>${breakdown.tdee} kcal</span>
+                        </div>
+                        <div class="breakdown-row deficit">
+                            <span>4️⃣ Fat Loss Deficit (${breakdown.deficitPercent}%):</span>
+                            <span>-${deficitAmount} kcal</span>
                         </div>
                         <div class="breakdown-total">
-                            <span><strong>Daily Total:</strong></span>
+                            <span><strong>Daily Target:</strong></span>
                             <span><strong>${breakdown.total} kcal</strong></span>
                         </div>
                     </div>
                     <p class="info-explanation">${explanations.calories || ''}</p>
-                    <p class="info-note">💡 <strong>This is still fat loss!</strong> The base calories are reduced by 20% to create a deficit. Workout calories are added so you can train effectively while losing fat.</p>
+                    <p class="info-note">✅ <strong>Safe & Sustainable:</strong> This ${breakdown.deficitPercent}% deficit is applied to your TDEE (which already includes your training). No need to "add back" workout calories - your activity is built into the calculation! This supports ~0.5-1% bodyweight loss per week while maintaining training performance.</p>
+                `;
+            } else if (breakdown.isSurplus) {
+                const surplusAmount = breakdown.total - breakdown.tdee;
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
+                        <div class="breakdown-row">
+                            <span>1️⃣ Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>3️⃣ TDEE (Maintenance):</span>
+                            <span>${breakdown.tdee} kcal</span>
+                        </div>
+                        <div class="breakdown-row positive">
+                            <span>4️⃣ Muscle Gain Surplus:</span>
+                            <span>+${surplusAmount} kcal</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>Daily Target:</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
                 `;
             } else {
                 content = `
                     <div class="info-breakdown">
-                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal</h4>
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
                         <div class="breakdown-row">
-                            <span>Base Metabolism:</span>
-                            <span>${breakdown.base} kcal</span>
+                            <span>1️⃣ Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
                         </div>
-                        <div class="breakdown-row positive">
-                            <span>+ Workout Fuel:</span>
-                            <span>+${breakdown.workout} kcal</span>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
                         </div>
                         <div class="breakdown-total">
-                            <span><strong>Daily Total:</strong></span>
+                            <span><strong>TDEE (Maintenance):</strong></span>
                             <span><strong>${breakdown.total} kcal</strong></span>
                         </div>
                     </div>
