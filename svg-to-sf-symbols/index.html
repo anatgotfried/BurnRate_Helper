@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to SF Symbol Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 SVG to SF Symbol Converter</h1>
+            <p>Transform vector artwork into a fully compliant SF Symbols template</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p class="drop-text">Drag &amp; drop SVG files here</p>
+                    <p class="drop-subtext">or</p>
+                    <button class="browse-btn" id="browseBtn">Browse Files</button>
+                    <input type="file" id="fileInput" accept=".svg" multiple hidden>
+                    <p class="file-info">The converter enforces SF Symbols template rules for you</p>
+                </div>
+            </div>
+
+            <div class="files-section" id="filesSection" style="display: none;">
+                <h3>Files to Convert (<span id="fileCount">0</span>)</h3>
+                <div id="filesList" class="files-list"></div>
+                
+                <div class="size-control-section">
+                    <h4>Size Adjustment</h4>
+                    <div class="size-controls">
+                        <label for="sizeSlider">Scale: <span id="sizeValue">100</span>%</label>
+                        <input type="range" id="sizeSlider" min="50" max="200" value="100" step="5">
+                        <div class="size-presets">
+                            <button type="button" class="size-preset" data-size="75">75%</button>
+                            <button type="button" class="size-preset" data-size="100">100%</button>
+                            <button type="button" class="size-preset" data-size="125">125%</button>
+                            <button type="button" class="size-preset" data-size="150">150%</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" id="convertBtn">Convert All to SF Symbols</button>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h3>Converted Symbols</h3>
+                    <button class="regenerate-btn" id="regenerateBtn">🔄 Regenerate</button>
+                </div>
+                <div id="resultsList" class="results-list"></div>
+                <button class="download-all-btn" id="downloadAllBtn">Download All as ZIP</button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="info-box">
+                <h4>ℹ️ SF Symbol Requirements Built In</h4>
+                <ul>
+                    <li>Variable template with Ultralight, Regular, and Black masters</li>
+                    <li>Strict Guides / Notes structure and v3.0 template metadata</li>
+                    <li>Monochrome output with unsupported SVG constructs flagged</li>
+                    <li>Import the exported .svg into Apple’s SF Symbols app for validation</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

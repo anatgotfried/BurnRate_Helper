@@ -1,0 +1,3905 @@
+Deep Research — Anatomy of SF Symbol files +
+
+Robust SVG→SF Symbol Conversion (2025)
+
+A. Anatomy of a Symbol Template (SVG)
+
+An example SF Symbols template (variable format) showing the canvas layout with guide lines and reference
+
+glyphs. Here, only the Small scale row contains drawn shapes for Ultralight (left), Regular (center), and Black
+
+(right) weights; Medium and Large scale rows show only the reference guides (outline “A” characters). The blue
+
+guidelines indicate baselines and cap heights for each scale, helping align the symbol to text typography.
+
+Canvas, Coordinates & Guides
+
+An SF Symbols template SVG uses a fixed canvas sized to accommodate all design variants. In Apple’s
+templates,  the  SVG   viewBox   spans  a  few  thousand  units  (e.g.  3300×2200  units),  enough  to  tile  3
+
+columns (Small, Medium, Large scale) by 9 rows (Ultralight…Black weights) of symbol drawings
+
+1
+
+2
+
+.
+
+The   coordinate   system   is   optimized   for   typography:  y=0   aligns   to   the   baseline,   and   an   upward-
+
+negative Y-axis is used for drawing shapes (you’ll notice many path coordinates are negative y-values)
+.   Within   the   template’s   <g   id="Guides">   layer,   Apple   includes  reference   glyphs  –   typically
+
+2
+
+outline letters or shapes – to mark the baseline and cap-height for each scale. For example, “the Guides
+
+layer contains an uppercase letter A in outline form for each scale in the San Francisco system font as a
+
+reference glyph”
+
+3
+
+. These guides (often drawn in light blue) show where the baseline is and how tall
+
+the cap-height is for Small, Medium, and Large variants, ensuring your symbol aligns with text (so it
+
+won’t look off next to letters). There are also vertical margin guides at the sides of the design to control
+
+optical spacing between symbols. Each margin guide is a vertical line or narrow rectangle, and in newer
+template versions they are labeled with the weight & scale they apply to (e.g.  left-margin-Regular-
+M )
+
+. If you include custom margins for other variants (with proper naming), SF Symbols and
+
+4
+
+5
+
+Xcode will use them to adjust spacing for those specific weights/scales
+
+4
+
+. In summary, the template’s
+
+1
+
+canvas and guides establish a common coordinate frame so that at runtime your symbol behaves like a
+
+font glyph – it aligns to baselines and scales consistently with text.
+
+Required Layers/Groups and Their Roles
+
+SF Symbol templates have a  strict layer/group structure. At minimum, you will see three top-level
+. The  Notes  group is usually empty by default –
+
+groups in the SVG: Notes, Guides, and Symbols
+
+1
+
+it’s an optional place to leave comments or unused elements (it does not affect the symbol rendering).
+The  Guides  group contains all those reference aids discussed (baseline & cap-height guides, margin
+
+lines, and reference glyphs like the “A” characters for each scale)
+
+3
+
+. These guides are usually styled in
+
+non-exporting colors (often cyan or magenta) and are ignored by the actual symbol rendering (they
+won’t show up in the app). Finally, the  Symbols  group holds the actual artwork for the symbol in one
+
+or more sub-groups. In a  static template  (fully drawn for all variants), there will be 27 sub-groups
+inside  Symbols  – one for each combination of weight and scale (e.g.  Ultralight-S ,  Ultralight-
+M ,   Ultralight-L ,   Thin-S , … up to   Black-L ). In a  variable template (using interpolation), the
+Symbols   group   instead   contains   only   the  design   “sources”:   typically   three   sub-groups   named
+Ultralight-S ,  Regular-S , and  Black-S
+. Each such sub-group contains the vector paths
+for   that   weight/scale   variant   of   the   symbol.   These   naming   conventions   ( <Weight>-<Scale> )   are
+
+6
+
+7
+
+. Within each
+critical – the SF Symbols app and Xcode use them to identify which variant is which
+weight   sub-group,   the   actual   vector   drawing   is   composed   of   one   or   more   <path>   elements   (and
+possibly compound  <g>  groups if needed for layering). It’s important that each sub-group’s internal
+
+8
+
+structure (number of paths, their order) corresponds exactly across variants – more on that in section
+B. Aside from the required  Symbols  content, an Apple-exported template may also include metadata
+comments (for example, a  <!-- glyph: "uniXXXX" ... template writer version: "N" -->
+
+comment at the top identifying the symbol name and template format version)
+
+1
+
+. In summary, a valid
+
+template   SVG   must   preserve   this   fundamental   group   hierarchy   and   naming.   Missing   or   misnamed
+groups (e.g. forgetting the   Symbols   id or using incorrect variant labels) will cause the SF Symbols
+
+app’s Validate Templates check to fail or the import to be rejected.
+
+Masters for Interpolation (Variable Templates)
+
+To   avoid   drawing   all   27   variants   by   hand,   Apple   supports  vector   interpolation  in   custom   symbols
+
+(introduced   with   template   version   3.0   in   SF   Symbols   3).   In   2025,   the   recommended   practice   for   an
+
+interpolatable   symbol   is   to   provide  three   master   variants:  Ultralight-Small,   Regular-Small,   and
+
+Black-Small
+
+9
+
+10
+
+. These three are sometimes called the “design sources” or masters. SF Symbols will
+
+automatically interpolate the intermediate weights (Thin, Light, etc.) and also generate the Medium-
+
+and   Large-scale   versions   from   the   Small-scale   masters
+
+11
+
+12
+
+.  Large-scale   masters   are   generally  not
+
+needed  under   the   current   format   –   the   system’s   scaling   algorithm   usually   handles   size   changes.   In
+
+earlier workflows (prior to SF Symbols 4), some designers supplied four masters (Ultralight/Small, Black/
+
+Small, plus Ultralight/Large and Black/Large) to manually fine-tune size-specific details
+
+13
+
+. But as of SF
+
+Symbols 4 and beyond, Apple’s default is a  3-weight/1-size template; Apple notes that  “the default
+
+export for all symbols is the 3-weights/1-size variable template”, and there are few if any cases of size-
+
+specific drawings in Apple’s own symbols
+
+14
+
+. Only if your design drastically needs different features in
+
+large   scale   (which   is   uncommon)   would   you   consider   adding   Large   masters;   otherwise,   stick   to
+
+Ultralight-S,   Regular-S,   Black-S   to   cover   the   full   spectrum .   Remember   that  Regular-Medium
+
+14
+
+(Regular weight at Medium scale) is a special benchmark variant – even interpolation-based templates
+
+often ensure at least Regular at the default Medium scale is well-designed, since many systems use the
+
+Regular-M as a reference for alignment and margins
+
+15
+
+16
+
+. If you start with a single master design,
+
+it’s advisable to begin with Regular (weight) at Small scale as your base for variable designs
+
+17
+
+  (or
+
+Regular-M if doing static), then derive Ultralight-S and Black-S from it by adjusting stroke widths and
+
+points   (copy   the   paths   and   thin   or   thicken   them,   rather   than   redrawing   from   scratch,   to   preserve
+
+2
+
+compatibility
+
+17
+
+18
+
+).   In   summary,  2025   templates   require   Ultralight-S,   Regular-S,   Black-S  for
+
+interpolation, and no additional masters for Medium/Large are required unless you have a deliberate
+
+need – the system will “fill in” all other weights and scales via interpolation and scaling
+
+19
+
+7
+
+.
+
+Rendering Semantics: Layers & Color Modes
+
+Beyond the core shape geometry, SF Symbols templates can include layer annotations to support the
+
+various rendering modes: Monochrome, Hierarchical, Palette, and Multicolor. Each mode interprets the
+
+symbol’s layers differently
+
+20
+
+. By default (monochrome), all paths render as a single color (in code, they
+
+inherit the foreground tint). In Hierarchical mode, the symbol can render with a single base tint color but
+
+automatically applies differing opacities to layers – a primary layer at full tint color and “secondary”
+
+layers in a lighter tint for depth
+
+21
+
+. In Palette mode, you can assign up to 3 custom colors to different
+
+layers, achieving a multi-colored icon with developer-specified hues
+
+21
+
+. And in  Multicolor  mode, the
+
+symbol layers are rendered in their intrinsic colors – typically the SF Symbols defaults (e.g. greens for
+
+additive symbols like “+”, reds for delete “–”, blue or yellow for certain objects)
+
+22
+
+. A custom symbol can
+
+utilize any of these modes by organizing its paths into layers and assigning colors or hierarchy values.
+
+In the SF Symbols app’s Rendering inspector, you manage this by switching to each mode and creating
+
+layers. As Apple explains, “a layer is simply a collection of paths with some associated rendering data”
+
+23
+
+.
+
+For example, you might group all “foreground” paths (like an icon’s main shape) into one layer and a
+
+smaller detail (like a heart or badge) into another. In Multicolor mode, you’d assign each layer a specific
+
+color; in Hierarchical, you’d assign a hierarchy level (e.g. Primary, Secondary, or Tertiary) to each layer
+
+which translates to an opacity level
+
+24
+
+25
+
+. Layers have a Z-order: layers defined above will cover those
+
+below (like layers in Photoshop)
+
+25
+
+. The SF Symbols app interface allows you to click paths and assign
+
+them to new or existing layers for each mode, and preview the result live
+
+23
+
+26
+
+. If you do nothing (i.e.
+
+don’t annotate layers), custom symbols default to  Monochrome  rendering – all paths treated as one
+
+layer. This is fine if you only need one color. But to harness hierarchical or palette rendering, you must
+
+intentionally   layer   and   annotate.   The   template   itself   can   embed   these   layer   assignments   (template
+
+v3.0+ supports storing the layer info in the SVG), but it’s often easier to add them via the SF Symbols
+
+app UI after importing your monochrome template
+
+27
+
+28
+
+. In short, each group of paths that should
+
+be colored separately becomes a layer. The mapping is: Monochrome uses the shape as a stencil for
+
+one tint; Hierarchical uses your layer hierarchy values to auto-apply tint variations; Palette uses your
+
+layer-to-color mapping (up to 3 colors)
+
+29
+
+30
+
+; Multicolor uses the SVG’s preset colors on each layer
+
+(which   can   be   standard   system   colors   or   custom,   but   Apple   recommends   using   SF   Symbols’   set   of
+
+system colors for consistency)
+
+29
+
+31
+
+. We will cover specific layer grouping tactics for conversion in
+
+section D4.
+
+Template Validation & Common Errors
+
+The SF Symbols app provides a Template Validation tool to check if your SVG meets all requirements.
+
+You can access it via File > Validate Templates… – this lets you select an SVG and will report any issues
+
+32
+
+. A successful validation yields a “Template is valid” message
+
+33
+
+. Common validation errors include:
+
+“The provided variants are not interpolatable”  – which indicates something is inconsistent across your
+
+weight variants (path counts, points, etc.), or “margins not provided” – meaning the template is missing
+
+required   margin   guides   (at   least   left   and   right   margins   for   Regular-M,   or   you   removed   them
+
+accidentally)
+
+34
+
+. Another frequent error is a simple  import failure  – e.g. nothing happens when you
+
+drop the SVG into SF Symbols – which often means disallowed SVG content (like stray raster images,
+
+filters, or unsupported elements) is present. The validator will also flag if your masters are incomplete:
+
+for a variable template it specifically expects Ultralight-S, Regular-S, Black-S groups; if one is missing or
+
+misnamed, you’ll get an error about missing design sources. If your paths differ in number or structure
+
+between masters, the app might report an interpolation error along the lines of “Paths in [Ultralight-S]
+
+and [Black-S] do not match” or “Unequal number of points in paths”. Internally, SF Symbols requires each
+
+3
+
+corresponding path to have the same number of vector points and control points
+
+35
+
+10
+
+  (and
+
+ideally the same start point and direction, though the app’s error text usually focuses on point count).
+
+We’ll   dig   deeper   into   those   constraints   next.   In   practice,   you   should   run  Validate   Templates  after
+
+exporting your edited SVG – it’s far easier to catch these issues upfront. Once your template validates,
+
+you can drag it into SF Symbols’ Custom Symbols section, and the app will import it (or upgrade it if it
+
+was an older template)
+
+36
+
+37
+
+. In summary, use the validator to catch structural mistakes: mismatched
+
+path counts or points, missing guides, disallowed features,  etc.,  before trying to use the  symbol  in
+
+Xcode. 
+
+B. Interoperability & Constraints for Interpolation
+
+B1. Strict Shape-Matching Rules Across Masters
+
+When creating a variable (interpolatable) custom symbol,  consistency across the master designs is
+
+paramount.   SF   Symbols   will   only   interpolate   between   variants   if   all   corresponding   paths   are
+
+“compatible.” This breaks down into several rigid requirements:
+
+• 
+
+Same number of paths in each master:  Every design source (Ultralight-S, Regular-S, Black-S)
+
+must contain the exact same count of path elements, and those paths should represent the
+
+same parts of the symbol. For example, if your symbol is a heart inside a square, and in one
+
+weight you drew two paths (one for the heart, one for the square), you cannot have three paths
+
+in   another   weight   –   they   all   must   have   two   paths   corresponding   to   heart   and   square
+respectively. The SF Symbols 3 session emphasized that  “across design variants, all paths must
+
+have the same number and order”
+
+38
+
+. Simply put, no adding or removing shapes in heavier or
+
+lighter versions – you must deform the same shapes.
+
+• 
+
+Identical path order and grouping: Not only the count, but the ordering of paths is important.
+
+The nth path in Ultralight should be the same feature as the nth path in Black, etc. If the order
+
+gets shuffled, you might technically have the same count, but SF Symbols will apply layer colors
+
+incorrectly   or   interpolation   lines   will   cross   wires.   As   Apple   warns,   having   the   same   paths   in
+
+different   order  “renders   very   differently”  and   will   mix   up   colors   in   multicolor   mode
+
+39
+
+.   So
+
+maintain a consistent layering order between masters.
+
+• 
+
+Matching anchor points and control points:  This is the most crucial for interpolation. Each
+
+corresponding   path   in   the   masters   must   have   the   exact   same   sequence   of   points   (anchors,
+
+handles).  “Every path must have the same number of anchor points, starting point, and direction”
+
+across the masters
+
+7
+
+. SF Symbols app will attempt to match up the points one-to-one; if any
+
+path has a different number of Bézier points, interpolation fails. In practice, this means if path #1
+
+(say the outline of a heart) has 24 points in the Regular design, the heart path in Ultralight and
+
+Black must also have 24 points, and in the same order around the shape
+
+40
+
+. The points don’t
+
+have to be in the exact same XY positions (of course, they’ll move to change the shape’s weight),
+
+but they should correspond logically. SF Symbols draws imaginary lines between each pair of
+
+matching   points   in   the   two   weight   extremes,   and   then   “blends”   along   those   lines   to   create
+
+intermediate   shapes
+
+41
+
+.   If   the   point   counts   diverge,   you’ll   see   an   error   or   a   totally   garbled
+
+interpolation.
+
+• 
+
+Consistent path direction and start point:  While Apple’s documentation doesn’t always state
+
+this explicitly in text, it’s implied by the need for matching point order. The start point of a path
+
+(where   the   drawing   begins)   and   the   direction   (clockwise   vs   counterclockwise)   should   be   the
+
+same for each corresponding path across masters
+
+7
+
+. If one path runs in reverse order relative
+
+4
+
+to its counterpart, the point-to-point mapping will connect the wrong features (imagine the first
+
+point of one shape trying to interpolate to the last point of another – the shape will likely twist).
+
+Tools like the Glyphs app have functions to “Correct Path Direction” and “Tidy up Paths” to ensure
+
+compatibility
+
+42
+
+43
+
+. If you encounter weird interpolation artifacts, checking that all masters’
+
+paths have the same winding direction and start at an equivalent locus (e.g., all start at the top
+
+of the heart shape) often fixes it. 
+
+Violating any of these rules yields errors. The SF Symbols app might refuse to import the template at all
+
+if path counts or groups don’t line up. Or it will import but show a yellow warning icon next to your
+
+symbol indicating it’s not interpolatable. The error message typically says something like “Paths have a
+
+high level of incompatibility” or “All matching paths must have the same number of points”. As one designer
+
+noted,  “if any of these elements differ, the symbol cannot be imported, and an interpolation error will be
+
+displayed   in   the   SF   Symbols   app.”
+
+7
+
+  Ensuring   strict   path   compatibility   is   often   the   hardest   part   of
+
+creating custom symbols. The recommended workflow is to design one master fully (Regular weight),
+
+then duplicate those paths for the other two masters and modify them without adding or removing
+
+points
+
+17
+
+18
+
+. For instance, in your vector editor, you might take the Regular-S shapes, copy them into
+
+Ultralight-S and Black-S groups, and then adjust their node positions and handles to achieve the thinner
+
+or thicker look. This way, you’re not introducing new points – you’re just repositioning the existing ones
+
+17
+
+18
+
+. Resist the temptation to use a stroke offset or a freehand redraw for the heavy variant unless
+
+you then carefully adjust point counts to match. Later in section D3, we’ll discuss algorithmic ways to
+
+equalize points if you start from a single outline. But as a rule of thumb: no open paths, no stroked vs
+
+filled differences (all should be closed fills), and exactly the same vector topology in each master variant.
+
+B2. Allowed vs Forbidden SVG Features (and Workarounds)
+
+Apple’s template format is a subset of SVG – not every feature of SVG is supported. The golden rule is to
+
+keep it simple: pure vector paths with fills. Some specific guidelines and common pitfalls:
+
+• 
+
+No   live   strokes:  Do  not  rely   on   <path   stroke="...">   with   a   stroke   width   in   your   final
+
+template. The SF Symbols spec expects filled shapes. As Apple explicitly states,  “avoid using live
+
+strokes   in   the   final   design.   Instead,   convert   any   strokes   to   paths”
+
+44
+
+.   Strokes   can’t   take   on
+
+hierarchical   coloring   and   can   confuse   interpolation   (since   a   stroke’s   expansion   at   different
+weights   is   non-trivial).   The   solution:   In   your   SVG   editor,   use   an   “Outline   Stroke”   or   “Expand
+
+Stroke” operation to turn strokes into filled contours. This will usually produce two parallel path
+
+edges forming the outline of what was a line. Those become closed shapes that can be colored
+
+and interpolated.  Workaround:  If you need a very thin line in the design, draw it as a filled
+
+shape (with the width of the line as the shape’s thickness).
+
+• 
+
+No open paths: All paths should be closed shapes. Open curves (where the start and end points
+
+are not joined) won’t have a definable fill area, which breaks color modes (they can’t be assigned
+
+. The validator will flag open paths (it might not import or your shape
+a tint if they have no fill)
+might just not render). Workaround: Ensure every path element either explicitly closes (the  Z
+
+45
+
+command in SVG path data) or manually connect the endpoints in your editor.
+
+• 
+
+No clipping masks or complex compound paths with holes: Clipping paths ( <clipPath>  in
+
+SVG) or masking techniques are not supported. They often result in shapes that the SF Symbols
+
+app can’t interpret. If your design has “holes” (like a ring or donut shape), represent them as
+
+separate subpaths in a single compound path or as two separate paths layered (with one set to
+
+“erase” if using hierarchical rendering). In SF Symbols, a hole is typically achieved by one path
+
+layered above another and set to Clear (in the app’s layer settings) to punch out the background
+
+46
+
+47
+
+. It’s safer to avoid boolean operations that yield self-intersecting path data that’s editor-
+
+5
+
+specific.  Workaround:  Perform path subtraction externally so that the final SVG just has the
+resulting outline (with inner contours as part of the path’s  d  via the even-odd fill rule), or use
+
+layered shapes with an erase behavior.
+
+• 
+
+No filters or effects:  SVG filters (blur, drop-shadow, etc.) and CSS effects won’t carry over. SF
+Symbols will ignore or, worse, fail to parse any   <filter> ,   <feGaussianBlur> , etc.  “Avoid
+
+special  fills  involving  more  than  one  color  such  as  gradients  or  effects  like  drop  shadows,”  Apple
+
+advises
+
+48
+
+.  This  also  means  no  gradients  in  the  artwork  –  gradients  would  conflict  with  SF
+
+Symbols’   own   coloring   system   (however,   see   Section   F   for   SF   Symbols   7’s   new   support   for
+
+gradients in a different way).  Workaround:  If you want a gradient-like appearance, you really
+
+can’t achieve that in custom symbols prior to SF Symbols 7 – you’d have to approximate it with
+
+flat layers of different opacity, or simply forego it. Stick to flat solid fills for reliability.
+
+• 
+
+No   embedded   raster   images   or   foreign   objects:  The   SVG   should   be   pure   vector.   Any
+<image>  tags or foreign  <svg>  references will not import. If you have an image, you’d need
+
+to trace it into paths first.
+
+• 
+
+No text elements: If your SVG has  <text>  elements (perhaps from using text in your design
+
+tool), convert them to paths (outline the font) before exporting. The SF Symbols template can’t
+include live text nodes; any lettering must be part of the vector paths. This is because at runtime
+
+the symbol is a font glyph – you can’t embed another font’s text inside it.
+
+• 
+
+No transform oddities:  It’s best to  flatten all transforms  so that each path’s   d   coordinates
+
+are in the final global coordinate system. This means if you translated or scaled a group, apply
+
+that transform to the paths and remove the transform attribute. The reason is partly to avoid
+
+any   chance   of   non-uniform   scaling   messing   up   interpolation.   Uniform   scaling   (e.g.   overall
+
+symbol scale from Small to Large) is handled by the system separately. Also, transforms can
+
+sometimes cause coordinate precision issues on export.
+
+• 
+
+Compound   paths   and   boolean   operations:  If   you   combine   shapes   via   union   or   difference
+operations, the result is often a single   <path>   with multiple sub-paths (move-to commands).
+
+These  are  acceptable  as  long  as  the  fill  rule  is  handled  (non-zero  or  even-odd).  However,  be
+
+mindful that when you have a compound path with multiple subpaths, that counts as one “path”
+
+in terms of path count consistency. All masters must then have those same subpaths combined
+
+in   one   path   element.   It   can   be   safer   to  split   complex   compound   paths  into   separate   path
+
+elements for clarity (unless they truly form one logical shape). The SF Symbols app doesn’t forbid
+multiple subpaths in one   <path>   element, but separate   <path>   elements can be easier to
+
+manage   for   layering   and   interpolation   count.  Workaround:  If   an   imported   symbol   gives   an
+
+interpolation error, sometimes breaking a compound path into individual paths (and ensuring
+
+each master has the same pieces) resolves it.
+
+To summarize:  flatten and simplify your SVG. Use only   <path>   elements with fill (no strokes), and
+basic  <g>  grouping for variants or layers. If something fancy appears in your SVG code (clipPath, filter,
+
+style tags, etc.), remove or replace it. Many designers use the SF Symbols app’s template export as a
+
+starting file specifically because it’s already stripped down to the necessary structure. If you start from a
+
+generic  SVG,  expect  to  do  some  cleanup.  When  in  doubt,  run  File  >  Validate  Templates  –  it  often
+
+pinpoints if, say, you forgot to remove a gradient definition (it will throw a parsing error).
+
+Finally, a note on naming and metadata: The SVG filename and the symbol’s internal naming should
+avoid unusual characters. Stick to alphanumeric, dots, and maybe hyphens/underscores. Dots ( . ) in
+
+6
+
+the   symbol   name   are   allowed   (SF   Symbols   app   often   uses   a   dot   in   custom   symbol   names   as   a
+namespace, e.g.  MySymbol.circle ). However, be cautious: on some older platforms (like watchOS 6
+
+or iOS 13), asset names with a dot could be misinterpreted as file extensions. Apple’s recommendation
+is often to prefix custom symbols with a category (like   Custom.symbolname ) to avoid clashing with
+
+system symbols, and these dots are generally fine. But if you target an OS where it causes an issue, the
+workaround is to use a hyphen or just camelCase instead. Also, ensure the  <svg> <title>  or other
+
+metadata doesn’t contain conflicting info – Xcode will use the asset catalog name as the key.
+
+C. Xcode Asset Anatomy (.symbolset)
+
+C1. Symbol Asset Folder Structure and Contents.json
+
+When you import a custom symbol SVG into your Xcode asset catalog (Assets.xcassets), Xcode creates a
+Symbol Image Set  for it, which is a folder with the extension   .symbolset . Inside that folder, your
+
+SVG file is stored (usually renamed to something generic if you dragged-and-dropped – but you can
+name it appropriately), along with a  Contents.json  file that describes the asset. The structure looks
+like:   MySymbol.symbolset/Contents.json   and   MySymbol.symbolset/my_symbol.svg .   The
+Contents.json  for a symbolset contains some specific keys, for example
+
+49
+
+50
+
+:
+
+{
+
+"info": {
+
+"author": "xcode",
+
+"version": 1
+
+},
+
+"properties": {
+
+"symbol-rendering-intent": "template"
+
+},
+
+"symbols": [
+
+"idiom": "universal",
+
+"filename": "my_symbol.svg"
+
+{
+
+}
+
+]
+
+}
+
+In this JSON,  "symbol-rendering-intent": "template"  indicates that this is a template symbol
+
+(monochrome by default, meaning it uses the app’s tint color). Xcode uses this to know it can scale the
+symbol like a font and apply configuration like weights. (There is also   "prefers-color-inverse"
+
+key for SF Symbols, but that’s for system symbols that have special Dark Mode handling – typically not
+
+needed for custom symbols unless you deliberately include such behavior). You might wonder how this
+differs   from   a   normal   PDF   vector   asset   JSON.   Normal   vector   PDFs   have   "preserves-vector-
+representation": true  in their Contents.json if you check "Preserve Vector Data". For symbolsets,
+however,   the   pipeline   is   different   –   you   won’t   see   a   "preserves-vector-representation"   key
+here, because the   .symbolset   inherently preserves the vectors (no PDF rasterization step needed).
+The  symbols  array simply lists the one SVG file and marks it for the universal idiom (since SF Symbols
+
+scale automatically for any device). If you had multiple symbols in one set (not common – usually it’s
+one symbol per symbolset directory), they’d list them, but each  .symbolset  is one symbol. 
+
+7
+
+On   disk,   you   can   actually   create   these   by   hand.   For   instance,   developer   Quentin   Zervaas   describes
+automating symbol inclusion by generating a  .symbolset  with the SVG and a minimal Contents.json
+
+49
+
+50
+
+.   Xcode   will   compile   that   into   the   asset   catalog   (Assets.car)   as   a   font   glyph   entry.   Notably,
+
+because the symbol is treated as a font glyph, Xcode does not generate PNG renditions for different
+
+scales. In fact, using custom symbol assets can reduce your app size: if you use a standard SVG asset,
+
+Xcode might include fallback PNGs at 1x,2x,3x, but with symbolset it doesn’t, since iOS will render it via
+
+vector at runtime
+
+51
+
+.
+
+In   summary,   the   .symbolset   is   essentially   an   asset-packaged   SVG   plus   a   JSON   telling   Xcode   it’s   a
+template symbol. The naming of the folder ( MySymbol.symbolset ) is what you use to refer to the
+image   in   code   (minus   the   extension).   For   example,   Image("MySymbol")   in   SwiftUI   will   look   for
+MySymbol.symbolset  in the asset catalog.
+
+C2. Xcode Treatment of Symbol SVGs vs. Generic SVG/PDF Assets
+
+It’s important to distinguish Symbol Images from generic PDF or SVG assets. When you import a plain
+
+SVG or PDF as a vector asset in Xcode (outside of .symbolset context), Xcode can treat it as a template
+
+image or original image depending on settings, and you have the  “Preserve Vector Data”  checkbox. If
+
+enabled, the PDF/SVG is kept vector for resolution independence (on supported OS versions), but older
+OSes   might   still   get   a   rasterized   fallback.   With   custom   SF   Symbols   (.symbolset),   you   don’t   see   a
+
+“Preserve Vector Data” option – it’s inherently preserved. Also, symbol assets allow scaling by text styles
+
+(weights and point sizes in code), which normal vector images do not. 
+
+Under   the   hood,   Apple’s   symbol   assets   leverage   the   system’s   SF   Symbols   runtime.   In   iOS   terms,   a
+
+symbol asset is compiled into the app’s asset catalog and then treated somewhat like an  embedded
+
+font. iOS 13+ and macOS 11+ have support for Symbol Images via UIImage and NSImage APIs
+
+52
+
+53
+
+.
+
+This is why you can request different weights dynamically. If you use a normal SVG asset, you can’t ask
+
+for “Bold” variant at runtime – it’s just a static image (unless you provided multiple PDF representations).
+But   if   you   use   a   symbolset,   you   can   do   UIImage(named:   "MySymbol",   withConfiguration:  
+UIImage.SymbolConfiguration(weight: .bold))   to get a bold rendering. Xcode’s asset catalog
+
+knows that  MySymbol  is a symbol and will yield a single named image whose appearance can vary by
+
+weight/scale context.
+
+Another   difference:   With   generic   SVG   assets,   iOS   13   did   not   natively   support   SVG   –   Xcode   actually
+
+converts them to PDF behind the scenes or vector data in the asset catalog. The symbolset approach
+
+was introduced alongside iOS 13 and SF Symbols as a way to include custom symbol glyphs. This means
+
+if you target iOS 12 and include a symbolset, iOS 12 won’t understand it (the image lookup will fail).
+Apple anticipated this and allows a fallback mechanism: you can include a normal  .imageset  with
+
+the same name, and on iOS 12 that will be used, whereas on iOS 13+ the .symbolset takes precedence
+
+54
+
+.   For   example,   you   could   have   MySymbol.symbolset  
+
+(for   iOS13+)   and   also   a
+MySymbol.imageset  containing perhaps a PDF or PNG for older OS – iOS 13 will choose the vector
+
+symbol automatically, iOS 12 will fall back to the imageset
+
+54
+
+.
+
+In terms of platform support: - iOS: Custom symbol assets supported from iOS 13 onward
+
+55
+
+. iOS 13
+
+and 14 only supported monochrome custom symbols (since hierarchical/palette modes arrived in iOS
+
+15). -  watchOS:  supported from watchOS 6+ (parallel to iOS 13). -  macOS:  supported from macOS 11
+
+Big Sur+ (since that’s when SF Symbols became integrated). - tvOS: 13+ as well, presumably. If you use
+
+new rendering modes (like hierarchical) in a symbol and deploy to iOS 14, those modes won’t take effect
+
+– the symbol will likely render monochrome because iOS 14 doesn’t know about hierarchical. So ensure
+
+your deployment target aligns with the features you use (more on versioning in section F).
+
+8
+
+One   key   property   in   Xcode’s   asset   inspector   for   symbols   is  “Template   Render   Mode”.   The
+Contents.json  symbol-rendering-intent: template  corresponds to that. Template means it’s like
+
+a font glyph or template image – by default it adopts tint color. You could theoretically set it to “original”
+
+if you wanted your symbol to always use the colors in the file (akin to multicolor), but that’s not how
+
+custom symbols are typically handled. Instead, if you want multicolor, you annotate layers in the SF
+
+Symbols   app   and   still
+import   as   template;
+.symbolRenderingMode(.multicolor)   on the Image to let it show its built-in colors
+you generally leave  symbol-rendering-intent  as "template" in the asset.
+
+  then   at   runtime,
+
+  you   set   the
+
+29
+
+56
+
+. So
+
+Finally, note that Xcode will not show multiple slices or scale factors for a symbolset. Instead, it gives a
+
+preview of your symbol at a few weights in the asset catalog viewer. For instance, it might show columns
+
+for Ultralight, Regular, Black and rows for Small scale, with a label “Symbol Image” (as in the screenshot
+
+below). This confirms Xcode recognized it as a symbol asset.
+
+Xcode asset catalog preview of custom symbol sets. Each  .symbolset  entry (e.g. “symbol_bench_press”) is
+
+labeled as a Symbol Image and shows previews for the Small scale at a few weights (Ultralight, Regular,
+
+Black). Developers can verify the symbol renders correctly across weight variations here. Note: These previews
+
+come from the vector masters or interpolation; if something is misaligned or missing in a particular weight, it
+
+indicates an issue in the template.
+
+C3. Loading Custom Symbols in Code and Platform Compatibility
+
+52
+
+Using   custom   symbols   in   code   is   straightforward.   In   SwiftUI,   you   load   it   by   name:
+Image("my.symbol.name")  – not using the  systemName:  initializer (that one is only for built-in SF
+. In UIKit, use   UIImage(named: "my.symbol.name")   or   UIImageView(image:  
+Symbols)
+UIImage(named: ...)) . Once you have the image, you can treat it like a symbol: for example, in
+SwiftUI you can call modifiers like  .symbolRenderingMode(.hierarchical)  to turn on hierarchical
+coloring, or   .symbolVariant(.fill)   if your symbol supports a fill/slash variant (custom symbols
+
+53
+
+usually   don’t   unless   you   designed   them)
+  you   can   create   a
+UIImage.SymbolConfiguration   to specify weight, scale, point size etc., and apply it: e.g.   let  
+config   =   UIImage.SymbolConfiguration(pointSize:   20,   weight:   .bold,
+
+  In   UIKit,
+
+57
+
+58
+
+.
+
+scale:   .large);   image   =   UIImage(named:   "my.symbol")?.withConfiguration(config)
+
+59
+
+. By default, custom symbols are template images, so their color comes from the  tintColor  (in
+
+9
+
+ 
+ 
+UIImageView or SwiftUI’s foreground color)
+
+53
+
+. If you want the symbol’s intrinsic multicolor, you must
+
+explicitly set the rendering mode to multicolor in code (or the asset, but typically in code). For instance,
+.symbolRenderingMode(.multicolor)  
+renderingMode: .alwaysOriginal)  in UIKit to keep its original colors.
+
+  withTintColor(nil,
+
+in   SwiftUI
+
+  or
+
+Compatibility   considerations:   -   If   your   deployment   target   is   iOS   14   or   earlier,   you   should   provide   a
+
+template v2.0 (monochrome) symbol for backward compatibility
+
+60
+
+61
+
+. Perhaps use the 2.0 export in
+
+SF Symbols app and include that for older OS (maybe as a separate asset catalog that you conditionally
+
+load). But if iOS 15+ only, you can use the 3.0+ template exclusively
+
+61
+
+. - watchOS: custom symbols
+
+work on watchOS 7+ (paired with iOS 14+). There was a watchOS quirk historically that symbol names
+containing   a   period   ( . )  could   cause   issues   on   older   watchOS   versions   (because   WatchKit   might
+
+interpret the name differently). If targeting watchOS below 7, test this or avoid dots in the name. On
+
+modern watchOS, it should be fine. - If your app supports Dynamic Type (accessibility bold text), SF
+
+Symbols automatically switches to the heavy weight when Bold Text is enabled. Ensure your symbol
+
+looks   ok   at   those   extremes.   You   might   consider   providing   a   SemiBold   master   if   Regular   to   Bold
+
+interpolation doesn’t look perfect (SemiBold is often used for Bold Text accessibility)
+
+62
+
+, but usually
+
+Regular vs Black masters suffice.
+
+In summary, once the asset is in Xcode, using it is similar to system symbols except you reference by the
+
+asset name. Check your symbol on all target OS versions (especially if using palette/hierarchical – on
+
+older   OS   it   will   just   appear   monochrome   unless   you   provided   alternate   assets).   Also,   including   the
+
+symbol asset in the correct target bundle (e.g. if using in an app extension or widget, you need to have
+
+the asset in that target’s asset catalog too) is important; otherwise it may show up in simulator but not
+
+on   device   extension,   etc.   Quentin   Zervaas   notes   when   using   them   in   widgets,   ensure   the   widget
+
+extension has the symbol assets included
+
+63
+
+64
+
+.
+
+D. Robust SVG→SF Symbol Conversion Pipeline
+
+Now we outline a step-by-step conversion pipeline to programmatically go from an arbitrary SVG to a
+
+compliant SF Symbols template, with tips for automation and error handling. This pipeline assumes we
+
+want a monochrome custom symbol (with optional layering), targeting SF Symbols 3.0+ format (since it’s
+
+2025),  and  aiming  to  produce  a  variable   template  if   possible   (interpolatable   across   weights).   We’ll
+focus on iOS usage. Each step could be a standalone tool or script component:
+
+D1. Intake & Normalize SVG
+
+Goal:  Read   the   input   SVG   and   normalize   its   structure   and   coordinates   to   match   the   SF   Symbols
+
+template requirements.
+
+1. 
+
+Parse   the   SVG:  Use   an   XML/SVG   parser   library   (for   example,   SwiftSVG,   SVGKit,   or   a   Node.js
+library like  svgo  for cleanup, or Python’s  svgpathtools ). Extract all graphic elements (paths,
+shapes, groups). External CSS or  <style>  blocks should be inlined or removed – ensure every
+shape has explicit  fill  (and no stroke unless intended for conversion).
+
+2. 
+
+Normalize   the   viewBox:  SF   Symbols   templates   use   a   specific   coordinate   system   roughly
+
+proportional to a 1000x1000 pt box with additional margins. If the source SVG has a different
+
+aspect ratio or size, we need to scale and translate it into the SF Symbols coordinate space. For a
+
+monochrome symbol, an approximate target is that the symbol’s cap height (top of main shape)
+
+should   align   with   the   reference   “A”   cap   line,   and   baseline   if   applicable   aligns   to   baseline.   In
+
+practice, you might use the SF Symbols app once to export a blank template and retrieve its
+
+10
+
+ 
+viewBox and guides positions. For example, suppose the template has viewBox 0 0 3300 3300
+
+(just hypothetical) with baseline at Y= something – we’d scale the user’s SVG so that its main
+
+content fits within those bounds. This might involve:
+
+3. 
+
+computing the bounding box of the user paths,
+
+4. 
+
+scaling uniformly so width ≈ (some fraction of 1100 units for Small scale) and height fits cap-
+height,
+
+5. 
+
+centering the shape on the baseline (if the symbol is supposed to sit on baseline, e.g. a letter or
+
+something; many icons are centered vertically, so baseline alignment is only critical if your
+
+symbol has a flat bottom or should align with text base).
+
+6. 
+
+For now, one can align the geometric center of the SVG to the centerline between baseline and
+
+cap-height for symmetrical icons.
+
+This is nuanced; an automated approach might let the designer specify an “anchor” (like “this point in
+
+my SVG should be at the baseline”). Without that, a decent heuristic is to assume the design is centered
+
+vertically, so align its center to the mean line. In code, you might translate the paths by (-bbox.minX, -
+
+bbox.minY) then scale to desired size, then add an offset to place it at baseline height or center.
+
+1. 
+
+Flatten transforms: For each path or shape, apply any group or parent transformations to the
+
+raw   coordinates.   We   want   to   end   up   with   absolute   coordinates   in   the   final   space.   This   may
+
+involve matrix-multiplying all transforms down into the path’s coordinates. If the SVG has uses of
+<use>   or   symbols,   those   should   be   expanded   (duplicate   the   referenced   paths   in   place)
+because the SF template doesn’t use  <use> .
+
+2. 
+
+Convert   basic   shapes   to   paths:  If   there   are   <rect> ,   <circle> ,   <polygon>   elements,
+convert them to   <path>   data (most SVG libraries can do this or you can manually convert
+
+shapes to equivalent path commands). The reason is to simplify later processing by dealing with
+only one element type ( <path> ). Also, if any shape has a stroke, by converting to path we can
+
+also include stroke outline conversion here (though that’s next step).
+
+3. 
+
+Output a normalized SVG (monochrome): At this point, generate an intermediate SVG that has:
+
+4. 
+
+a single group (like a placeholder for one design variant) containing all the symbol’s paths,
+
+5. 
+
+consistent coordinate system (e.g., viewBox of template),
+
+6. 
+
+no stray styles or defs.
+
+Pseudo-code (Python-like) for this stage might look like:
+
+svg = parse_svg(input_file)
+
+svg.inline_styles()
+
+# merge CSS into element style attributes
+
+svg.flatten_transforms()
+
+for elem in svg.shapes:
+
+if elem.type in ('rect','circle','ellipse','polygon','polyline'):
+
+elem = elem.to_path()
+
+if elem.has_stroke():
+
+# Mark for stroke expansion in next stage
+
+elem.tag = 'path_with_stroke'
+
+normalized_svg = SVGDocument(viewBox=template_viewbox)
+
+normalized_svg.add_group("Imported", svg.paths)
+
+normalized_svg.save("stage1_normalized.svg")
+
+11
+
+This yields a normalized SVG where the artwork is ready for further processing.
+
+D2. Path Hygiene & Compliance Adjustments
+
+Goal:  Ensure the paths themselves meet SF Symbols rules – no strokes, no masks, no weird fill rules,
+
+etc., and are consistent in structure.
+
+1. 
+
+Expand strokes to outlines:  For any path that had a stroke (we might have tagged them in
+
+stage D1), perform stroke-to-fill conversion. This can be done via a graphics library (e.g., use
+
+Inkscape in command-line, or a library like Cairo or shapely). Essentially, one needs to offset the
+
+path’s curve outward and inward by half the stroke width and connect the ends. If automation is
+
+tough, an alternative is requiring the designer to not use strokes at all, but it’s nice to handle it.
+
+After expansion, remove the original stroked path and replace with the two outline subpaths
+
+(which usually come out as one compound path). Ensure the resulting outline is a closed path.
+
+2. 
+
+Remove   or   simplify   any   compound   paths   with   holes:  If   any   path   has   multiple   sub-paths,
+
+consider splitting them unless they truly belong as one shape (like donut). For example, an SVG
+
+path could contain move commands that draw two separate shapes. It might be clearer to split
+those into separate  <path>  elements for the symbol template, especially if those parts will be
+
+colored separately. However, if they represent a fill+hole (even-odd rule), you might keep them
+together. In code, you could detect subpaths in the  d  string by finding multiple  M  commands.
+
+If found:
+
+3. 
+
+If fill-rule is even-odd and subpaths are one inside another (hole situation), keep as one path (SF
+
+Symbols supports that as a single compound path).
+
+4. 
+
+Otherwise, split into separate paths.
+
+5. 
+
+Ensure fill rule is nonzero (unless needed): The SF template doesn’t explicitly forbid even-odd
+
+fill (which is how SVG typically represents holes), but it might be safer to unify to nonzero. If your
+
+design had complex overlapping subpaths relying on even-odd, flatten them by path boolean
+
+ops or set the fill-rule explicitly.
+
+6. 
+
+Flatten self-intersections:  If a path self-intersects or has weird curve loops, try to simplify it.
+
+This   can   confuse   the   interpolation   engine   or   produce   rendering   artifacts.   A   “tidy   paths”
+
+operation (like Glyphs’ Tidy up Paths or boolean union on self-intersecting shapes) can help. This
+
+also reduces the point count which is good for next steps.
+
+7. 
+
+Sort   paths   (optional   but   recommended):  Determine   a   consistent   ordering   for   the   paths.
+
+Perhaps sort by drawing order (their original stacking), or by an assigned layer or color priority.
+
+The idea is to ensure the same logical order in all masters. When converting one SVG, this isn’t
+
+relevant yet – but if the pipeline will generate multiple weight variants, you must keep path order
+
+consistent   between   them.   So   decide   now   on   an   ordering   principle.   E.g.,   sort   by   fill   color   (if
+
+multiple),  or  by  size  of  shape  (largest  background  shape  first,  small  details  last).  This  sorted
+
+order will be applied to Ultralight/Regular/Black generation as well.
+
+At this point, we have a cleaned single-variant SVG where each path is a closed fill, no strokes, no
+
+extraneous  features.  All  path  coordinates  are  absolute  and  consistent.  It  should  validate  as  a  basic
+
+monochrome symbol if we wrapped it in a template. But we only have one weight so far.
+
+12
+
+D3. Master Variant Synthesis (Multi-Weight Generation)
+
+Goal: Generate the Ultralight, Regular, Black Small-scale variants from a single design, or utilize provided
+
+variants, in a way that all masters have isomorphic path structures.
+
+If the input source provides multiple weights (for example, maybe the user gave a thin and a bold
+
+version separately), then you can skip generation and just ensure they are compatible. But often, you
+
+start   with   one   SVG   design   (regular   weight).   We   need   to   algorithmically   derive   lighter   and   heavier
+
+versions.
+
+Options for synthesis: - Stroke offset method: If the symbol is an outline icon (like many SF Symbols),
+
+one approach is to treat the Regular paths as centerlines and then offset them to simulate Ultralight
+
+and Black. However, since we already converted strokes to fills, we might instead offset the path inward
+
+to get a lighter weight and outward for a heavier weight. This is tricky for complex shapes but could be
+
+done via morphological operations. For example, use a offset (dilate/erode) algorithm on the shape. -
+
+Simplistic   scaling:  Not   recommended   because   simply   scaling   uniformly   doesn’t   change   stroke
+
+thickness, it just shrinks the whole shape which isn’t how SF Symbols weights work (they change stroke
+
+weight   but   generally   keep   outer   dimensions   similar).   Instead,   we   want   the   heavy   variant   to   be
+
+“bolder” (thicker strokes, slightly larger features) and the light variant to be very thin lines. -  Manual
+hinting or multiple inputs:  If this pipeline is for an app, perhaps the user can provide an additional
+
+“thicker” version and “thinner” version manually. Automated results might not be artistically perfect, but
+
+we can attempt it.
+
+Let’s assume purely algorithmic: One idea: take the normalized Regular shape and apply an SVG stroke
+
+to it then outline that with different stroke widths corresponding to Ultralight vs Black. For instance, if
+
+Regular corresponds to a 1px outline, maybe Ultralight is 0.5px, Black is 2px. But our shapes are already
+
+fills, so better: - Compute the medial axis or skeleton of the Regular shape (not trivial). - Alternatively,
+
+offset the path boundary inward by a small amount to simulate a thinner stroke. Offsetting inward may
+
+cause some shapes to disappear if too thin. Offsetting outward to fatten the shape for Black weight.
+
+A simpler approach: use an existing SF Symbol as a guide. The SF Symbols app typically bases Ultralight
+
+vs Black on stroke weight differences. Perhaps choose an SF Symbol of similar style, see how its shapes
+
+differ between weights (like measure relative thickness). If not possible dynamically, we might pick a
+
+factor: e.g., Black is ~20% thicker outline than Regular, Ultralight ~50% thinner than Regular for line-
+
+based icons. For filled icons, differences might be subtle (maybe slightly larger negative space in light,
+
+more rounding in heavy).
+
+Given the complexity, let’s outline a possible automated approach: 
+
+regular_paths = read_paths("Regular_normalized.svg")
+
+ultralight_paths = []
+
+black_paths = []
+
+for path in regular_paths:
+
+    black_path = offset_path_outward(path, offset=+delta)  # fatten shape
+
+    ultralight_path = offset_path_inward(path, offset=-epsilon)  # thin shape
+
+    # Ensure closure and simplify
+
+    ultralight_path = tidy_path(ultralight_path)
+
+    black_path = tidy_path(black_path)
+
+13
+
+    ultralight_paths.append(ultralight_path)
+
+    black_paths.append(black_path)
+
+Where  offset_path_outward  expands the shape boundary. Libraries like Clipper or GPC (General
+
+Polygon Clipper) can do polygon offsets. We choose delta/epsilon such that the overall visual weight
+
+difference matches SF standards (maybe iterate to match an approximate stroke width if the original
+
+had one).
+
+After generating these, check compatibility: - All three sets (Ultralight, Regular, Black) must have same
+
+number of paths. We controlled that by generating from each original path one corresponding new
+
+path. - Next, ensure each pair of corresponding paths have same number of anchor points. Likely they
+
+won’t initially – the offset algorithm might create more points in one due to curvature differences. This
+
+is where  resampling  comes in: - For each path triple (U,R,B): pick one as reference (Regular ideally).
+
+Count its points N. For each of Ultralight and Black path, we can add or remove points to match N. - A
+
+straightforward   way:   parameterize   each   path   by   length   and   sample   points   at   equal   intervals   of
+
+parametric length. But we need the exact same points count and ideally correspond them meaningfully
+
+(e.g. important corner points align). A more refined approach is to map points by relative position along
+
+the shape’s contour. - One could sample the Regular path at a high resolution of, say, N=200 points,
+
+then do the same for Black, then reduce points while keeping critical ones (like corners). However, losing
+
+critical   original   anchor   points   could   degrade   shape   fidelity.   -   Alternatively,   since   we   started   with
+
+Regular’s   actual   anchor   structure,   perhaps   use   that   as   a   base:   For   each   segment   between   Regular
+
+anchors,   find   the   corresponding   segment   on   Black   path   (maybe   by   fractional   progress   along   total
+
+length) and ensure an anchor in Black at that proportional location. Insert one if needed. - Some tools
+
+(Glyphs,   FontTools)   can   interpolate   fonts   by   adding   “compatible   points”.   There   are   algorithms   like
+
+Piecewise Linear Interpolation to equalize point counts.
+
+In a simpler pseudo-code: 
+
+for each path index i:
+
+    R = paths_regular[i]; U = paths_ul[i]; B = paths_black[i]
+
+    n = R.point_count
+
+    U = resample_path(U, target_points=n)
+
+    B = resample_path(B, target_points=n)
+
+    # Also ensure start point alignment:
+
+    align_start_point(U, R)
+
+    align_start_point(B, R)
+
+    ensure_same_direction(U, R)  # reverse if needed
+
+    ensure_same_direction(B, R)
+
+This step is the most technically challenging. One might leverage FontTools or a library that can take
+
+two outlines and try to make them compatible (there are some font interpolation libraries that do this
+
+given glyphs with same topology).
+
+If fully manual, one could require the user to give pre-compatible designs or use the Glyphs app as in
+
+the Shareup case
+
+65
+
+43
+
+. But since we’re outlining a pipeline, we assume we attempt it.
+
+• 
+
+Once paths have equal anchors, the starting point might still differ (one shape might start at the
+
+bottom of the loop, another at top). We can rotate the path data. E.g., if we treat the path as
+
+cyclic,   we   can   choose   an   anchor   as   the   “start”   such   that   it   lines   up   with   the   other   shape’s
+
+14
+
+features. Perhaps compute a signature (like distances to some reference) and rotate until best
+
+match. Or allow user to mark a corresponding point. In code, if we know a particular point (say
+
+the leftmost point) in all shapes, we can start from there.
+
+• 
+
+Now,  point  correspondence:  It  should  be  one-to-one  now.  To  verify,  one  could  generate  an
+
+interpolation at 50% (mid-weight) and see if it looks reasonable. If an ear of the icon morphs into
+
+a foot, something is off (that indicates the point pairing mismatched logical parts).
+
+• 
+
+At the end of this, we should have three sets of path data, all with identical vector topology.
+
+• 
+
+We   then   wrap   them   into   the   template   groups:   create   a   <g   id="Ultralight-S">   with
+ultralight   <path> s,   <g   id="Regular-S">   with   regular   <path> s,   <g   id="Black-S">
+with black  <path> s. The path order inside each group should correspond (we maintained that).
+
+• 
+
+Also copy over the Guides and Notes groups from a stock template (or generate minimal guides).
+
+At least include left and right margin guides for Regular-M (some templates put them in Regular-
+
+M group or as separate lines). Since we only have Small in our design, we might add margin
+
+guides into Regular-S (or Regular-M if building out all scales). However, for dynamic templates,
+
+  –   possibly   optional.   At   least
+Apple’s   approach   is   to   put   margins   on   each   master   too
+ensure there is a   left-margin-Regular-M   and   right-margin-Regular-M   guide in the
+
+66
+
+8
+
+Guides group, so older Xcodes won’t complain. These are small vertical lines positioned at the
+
+edges of the Regular Medium drawing’s bounding box typically.
+
+Master   generation   summary:  This   stage   can   be   semi-automated   but   often   needs   visual   QA.   If
+
+automation fails (paths too incompatible), the pipeline might fall back to asking for manual adjustment
+
+or at least flagging which path is problematic. 
+
+D4. Layer Assignment for Rendering Modes
+
+Goal: Organize paths into logical layers and annotate them for color rendering, if needed.
+
+If we only care about monochrome, you can skip explicit layering – by default all paths in each variant
+
+group will form one layer. But for completeness or future extensibility: - Decide which paths belong to
+
+which semantic layer. For example, if your icon is an avocado with a pit, you might have the avocado
+
+body   as   one   layer   and   the   pit   as   another   layer   (so   that   in   hierarchical   mode,   one   could   be   tinted
+
+differently, or in multicolor mode one green, one brown, etc.). - You likely determined this when sorting
+
+path   order.   Now   create   sub-groups   in   each   master   group   for   layers,   or   assign   a   custom   attribute.
+However, the Apple template stores layer info not as separate   <g>   in the SVG (except the variant
+
+groups).   The   color   and   hierarchical   assignments   are   embedded   as   metadata   (private   XML   in   the
+
+template)   which   is   not   straightforward   to   hand-edit.   It   might   be   easier   to   simply   output   the
+
+monochrome template and then rely on SF Symbols app to do the layering and export again. But if we
+
+want fully automated, one could mimic how the SF Symbols app encodes layer info: the app likely uses
+
+custom namespace attributes or comment tags to mark layers and their color/hierarchy.
+
+A simpler automation strategy: Name your paths or groups with layer hints, then after importing to
+
+SF Symbols app, run a script or use AppleScript to assign colors by layer names. Since that’s beyond our
+
+scope, we assume monochrome or handle minimal layering.
+
+So  for  pipeline:  maybe  just  group  paths  in  the  SVG  by  adding  an  extra   <g  id="layer1"> ,   <g  
+id="layer2">   wrapper   around   sets   of   paths   in   each   variant.   The   SF   Symbols   app   might   ignore
+
+15
+
+unknown groupings, but could preserve them. Alternatively, you could differentiate layers by color in
+
+the SVG as a hint – e.g., color one layer red, another blue – then import and manually separate by color.
+
+But automatic layer separation isn’t documented. We know from Apple docs:  “SF Symbols organizes a
+
+symbol’s paths into distinct layers… e.g., cloud.sun.rain.fill has three layers”
+
+67
+
+. They don’t specify an SVG
+
+structure for it; it’s done in-app or via Glyphs. So, consider layering as a mostly manual post-step unless
+
+you invest in reverse-engineering the template’s private data.
+
+For our pipeline, we might: 
+
+if enable_layers:
+
+    assign_layer_id_to_path(path, layer_name)
+
+and perhaps color-code them distinctly as a clue.
+
+D5. Assemble Final Template SVG
+
+Goal: Produce a complete SVG file that matches Apple’s template schema, ready for validation.
+
+1. 
+
+Use an Apple-provided template as skeleton:  The easiest method is to take a known-good
+
+template (e.g., export a simple symbol as a variable template from SF Symbols app) and replace
+the  contents  of  the   Symbols   group  with  our  generated  groups.  This  ensures  we  keep  any
+required metadata, the  <svg>  header with correct  width ,  height ,  xmlns  attributes, etc.
+Apple’s   templates   also   include   some   font   metadata   comments   and   a   <metadata>   tag
+
+sometimes – which you can keep or update the glyph name.
+
+2. 
+
+Insert our groups: Remove any example paths in the skeleton’s Ultralight-S, Regular-S, Black-S
+
+(or however it was structured) and insert our path data. Make sure to preserve the group ids and
+
+structure   exactly.   If   our   design   had   fewer   variant   groups   than   the   template   skeleton   (e.g.,
+
+skeleton   might   have   Ultralight-S,   Regular-S,   Black-S   plus   the   others   empty   or   not   present),
+
+ensure only the three we want remain (plus margins possibly). If using static template, we’d fill
+
+all 27 groups or leave placeholder shapes in them. But in our case, we prefer variable template
+
+with 3 filled groups.
+
+3. 
+
+Margins and guides: Ensure that in the  Guides  group, we have at least:
+
+4. 
+
+cap-height  guides for small, medium, large (usually an outline “A” as mentioned, at least for
+
+reference – but even if missing, not fatal for rendering, it’s more for design).
+left and right margin guides. In template v3, Apple uses names like  left-margin-Regular-M
+
+5. 
+
+and similarly for other design variants if custom, but for interpolation template they added “for
+
+any variant as long as suffix matches a design, it will be respected”
+
+4
+
+. It might suffice to have
+
+one set for Regular-M. We should include margin lines for Small as well possibly. To be safe, add
+
+margins in each variant group or in guides labeled with each variant. The simpler: just include
+
+margin lines in Regular (Medium) as the template did by default.
+
+16
+
+If not sure, copying from a known template ensures those are there. Some conversion tools actually
+
+leave margins empty and rely on default. But optical alignment might be off if not set – leaving it default
+
+means the symbol’s bounding box edges are used, which usually is fine.
+
+1. 
+
+Template metadata: There is often a comment like  <!-- template version 3.0 -->  or
+
+similar. If using SF Symbols 4/5/6 features (like animated layers), the template version might be
+
+higher (the Chinese snippet showed template writer version: 5 for SF Symbols 5 perhaps)
+
+1
+
+.
+
+Since our output is basically paths and guides, we can mark it as version 3.0 which is broadly
+
+compatible with iOS 15+ and upgradable. Or, if we want to include any SF Symbols 4+ specific
+
+annotations (like variable color or custom variable value stuff), then a higher template version
+
+might be needed. For safety, label it as v3.0 unless we delve into new features.
+
+Finally, save this combined SVG as our output. This is the file to run through validation.
+
+D6. Validation Loop and Error Handling
+
+Even with best efforts, the generated template might not pass validation on first try. Automating the
+
+validation can save time: - The SF Symbols app doesn’t have a documented CLI, but one can open the
+
+SVG in SF Symbols via AppleScript or simply attempt to add it to a catalog and see if Xcode complains.
+
+For a CI pipeline approach, an alternative is to use fonttools or Glyphs in a script to check compatibility.
+
+Or   leverage   a   community   tool   like  SwiftDraw  (which   CrunchyBagel’s   team   used)   that   has   an
+--format sfsymbol  option and possibly internal checks
+
+. - Another approach: programmatically
+
+68
+
+inspect  our  masters:  ensure  each  group   has  same  path   count,   etc.   We   likely   did  those   checks,   but
+
+double-check counts, and point counts if possible.
+
+If automating via SF Symbols app, you might: - Use  osascript  to tell SF Symbols to open the file and
+
+perhaps copy the result of “Validate Templates” dialog. In practice, it might be easier to just attempt to
+import   it   into   a   temporary   asset   catalog   and   build:   -   Place   the   SVG   in   a   .symbolset,   run   actool
+
+(Apple’s   asset   catalog   compiler)   as   part   of   xcodebuild.   If   there’s   a   problem,   actool   might   output   a
+
+warning/error. (Not entirely sure if actool validates symbol content or just packages it – likely it will log if
+
+something egregious like missing required fields.) - Alternatively, attempt to open the SVG with a known
+
+library that expects a font. For example, if you try to compile it into a font (since SF Symbol is basically
+
+SVG-in-OTF), font compilation might error if points mismatch.
+
+Given we might not have a perfect programmatic validator, a pragmatic solution: include SF Symbols
+
+validation as a manual QC step in the pipeline, or instruct the user to do it. However, since the question
+
+asks for integration hooks, let’s assume we attempt to interpret some errors:
+
+Common failure modes and fixes: - Interpolation not possible / variants not compatible: This means our
+
+point matching failed. Our code should catch if point counts differ and try to fix as above, but if still
+
+failing, log which path index is problematic (maybe by comparing shapes and finding mismatch). - Path
+
+direction error: Perhaps SF Symbols says “Incompatible winding” or simply interpolation fails silently. As
+
+Shareup’s article noted, a fix was often Correct Path Direction
+
+42
+
+. We can implement a check: compute
+
+signed area of each path – if one is reversed relative to others, flip it. - Missing margin or guide warnings:
+
+Add   the   expected   guide   lines   or   ensure   naming   matches   the   template   version.   -  Unknown   element
+
+warnings: If any unsupported SVG element slipped through, remove it.
+
+Our pipeline can output a report CSV or JSON, e.g.: 
+
+17
+
+filename, status, issues
+
+avocado.svg, FAIL, "Path 3 point mismatch between Ultralight and Black"
+
+logo.svg, OK, "Validated"
+
+Where issues can be human-readable or error codes. This can be consumed by CI to highlight which
+
+symbols need manual intervention.
+
+For instance: 
+
+result = validate_symbol("MySymbol.svg")
+
+if not result.ok:
+
+print(f"MySymbol.svg: FAILED validation - {result.errors}")
+
+# Optionally, try minor fixes or mark for manual review.
+
+D7. Xcode Import & Verification
+
+Once we have a validated template SVG, the final step is integration: - Automate .symbolset creation:
+As mentioned in C1, create a folder  Name.symbolset , put SVG and Contents.json. This can be done by
+
+a script after generating the SVG. If integrating into an Xcode project, you might directly modify the
+
+asset catalog (which is just a folder structure – but if it’s managed by Xcode, better to use Xcode’s own
+addition to avoid conflicts). Possibly, one could generate a separate Symbols.xcassets containing all
+
+custom symbols and then drag that into Xcode.
+
+• 
+
+Demo and regression test: It’s wise to run a quick visual test. For example, have a small SwiftUI
+
+preview or UI test that renders the symbol at various weights and sizes. The pipeline could even
+
+generate a SwiftUI view automatically that cycles through weights (Ultralight, Regular, Black) and
+
+perhaps scales (Small, Large) to produce a contact sheet of the symbol. This can be compared to
+
+ensure it looks as expected in all cases (perhaps using snapshot tests).
+
+Given an automated context, the pipeline might launch the iOS Simulator with a test app that displays
+
+all symbols and maybe capture screenshots. But that’s beyond most conversion scripts. At minimum,
+log that the symbol was added to the catalog and can be loaded via   UIImage(named:) . If using
+
+continuous integration, you might incorporate a unit test that loads each symbol by name and asserts
+
+non-nil.
+
+The output of the pipeline would be: - The final  .svg  template (which can be archived or shared with
+designers, since it’s the source of truth). - The  .symbolset  directory (with Contents.json) ready to be
+
+added to Xcode. - Perhaps an optional PDF or image preview.
+
+The pipeline should also handle batch processing. For a batch, maintain consistent settings for all (so
+
+they all align with SF metrics).
+
+By following these steps, the conversion can be largely automated. But be prepared to catch edge cases
+
+– as the next section enumerates.
+
+18
+
+E. Edge-Case Matrix & Troubleshooting
+
+Below is a table of 20 common failure cases when converting or using custom SF Symbols, along with
+
+symptoms, likely causes, and fixes:
+
+Symptom or
+
+Error
+
+“Provided
+
+variants are not
+
+interpolatable”
+
+(SF Symbols error
+
+on import)
+
+Paths render
+
+twisted or
+
+crossed in
+
+intermediate
+
+weights (distorted
+
+shape)
+
+Whole symbol
+
+not appearing
+
+after adding to
+
+Xcode (blank
+
+image)
+
+Likely Cause
+
+Suggested Fix
+
+Masters’ paths are
+
+Ensure each corresponding path in Ultralight/
+
+incompatible –
+
+Regular/Black has identical number of anchor points
+
+different counts or
+
+and control points. Use tools to add/delete points so
+
+point numbers
+
+7
+
+.
+
+they match; align start points and re-export
+
+65
+
+.
+
+Path start point or
+
+Use a font editor or path tool to correct path
+
+direction mismatch
+
+orientation. E.g., run “Correct Path Direction” and
+
+across masters
+
+align starting nodes in all weight variants
+
+42
+
+.
+
+(points match but
+
+Manually set the same start anchor (often a logical
+
+order is wrong).
+
+easy point like top-center of shape).
+
+Import failed silently
+
+– possibly the SVG
+
+template is not
+
+recognized as a
+
+Validate the SVG structure: it must have  <g 
+id="Symbols">  with subgroups named by weight-
+
+scale, etc. If those are missing or misnamed, Xcode
+
+symbol. Could be
+
+treats it as generic or ignores it. Fix group names
+
+missing <Symbols>
+
+layer or wrong
+
+structure.
+
+The asset might not
+
+Symbol shows in
+
+be included in the
+
+SF Symbols app
+
+app target, or name
+
+but not in the
+
+mismatch. On
+
+app at runtime
+
+watchOS, could be
+
+name issue.
+
+(e.g. “Regular-S”). Also check Contents.json has 
+symbol-rendering-intent .
+
+Verify the .symbolset is in the correct asset catalog
+for the app/extension. Ensure  UIImage(named:)
+
+or SwiftUI Image uses the exact name. If using a dot
+
+in name, ensure older OS handle it or use fallback
+
+(e.g. provide an imageset for watchOS 6 if needed).
+
+Add left-margin and right-margin guides (typically a
+
+Validation error
+
+about “margins
+
+not provided”
+
+The template is
+
+thin rectangle or line) named appropriately (e.g.,
+
+missing side margin
+
+id="left-margin-Regular-M"). The Regular-Medium
+
+guides for the
+
+default variant.
+
+variant’s margins are required in static templates
+
+69
+
+.
+
+In variable templates, adding them for Regular (or all
+
+masters) is good practice.
+
+Adjust the artwork position in the SVG: ensure the
+
+Imported
+
+Baseline or cap-
+
+key visual baseline aligns with the template’s
+
+symbol appears
+
+height not correct –
+
+baseline. For example, if an icon should sit on
+
+misaligned with
+
+perhaps the design
+
+baseline (like a flat-bottom), move it so that bottom is
+
+others (too low/
+
+wasn’t aligned to
+
+at y=0 in the small variant. Otherwise, center it
+
+high)
+
+guides.
+
+optically. You can also add custom baseline offsets via
+
+guides if needed.
+
+19
+
+Symptom or
+
+Error
+
+Likely Cause
+
+Suggested Fix
+
+Symbol looks too
+
+Scale of artwork not
+
+small or too
+
+matching SF
+
+large compared
+
+Symbols grid. Maybe
+
+to system
+
+symbols
+
+used the full
+
+viewBox incorrectly.
+
+Typically, designs should roughly fill the width
+
+between margin guides and reach the cap-height in
+
+height. If much smaller, scale up the paths in the SVG.
+
+Use an existing symbol template as reference size.
+
+Specific path in one
+
+Simplify and match the path’s structure. If one path
+
+“Interpolation
+
+variant has different
+
+has an extra curve, consider adding a tiny curve
+
+failed for path X”
+
+vector commands
+
+(virtually a straight line) in the others to match count.
+
+(in SF Symbols
+
+(e.g., one has curve
+
+Consistency in path command sequence is necessary
+
+Validate output)
+
+where other has line
+
+(all line-to vs all curve-to). Edit the paths to use the
+
+segment).
+
+same sequence of segment types.
+
+Colors in
+
+Palette/
+
+Hierarchical
+modes appear
+
+wrong or
+
+merged
+
+One specific
+
+weight (e.g.,
+
+Black) looks
+
+distorted while
+
+others look fine
+
+Symbol works in
+
+SF Symbols app
+
+preview
+
+(including
+
+hierarchical) but
+
+in the app it’s
+
+only
+
+monochrome
+
+Build error from
+
+asset catalog
+
+after adding
+
+symbol (rare)
+
+Likely the path-to-
+
+layer mapping is off
+
+due to path order
+
+mismatch. E.g., you
+expected two layers
+
+but SF Symbols
+
+treated all as one or
+
+mis-layered them.
+
+Ensure path ordering is consistent and group paths
+
+intended for separate colors into distinct layers via
+
+annotation. If you forgot to annotate, SF Symbols
+
+might auto-group everything together. Use the SF
+Symbols app to create layers and assign paths, or
+
+encode layer metadata correctly. Also maintain
+
+identical layer structure in all variants.
+
+Possibly the Black
+
+Double-check the Black variant’s design: ensure no
+
+master wasn’t
+
+self-intersections, and shape follows same contours
+
+carefully adjusted or
+
+as others. If interpolation is overshooting, perhaps
+
+has stray points
+
+the masters are too extreme; sometimes adding a
+
+overlapped. Could
+
+SemiBold master (for static) or tweaking the shape
+
+also be interpolation
+
+helps. In dynamic, you might need to manually refine
+
+overshoot if masters
+
+Ultralight/Black drawings to better match Regular in
+
+differ too much.
+
+structure.
+
+Using new rendering
+
+Make sure you exported for Xcode 14+ to keep
+
+modes on older OS,
+
+annotations
+
+70
+
+. If the app runs on iOS 14 or earlier,
+
+or asset not
+
+it won’t support hierarchical/palette custom symbol
+
+configured. Possibly
+
+rendering – those will fall back to monochrome. Also
+
+you exported with
+
+annotations but on
+
+ensure you set
+.symbolRenderingMode(.hierarchical)  in
+
+an old Xcode.
+
+code, otherwise it defaults to monochrome
+
+29
+
+.
+
+If actool complains,
+
+possibly JSON
+
+format issue or
+
+duplicate asset
+
+names.
+
+Check Contents.json syntax. Also ensure no two
+
+symbolsets share the same name in the catalog
+
+(names must be unique). Fix JSON or rename
+
+appropriately.
+
+20
+
+Symptom or
+
+Error
+
+App crashes or
+
+logs error when
+
+loading symbol
+
+(very rare)
+
+Plus, minus, or
+
+other shape in
+
+my symbol
+
+doesn’t get
+
+tinted expected
+
+green/red in
+
+multicolor
+
+Likely Cause
+
+Suggested Fix
+
+Could be an iOS bug
+
+with certain
+
+malformed fonts.
+
+Possibly the symbol
+
+name conflict with a
+
+system symbol
+
+name.
+
+In multicolor mode,
+
+certain shapes (like a
+
+plus sign) normally
+
+get automatic
+
+system color (green).
+
+If your custom
+
+symbol’s plus isn’t
+
+recognized,
+
+probably because it’s
+not a separate layer
+
+or not the exact
+
+geometry.
+
+Avoid naming your symbol exactly the same as a
+
+system SF Symbol (to prevent confusion). If crash,
+
+remove the symbol and re-add incrementally to
+
+isolate cause – maybe a pathological SVG element
+
+slipped through (like a huge coordinate causing
+
+overflow). Validate the SVG thoroughly.
+
+SF Symbols only auto-colors the plus/minus if it’s an
+
+actual part of a multi-layer system symbol. For
+
+custom, you must explicitly color it via annotation. So
+
+assign your plus path to its own layer and set the
+
+color to systemGreen in the SF Symbols app. Then it
+
+will appear green in multicolor. Without that, it stays
+
+default (which might be monochrome).
+
+Edges look
+
+jagged or
+
+corners not
+
+smooth in heavy
+
+weight
+
+The interpolation
+
+Try adding more intermediate points at critical
+
+may produce kinks if
+
+curvature areas to guide interpolation (so the curve
+
+masters are not
+
+compatible or if
+
+doesn’t flatten weirdly). Also consider manual touch-
+
+up of the Black master to ensure curves are smooth
+
+offset algorithm
+
+(no sudden angle changes). Re-run compatibility
+
+caused extra points.
+
+adjustments after any manual edits.
+
+Suddenly symbol
+
+Possibly a winding
+
+looks filled when
+
+rule or path
+
+it should be
+
+direction issue – a
+
+hollow (or vice
+
+hole might turn into
+
+versa) in one
+
+fill if direction
+
+weight
+
+flipped.
+
+Check that compound path holes use the correct fill
+
+rule. SF Symbols likely expects nonzero winding (the
+
+default). If a subpath meant to be a hole is winding
+
+the same direction as outer path, it might fill. Reverse
+
+the subpath direction or explicitly set even-odd rule.
+
+Best fix: ensure the “hole” subpath is opposite
+
+direction relative to outer path for nonzero rule.
+
+Perhaps the layer
+
+Clear layer
+
+(erasing) not
+
+working in
+
+hierarchical
+
+wasn’t set to
+
+In the SF Symbols app, for hierarchical, mark the
+
+“negative” (clear) in
+
+layer that should punch out as “clear”
+
+46
+
+. Also
+
+annotations, or the
+
+ensure that layer is top of the stack (above what it
+
+shape intended to
+
+clears)
+
+25
+
+. If you just left it monochrome, no clearing
+
+clear isn’t above the
+
+will happen. So fix layer settings and re-export.
+
+one to be cleared.
+
+21
+
+Symptom or
+
+Error
+
+Likely Cause
+
+Suggested Fix
+
+The asset might not
+
+be included for
+
+watch target, or
+name issue with  .
+
+as mentioned. Also,
+
+watchOS had fewer
+
+symbol weights
+
+(maybe no
+
+Ultralight/Black in
+
+early versions).
+
+Include the symbol asset in the Watch app’s asset
+
+catalog. If using dots in name, test on watch – if it
+
+fails, rename without dot for watch (or use fallback
+
+image). For weight issues, note watchOS fonts only
+
+go up to certain weights; but since custom symbol is
+
+basically drawn as vector, it should still render closest
+
+weight.
+
+Something in SVG
+
+still not stripped (like
+an  <svg>  nested
+
+or an attribute).
+
+Remove any XML namespaces that aren’t needed,
+
+remove metadata tags, script tags, etc. Keep it as
+
+lean as the Apple template. Possibly run the file
+
+through SVGO with a config that keeps paths but
+
+removes foreign elements.
+
+Symbol doesn’t
+
+show in watchOS
+
+app (blank)
+
+After pipeline,
+
+the SF Symbols
+
+validator says
+
+“unknown
+
+element” or
+
+“unsupported
+
+SVG content”
+
+This matrix covers most hiccups. The overarching theme: if interpolation or rendering misbehaves, it’s
+
+usually a mismatch in vector structure or missing annotation. Fortunately, once you catch these once,
+
+your pipeline can add checks to prevent them.
+
+F. Version Intelligence: SF Symbols 3 → 7 (2021–2025)
+
+SF Symbols has evolved significantly from version 3 (2021) to version 7 (2025). Here’s a summary of
+
+changes relevant to custom symbols and template files:
+
+• 
+
+SF Symbols 3 (2021, iOS 15 era): Introduced the template version 3.0 format
+. Key new
+features: support for Hierarchical and Palette rendering modes (in addition to Monochrome and
+
+71
+
+72
+
+Multicolor),   and   the   concept   of  variable   (interpolating)   templates  with   Ultralight,   Regular,
+
+Black   masters
+
+73
+
+74
+
+.   SF   Symbols   3   also   added   many   more   symbols   and   localized   variants.
+
+Custom symbols became much more viable: Apple provided the SF Symbols app functionality to
+
+import and validate templates, and to annotate layers for the new color modes. Minimum Xcode
+
+required   was   13   for   using   these   templates
+
+71
+
+75
+
+.   If   deploying   to   iOS   14,   Apple   allowed
+
+exporting a down-leveled “2.0” template (monochrome only)
+
+60
+
+.
+
+• 
+
+SF Symbols 4 (2022, iOS 16):  Brought additional symbols and refinements. Notably,  variable
+
+color  capabilities   started   to   appear   around   this   time   (though   Apple’s   docs   refer   to   “variable
+
+color” more concretely in SF Symbols 6). SF Symbols 4 introduced Symbol Components – pieces
+
+like circles, squares, slashes that you can easily apply to symbols in the app (like one-click to get
+
+a circle background or a slash through a symbol)
+
+76
+
+. These required using dynamic templates
+
+(because the components need to interpolate with your symbol). The template format may have
+
+bumped   to   4.0   (the   Glyphs   forum   indicated   frequent   format   changes   year-to-year
+
+77
+
+).   For
+
+custom template design, nothing radically new except perhaps support for symbols with variable
+
+aspect ratios or more localized templates (like right-to-left flips).
+
+22
+
+• 
+
+SF Symbols 5 (2023, iOS 17):  This version added ~700 new symbols and many were oriented
+
+toward things like gaming, devices, etc. For custom symbols, Apple introduced an  improved
+
+inspector in the app and enhanced layer animations. WWDC23’s “What’s new in SF Symbols 5”
+
+mentioned  “Layer in animation”  features
+
+78
+
+. It appears SF Symbols 5 started to expose some
+
+simple built-in animations (like a pulse or bounce) that operate on symbol layers. These might be
+configured   in   SwiftUI   via   the   new   Image.symbolEffect()   modifier   (iOS   17   added
+.bounce ,   .pulse ,   .variableColor   effect etc.). For the template, this likely meant you
+
+could annotate layers with roles to participate in wiggle or variable color animations.  Variable
+
+Color  is the ability to smoothly transition between two colors on a symbol (mentioned in SF6
+
+context,   but   perhaps   seeded   in   5).   Also,   SF5   expanded  localized   variants  for   many   writing
+
+systems
+
+79
+
+, which doesn’t affect template except you could name your symbol with a locale
+
+suffix if needed (rarely used in custom).
+
+• 
+
+SF Symbols 6 (2024, iOS 18): Continued the trend with new symbols and significantly, animation
+
+presets.
+like
+.variableColor ,  .variableScale ,  .rotate ,  .wiggle ,  .bounce ,  .pulse  in SwiftUI
+
+animations
+
+introduced
+
+symbol
+
+built-in
+
+iOS
+
+18
+
+and some in UIKit
+
+80
+
+81
+
+. “Variable Color” is a feature where a symbol can smoothly transition
+
+its layers’ colors (for example, a battery symbol changing color as it fills). To support this, custom
+
+symbols might need additional annotation: you can assign a layer a  variable value  that links to
+
+some numeric parameter. For instance, a gauge symbol could have a fill that grows according to
+
+a   variable.   Apple   likely   added   fields   in   the   template   for   these   variable   value   mappings.   SF
+
+Symbols 6’s WWDC (2024) talked about enhanced annotation tools and possibly guide points for
+
+variable animations (though guide points were fully introduced in 7). Template version probably
+
+became   4.0   or   5.0   around   this   time,   with   backwards   compatibility   considerations.   Gradients
+
+might have been hinted at in SF6’s design tools, but real support came in 7.
+
+• 
+
+SF Symbols 7 (2025, iOS 19):  A major update focusing on  animations and visual effects
+
+82
+
+83
+
+. Key new features:
+
+• 
+
+Draw Animations: The ability to animate the strokes of symbols as if being drawn on/off. Apple
+
+introduced “Draw on” and “Draw off” presets
+
+84
+
+. For this to work, designers add guide points
+
+along paths in the template to define stroke order and direction
+
+85
+
+. The template format 5.0 (if
+
+not earlier) includes these guide points (likely as special markers in the SVG, possibly circles or
+
+metadata tags on the path). Custom symbol creators can now designate the sequence in which
+
+the path should be drawn for the animation.
+
+• 
+
+Variable Draw: Builds on variable color – now layers can animate shapes based on data. For
+
+example, imagine a signal strength icon that fills bars up and down smoothly. With variable
+
+draw, one could animate portions of a symbol in a continuous way, not just switch entire layers
+
+86
+
+. This again requires correct annotation – possibly splitting a path into segments or using the
+
+guide points to denote breakpoints for animation.
+
+• 
+
+Automatic Gradients: SF 7 can “auto-generate linear gradients from a single color” to add depth
+
+87
+
+. In practice, if you choose a rendering mode with gradient, the system will apply a subtle
+
+gradient to the symbol (like top-lit effect). For custom symbols, this might just work out of the
+
+box (monochrome layer gets a gradient). But if you want a custom gradient, SF Symbols 7 likely
+
+allows specifying gradient direction or stops in the template. Apple indicates it’s automatic from
+
+one color (so probably it’s not custom stops but a preset lighting effect). Template might just
+
+mark a layer as “gradient-allowed”.
+
+• 
+
+Magic Replace enhancements: This is more about animating between two different symbols
+
+(morphing icons). It’s not directly about one symbol’s template, but if two symbols share similar
+
+shapes, Apple improved the transition. This doesn’t affect how you make one symbol, but if you
+
+23
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+plan to animate between two of your custom symbols, you’d want them to have compatible
+
+layers and maybe use Magic Replace API.
+
+• 
+
+Even more localized variants: SF7 expanded to more scripts like Thai and full Indic sets
+
+88
+
+. If
+
+you create custom symbols for different scripts, you might need variant glyphs per script (and
+
+can package them in the symbolset as different “localizations” – Apple’s system uses naming
+conventions like  .ar  or so inside the symbol asset catalog).
+
+• 
+
+Platform considerations: SF 7 features (draw animations, gradients) require iOS 19+, watchOS
+
+10+, etc. If you include these in your symbol and run on older OS, presumably they just won’t
+
+animate (but should still render static). For example, guide points for draw might be ignored on
+
+iOS 17, so the symbol shows but you can’t animate its stroke.
+
+From a template file perspective: If you use SF Symbols 7 to annotate a symbol with draw points or
+variable values, those get embedded in the SVG (likely in the  <g id="Symbols">  as extra data). If you
+
+then open that SVG in an older SF Symbols app, it may drop those extras or refuse to open (as they said,
+
+template 3.0 wasn’t backward compatible either
+
+89
+
+). So it’s important to target the correct version: e.g.,
+
+if your app minimum is iOS 17, you might avoid using SF7-only features or provide an alternate without
+
+them.
+
+OS/Xcode minimums recap: - Using SVG assets at all in Xcode requires Xcode 12+ (iOS 14) if we recall
+
+correctly when they allowed SVGs. But custom symbolsets were supported from Xcode 11 (with iOS 13)
+
+as a concept. - Monochrome custom symbol: iOS 13+. - Hierarchical/Palette custom symbol: iOS 15+
+
+(since those modes introduced with SF3). - Multicolor custom symbol: iOS 15+ for custom (system had
+
+some   earlier   but   custom   multicolor   needed   the   3.0   template).   -  Variable   interpolating   custom
+
+symbols: Also iOS 15+ (the SF Symbols 3 feature). If you use a variable template but deploy on iOS 14,
+
+you’d have to use a static fallback – because iOS 14 wouldn’t know how to handle the variable data (and
+
+Xcode 12 might not import it properly either). - Symbol animations (.bounce, .pulse): those came with
+
+iOS 17 (SF5/6). If your deployment is lower, those just won’t be available (but that doesn’t break the
+
+symbol   itself).   -  Draw   animations   &   gradients:  iOS   19   (SF7).   If   your   app   is   iOS   19+   only,   you   can
+
+leverage them fully. If not, design your symbol to not depend on them. For instance, a symbol with draw
+
+guide points will still render as a static shape on iOS 18, it just can’t animate stroke.
+
+In sum, between 2021 and 2025, Apple went from focusing on multi-weight static design to dynamic,
+
+animated, color-flexible symbols. For a practitioner: - Always check the  template version  and export
+
+appropriate   versions   for   backward   compatibility.   -   Use   the   latest   SF   Symbols   app   to   annotate   new
+
+features, but test that the symbol still looks okay on older OS (even if without those fancy features). -
+
+Keep an eye on release notes (Apple Developer Documentation gets updated with each version: e.g.,
+
+“Updated with guidance for Draw animations and gradient rendering in SF Symbols 7. June 10, 2024.”
+
+90
+
+).
+
+G. Mini Toolkit (CLI/Pseudocode Snippets)
+
+To   assist   in   automating   parts   of   this   process,   here   are   some   pseudocode   snippets   and   CLI   tool
+
+suggestions for key tasks. These are not fully functional code, but outline how one might implement
+
+them:
+
+G1. SVG Normalization (Flattening Transforms, Outlining Strokes/Text)
+
+Tool   choice:  You   can   use  SVGO  (SVG   Optimizer)   with   plugins   or   a   custom   script.   In   pseudocode
+
+(assuming a Python environment with an SVG library):
+
+24
+
+import svgutils
+
+# hypothetical library
+
+doc = svgutils.load_svg("input.svg")
+
+# Remove external stylesheets by inlining styles
+
+doc.inline_styles()
+
+# Outline text to paths
+
+for text_elem in doc.find_all("text"):
+
+path = text_to_path(text_elem)
+
+doc.replace_element(text_elem, path)
+
+# Expand strokes to paths (for initial normalization, we might skip this here 
+
+and do it separately)
+
+for elem in doc.find_all(lambda e: e.has_attribute("stroke") and
+
+e.get('stroke') != 'none'):
+
+outlined = outline_stroke(elem)
+
+doc.replace_element(elem, outlined)
+
+# Flatten transforms: multiply group matrices into path coordinates
+
+for elem in doc.find_all("path"):
+
+if elem.has_transform():
+
+elem.apply_transform()
+
+# should modify the path's coordinates 
+
+directly
+
+# Normalize viewBox to SF Symbols canvas (assuming known target viewBox, 
+
+e.g., 0 0 1000 1000 for simplicity)
+
+orig_vb = doc.get_viewbox()
+
+# (minx, miny, w, h)
+
+target_vb = (0, 0, 1000, 1000)
+
+scale = min(target_vb.width/orig_vb.width, target_vb.height/orig_vb.height)
+
+doc.scale_elements(scale)
+
+# If needed, translate to center
+
+doc.translate_elements(dx, dy)
+
+# Save normalized output
+
+doc.set_viewbox(*target_vb)
+
+doc.save("normalized.svg")
+
+If using CLI, Inkscape has commands to do some of this: 
+
+inkscape input.svg --export-plain-svg=out.svg   # simplifies output
+
+Inkscape can convert text to paths ( --export-text-to-path ) and maybe strokes via XML edit. Or
+
+one can use Adobe Illustrator’s scripting if available.
+
+G2. Path Topology Equalization (Resampling curves for equal nodes)
+
+This is complex. A conceptual snippet using Python:
+
+25
+
+import numpy as np
+
+def resample_path(path, target_points):
+
+# path is a sequence of segments (lines/quadratics/cubics)
+
+# We approximate the entire path as a parametric curve and sample 
+
+equidistant points.
+
+points = []
+
+lengths = path.segment_lengths()
+
+total_len = sum(lengths)
+
+# sample at target_points intervals (closed path, last point = first 
+
+repeated ideally)
+
+interval = total_len / target_points
+
+dist = 0
+
+seg_index = 0
+
+t = 0
+
+# accumulate points
+
+while len(points) < target_points:
+
+# find segment for current distance
+
+while seg_index < len(path.segments) and dist > lengths[seg_index]:
+
+dist -= lengths[seg_index]
+
+seg_index += 1
+
+if seg_index >= len(path.segments):
+
+break
+
+seg = path.segments[seg_index]
+
+# param t on this segment (0 to 1)
+
+t = dist / lengths[seg_index] if lengths[seg_index] != 0 else 0
+
+pt = seg.point_at(t)
+
+points.append(pt)
+
+dist += interval
+
+# ensure closure by replacing last point with first point
+
+points[-1] = points[0]
+
+# Now create a new path connecting these points (e.g., polygonal or 
+
+smooth? we likely keep as points only)
+
+new_path = Path()
+
+new_path.move_to(points[0])
+
+for p in points[1:]:
+
+new_path.line_to(p)
+
+new_path.close()
+
+return new_path
+
+# Use:
+
+for i, (ul_path, reg_path, bl_path) in enumerate(zip(ultralight_paths,
+
+regular_paths, black_paths)):
+
+n = reg_path.num_points()
+
+ultralight_paths[i] = resample_path(ul_path, n)
+
+black_paths[i] = resample_path(bl_path, n)
+
+# Align start points - rotate points list so that nearest to 
+
+reg_path.start goes first
+
+ultralight_paths[i].align_start_to(reg_path)
+
+black_paths[i].align_start_to(reg_path)
+
+26
+
+# Ensure direction consistent (calculate signed area or use point order)
+
+if ultralight_paths[i].direction() != reg_path.direction():
+
+ultralight_paths[i].reverse()
+
+if black_paths[i].direction() != reg_path.direction():
+
+black_paths[i].reverse()
+
+This assumes we have a Path object that can yield segments and parametric points. In practice, one
+could  use  FontTools  ( fontTools.pens   and   fontTools.misc.interpolate )   to   help   with   point
+
+matching between glyph outlines. FontTools can take two glyph outlines (set of contours) and if they
+
+have same number of points, do interpolation; it also has a function to add points to one glyph to
+match another if one uses  fontTools.misc.bezierTools  or  skia-pathops .
+
+A simpler approach is to rely on a font editor like  Glyphs or FontLab  via scripting: Import the two
+
+outlines, use their “Add Extremes/Tidy” functions, then export. But that’s not pure CLI.
+
+G3. Template Builder (Inject masters into template skeleton)
+
+Using a base template file (obtained by exporting a custom symbol template from SF Symbols once):
+
+skeleton_doc = svgutils.load_svg("SkeletonTemplate_3.0.svg")
+
+symbols_group = skeleton_doc.get_element_by_id("Symbols")
+# Remove default content
+
+for child in symbols_group.children():
+
+symbols_group.remove(child)
+
+# Create groups for each master
+
+for master_name, paths in [("Ultralight-S", ultralight_paths),
+
+("Regular-S", regular_paths),
+
+("Black-S", black_paths)]:
+
+g = Element('g', id=master_name)
+
+for path_d in paths:
+
+path_elem = Element('path', d=path_d, style="fill:#000000;")
+
+# black fill
+
+g.append(path_elem)
+
+symbols_group.append(g)
+
+# (Assuming Guides and other sections remain same. Optionally update any 
+
+metadata like glyph name)
+
+skeleton_doc.save("OutputTemplate.svg")
+
+Alternatively, you can dynamically construct an SVG string. Just ensure to include the XML header and
+doctype exactly as needed. The Apple skeleton will have the   <metadata>   and the special comment
+<!-- glyph: "name"... -->  which you might update to your symbol’s name.
+
+G4. Batch Validator (Process directory and output results)
+
+Pseudo-code:
+
+27
+
+import glob, subprocess
+
+def validate_with_sf_symbols(svg_path):
+
+# This approach uses Xcode's assetutil (not real, just concept)
+
+# If SF Symbols had a CLI, use it. Otherwise, try compiling in a test 
+
+asset catalog.
+
+try:
+
+# For demonstration, assume a fictitious command:
+
+result = subprocess.run(["sfsymbolutil", "validate", svg_path],
+
+capture_output=True, text=True)
+
+if "Validation succeeded" in result.stdout:
+
+return True, ""
+
+else:
+
+return False, result.stdout + result.stderr
+
+except FileNotFoundError:
+
+print("SF Symbols CLI not available. Skipping actual validation.")
+
+return True, "(not validated)"
+
+results = []
+
+for file in glob.glob("input_svgs/*.svg"):
+
+ok, msg = validate_with_sf_symbols(file)
+
+status = "PASS" if ok else "FAIL"
+
+# Simplify message
+
+if not ok:
+
+# extract first line of error or known phrases
+
+lines = msg.splitlines()
+
+error_line = lines[0] if lines else "Unknown error"
+
+else:
+
+error_line = ""
+
+results.append((file, status, error_line))
+
+# Write CSV report
+
+with open("validation_report.csv", "w") as f:
+
+f.write("Filename,Status,Info\n")
+
+for file, status, info in results:
+
+f.write(f"{file},{status},{info}\n")
+
+Because an actual CLI might not exist, another strategy is to script the SF Symbols app with AppleScript:
+
+- Open SF Symbols, use GUI scripting to do File > Validate Templates, intercept the result dialog text. But
+
+that’s hacky and not CI-friendly.
+
+Alternatively, compile into an asset catalog and see if Xcode emits warnings: 
+
+xcrun actool --output-format xml1 --minimum-deployment-target 15.0 --compile 
+
+tmp Assets.xcassets
+
+This might output warnings for any symbol issues. One could parse that XML for warnings.
+
+28
+
+Regardless, the pseudocode above outlines capturing success/failure and at least one line of error per
+
+file.
+
+H. Quality Bar – Bringing it All Together
+
+To ensure a high-quality result, both visually and technically, consider the following deliverables and
+
+checks before final hand-off:
+
+• 
+
+Visual Proof of All Variants: Open your symbol in the SF Symbols app and inspect all 9 weights
+
+× 3 scales. Take screenshots or generate a contact sheet. For example, ensure at Ultralight Large
+
+it   still   looks   okay,   and   at   Black   Small   it   isn’t   too   muddled.   Make   sure   nothing   disappears   or
+
+overlaps oddly. Use SF Symbols’ preview grid or Xcode’s asset preview (as shown earlier) to scan
+
+quickly. Also preview the symbol in Monochrome, Hierarchical, Palette, Multicolor modes with
+
+some dummy colors to verify layers behave as intended
+
+29
+
+30
+
+.
+
+• 
+
+Rendering Mode Previews:  If you provided layers, use SF Symbols app’s Rendering inspector.
+
+Assign different colors to layers in Palette mode – do they all show up? If a layer doesn’t appear,
+
+maybe   its   paths   weren’t   assigned   correctly   (or   it’s   underneath   another   layer   without   “Clear”
+
+where   needed).   Check   hierarchical   by   assigning   different   hierarchies   and   ensure   the   visual
+
+stacking  is  correct  (primary  on  top  or  however  intended).  For  multicolor,  if  you  used  custom
+
+colors, confirm they come through.
+
+• 
+
+Test in Code (SwiftUI Demo):  Build a small SwiftUI view that displays your symbol at various
+
+weights and scales dynamically. Something like: 
+
+struct SymbolTestView: View {
+
+@State var weight: Font.Weight = .regular
+
+@State var scale: Image.Scale = .medium
+
+var body: some View {
+
+VStack {
+
+Slider(... bind to some index for weight ...)
+
+Picker(... for scale ...)
+
+Image("my.symbol").font(.system(size: 50, weight:
+
+weight)).imageScale(scale).symbolRenderingMode(.hierarchical)
+
+}
+
+}
+
+}
+
+Run this on different iOS versions if possible (simulators) to see if anything odd happens (like on
+
+iOS 15 vs iOS 17). This can catch if perhaps the symbol wasn’t included in the correct bundle.
+
+• 
+
+Check   Asset   Catalog   Outputs:  After   building   the   app,   you   can   use   the   command   nm   -
+objdump  on the compiled Assets.car to ensure your symbol is included (this is advanced; easier
+
+is   just   try   loading   by   name   at   runtime   and   see   if   nil).   Also   verify   that   using
+UIImage(systemName:)   doesn’t accidentally pick your symbol (it shouldn’t if you named it
+
+uniquely, but just in case).
+
+• 
+
+Repository of Source Files: Keep the source SVG template (the one with all masters) in version
+
+control. Additionally, maintain any script or tool config used to generate it. This way, if the OS
+
+29
+
+updates the format (like SF Symbols 8 next year), you can regenerate or update accordingly. It’s
+
+also helpful for collaboration with designers – they can open that SVG in SF Symbols app to
+
+tweak if needed, then you re-run parts of pipeline.
+
+• 
+
+Packaging and distribution: When handing off to engineering or including in CI, package the
+
+conversion   pipeline   (if   it’s   a   script)   such   that   it   can   be   run   easily   (maybe   a   command-line
+
+interface where designers drop an SVG and get a .symbolset out). Provide a  checklist  (coming
+
+up next) so that both designers and engineers know the dos and don’ts.
+
+Finally, Continuous Integration: Integrate the validator into CI so that if a new symbol is added and it
+
+fails validation, the build can flag it. Perhaps use a unit test that loads each symbol with all weights and
+
+asserts   the   image   is   not   nil   (ensuring   inclusion   and   somewhat   working).   And   if   possible,   run   the
+
+pipeline’s validation step on any new SVGs committed.
+
+By hitting this quality bar, we ensure the custom SF Symbols perform just as reliably as the built-in SF
+
+Symbols.
+
+10-Minute Checklist for Designers (Custom SF Symbols):
+
+• 
+
+ Use the SF Symbols template as a starting point (export one from the app) – don’t draw on a
+
+random canvas. This ensures guides and metadata are present. 
+
+• 
+
+ Draw in vectors only: no raster images, no effects (glows, blurs), no clipped masks. Solid filled
+
+shapes only. 
+
+• 
+
+ Maintain consistent shapes across weights: If creating Ultralight/Black variants, start from
+
+the Regular design and adjust points. Do not add new features in one weight that aren’t in the
+
+others. 
+
+• 
+
+ Convert strokes to fills: If you used strokes for reference, expand them to outlines before
+
+finalizing. No open curves; everything should be a closed path
+
+44
+
+. 
+
+• 
+
+ Avoid tiny details that won’t interpolate or scale well. If the symbol needs detail at Large scale,
+
+consider providing a Large variant, but generally simplify. 
+
+• 
+
+ Align to guides: Make sure important features sit on the baseline or cap line if they should.
+
+Check left/right margins – symbol should be optically centered within those (the SF Symbols app
+
+can help adjust margin guides). 
+
+• 
+
+ Color layers (if any): Use the SF Symbols app to assign layers for any multicolor/palette intent.
+
+E.g., separate a glyph and its background into two layers and color them differently to test. 
+
+• 
+
+ Validate in SF Symbols app: Use File > Validate Templates. Resolve any errors it gives (point
+
+count mismatches, etc.) – often it will highlight the problematic variant. 
+
+• 
+
+ Visual test in SF Symbols: Look at your symbol in all weights and scales using the app’s weight
+
+slider. Ensure it remains recognizable and no strange morphing occurs. If something looks off at
+
+a midpoint weight, that signals point correspondence issues – fix those in your vector editor or
+
+with a tool like Glyphs. 
+
+• 
+
+ Export and re-import if needed: If you used SF Symbols app to set layers or margins,
+
+remember to Export for Xcode (choose the latest template format) so those annotations are saved
+
+in the SVG. The file you give to engineers should be the final exported SVG from SF Symbols to
+
+avoid losing data
+
+91
+
+.
+
+30
+
+10-Minute Checklist for Engineers (SVG → SF Symbol integration):
+
+• 
+
+ Run the SVG through the pipeline (or SVGO/Inkscape) to normalize it. This catches
+
+unsupported stuff early (like filters). Check the output SVG diff from input – ensure key shapes
+
+still there. 
+ Verify template structure: Open the SVG in a text editor. Confirm it has  <g id="Symbols">
+
+• 
+
+with the expected subgroups (Ultralight-S, Regular-S, Black-S for variable, or all 27 for static).
+Confirm  <g id="Guides">  and margin lines exist. If anything major is missing, it might not
+
+import right. 
+
+• 
+
+ Automated validation: Use the SF Symbols app or our validator script on the SVG. If it fails,
+
+examine the error and go back to designer or fix minor issues (like reordering points with a
+
+script). Don’t skip this – a bad symbol can cause runtime issues or just not render. 
+
+• 
+
+ Add to asset catalog: Drag the .svg into Xcode’s asset catalog, or add the .symbolset folder
+
+generated. Xcode should display it as a Symbol Image with previews. If it shows as “PDF” or
+something, you did it wrong – ensure the JSON has  "symbol-rendering-intent": 
+"template" . 
+ Test in Simulator: Use  Image("name")  or  UIImage(named:)  to load the symbol. Try a
+couple of  UIFont.Weight  configurations (UltraLight, Regular, Black) to see if it switches weight
+
+• 
+
+properly. Also test a hierarchical rendering: e.g., SwiftUI
+.symbolRenderingMode(.hierarchical).foregroundStyle(.blue)  – the symbol should
+
+display two tones if you set up layers, or solid blue if single layer. This verifies that the asset is
+
+truly a symbol and not a flat image. 
+
+• 
+
+ Backward compatibility: If supporting older OS, ensure you provided fallback assets or
+
+template version 2.0 as needed. For iOS 14, include a monochrome PDF perhaps. For watchOS
+
+issues with naming, test on device or sim (watchOS 6 if needed) to see that symbol appears. If
+
+not, rename or provide alternate as discussed. 
+
+• 
+
+ Performance check: Custom symbols are typically small vectors, but if your symbol is
+
+extremely complex (hundreds of points), check that rendering is smooth (especially in
+
+animations). If not, consider simplifying the paths (remove hidden layers, etc.). Also, heavy use of
+
+draw animations might affect CPU – but that’s more on usage. 
+
+• 
+
+ Integrate into CI: Add a step in the build process to validate any new symbols added. This can
+
+be as simple as running the validate script or as integrated as having unit tests load symbols.
+
+The goal is to catch issues early if someone adds a new SVG that isn’t compliant. 
+
+• 
+
+ Documentation: Document the symbol usage for your team – e.g., “Use Image(‘my.icon’) for
+
+this custom icon. Do not use systemName.” Also note any limitations (like “monochrome only” if
+
+you didn’t support multi-color). 
+
+• 
+
+ Stay updated: Keep an eye on new SF Symbols releases. If SF Symbols 8 (for example)
+
+introduces a new template format, plan to update your pipeline. Encourage designers to use the
+
+latest SF Symbols app but export compatibility if needed. And if using advanced features (like the
+
+new draw animations), ensure you bump deployment targets appropriately.
+
+By following these checklists, designers and developers can collaborate to create robust, custom SF
+
+Symbols that behave just like the built-in ones, across all weights, scales, and modes.
+
+Sources:
+
+1. 
+
+Apple WWDC21 – “Create Custom Symbols” (Mike Stern) – detailing template 3.0 structure and
+
+interpolation requirements
+
+9
+
+10
+
+. 
+
+2. 
+
+Apple Developer Documentation – “Creating custom symbol images for your app” – emphasizing
+
+matching path counts and control points for interpolation
+
+7
+
+ and use of reference guides. 
+
+31
+
+3. 
+
+SF Symbols 3 Release Notes – introduction of hierarchical/palette rendering and variable
+
+templates
+
+73
+
+92
+
+. 
+
+4. 
+
+Shareup Blog (Julius Tarng, 2023) – Using a font editor to create custom SF Symbols – confirming
+
+point-for-point path matching, start point alignment, and using Glyphs to fix path directions
+
+7
+
+65
+
+. 
+
+5. 
+
+Woody’s Findings Blog (2022) – Custom SF Symbols – overview of static vs dynamic templates and
+
+the necessity of preserving points and paths
+
+93
+
+94
+
+. 
+
+6. 
+
+CreateWithSwift (Oct 2025) – Creating Custom SF Symbols – step-by-step on template setup (27
+
+variants or 3 masters) and rendering mode annotation
+
+95
+
+8
+
+, plus code usage in SwiftUI
+
+57
+
+58
+
+. 
+
+7. 
+
+Crunchy Bagel (Quentin Zervaas, 2024) – using SwiftDraw tool and showing  .symbolset
+
+Contents.json format
+
+49
+
+50
+
+. 
+
+8. 
+
+WWDC25 – “What’s new in SF Symbols 7” – new Draw animations, guide points, and gradient
+
+capabilities
+
+84
+
+87
+
+. 
+
+9. 
+
+9to5Mac (Jun 2025) – SF Symbols 7 beta released – summary of SF7 new features (Draw on/off,
+
+Magic Replace, gradients, etc.)
+
+83
+
+87
+
+. 
+
+10. 
+
+WWDC Notes – SF Symbols 7 Documentation – mentions that at render time you choose between
+
+variable color or variable draw, confirming these are separate features
+
+96
+
+.
+
+32
+
+1
+
+2
+
+52
+
+53
+
+54
+
+59
+
+iOS端矢量图解决方案汇总（SVG篇） | 小猪的博客
+
+http://dreampiggy.com/2020/03/30/
+
+iOS%E7%AB%AF%E7%9F%A2%E9%87%8F%E5%9B%BE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB%EF%BC%88SVG%E7%AF%87%EF%BC%89/
+
+3
+
+Creating custom symbol images for your app - Apple Developer
+
+https://developer.apple.com/documentation/uikit/creating-custom-symbol-images-for-your-app
+
+4
+
+5
+
+9
+
+10
+
+11
+
+12
+
+15
+
+16
+
+17
+
+18
+
+23
+
+24
+
+25
+
+26
+
+27
+
+28
+
+35
+
+36
+
+38
+
+39
+
+40
+
+41
+
+44
+
+45
+
+48
+
+60
+
+61
+
+62
+
+71
+
+72
+
+73
+
+74
+
+75
+
+89
+
+91
+
+92
+
+Create custom symbols - WWDC21 - Videos - Apple Developer
+
+https://developer.apple.com/videos/play/wwdc2021/10250/
+
+6
+
+8
+
+19
+
+29
+
+30
+
+31
+
+32
+
+33
+
+34
+
+37
+
+46
+
+47
+
+56
+
+57
+
+58
+
+66
+
+69
+
+70
+
+95
+
+Creating Custom SF Symbols
+
+https://www.createwithswift.com/creating-custom-sf-symbols/
+
+7
+
+42
+
+43
+
+65
+
+shareup.app → Using a font editor to create custom SF Symbols
+
+https://shareup.app/blog/using-a-font-editor-to-create-custom-sf-symbols/
+
+13
+
+14
+
+Support for SF Symbols 4 - Glyphs - Glyphs Forum
+
+https://forum.glyphsapp.com/t/support-for-sf-symbols-4/24656
+
+20
+
+21
+
+22
+
+76
+
+93
+
+94
+
+Custom SF Symbols | Woody's findings
+
+https://www.woodys-findings.com/posts/custom-sf-symbols
+
+49
+
+50
+
+51
+
+63
+
+64
+
+68
+
+Using Custom Symbols in iOS 18's Control Center Widgets
+
+https://crunchybagel.com/ios-18-control-center-widgets-image-symbols/
+
+55
+
+SF Symbol: How to for Swift & SwiftUI
+
+https://www.avanderlee.com/swift/sf-symbol-guide/
+
+67
+
+90
+
+SF Symbols | Apple Developer Documentation
+
+https://developer.apple.com/design/human-interface-guidelines/sf-symbols
+
+77
+
+Support for SF Symbols 5 - Glyphs Forum
+
+https://forum.glyphsapp.com/t/support-for-sf-symbols-5/29710
+
+78
+
+What's new in SF Symbols 5 - Sarunw
+
+https://sarunw.com/posts/whats-new-in-sf-symbols-5/
+
+79
+
+SF Symbols - Apple Developer
+
+https://developer.apple.com/sf-symbols/
+
+80
+
+What's New in SF Symbols 6 - WWDC24 - Yaacoub
+
+https://yaacoub.github.io/articles/swift-tip/what-s-new-in-sf-symbols-6-wwdc24/
+
+81
+
+What's New in SwiftUI for iOS 18 - AppCoda Tutorials - Medium
+
+https://medium.com/appcoda-tutorials/whats-new-in-swiftui-for-ios-18-e64e8e0844b3
+
+82
+
+83
+
+84
+
+86
+
+87
+
+88
+
+Apple releases SF Symbols 7 beta with new animations, gradients - 9to5Mac
+
+https://9to5mac.com/2025/06/11/apple-releases-sf-symbols-7-beta/
+
+85
+
+What's new in SF Symbols 7 - WWDC25 - Videos - Apple Developer
+
+https://developer.apple.com/videos/play/wwdc2025/337/
+
+96
+
+What's new in SF Symbols 7 | Documentation - WWDC Notes
+
+https://wwdcnotes.com/documentation/wwdcnotes/wwdc25-337-whats-new-in-sf-symbols-7/
+
+33
+
+
