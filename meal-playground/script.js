@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.5.0';
+const VERSION = '1.5.1';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -458,27 +458,79 @@ function buildPrompt(context) {
     }
     
     // Build the prompt
-    const prompt = `You are a world-class sports nutritionist specializing in endurance athlete nutrition. Generate a complete daily meal plan.
+    const prompt = `You are a world-class sports nutritionist specializing in endurance athlete nutrition.
+
+Generate a complete daily meal plan that perfectly matches the provided calculated targets and workout schedule. 
+Follow strict quantitative and qualitative rules.
+
+---
 
 ## RESEARCH CORPUS
-${JSON.stringify(corpus, null, 2)}
+${corpus && Object.keys(corpus).length > 0 ? JSON.stringify(corpus, null, 2) : 'Research corpus not available - use general sports nutrition principles'}
+
+---
 
 ## ATHLETE PROFILE & CALCULATED TARGETS
 ${JSON.stringify(context, null, 2)}
 
-## CRITICAL REQUIREMENTS
+---
 
-1. **Use Calculated Targets**: The calculated_targets in the context were determined using evidence-based formulas. Your meal plan's daily_totals MUST match these targets (within ±2%)
+## CRITICAL BEHAVIORAL RULES
 
-2. **Sodium Tracking**: EVERY food item must include sodium_mg. Add salt/electrolytes to hit sodium target (${context.calculated_targets.sodium_target_mg}mg).
+1. **Quantitative accuracy**
+   - Your daily_totals MUST match the provided calculated_targets (within ±2%). 
+   - If totals do not meet targets, automatically add or remove foods to correct:
+     - If carbs < target by >5%, add low-fat, high-carb items (e.g., rice, oats, banana, juice).
+     - If fat > target by >10%, reduce added oils, avocado, or hummus.
+     - If protein > target by >20%, reduce protein portions by 10–20%.
+   - Always prefer minimal edits that preserve meal realism and timing.
 
-3. **Detailed Rationales**: Each meal must have 3-5 sentences explaining food choices, timing, portions, and research citations (e.g., ISSN2017, Morton2018).
+2. **Macronutrient logic**
+   - Carbs: Based on training load (calculated_targets provides exact amount).
+   - Protein: ${context.calculated_targets.daily_protein_target_g}g total, spread evenly across meals (${Math.round(context.athlete.weight_kg * 0.3)}g per meal, 0.25–0.4 g/kg).
+   - Fat: ${context.calculated_targets.daily_fat_target_g}g total (≤30% total calories).
+   - Sodium: ${context.calculated_targets.sodium_target_mg}mg (±2%), distributed through meals, salt, and electrolytes.
+   - Hydration: ${context.calculated_targets.hydration_target_l}L (±0.1 L).
 
-4. **Israel Alternatives**: Provide 3+ specific Israel products (Tnuva, Osem, Yotvata, Strauss) with portions.
+3. **Meal distribution**
+   - Include 7–9 total entries: breakfast, pre_workout, intra_workout, post_workout, lunch, dinner, snack, and hydration.
+   - Spread protein and carbs evenly through the day.
+   - Include intra- and post-workout meals for EVERY listed workout.
+   - Time meals appropriately around workouts (pre: 1-2h before, post: within 1h after).
 
-5. **Protein Distribution**: Aim for 0.25-0.4 g/kg per meal (${Math.round(context.athlete.weight_kg * 0.3)}g per meal for this athlete).
+4. **Digestibility logic**
+   - Pre-workout: low fiber, low fat, moderate protein, high carbs.
+   - Intra-workout: simple carbs, electrolytes, minimal protein/fat.
+   - Post-workout: 3:1 or 4:1 carb:protein ratio for glycogen repletion.
+   - Avoid heavy fats within 2 hours of workouts.
+   - Dinner and evening snack can include slower-digesting proteins or healthy fats.
 
-6. **Output Format**: Return ONLY valid JSON. No markdown, no code blocks, no explanations. First character { last character }
+5. **Sodium tracking**
+   - Every food item includes sodium_mg.
+   - If total sodium < target, add salt (1g salt = 400mg Na) or electrolyte drinks until target achieved.
+   - Typical sodium sources: table salt, sports drinks, electrolyte tablets, processed foods, cheese.
+
+6. **Localization (Israel)**
+   - For every meal, include 3+ realistic Israeli alternatives (Tnuva, Osem, Strauss, Yotvata, Sabra, Tapuzina).
+   - Maintain cultural realism for portion sizes and available foods.
+   - Examples: "Tnuva Cottage Cheese 5%, 200g" or "Osem Oatmeal, 1 cup dry"
+
+7. **Formatting**
+   - Return ONLY valid JSON (no markdown, no explanations).
+   - Use the exact JSON schema shown below.
+   - No trailing commas, no commentary, no markdown fencing (no \`\`\`json).
+   - First character must be { and last character must be }.
+
+8. **Rationale quality**
+   - 3–5 sentences per meal explaining timing, composition, purpose, and citations (Burke2011, Jeukendrup2011, Morton2018, McCubbin2025, ACSM2016, ISSN2017).
+   - Explain WHY foods were chosen for this specific timing and workout context.
+   - ${fastMode ? 'Summarize corpus evidence in 2 sentences max per meal.' : 'Expand rationales to 4–5 sentences with detailed citations.'}
+
+9. **Validation hook**
+   - Before output, recalculate all totals.
+   - If total_calories, carbs, protein, or fat are outside ±2% tolerance, automatically rebalance and re-output.
+   - Verify every food has sodium_mg value.
+   - Verify daily totals match calculated_targets
 
 ## JSON STRUCTURE
 
