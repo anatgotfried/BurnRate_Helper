@@ -1,0 +1,294 @@
+{
+  "model": "google/gemini-2.0-flash-exp:free",
+  "fast_mode": false,
+  "duration_ms": 25213,
+  "usage": {
+    "prompt_tokens": 13780,
+    "completion_tokens": 2537,
+    "total_tokens": 16317,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal (100g dry)",
+            "carbs_g": 60,
+            "protein_g": 13,
+            "fat_g": 7,
+            "sodium_mg": 5,
+            "calories": 389
+          },
+          {
+            "item": "Banana (medium)",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Almonds (30g)",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 15,
+            "sodium_mg": 0,
+            "calories": 173
+          }
+        ],
+        "total_carbs_g": 93,
+        "total_protein_g": 20,
+        "total_fat_g": 22,
+        "total_sodium_mg": 6,
+        "total_calories": 667,
+        "rationale": "Provides ~1g/kg carbs 2 hours before the run, with some protein and fat for satiety. Oatmeal is a good source of sustained energy, while banana offers quick carbs. Almonds provide healthy fats. (ACSM2016)",
+        "israel_alternatives": [
+          "Telma Quick Oats",
+          "Local banana variety",
+          "Shelled almonds from local markets"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Pre-Run Top-Up",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Energy Gel",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 100
+          },
+          {
+            "item": "Water (500ml)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 25,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 50,
+        "total_calories": 100,
+        "rationale": "Additional simple carbs 30 minutes before the run to top off glycogen stores. The gel provides a quick energy boost (ACSM2016).",
+        "israel_alternatives": [
+          "SIS Isotonic Energy Gel",
+          "Tapuzina water"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Post-Run Recovery",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Chocolate Milk (500ml)",
+            "carbs_g": 50,
+            "protein_g": 17,
+            "fat_g": 9,
+            "sodium_mg": 200,
+            "calories": 340
+          },
+          {
+            "item": "Rice Cakes (2)",
+            "carbs_g": 14,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 64,
+        "total_protein_g": 18,
+        "total_fat_g": 9,
+        "total_sodium_mg": 250,
+        "total_calories": 400,
+        "rationale": "Provides carbs and protein within 30 minutes of finishing the second run to replenish glycogen and start muscle repair. Chocolate milk offers a good carb:protein ratio and electrolytes (ISSN2017).",
+        "israel_alternatives": [
+          "Yotvata Chocolate Milk",
+          "Osem Rice Cakes"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "main",
+        "foods": [
+          {
+            "item": "Chicken Breast (150g)",
+            "carbs_g": 0,
+            "protein_g": 47,
+            "fat_g": 3,
+            "sodium_mg": 75,
+            "calories": 225
+          },
+          {
+            "item": "Quinoa (1 cup cooked)",
+            "carbs_g": 39,
+            "protein_g": 8,
+            "fat_g": 2,
+            "sodium_mg": 13,
+            "calories": 222
+          },
+          {
+            "item": "Mixed Vegetables (1 cup)",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 50
+          }
+        ],
+        "total_carbs_g": 49,
+        "total_protein_g": 57,
+        "total_fat_g": 5,
+        "total_sodium_mg": 138,
+        "total_calories": 497,
+        "rationale": "Balanced meal with lean protein, complex carbs, and vegetables. Supports muscle repair and provides sustained energy (Morton2018).",
+        "israel_alternatives": [
+          "Chicken breast from local butcher",
+          "Quinoa from supermarket",
+          "Local seasonal vegetables"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek Yogurt (170g)",
+            "carbs_g": 8,
+            "protein_g": 17,
+            "fat_g": 0,
+            "sodium_mg": 60,
+            "calories": 90
+          },
+          {
+            "item": "Berries (1 cup)",
+            "carbs_g": 15,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 62
+          }
+        ],
+        "total_carbs_g": 23,
+        "total_protein_g": 18,
+        "total_fat_g": 0,
+        "total_sodium_mg": 61,
+        "total_calories": 152,
+        "rationale": "Provides a protein-rich snack to maintain muscle protein synthesis and helps with satiety.",
+        "israel_alternatives": [
+          "Tnuva Greek Yogurt",
+          "Seasonal berries from local market"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "main",
+        "foods": [
+          {
+            "item": "Salmon (150g)",
+            "carbs_g": 0,
+            "protein_g": 30,
+            "fat_g": 13,
+            "sodium_mg": 50,
+            "calories": 233
+          },
+          {
+            "item": "Sweet Potato (1 medium)",
+            "carbs_g": 27,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 55,
+            "calories": 103
+          },
+          {
+            "item": "Broccoli (1 cup)",
+            "carbs_g": 6,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 31
+          },
+          {
+            "item": "Olive oil (1 tbsp)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 33,
+        "total_protein_g": 35,
+        "total_fat_g": 27,
+        "total_sodium_mg": 135,
+        "total_calories": 487,
+        "rationale": "Provides a mix of protein, healthy fats, and complex carbs for recovery and overall health. Salmon is rich in omega-3 fatty acids, which are beneficial for recovery.",
+        "israel_alternatives": [
+          "Fresh salmon from local fish market",
+          "Sweet potatoes from local farmers",
+          "Local broccoli"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Cottage Cheese (1/2 cup)",
+            "carbs_g": 5,
+            "protein_g": 12,
+            "fat_g": 5,
+            "sodium_mg": 350,
+            "calories": 117
+          },
+          {
+            "item": "Apple slices",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 12,
+        "total_fat_g": 5,
+        "total_sodium_mg": 351,
+        "total_calories": 217,
+        "rationale": "Slow-digesting protein to support overnight muscle recovery (Moore2021).",
+        "israel_alternatives": [
+          "Tnuva Cottage Cheese",
+          "Local apple variety"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "protein_g": 160,
+      "carbs_g": 317,
+      "fat_g": 69,
+      "sodium_mg": 991
+    }
+  }
+}

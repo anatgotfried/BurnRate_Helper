@@ -55,22 +55,11 @@
             </div>
             <div class="control-grid" style="margin-top: 1rem;">
                 <label class="checkbox-label" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 8px;">
-                    <input type="checkbox" id="twoPhaseMode" checked>
-                    <span>
-                        <strong>🚀 Two-Phase Generation</strong> (More reliable, faster) - RECOMMENDED
-                        <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.25rem;">
-                            Phase 1: Calculate structure (Mistral). Phase 2: Generate each meal separately (parallel). Auto-fallback to Claude if needed. Higher success rate!
-                        </div>
-                    </span>
-                </label>
-            </div>
-            <div class="control-grid" style="margin-top: 0.5rem;">
-                <label class="checkbox-label" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 8px;">
                     <input type="checkbox" id="fastMode" checked>
                     <span>
-                        <strong>⚡ Fast Mode</strong> (Filter research corpus)
+                        <strong>⚡ Fast Mode</strong> (Recommended for Gemini, Mistral, GPT-4o Mini)
                         <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.25rem;">
-                            Reduces prompt size 70%. Only relevant for single-phase mode. Two-phase already optimized!
+                            Filters corpus to relevant sections (~70% smaller). 2x faster, lower cost, minimal quality loss (tested by GPT-4o). ⚠️ Claude 3.5 needs full corpus for complete meals.
                         </div>
                     </span>
                 </label>

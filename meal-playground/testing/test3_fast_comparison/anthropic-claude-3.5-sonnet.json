@@ -1,0 +1,552 @@
+{
+  "model": "anthropic/claude-3.5-sonnet",
+  "test_number": 7,
+  "timestamp": "2025-11-03T11:45:09.228345",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 33650,
+    "usage": {
+      "prompt_tokens": 14398,
+      "completion_tokens": 2120,
+      "total_tokens": 16518
+    },
+    "meal_count": 5,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Early breakfast",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "2 cups cooked white rice",
+              "carbs_g": 90,
+              "protein_g": 8,
+              "fat_g": 1,
+              "sodium_mg": 10,
+              "calories": 400
+            },
+            {
+              "item": "2 scrambled eggs",
+              "carbs_g": 2,
+              "protein_g": 12,
+              "fat_g": 10,
+              "sodium_mg": 140,
+              "calories": 144
+            },
+            {
+              "item": "1 large banana",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "500ml sports drink",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 149,
+          "total_protein_g": 21,
+          "total_fat_g": 11,
+          "total_sodium_mg": 501,
+          "total_calories": 769,
+          "rationale": "Pre-workout meal provides ~2 g/kg carbs 2h before first run to maximize glycogen stores [ACSM2016]. White rice and banana offer easily digestible carbs while limiting fiber. Sports drink adds electrolytes for pre-hydration, especially important with two runs planned [McCubbin2025].",
+          "israel_alternatives": [
+            "Osem white rice",
+            "Tivall egg substitute",
+            "Pri Hagalil canned fruit in light syrup",
+            "Gatorade"
+          ]
+        },
+        {
+          "time": "10:30",
+          "name": "Post-runs recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "2 scoops whey protein",
+              "carbs_g": 4,
+              "protein_g": 48,
+              "fat_g": 2,
+              "sodium_mg": 200,
+              "calories": 220
+            },
+            {
+              "item": "60g maltodextrin powder",
+              "carbs_g": 60,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 0,
+              "calories": 240
+            },
+            {
+              "item": "750ml electrolyte drink",
+              "carbs_g": 45,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 750,
+              "calories": 180
+            }
+          ],
+          "total_carbs_g": 109,
+          "total_protein_g": 48,
+          "total_fat_g": 2,
+          "total_sodium_mg": 950,
+          "total_calories": 640,
+          "rationale": "Immediate post-exercise recovery with 1.2 g/kg/hr carbs plus 0.3 g/kg protein to maximize glycogen resynthesis after two glycogen-depleting runs [ISSN2017]. High sodium content supports rehydration after significant sweat losses [McCubbin2025].",
+          "israel_alternatives": [
+            "Muscle Tech whey protein",
+            "NOW Sports maltodextrin",
+            "Powerade",
+            "Salt stick tablets"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "200g chicken breast",
+              "carbs_g": 0,
+              "protein_g": 62,
+              "fat_g": 8,
+              "sodium_mg": 400,
+              "calories": 330
+            },
+            {
+              "item": "2 cups cooked quinoa",
+              "carbs_g": 80,
+              "protein_g": 16,
+              "fat_g": 6,
+              "sodium_mg": 14,
+              "calories": 440
+            },
+            {
+              "item": "Large sweet potato",
+              "carbs_g": 37,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 72,
+              "calories": 162
+            },
+            {
+              "item": "2 tbsp olive oil",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 28,
+              "sodium_mg": 0,
+              "calories": 240
+            }
+          ],
+          "total_carbs_g": 117,
+          "total_protein_g": 80,
+          "total_fat_g": 42,
+          "total_sodium_mg": 486,
+          "total_calories": 1172,
+          "rationale": "Balanced meal with complex carbs to continue glycogen replenishment while adding protein for muscle recovery. Fat content is higher here since it's several hours post-exercise [Morton2018]. Quinoa provides complete protein and iron important for endurance athletes.",
+          "israel_alternatives": [
+            "Off Tov chicken breast",
+            "Sugat quinoa",
+            "Local sweet potatoes",
+            "Yad Mordechai olive oil"
+          ]
+        },
+        {
+          "time": "16:00",
+          "name": "Afternoon snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Greek yogurt 2%",
+              "carbs_g": 9,
+              "protein_g": 20,
+              "fat_g": 4,
+              "sodium_mg": 68,
+              "calories": 150
+            },
+            {
+              "item": "2 tbsp honey",
+              "carbs_g": 34,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 0,
+              "calories": 120
+            },
+            {
+              "item": "1 apple",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 2,
+              "calories": 95
+            }
+          ],
+          "total_carbs_g": 68,
+          "total_protein_g": 20,
+          "total_fat_g": 4,
+          "total_sodium_mg": 70,
+          "total_calories": 365,
+          "rationale": "Mid-afternoon protein feeding maintains muscle protein synthesis between meals [Morton2018]. Carbs from fruit and honey help maintain glycogen stores. Timing provides steady energy through evening.",
+          "israel_alternatives": [
+            "Tnuva Greek yogurt",
+            "Yad Mordechai honey",
+            "Local seasonal fruits"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "200g salmon fillet",
+              "carbs_g": 0,
+              "protein_g": 46,
+              "fat_g": 28,
+              "sodium_mg": 140,
+              "calories": 440
+            },
+            {
+              "item": "1.5 cups pasta",
+              "carbs_g": 90,
+              "protein_g": 12,
+              "fat_g": 2,
+              "sodium_mg": 8,
+              "calories": 420
+            },
+            {
+              "item": "2 cups mixed vegetables",
+              "carbs_g": 24,
+              "protein_g": 4,
+              "fat_g": 0,
+              "sodium_mg": 80,
+              "calories": 100
+            },
+            {
+              "item": "Sauce and seasonings",
+              "carbs_g": 3,
+              "protein_g": 0,
+              "fat_g": 4,
+              "sodium_mg": 400,
+              "calories": 50
+            }
+          ],
+          "total_carbs_g": 117,
+          "total_protein_g": 62,
+          "total_fat_g": 34,
+          "total_sodium_mg": 628,
+          "total_calories": 1010,
+          "rationale": "Final major glycogen replenishment meal before next day's training. Salmon provides omega-3s which may aid recovery [ACSM2016]. Sodium content helps maintain electrolyte balance after day's training.",
+          "israel_alternatives": [
+            "Dag-Dagon fresh salmon",
+            "Osem pasta",
+            "Local market vegetables",
+            "Telma sauces"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3956,
+        "carbs_g": 560,
+        "protein_g": 231,
+        "fat_g": 93,
+        "sodium_mg": 2635
+      },
+      "key_recommendations": [
+        "Time largest carb meals 2-3 hours before runs and immediately after for glycogen optimization",
+        "Maintain steady protein intake (~0.3g/kg) across meals to support muscle recovery",
+        "Include electrolytes with fluids, especially around training sessions",
+        "Consider splitting pre-workout meal if stomach sensitivity is an issue",
+        "Monitor hydration status via urine color and morning body weight"
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": true,
+    "duration_ms": 37032,
+    "usage": {
+      "prompt_tokens": 6144,
+      "completion_tokens": 2137,
+      "total_tokens": 8281
+    },
+    "meal_count": 6,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Early Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal (100g dry)",
+              "carbs_g": 68,
+              "protein_g": 13,
+              "fat_g": 7,
+              "sodium_mg": 50,
+              "calories": 380
+            },
+            {
+              "item": "Banana (medium)",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Greek yogurt (200g)",
+              "carbs_g": 8,
+              "protein_g": 20,
+              "fat_g": 4,
+              "sodium_mg": 70,
+              "calories": 150
+            }
+          ],
+          "total_carbs_g": 103,
+          "total_protein_g": 34,
+          "total_fat_g": 11,
+          "total_sodium_mg": 121,
+          "total_calories": 635,
+          "rationale": "Early breakfast provides ~2g/kg carbs 2 hours before first workout, aligning with ACSM2016 guidelines for pre-exercise fueling. Includes moderate protein and low fat to minimize GI issues. Timing allows for digestion before 9:00 run.",
+          "israel_alternatives": [
+            "Telma Oatmeal",
+            "Tnuva Greek Yogurt",
+            "Fresh fruit"
+          ]
+        },
+        {
+          "time": "08:30",
+          "name": "Pre-Run Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Sports drink (500ml)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 120
+            },
+            {
+              "item": "Energy gel",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 100,
+              "calories": 100
+            }
+          ],
+          "total_carbs_g": 55,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 450,
+          "total_calories": 220,
+          "rationale": "Pre-run fueling follows ISSN2017 guidelines for moderate endurance exercise, providing easily digestible carbs and sodium. Sports drink ensures hydration with electrolytes before back-to-back runs.",
+          "israel_alternatives": [
+            "Gatorade",
+            "GU Energy Gel",
+            "Powerade"
+          ]
+        },
+        {
+          "time": "11:00",
+          "name": "Post-Runs Recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Recovery shake (whey + maltodextrin)",
+              "carbs_g": 80,
+              "protein_g": 25,
+              "fat_g": 2,
+              "sodium_mg": 400,
+              "calories": 440
+            },
+            {
+              "item": "Salt tablets",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 1000,
+              "calories": 0
+            }
+          ],
+          "total_carbs_g": 80,
+          "total_protein_g": 25,
+          "total_fat_g": 2,
+          "total_sodium_mg": 1400,
+          "total_calories": 440,
+          "rationale": "Post-workout nutrition follows ISSN2017 recommendations for glycogen resynthesis after multiple training sessions, providing 1.2g/kg/hr carbs and ~0.3g/kg protein with 3g leucine from whey. Extra sodium supports rehydration after consecutive runs.",
+          "israel_alternatives": [
+            "Optimum Nutrition Recovery",
+            "Salt sticks",
+            "Ensure Sport"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Brown rice (200g cooked)",
+              "carbs_g": 86,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 10,
+              "calories": 380
+            },
+            {
+              "item": "Grilled chicken breast (150g)",
+              "carbs_g": 0,
+              "protein_g": 34,
+              "fat_g": 4,
+              "sodium_mg": 400,
+              "calories": 170
+            },
+            {
+              "item": "Sweet potato (200g)",
+              "carbs_g": 40,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 70,
+              "calories": 170
+            },
+            {
+              "item": "Mixed vegetables",
+              "carbs_g": 15,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 100,
+              "calories": 70
+            }
+          ],
+          "total_carbs_g": 141,
+          "total_protein_g": 43,
+          "total_fat_g": 6,
+          "total_sodium_mg": 580,
+          "total_calories": 790,
+          "rationale": "Lunch continues recovery nutrition with high-quality carbs and protein aligned with ACSM2016 guidelines. Balanced meal supports ongoing glycogen restoration and muscle repair.",
+          "israel_alternatives": [
+            "Sugat Brown Rice",
+            "Fresh chicken breast",
+            "Local produce"
+          ]
+        },
+        {
+          "time": "16:00",
+          "name": "Afternoon Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Trail mix (50g)",
+              "carbs_g": 30,
+              "protein_g": 6,
+              "fat_g": 15,
+              "sodium_mg": 150,
+              "calories": 280
+            },
+            {
+              "item": "Apple",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 2,
+              "calories": 95
+            }
+          ],
+          "total_carbs_g": 55,
+          "total_protein_g": 6,
+          "total_fat_g": 15,
+          "total_sodium_mg": 152,
+          "total_calories": 375,
+          "rationale": "Afternoon snack maintains energy levels and continues recovery nutrition pattern. Includes healthy fats and steady-energy carbs to bridge to dinner.",
+          "israel_alternatives": [
+            "Elite Trail Mix",
+            "Local fruits",
+            "Carmit nuts"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon fillet (180g)",
+              "carbs_g": 0,
+              "protein_g": 36,
+              "fat_g": 16,
+              "sodium_mg": 500,
+              "calories": 290
+            },
+            {
+              "item": "Quinoa (150g cooked)",
+              "carbs_g": 40,
+              "protein_g": 6,
+              "fat_g": 2,
+              "sodium_mg": 150,
+              "calories": 205
+            },
+            {
+              "item": "Roasted vegetables",
+              "carbs_g": 30,
+              "protein_g": 4,
+              "fat_g": 4,
+              "sodium_mg": 300,
+              "calories": 175
+            },
+            {
+              "item": "Avocado (1/2)",
+              "carbs_g": 6,
+              "protein_g": 2,
+              "fat_g": 15,
+              "sodium_mg": 10,
+              "calories": 160
+            }
+          ],
+          "total_carbs_g": 76,
+          "total_protein_g": 48,
+          "total_fat_g": 37,
+          "total_sodium_mg": 960,
+          "total_calories": 830,
+          "rationale": "Dinner completes daily recovery nutrition with omega-3 rich protein source and complex carbs. Meal composition supports overnight recovery and next-day readiness per ACSM2016 guidelines.",
+          "israel_alternatives": [
+            "Local fish",
+            "Sugat Quinoa",
+            "Fresh produce"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3290,
+        "carbs_g": 510,
+        "protein_g": 156,
+        "fat_g": 71,
+        "sodium_mg": 3663
+      },
+      "key_recommendations": [
+        "Consume pre-workout carbs 2-3 hours before first run",
+        "Use sports drinks/gels between runs for quick energy",
+        "Focus on immediate post-workout recovery nutrition after second run",
+        "Maintain steady protein intake throughout day",
+        "Monitor hydration and sodium intake due to back-to-back sessions"
+      ]
+    },
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": -3382,
+    "token_reduction": 8254,
+    "both_successful": true
+  }
+}

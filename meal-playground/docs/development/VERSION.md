@@ -1,6 +1,31 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.4.0 - 2025-11-03 (Current) 🎉
+## v1.4.1 - 2025-11-04 (Current) 🔬
+**FAST MODE VALIDATION**
+
+### Added
+- 🧪 **Test 3: Fast Mode comparison** - Tested 4 models with corpus filtering ON vs OFF
+- 📊 **GPT-4o quality evaluation** - Compared filtered vs full corpus outputs
+- 📝 **FAST_MODE_COMPARISON.md** - Comprehensive test results and recommendations
+
+### Key Findings
+- ✅ Fast Mode works great for Gemini, Mistral, GPT-4o Mini (2x speed, minimal quality loss)
+- ⚠️ Claude 3.5 Sonnet needs full corpus (only generated 2/6 meals with Fast Mode)
+- 💰 Fast Mode saves ~70% on token costs
+- ⚡ Mistral and Claude are 2x faster with Fast Mode
+
+### UI Improvements
+- Updated Fast Mode description with test findings
+- Added model-specific guidance for Fast Mode
+- Removed defunct two-phase generation checkbox
+
+### Documentation
+- Created detailed Fast Mode comparison report
+- Updated with Claude-specific warnings
+
+---
+
+## v1.4.0 - 2025-11-03 🎉
 **MAJOR: Comprehensive Testing & GPT-4o Evaluation**
 
 ### Added

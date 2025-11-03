@@ -1,0 +1,288 @@
+{
+  "model": "anthropic/claude-3.5-sonnet",
+  "fast_mode": false,
+  "duration_ms": 34800,
+  "usage": {
+    "prompt_tokens": 14341,
+    "completion_tokens": 2445,
+    "total_tokens": 16786
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Pre-run Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "White bagel",
+            "carbs_g": 50,
+            "protein_g": 10,
+            "fat_g": 1,
+            "sodium_mg": 400,
+            "calories": 250
+          },
+          {
+            "item": "Banana",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Honey",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 60
+          },
+          {
+            "item": "Sports drink",
+            "carbs_g": 36,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 270,
+            "calories": 140
+          }
+        ],
+        "total_carbs_g": 130,
+        "total_protein_g": 11,
+        "total_fat_g": 1,
+        "total_sodium_mg": 672,
+        "total_calories": 555,
+        "rationale": "Based on ACSM2016 guidelines: 1.5-2g/kg carbs pre-endurance session (105g for 70kg athlete). Low fat/fiber for quick digestion. Sports drink adds carbs + electrolytes for 2h session block. Timing allows 2h digestion before first run.",
+        "israel_alternatives": [
+          "Angel's bagel",
+          "Yotvata sports drink",
+          "Yad Mordechai honey"
+        ]
+      },
+      {
+        "time": "09:45",
+        "name": "Inter-session Refuel",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Sports drink",
+            "carbs_g": 45,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 400,
+            "calories": 180
+          },
+          {
+            "item": "Energy gel",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 100,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 70,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 500,
+        "total_calories": 280,
+        "rationale": "Quick refuel between sessions based on ISSN2017: ~1.2g/kg/hr carbs for rapid glycogen resynthesis. Liquid form for fast absorption.",
+        "israel_alternatives": [
+          "SiS GO Isotonic gel",
+          "Gatorade"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Recovery Meal",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Oatmeal (dry)",
+            "carbs_g": 60,
+            "protein_g": 10,
+            "fat_g": 6,
+            "sodium_mg": 10,
+            "calories": 360
+          },
+          {
+            "item": "Whey protein",
+            "carbs_g": 3,
+            "protein_g": 25,
+            "fat_g": 2,
+            "sodium_mg": 150,
+            "calories": 130
+          },
+          {
+            "item": "Raisins",
+            "carbs_g": 30,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 5,
+            "calories": 120
+          },
+          {
+            "item": "Low-fat milk",
+            "carbs_g": 12,
+            "protein_g": 8,
+            "fat_g": 2,
+            "sodium_mg": 100,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 105,
+        "total_protein_g": 44,
+        "total_fat_g": 10,
+        "total_sodium_mg": 265,
+        "total_calories": 710,
+        "rationale": "Morton2018: 0.3g/kg protein post-exercise (~20-25g) with leucine from whey. Carbs for glycogen replenishment per ISSN2017. Moderate fat allowed as next session is >24h away.",
+        "israel_alternatives": [
+          "Quaker oats",
+          "Tnuva milk",
+          "MyProtein Impact whey"
+        ]
+      },
+      {
+        "time": "13:30",
+        "name": "Lunch",
+        "type": "meal",
+        "foods": [
+          {
+            "item": "Brown rice (cooked)",
+            "carbs_g": 90,
+            "protein_g": 8,
+            "fat_g": 2,
+            "sodium_mg": 10,
+            "calories": 400
+          },
+          {
+            "item": "Grilled chicken breast",
+            "carbs_g": 0,
+            "protein_g": 35,
+            "fat_g": 4,
+            "sodium_mg": 400,
+            "calories": 180
+          },
+          {
+            "item": "Sweet potato",
+            "carbs_g": 35,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 70,
+            "calories": 150
+          },
+          {
+            "item": "Mixed vegetables",
+            "carbs_g": 15,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 75
+          }
+        ],
+        "total_carbs_g": 140,
+        "total_protein_g": 49,
+        "total_fat_g": 6,
+        "total_sodium_mg": 560,
+        "total_calories": 805,
+        "rationale": "Balanced meal with emphasis on carb replenishment. Protein dose aligns with ISSN2017 recommendations for even distribution (~0.3g/kg/meal).",
+        "israel_alternatives": [
+          "Sugat brown rice",
+          "Off Tov chicken breast",
+          "Local produce"
+        ]
+      },
+      {
+        "time": "16:30",
+        "name": "Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "Greek yogurt",
+            "carbs_g": 8,
+            "protein_g": 15,
+            "fat_g": 0,
+            "sodium_mg": 85,
+            "calories": 120
+          },
+          {
+            "item": "Granola",
+            "carbs_g": 45,
+            "protein_g": 5,
+            "fat_g": 8,
+            "sodium_mg": 150,
+            "calories": 280
+          },
+          {
+            "item": "Apple",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 95
+          }
+        ],
+        "total_carbs_g": 78,
+        "total_protein_g": 20,
+        "total_fat_g": 8,
+        "total_sodium_mg": 237,
+        "total_calories": 495,
+        "rationale": "Maintains steady energy with mix of quick and slow carbs. Protein helps with ongoing recovery.",
+        "israel_alternatives": [
+          "Tnuva 0% Greek yogurt",
+          "Te'anim granola",
+          "Local fruit"
+        ]
+      },
+      {
+        "time": "19:30",
+        "name": "Dinner",
+        "type": "meal",
+        "foods": [
+          {
+            "item": "Salmon fillet",
+            "carbs_g": 0,
+            "protein_g": 22,
+            "fat_g": 13,
+            "sodium_mg": 370,
+            "calories": 206
+          },
+          {
+            "item": "Quinoa",
+            "carbs_g": 39,
+            "protein_g": 8,
+            "fat_g": 3,
+            "sodium_mg": 13,
+            "calories": 222
+          },
+          {
+            "item": "Roasted vegetables",
+            "carbs_g": 20,
+            "protein_g": 5,
+            "fat_g": 7,
+            "sodium_mg": 300,
+            "calories": 165
+          }
+        ],
+        "total_carbs_g": 59,
+        "total_protein_g": 35,
+        "total_fat_g": 23,
+        "total_sodium_mg": 683,
+        "total_calories": 593,
+        "rationale": "Final protein dose for day. Healthy fats from salmon support recovery. Moderate carbs as no immediate performance needs.",
+        "israel_alternatives": [
+          "Local fresh salmon",
+          "Sugat quinoa",
+          "Local produce"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3438,
+      "protein_g": 159,
+      "carbs_g": 582,
+      "fat_g": 48,
+      "sodium_mg": 2917
+    }
+  }
+}

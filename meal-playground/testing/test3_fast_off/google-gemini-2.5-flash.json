@@ -1,0 +1,329 @@
+{
+  "model": "google/gemini-2.5-flash",
+  "fast_mode": false,
+  "duration_ms": 26107,
+  "usage": {
+    "prompt_tokens": 13775,
+    "completion_tokens": 3301,
+    "total_tokens": 17076,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Pre-Run Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Large bowl of oatmeal (1 cup dry oats, cooked with water)",
+            "carbs_g": 60,
+            "protein_g": 10,
+            "fat_g": 5,
+            "sodium_mg": 5,
+            "calories": 300
+          },
+          {
+            "item": "1 large banana, sliced",
+            "carbs_g": 30,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 120
+          },
+          {
+            "item": "1 tbsp honey",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 64
+          },
+          {
+            "item": "20g whey protein powder (mixed with water)",
+            "carbs_g": 2,
+            "protein_g": 16,
+            "fat_g": 1,
+            "sodium_mg": 60,
+            "calories": 90
+          },
+          {
+            "item": "500ml water with 1/2 tsp salt (approx. 1000mg sodium)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1000,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 109,
+        "total_protein_g": 27,
+        "total_fat_g": 6,
+        "total_sodium_mg": 1066,
+        "total_calories": 574,
+        "rationale": "For a 70kg athlete, this meal provides approximately 1.5 g/kg carbohydrates and 0.4 g/kg protein, aligning with recommendations for pre-endurance exercise (0.5-1.5 g/kg carbs, 0.1-0.2 g/kg protein) about 2 hours before a moderate 60-minute run. The oats and banana provide easily digestible carbohydrates to top off glycogen stores and maintain blood glucose. Whey protein aids in satiety and provides amino acids. Hydration with added sodium is crucial, especially before two consecutive runs, to ensure euhydration and replace initial sweat losses, preventing hyponatremia. The meal is moderate in fiber and low in fat to prevent GI distress during exercise. (ACSM2016, ISSN2017)",
+        "israel_alternatives": [
+          "Quaker Oats (for oatmeal)",
+          "Tnuva 'GviNat Kotej' (cottage cheese) or 'Skyr' (high protein yogurt) if preferred over whey for protein, eaten alongside carbs",
+          "Prigat 100% orange juice (for quick carbs if oats are too heavy, or as additional fluid)",
+          "SaltStick electrolyte capsules (for precise sodium intake)"
+        ]
+      },
+      {
+        "time": "09:00 - 11:00",
+        "name": "Intra-Workout Fueling (during 2x 60-min runs)",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Sports drink (e.g., 500ml, 6% carb solution) per hour (2 bottles total)",
+            "carbs_g": 60,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 600,
+            "calories": 240
+          },
+          {
+            "item": "1 energy gel (25g carbs) during the second run",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 100
+          }
+        ],
+        "total_carbs_g": 85,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 650,
+        "total_calories": 340,
+        "rationale": "For a 2-hour moderate endurance session, aiming for 30-60g of carbohydrates per hour is appropriate to maintain blood glucose and delay fatigue. The athlete will consume approximately 42.5g carbs/hour. The sports drink provides both carbohydrates and electrolytes (sodium) to replace sweat losses and encourage fluid intake, especially with two consecutive runs. The additional gel ensures consistent energy during the second hour. While protein is generally not needed for sessions under 90 minutes, the focus here is on carbohydrate availability and hydration. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Gatorade or Powerade (readily available sports drinks)",
+          "SIS GO Isotonic Gels (for carbohydrate gels)",
+          "Homemade sports drink: Diluted fruit juice with added salt (e.g., Prigat 100% orange juice)"
+        ]
+      },
+      {
+        "time": "11:15",
+        "name": "Post-Run Recovery Snack",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "500ml chocolate milk (full fat)",
+            "carbs_g": 50,
+            "protein_g": 16,
+            "fat_g": 9,
+            "sodium_mg": 200,
+            "calories": 330
+          },
+          {
+            "item": "1 large apple",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 95
+          }
+        ],
+        "total_carbs_g": 75,
+        "total_protein_g": 16,
+        "total_fat_g": 9,
+        "total_sodium_mg": 200,
+        "total_calories": 425,
+        "rationale": "Immediately post-exercise, the goal is to initiate glycogen replenishment and muscle repair. This snack provides approximately 1 g/kg carbohydrates and 0.2 g/kg protein. Chocolate milk is an excellent recovery beverage, offering a good carbohydrate-to-protein ratio (around 3:1), fluids, and electrolytes. The apple adds natural sugars and some fiber (though not excessive). This aligns with general post-exercise recovery guidelines for single daily workouts, targeting ~0.8 g/kg carbs and ~0.25 g/kg protein within an hour. (ACSM2016, ISSN2017)",
+        "israel_alternatives": [
+          "Yotvata Shoko or Tara Chocolate Milk (for carb-protein recovery)",
+          "Tnuva 'GviNat Kotej' (cottage cheese) with fruit (e.g., apple) for a solid food option"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "general_meal",
+        "foods": [
+          {
+            "item": "Large chicken breast (150g cooked)",
+            "carbs_g": 0,
+            "protein_g": 45,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 230
+          },
+          {
+            "item": "2 cups cooked rice",
+            "carbs_g": 90,
+            "protein_g": 8,
+            "fat_g": 1,
+            "sodium_mg": 10,
+            "calories": 410
+          },
+          {
+            "item": "Large mixed salad (lettuce, cucumber, tomato) with light vinaigrette",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 5,
+            "sodium_mg": 50,
+            "calories": 100
+          },
+          {
+            "item": "1/2 avocado",
+            "carbs_g": 4,
+            "protein_g": 1,
+            "fat_g": 10,
+            "sodium_mg": 5,
+            "calories": 160
+          }
+        ],
+        "total_carbs_g": 104,
+        "total_protein_g": 56,
+        "total_fat_g": 21,
+        "total_sodium_mg": 165,
+        "total_calories": 900,
+        "rationale": "A balanced meal providing quality protein for continued muscle repair and growth, complex carbohydrates for sustained energy and glycogen replenishment, and healthy fats. This meal contributes significantly to the daily protein target and ensures ongoing recovery from the morning's double run. (ACSM2016, ISSN2017)",
+        "israel_alternatives": [
+          "Grilled Pargit (chicken thigh) or Turkey breast",
+          "Osem Rice (for cooked rice)",
+          "Fresh Israeli salad ingredients readily available"
+        ]
+      },
+      {
+        "time": "16:30",
+        "name": "Afternoon Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "2 slices whole-wheat bread",
+            "carbs_g": 30,
+            "protein_g": 6,
+            "fat_g": 2,
+            "sodium_mg": 240,
+            "calories": 160
+          },
+          {
+            "item": "2 tbsp hummus",
+            "carbs_g": 10,
+            "protein_g": 4,
+            "fat_g": 6,
+            "sodium_mg": 200,
+            "calories": 100
+          },
+          {
+            "item": "1 hard-boiled egg",
+            "carbs_g": 1,
+            "protein_g": 6,
+            "fat_g": 5,
+            "sodium_mg": 60,
+            "calories": 78
+          }
+        ],
+        "total_carbs_g": 41,
+        "total_protein_g": 16,
+        "total_fat_g": 13,
+        "total_sodium_mg": 500,
+        "total_calories": 338,
+        "rationale": "This snack provides a mix of carbohydrates and protein to bridge the gap between lunch and dinner, preventing excessive hunger and supporting continuous recovery. Hummus and egg offer plant and animal-based protein, contributing to the daily total. (ACSM2016)",
+        "israel_alternatives": [
+          "Angel Bakeries whole wheat bread",
+          "Achla or Sabra Hummus",
+          "Egged hard-boiled eggs (convenience item)"
+        ]
+      },
+      {
+        "time": "19:30",
+        "name": "Dinner",
+        "type": "general_meal",
+        "foods": [
+          {
+            "item": "Lean ground beef (150g cooked)",
+            "carbs_g": 0,
+            "protein_g": 35,
+            "fat_g": 15,
+            "sodium_mg": 90,
+            "calories": 280
+          },
+          {
+            "item": "1 large baked sweet potato",
+            "carbs_g": 40,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 70,
+            "calories": 170
+          },
+          {
+            "item": "1 cup steamed green beans",
+            "carbs_g": 7,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 5,
+            "calories": 35
+          },
+          {
+            "item": "1 cup cottage cheese (5%)",
+            "carbs_g": 6,
+            "protein_g": 25,
+            "fat_g": 10,
+            "sodium_mg": 500,
+            "calories": 220
+          }
+        ],
+        "total_carbs_g": 53,
+        "total_protein_g": 64,
+        "total_fat_g": 25,
+        "total_sodium_mg": 665,
+        "total_calories": 705,
+        "rationale": "A nutrient-dense dinner providing high-quality protein, complex carbohydrates, and essential micronutrients. The cottage cheese provides casein, a slow-digesting protein, which can support overnight muscle recovery. Sweet potato is an excellent source of complex carbohydrates and vitamins. (Morton2018, ACSM2016)",
+        "israel_alternatives": [
+          "Ground beef from local butcher",
+          "Sweet potatoes (batata) are widely available",
+          "Tnuva 'GviNat Kotej' (cottage cheese) 5%"
+        ]
+      },
+      {
+        "time": "21:30",
+        "name": "Evening Snack",
+        "type": "snack",
+        "foods": [
+          {
+            "item": "1 cup Greek yogurt (plain, 0% fat)",
+            "carbs_g": 10,
+            "protein_g": 20,
+            "fat_g": 0,
+            "sodium_mg": 80,
+            "calories": 120
+          },
+          {
+            "item": "1/2 cup berries (mixed)",
+            "carbs_g": 10,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 40
+          }
+        ],
+        "total_carbs_g": 20,
+        "total_protein_g": 21,
+        "total_fat_g": 0,
+        "total_sodium_mg": 81,
+        "total_calories": 160,
+        "rationale": "A light evening snack, rich in protein (casein from Greek yogurt) to support overnight muscle protein synthesis and recovery. Berries provide antioxidants and a small amount of carbohydrates. This helps maintain a positive protein balance and supports recovery during sleep. (Morton2018)",
+        "israel_alternatives": [
+          "Tnuva 'Skyr' or Strauss 'Danone Pro' (high protein yogurts)",
+          "Fresh or frozen berries"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3542,
+      "protein_g": 184,
+      "carbs_g": 482,
+      "fat_g": 74,
+      "sodium_mg": 3227
+    }
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "model": "mistralai/mistral-small-3.2-24b-instruct",
+  "fast_mode": true,
+  "duration_ms": 16050,
+  "usage": {
+    "prompt_tokens": 4303,
+    "completion_tokens": 1787,
+    "total_tokens": 6090
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal with banana and honey",
+            "carbs_g": 80,
+            "protein_g": 10,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 400
+          },
+          {
+            "item": "Greek yogurt",
+            "carbs_g": 10,
+            "protein_g": 15,
+            "fat_g": 2,
+            "sodium_mg": 50,
+            "calories": 120
+          },
+          {
+            "item": "Electrolyte drink",
+            "carbs_g": 20,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 350,
+            "calories": 80
+          }
+        ],
+        "total_carbs_g": 110,
+        "total_protein_g": 25,
+        "total_fat_g": 7,
+        "total_sodium_mg": 500,
+        "total_calories": 600,
+        "rationale": "This meal provides a balanced mix of carbohydrates for energy, protein for muscle repair, and electrolytes for hydration. The carbohydrates are primarily from low-fiber sources to ensure quick digestion and absorption. The electrolyte drink helps maintain hydration and sodium levels, which is crucial for endurance athletes. (ACSM2016, ISSN2017)",
+        "israel_alternatives": [
+          "Quaker Oats",
+          "Alpro Greek Yogurt",
+          "Gatorade"
+        ]
+      },
+      {
+        "time": "10:30",
+        "name": "Post-Workout Snack",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Recovery shake",
+            "carbs_g": 60,
+            "protein_g": 20,
+            "fat_g": 2,
+            "sodium_mg": 200,
+            "calories": 300
+          },
+          {
+            "item": "Banana",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          }
+        ],
+        "total_carbs_g": 87,
+        "total_protein_g": 21,
+        "total_fat_g": 2,
+        "total_sodium_mg": 201,
+        "total_calories": 405,
+        "rationale": "This post-workout snack focuses on rapid glycogen recovery with a high-carb, moderate-protein mix. The recovery shake provides a quick source of carbohydrates and protein to replenish glycogen stores and aid muscle repair. The banana adds additional carbohydrates and potassium, which helps with muscle recovery. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Optimum Nutrition Recovery Shake",
+          "Local Banana"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Grilled chicken breast",
+            "carbs_g": 0,
+            "protein_g": 40,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 250
+          },
+          {
+            "item": "Brown rice",
+            "carbs_g": 50,
+            "protein_g": 5,
+            "fat_g": 1,
+            "sodium_mg": 5,
+            "calories": 220
+          },
+          {
+            "item": "Steamed vegetables",
+            "carbs_g": 10,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 50
+          }
+        ],
+        "total_carbs_g": 60,
+        "total_protein_g": 48,
+        "total_fat_g": 6,
+        "total_sodium_mg": 155,
+        "total_calories": 520,
+        "rationale": "This meal provides a balanced mix of protein for muscle repair, carbohydrates for energy, and vegetables for essential vitamins and minerals. The brown rice offers complex carbohydrates to sustain energy levels throughout the day. (ACSM2016)",
+        "israel_alternatives": [
+          "Local Chicken Breast",
+          "Rice",
+          "Seasonal Vegetables"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Afternoon Snack",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Apple",
+            "carbs_g": 25,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 100
+          },
+          {
+            "item": "Almonds",
+            "carbs_g": 6,
+            "protein_g": 6,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 170
+          }
+        ],
+        "total_carbs_g": 31,
+        "total_protein_g": 6,
+        "total_fat_g": 14,
+        "total_sodium_mg": 2,
+        "total_calories": 270,
+        "rationale": "This snack provides a mix of simple and complex carbohydrates for sustained energy and healthy fats for satiety. The apple offers quick-digesting carbohydrates, while the almonds provide healthy fats and a small amount of protein. (ACSM2016)",
+        "israel_alternatives": [
+          "Local Apple",
+          "Local Almonds"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Grilled salmon",
+            "carbs_g": 0,
+            "protein_g": 30,
+            "fat_g": 15,
+            "sodium_mg": 100,
+            "calories": 300
+          },
+          {
+            "item": "Quinoa",
+            "carbs_g": 40,
+            "protein_g": 8,
+            "fat_g": 3,
+            "sodium_mg": 10,
+            "calories": 220
+          },
+          {
+            "item": "Steamed broccoli",
+            "carbs_g": 10,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 50
+          }
+        ],
+        "total_carbs_g": 50,
+        "total_protein_g": 42,
+        "total_fat_g": 18,
+        "total_sodium_mg": 140,
+        "total_calories": 570,
+        "rationale": "This meal provides a balanced mix of protein for muscle repair, carbohydrates for energy, and healthy fats for overall health. The salmon offers high-quality protein and omega-3 fatty acids, while the quinoa provides complex carbohydrates and additional protein. (ACSM2016)",
+        "israel_alternatives": [
+          "Local Salmon",
+          "Quinoa",
+          "Local Broccoli"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 2365,
+      "protein_g": 136,
+      "carbs_g": 338,
+      "fat_g": 47,
+      "sodium_mg": 1000
+    }
+  }
+}

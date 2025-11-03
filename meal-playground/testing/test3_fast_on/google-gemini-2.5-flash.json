@@ -1,0 +1,409 @@
+{
+  "model": "google/gemini-2.5-flash",
+  "fast_mode": true,
+  "duration_ms": 29003,
+  "usage": {
+    "prompt_tokens": 4508,
+    "completion_tokens": 4114,
+    "total_tokens": 8622,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Pre-Run Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal (cooked with water)",
+            "carbs_g": 60,
+            "protein_g": 10,
+            "fat_g": 5,
+            "sodium_mg": 5,
+            "calories": 300
+          },
+          {
+            "item": "Banana (large)",
+            "carbs_g": 30,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 120
+          },
+          {
+            "item": "Honey",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 64
+          },
+          {
+            "item": "Sports Drink (500ml, 6-8% carb, 700mg/L sodium)",
+            "carbs_g": 35,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 350,
+            "calories": 140
+          }
+        ],
+        "total_carbs_g": 142,
+        "total_protein_g": 11,
+        "total_fat_g": 5,
+        "total_sodium_mg": 357,
+        "total_calories": 624,
+        "rationale": "This meal provides approximately 2 g/kg carbs (142g for 70kg athlete) 2 hours before the first run, aligning with recommendations for moderate-to-high intensity sessions to top off glycogen stores. Low fiber and moderate fat ensure easy digestion. The sports drink contributes to pre-hydration and sodium intake, crucial for expected sweat losses during two back-to-back runs. Caffeine is not included as it's not specified for this intensity/duration and to avoid potential GI issues or jitters before a base phase session. (ACSM2016, ISSN2017)",
+        "israel_alternatives": [
+          "Osem Quick Oats",
+          "Tnuva Banana",
+          "Achva Honey",
+          "Powerade/Gatorade Israel"
+        ]
+      },
+      {
+        "time": "09:00",
+        "name": "During Run 1",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Sports Drink (500ml, 6% carb, 300mg/L sodium)",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 150,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 150,
+        "total_calories": 120,
+        "rationale": "For a 60-minute moderate run, 30g of carbohydrates per hour is optional but beneficial for maintaining blood glucose and performance. The sports drink also provides necessary fluids and sodium to replace initial sweat losses. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Powerade/Gatorade Israel",
+          "GU Energy Gel/Tailwind (diluted)"
+        ]
+      },
+      {
+        "time": "10:00",
+        "name": "Post-Run 1 Recovery / Pre-Run 2 Fuel",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Banana (medium)",
+            "carbs_g": 23,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 90
+          },
+          {
+            "item": "Sports Drink (500ml, 6% carb, 700mg/L sodium)",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 350,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 53,
+        "total_protein_g": 1,
+        "total_fat_g": 0,
+        "total_sodium_mg": 351,
+        "total_calories": 210,
+        "rationale": "Given the rapid turnaround between runs, aggressive refueling is critical. This snack provides ~0.7 g/kg carbs (53g for 70kg) and fluids/electrolytes to partially replenish glycogen and rehydrate, preparing for the second run. While a full protein dose isn't practical here, the focus is on quick carbs and hydration. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Tnuva Banana",
+          "Powerade/Gatorade Israel",
+          "Energy Gel"
+        ]
+      },
+      {
+        "time": "10:00",
+        "name": "During Run 2",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Sports Drink (500ml, 6% carb, 300mg/L sodium)",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 150,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 150,
+        "total_calories": 120,
+        "rationale": "Similar to the first run, 30g of carbohydrates per hour helps maintain blood glucose levels during the second 60-minute moderate run. Continued fluid and electrolyte intake is crucial given the cumulative sweat loss. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Powerade/Gatorade Israel",
+          "GU Energy Gel/Tailwind (diluted)"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Post-Run Recovery Meal",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Chicken Breast (grilled, 150g)",
+            "carbs_g": 0,
+            "protein_g": 45,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 225
+          },
+          {
+            "item": "White Rice (cooked, 200g)",
+            "carbs_g": 56,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 250
+          },
+          {
+            "item": "Steamed Broccoli (1 cup)",
+            "carbs_g": 11,
+            "protein_g": 4,
+            "fat_g": 1,
+            "sodium_mg": 30,
+            "calories": 55
+          },
+          {
+            "item": "Orange Juice (200ml)",
+            "carbs_g": 26,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 100
+          },
+          {
+            "item": "Salt (added to food/drink)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 500,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 93,
+        "total_protein_g": 55,
+        "total_fat_g": 6,
+        "total_sodium_mg": 634,
+        "total_calories": 630,
+        "rationale": "This meal targets rapid glycogen recovery and muscle repair after the double training session. It provides approximately 1.3 g/kg carbohydrates (93g for 70kg athlete) and over 0.7 g/kg protein (55g) within the critical 30-60 minute post-exercise window, exceeding the 3:1 carb:protein ratio. The protein dose ensures sufficient leucine for muscle protein synthesis. Low-fat sources aid quick digestion. Additional salt helps with rehydration. (ISSN2017, ACSM2016)",
+        "israel_alternatives": [
+          "Of Tov Chicken Breast",
+          "Osem Rice",
+          "Sunfrost Broccoli",
+          "Prigat Orange Juice",
+          "Malach Ha'aretz Salt"
+        ]
+      },
+      {
+        "time": "14:00",
+        "name": "Lunch",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Whole Wheat Pasta (cooked, 200g)",
+            "carbs_g": 70,
+            "protein_g": 14,
+            "fat_g": 2,
+            "sodium_mg": 5,
+            "calories": 350
+          },
+          {
+            "item": "Lean Ground Beef (100g)",
+            "carbs_g": 0,
+            "protein_g": 25,
+            "fat_g": 10,
+            "sodium_mg": 70,
+            "calories": 190
+          },
+          {
+            "item": "Tomato Sauce (150g)",
+            "carbs_g": 15,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 300,
+            "calories": 70
+          },
+          {
+            "item": "Mixed Salad (large portion with olive oil & vinegar)",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 10,
+            "sodium_mg": 10,
+            "calories": 140
+          }
+        ],
+        "total_carbs_g": 95,
+        "total_protein_g": 44,
+        "total_fat_g": 22,
+        "total_sodium_mg": 385,
+        "total_calories": 750,
+        "rationale": "A balanced meal to continue carbohydrate replenishment and provide sustained protein for muscle repair throughout the day. Includes a variety of macronutrients and micronutrients. (ACSM2016)",
+        "israel_alternatives": [
+          "Barilla Whole Wheat Pasta",
+          "Tnuva Lean Ground Beef",
+          "De Cecco Tomato Sauce",
+          "Various fresh vegetables for salad"
+        ]
+      },
+      {
+        "time": "17:00",
+        "name": "Afternoon Snack",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Greek Yogurt (150g, 0% fat)",
+            "carbs_g": 8,
+            "protein_g": 15,
+            "fat_g": 0,
+            "sodium_mg": 60,
+            "calories": 90
+          },
+          {
+            "item": "Berries (1 cup)",
+            "carbs_g": 15,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 60
+          },
+          {
+            "item": "Granola (30g)",
+            "carbs_g": 20,
+            "protein_g": 3,
+            "fat_g": 5,
+            "sodium_mg": 30,
+            "calories": 130
+          }
+        ],
+        "total_carbs_g": 43,
+        "total_protein_g": 19,
+        "total_fat_g": 5,
+        "total_sodium_mg": 92,
+        "total_calories": 280,
+        "rationale": "This snack provides additional carbohydrates for glycogen stores and protein to support muscle repair and satiety. Greek yogurt is a good source of casein protein for sustained amino acid release. (ISSN2017)",
+        "israel_alternatives": [
+          "Tnuva Greek Yogurt",
+          "Fresh or frozen berries",
+          "Telma Granola"
+        ]
+      },
+      {
+        "time": "20:00",
+        "name": "Dinner",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Salmon Fillet (150g)",
+            "carbs_g": 0,
+            "protein_g": 30,
+            "fat_g": 20,
+            "sodium_mg": 80,
+            "calories": 300
+          },
+          {
+            "item": "Sweet Potato (medium, baked)",
+            "carbs_g": 40,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 170
+          },
+          {
+            "item": "Quinoa (cooked, 100g)",
+            "carbs_g": 21,
+            "protein_g": 4,
+            "fat_g": 2,
+            "sodium_mg": 2,
+            "calories": 120
+          },
+          {
+            "item": "Green Beans (1 cup)",
+            "carbs_g": 8,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 5,
+            "calories": 30
+          },
+          {
+            "item": "Salt (added to food)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 500,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 69,
+        "total_protein_g": 38,
+        "total_fat_g": 22,
+        "total_sodium_mg": 617,
+        "total_calories": 620,
+        "rationale": "A nutrient-dense dinner providing complex carbohydrates for sustained energy, high-quality protein (salmon also provides healthy fats), and vegetables for micronutrients. Additional sodium is included to meet daily targets and aid overnight rehydration. (ACSM2016)",
+        "israel_alternatives": [
+          "Dag Hazahav Salmon",
+          "Fresh Sweet Potato",
+          "Osem Quinoa",
+          "Sunfrost Green Beans",
+          "Malach Ha'aretz Salt"
+        ]
+      },
+      {
+        "time": "22:00",
+        "name": "Evening Snack",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Cottage Cheese (1 cup, 3% fat)",
+            "carbs_g": 8,
+            "protein_g": 25,
+            "fat_g": 6,
+            "sodium_mg": 400,
+            "calories": 180
+          },
+          {
+            "item": "Whole Wheat Crackers (4 large)",
+            "carbs_g": 30,
+            "protein_g": 4,
+            "fat_g": 4,
+            "sodium_mg": 180,
+            "calories": 180
+          }
+        ],
+        "total_carbs_g": 38,
+        "total_protein_g": 29,
+        "total_fat_g": 10,
+        "total_sodium_mg": 580,
+        "total_calories": 360,
+        "rationale": "A pre-bed snack with slow-digesting protein (casein in cottage cheese) for overnight muscle repair and a source of carbohydrates. The sodium content also contributes to daily targets and can aid in hydration. (ISSN2017)",
+        "israel_alternatives": [
+          "Tnuva Cottage Cheese",
+          "Matzot Aviv Whole Wheat Crackers"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3284,
+      "protein_g": 197,
+      "carbs_g": 540,
+      "fat_g": 70,
+      "sodium_mg": 2884
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "model": "anthropic/claude-3.5-sonnet",
+  "fast_mode": true,
+  "duration_ms": 15194,
+  "usage": {
+    "prompt_tokens": 4552,
+    "completion_tokens": 751,
+    "total_tokens": 5303
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal (dry)",
+            "carbs_g": 120,
+            "protein_g": 20,
+            "fat_g": 8,
+            "sodium_mg": 200,
+            "calories": 640
+          },
+          {
+            "item": "Banana",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Sports drink",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 350,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 177,
+        "total_protein_g": 21,
+        "total_fat_g": 8,
+        "total_sodium_mg": 551,
+        "total_calories": 865,
+        "rationale": "Based on ACSM2016 guidelines: 2g/kg carbs (140g for 70kg athlete) 3h pre-workout, moderate protein, low fat. Sports drink adds electrolytes and hydration.",
+        "israel_alternatives": [
+          "Quaker Oatmeal",
+          "Gatorade"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Recovery meal",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Chocolate milk (500ml)",
+            "carbs_g": 50,
+            "protein_g": 16,
+            "fat_g": 8,
+            "sodium_mg": 400,
+            "calories": 340
+          },
+          {
+            "item": "Turkey sandwich",
+            "carbs_g": 45,
+            "protein_g": 25,
+            "fat_g": 10,
+            "sodium_mg": 800,
+            "calories": 370
+          }
+        ],
+        "total_carbs_g": 95,
+        "total_protein_g": 41,
+        "total_fat_g": 18,
+        "total_sodium_mg": 1200,
+        "total_calories": 710,
+        "rationale": "Per ISSN2017: ~0.8g/kg carbs and 0.25g/kg protein post-exercise with moderate sodium for rehydration",
+        "israel_alternatives": [
+          "Yotvata chocolate milk",
+          "Angel bread"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "protein_g": 126,
+      "carbs_g": 560,
+      "fat_g": 56,
+      "sodium_mg": 4000
+    }
+  }
+}

@@ -1,0 +1,652 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "test_number": 5,
+  "timestamp": "2025-11-03T11:41:10.781894",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 118325,
+    "usage": {
+      "prompt_tokens": 13065,
+      "completion_tokens": 2969,
+      "total_tokens": 16034
+    },
+    "meal_count": 9,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "2 slices of white toast",
+              "carbs_g": 30,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 150,
+              "calories": 200
+            },
+            {
+              "item": "1 cup of low-fat milk",
+              "carbs_g": 12,
+              "protein_g": 8,
+              "fat_g": 2,
+              "sodium_mg": 120,
+              "calories": 100
+            },
+            {
+              "item": "1 banana",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0.4,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "1 tbsp of honey",
+              "carbs_g": 17,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 86,
+          "total_protein_g": 14,
+          "total_fat_g": 4.4,
+          "total_sodium_mg": 272,
+          "total_calories": 465,
+          "rationale": "Breakfast should be high in carbohydrates and moderate in protein to provide energy for the morning workouts. The low-fat and low-fiber nature of this meal helps prevent gastrointestinal distress. (ACSM2016, ISSN2017)",
+          "israel_alternatives": [
+            "Tnuva low-fat milk",
+            "Telma white bread",
+            "Tapuzina banana"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "1 energy gel",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 50,
+              "calories": 100
+            }
+          ],
+          "total_carbs_g": 25,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 50,
+          "total_calories": 100,
+          "rationale": "A small, easily digestible carbohydrate snack 30-60 minutes before the workout can help maintain blood glucose levels and improve performance. (ACSM2016, ISSN2017)",
+          "israel_alternatives": [
+            "SIS Beta Fuel energy gel"
+          ]
+        },
+        {
+          "time": "09:00",
+          "name": "Intra-Workout 1",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "500 ml sports drink (6% carb, 300 mg/L sodium)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 150,
+              "calories": 150
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 150,
+          "total_calories": 150,
+          "rationale": "During the 60-minute moderate run, a sports drink can help maintain blood glucose levels and provide necessary electrolytes. (ACSM2016, ISSN2017)",
+          "israel_alternatives": [
+            "Prigat 100% orange juice"
+          ]
+        },
+        {
+          "time": "10:00",
+          "name": "Intra-Workout 2",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "500 ml sports drink (6% carb, 300 mg/L sodium)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 150,
+              "calories": 150
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 150,
+          "total_calories": 150,
+          "rationale": "A second sports drink during the second 60-minute moderate run helps maintain hydration and energy levels. (ACSM2016, ISSN2017)",
+          "israel_alternatives": [
+            "Prigat 100% orange juice"
+          ]
+        },
+        {
+          "time": "10:10",
+          "name": "Post-Workout 1",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "1 recovery shake (40 g maltodextrin, 20 g whey, 700 ml water, 3 g leucine, 500 mg sodium)",
+              "carbs_g": 40,
+              "protein_g": 20,
+              "fat_g": 0,
+              "sodium_mg": 500,
+              "calories": 280
+            }
+          ],
+          "total_carbs_g": 40,
+          "total_protein_g": 20,
+          "total_fat_g": 0,
+          "total_sodium_mg": 500,
+          "total_calories": 280,
+          "rationale": "Post-workout nutrition should focus on rapid glycogen recovery and muscle repair. A recovery shake with a 2:1 carb:protein ratio and added sodium helps achieve these goals. (ACSM2016, ISSN2017, Morton2018)",
+          "israel_alternatives": [
+            "Osem rice cakes with jam",
+            "Tnuva Skyr yogurt"
+          ]
+        },
+        {
+          "time": "12:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "200 g cooked white rice",
+              "carbs_g": 45,
+              "protein_g": 4,
+              "fat_g": 0.5,
+              "sodium_mg": 30,
+              "calories": 200
+            },
+            {
+              "item": "100 g grilled chicken breast",
+              "carbs_g": 0,
+              "protein_g": 30,
+              "fat_g": 3,
+              "sodium_mg": 70,
+              "calories": 150
+            },
+            {
+              "item": "150 g steamed zucchini",
+              "carbs_g": 5,
+              "protein_g": 1,
+              "fat_g": 0.5,
+              "sodium_mg": 10,
+              "calories": 30
+            },
+            {
+              "item": "1 apple",
+              "carbs_g": 25,
+              "protein_g": 0.5,
+              "fat_g": 0.3,
+              "sodium_mg": 1,
+              "calories": 95
+            }
+          ],
+          "total_carbs_g": 75,
+          "total_protein_g": 35.5,
+          "total_fat_g": 4.3,
+          "total_sodium_mg": 111,
+          "total_calories": 475,
+          "rationale": "Lunch should provide a balanced mix of carbohydrates, protein, and moderate fat to support recovery and provide sustained energy. Keeping fat and fiber low helps with digestion and absorption. (ISSN2017, ACSM2016)",
+          "israel_alternatives": [
+            "Tnuva 5% cottage cheese",
+            "Strauss Achla hummus on rice cakes",
+            "Telma cornflakes"
+          ]
+        },
+        {
+          "time": "15:00",
+          "name": "Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "1 cup of low-fat yogurt",
+              "carbs_g": 15,
+              "protein_g": 10,
+              "fat_g": 2,
+              "sodium_mg": 50,
+              "calories": 100
+            },
+            {
+              "item": "1 tbsp of honey",
+              "carbs_g": 17,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 32,
+          "total_protein_g": 10,
+          "total_fat_g": 2,
+          "total_sodium_mg": 51,
+          "total_calories": 160,
+          "rationale": "A mid-afternoon snack with carbohydrates and protein helps maintain energy levels and supports muscle recovery. Low-fat yogurt and honey provide easy-to-digest nutrients. (ACSM2016, ISSN2017)",
+          "israel_alternatives": [
+            "Tnuva Skyr yogurt",
+            "Tapuzina orange juice"
+          ]
+        },
+        {
+          "time": "18:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "200 g cooked quinoa",
+              "carbs_g": 70,
+              "protein_g": 8,
+              "fat_g": 2,
+              "sodium_mg": 50,
+              "calories": 300
+            },
+            {
+              "item": "150 g grilled salmon",
+              "carbs_g": 0,
+              "protein_g": 34,
+              "fat_g": 15,
+              "sodium_mg": 80,
+              "calories": 250
+            },
+            {
+              "item": "1 cup of steamed broccoli",
+              "carbs_g": 6,
+              "protein_g": 2,
+              "fat_g": 0.5,
+              "sodium_mg": 15,
+              "calories": 55
+            },
+            {
+              "item": "1 cup of mixed berries",
+              "carbs_g": 15,
+              "protein_g": 0.5,
+              "fat_g": 0.5,
+              "sodium_mg": 1,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 91,
+          "total_protein_g": 44.5,
+          "total_fat_g": 18,
+          "total_sodium_mg": 146,
+          "total_calories": 665,
+          "rationale": "Dinner should be a substantial meal with a mix of carbohydrates, protein, and healthy fats to support recovery and provide nutrients for the next day's training. Quinoa and mixed berries offer a good balance of carbs and antioxidants. (ISSN2017, ACSM2016)",
+          "israel_alternatives": [
+            "Tnuva quinoa",
+            "Egged hard-boiled eggs",
+            "Jordan Valley Medjool dates"
+          ]
+        },
+        {
+          "time": "20:00",
+          "name": "Evening Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "1 slice of whole-grain toast",
+              "carbs_g": 20,
+              "protein_g": 3,
+              "fat_g": 2,
+              "sodium_mg": 100,
+              "calories": 100
+            },
+            {
+              "item": "1 tbsp of almond butter",
+              "carbs_g": 3,
+              "protein_g": 2,
+              "fat_g": 6,
+              "sodium_mg": 20,
+              "calories": 100
+            }
+          ],
+          "total_carbs_g": 23,
+          "total_protein_g": 5,
+          "total_fat_g": 8,
+          "total_sodium_mg": 120,
+          "total_calories": 200,
+          "rationale": "An evening snack with a mix of carbohydrates and protein helps prevent muscle breakdown and supports glycogen synthesis overnight. (ISSN2017, ACSM2016)",
+          "israel_alternatives": [
+            "Telma cornflakes",
+            "Prigat 100% orange juice",
+            "Telma saltine crackers"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4000
+      },
+      "key_recommendations": [
+        "Ensure adequate hydration with electrolytes before and during workouts to maintain performance and prevent hyponatremia. (ACSM2016, McCubbin2025)",
+        "Consume a high-carb meal 3-4 hours before the workouts to top off glycogen stores. (ISSN2017, ACSM2016)",
+        "Ingest a small carbohydrate snack 30-60 minutes before the workouts to maintain blood glucose levels. (ISSN2017)",
+        "After each workout, consume a recovery shake with a 2:1 carb:protein ratio to expedite glycogen re-synthesis and muscle repair. (ACSM2016, ISSN2017)",
+        "Distribute protein intake evenly throughout the day to maximize muscle protein synthesis. (ISSN2017, Morton2018)"
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": true,
+    "duration_ms": 101057,
+    "usage": {
+      "prompt_tokens": 5642,
+      "completion_tokens": 3015,
+      "total_tokens": 8657
+    },
+    "meal_count": 10,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal with banana and a scoop of whey protein",
+              "carbs_g": 100,
+              "protein_g": 25,
+              "fat_g": 5,
+              "sodium_mg": 300,
+              "calories": 500
+            }
+          ],
+          "total_carbs_g": 100,
+          "total_protein_g": 25,
+          "total_fat_g": 5,
+          "total_sodium_mg": 300,
+          "total_calories": 500,
+          "rationale": "Oatmeal provides a good source of low-fiber carbohydrates, which are essential for topping off glycogen stores before a morning workout. Adding a banana and whey protein ensures a balanced intake of carbs and protein, as recommended for pre-workout meals (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Israeli-style yogurt with honey and dates",
+            "Shakshuka with a side of pita bread",
+            "Egg and avocado toast"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Banana",
+              "carbs_g": 30,
+              "protein_g": 1,
+              "fat_g": 0.5,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Sports drink (500 mL, 700 mg/L sodium)",
+              "carbs_g": 15,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 45,
+          "total_protein_g": 1,
+          "total_fat_g": 0.5,
+          "total_sodium_mg": 351,
+          "total_calories": 165,
+          "rationale": "A banana provides a quick, easily digestible source of carbohydrates, while a sports drink ensures hydration and electrolyte balance, especially sodium, which is crucial for maintaining fluid balance and preventing hyponatremia (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "A small piece of white bread with honey",
+            "A cup of rice pudding",
+            "A small bowl of Israeli-style cereal with low-fat milk"
+          ]
+        },
+        {
+          "time": "09:30",
+          "name": "Intra-Workout Fuel",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "Sports drink (500 mL, 700 mg/L sodium)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 350,
+          "total_calories": 120,
+          "rationale": "A sports drink during a 60-minute moderate run helps maintain blood glucose levels and provides necessary sodium to replace sweat losses. This is particularly important for maintaining performance and hydration (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "A gel with water",
+            "A few energy chews",
+            "A diluted fruit juice with added salt"
+          ]
+        },
+        {
+          "time": "12:00",
+          "name": "Post-Workout Recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Grilled chicken breast with quinoa and steamed vegetables",
+              "carbs_g": 80,
+              "protein_g": 30,
+              "fat_g": 10,
+              "sodium_mg": 700,
+              "calories": 500
+            }
+          ],
+          "total_carbs_g": 80,
+          "total_protein_g": 30,
+          "total_fat_g": 10,
+          "total_sodium_mg": 700,
+          "total_calories": 500,
+          "rationale": "A balanced meal with quinoa and chicken provides a 3:1 ratio of carbohydrates to protein, which is optimal for rapid glycogen recovery and muscle repair after a moderate-intensity workout. The inclusion of sodium helps rehydrate effectively (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Israeli salad with grilled chicken and pita bread",
+            "Falafel with a side of hummus and vegetables",
+            "Shawarma with a side of rice and vegetables"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Turkey sandwich with whole grain bread and avocado",
+              "carbs_g": 60,
+              "protein_g": 25,
+              "fat_g": 15,
+              "sodium_mg": 500,
+              "calories": 450
+            }
+          ],
+          "total_carbs_g": 60,
+          "total_protein_g": 25,
+          "total_fat_g": 15,
+          "total_sodium_mg": 500,
+          "total_calories": 450,
+          "rationale": "A turkey sandwich with whole grain bread and avocado provides a balanced mix of carbohydrates, protein, and healthy fats. The sodium content helps maintain electrolyte balance, especially after a morning workout (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Shakshuka with a side of rice",
+            "Egg salad with pita bread",
+            "Grilled fish with a side of couscous and vegetables"
+          ]
+        },
+        {
+          "time": "14:30",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "White rice with a small piece of lean beef",
+              "carbs_g": 90,
+              "protein_g": 20,
+              "fat_g": 5,
+              "sodium_mg": 400,
+              "calories": 400
+            }
+          ],
+          "total_carbs_g": 90,
+          "total_protein_g": 20,
+          "total_fat_g": 5,
+          "total_sodium_mg": 400,
+          "total_calories": 400,
+          "rationale": "White rice is a low-fiber, easily digestible carbohydrate source, and lean beef provides a good amount of protein. This meal is designed to top off glycogen stores and provide the necessary nutrients for the second workout of the day (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Pita bread with a small amount of hummus",
+            "Israeli-style pasta with a side of lean chicken",
+            "A small bowl of rice with a side of grilled vegetables"
+          ]
+        },
+        {
+          "time": "15:30",
+          "name": "Intra-Workout Fuel",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "Sports drink (500 mL, 700 mg/L sodium)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 350,
+          "total_calories": 120,
+          "rationale": "Similar to the morning intra-workout fuel, a sports drink helps maintain blood glucose levels and replace sodium lost through sweat during the second moderate run. This supports sustained performance and hydration (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "A gel with water",
+            "A few energy chews",
+            "A diluted fruit juice with added salt"
+          ]
+        },
+        {
+          "time": "17:00",
+          "name": "Post-Workout Recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Protein shake with maltodextrin and fructose",
+              "carbs_g": 80,
+              "protein_g": 25,
+              "fat_g": 2,
+              "sodium_mg": 700,
+              "calories": 450
+            }
+          ],
+          "total_carbs_g": 80,
+          "total_protein_g": 25,
+          "total_fat_g": 2,
+          "total_sodium_mg": 700,
+          "total_calories": 450,
+          "rationale": "A protein shake with maltodextrin and fructose provides a high-GI carbohydrate and high-quality protein, which is essential for rapid glycogen recovery and muscle repair after the second workout. The sodium content aids in rehydration (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Chocolate milk",
+            "Greek yogurt with fruit and granola",
+            "A small bowl of protein-rich soup with rice"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon with sweet potato and steamed broccoli",
+              "carbs_g": 100,
+              "protein_g": 40,
+              "fat_g": 20,
+              "sodium_mg": 600,
+              "calories": 600
+            }
+          ],
+          "total_carbs_g": 100,
+          "total_protein_g": 40,
+          "total_fat_g": 20,
+          "total_sodium_mg": 600,
+          "total_calories": 600,
+          "rationale": "Salmon is a rich source of omega-3 fatty acids, which can aid in recovery and reduce inflammation. Sweet potato and broccoli provide a mix of carbohydrates and nutrients, ensuring a balanced meal to support ongoing recovery needs (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "Grilled chicken with couscous and vegetables",
+            "Israeli-style fish with a side of quinoa and salad",
+            "Beef stew with root vegetables"
+          ]
+        },
+        {
+          "time": "21:00",
+          "name": "Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Greek yogurt with honey and a handful of almonds",
+              "carbs_g": 30,
+              "protein_g": 15,
+              "fat_g": 10,
+              "sodium_mg": 200,
+              "calories": 250
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 15,
+          "total_fat_g": 10,
+          "total_sodium_mg": 200,
+          "total_calories": 250,
+          "rationale": "Greek yogurt with honey and almonds provides a mix of protein and carbohydrates to support ongoing recovery and muscle repair. The low-fat content ensures quick digestion, and the sodium helps maintain electrolyte balance (ACSM2016, ISSN2017).",
+          "israel_alternatives": [
+            "A small bowl of Israeli-style yogurt with fruit",
+            "Pita bread with a small amount of tahini",
+            "A handful of dried fruits and nuts"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4001
+      },
+      "key_recommendations": [
+        "Ensure adequate carbohydrate intake (560g) to support high-volume training and maintain glycogen stores (ACSM2016, ISSN2017).",
+        "Incorporate protein (126g) evenly throughout the day to maximize muscle protein synthesis (Morton2018, ISSN2017).",
+        "Maintain hydration with electrolyte-rich fluids, especially before and during workouts, to replace sweat losses and prevent hyponatremia (ACSM2016, ISSN2017).",
+        "Consume a balanced meal with a 3:1 carbohydrate to protein ratio immediately after each workout to expedite recovery (ACSM2016, ISSN2017).",
+        "Monitor sodium intake (4000mg) to ensure proper electrolyte balance, particularly important for endurance athletes in base training (ACSM2016, ISSN2017)."
+      ]
+    },
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": 17268,
+    "token_reduction": 7423,
+    "both_successful": true
+  }
+}

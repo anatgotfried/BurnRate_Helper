@@ -1,0 +1,580 @@
+{
+  "model": "openai/gpt-4o-mini",
+  "test_number": 6,
+  "timestamp": "2025-11-03T11:43:52.518165",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 105446,
+    "usage": {
+      "prompt_tokens": 12146,
+      "completion_tokens": 1863,
+      "total_tokens": 14009,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal (100g dry) with banana (1 medium) and honey (1 tbsp)",
+              "carbs_g": 75,
+              "protein_g": 10,
+              "fat_g": 5,
+              "sodium_mg": 5,
+              "calories": 400
+            },
+            {
+              "item": "Greek yogurt (200g) with berries (100g)",
+              "carbs_g": 25,
+              "protein_g": 20,
+              "fat_g": 5,
+              "sodium_mg": 80,
+              "calories": 300
+            }
+          ],
+          "total_carbs_g": 100,
+          "total_protein_g": 30,
+          "total_fat_g": 10,
+          "total_sodium_mg": 85,
+          "total_calories": 700,
+          "rationale": "Breakfast provides a balance of carbohydrates for energy and protein for muscle repair. The oats and banana are excellent sources of complex carbohydrates, while Greek yogurt adds protein and probiotics for gut health (ACSM2016).",
+          "israel_alternatives": [
+            "Osem oatmeal",
+            "Tnuva Greek yogurt",
+            "Prigat fruit yogurt"
+          ]
+        },
+        {
+          "time": "08:30",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Banana (1 medium) and sports drink (500ml)",
+              "carbs_g": 30,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 300,
+              "calories": 150
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 1,
+          "total_fat_g": 0,
+          "total_sodium_mg": 300,
+          "total_calories": 150,
+          "rationale": "This snack is designed to quickly provide easily digestible carbohydrates before the workout, ensuring glycogen stores are topped off (ACSM2016). The inclusion of sodium in the sports drink helps with hydration and electrolyte balance.",
+          "israel_alternatives": [
+            "Gatorade",
+            "Powerade",
+            "SIS sports drink"
+          ]
+        },
+        {
+          "time": "11:00",
+          "name": "Post-Workout Meal",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Chicken breast (200g) with brown rice (150g cooked) and broccoli (100g)",
+              "carbs_g": 60,
+              "protein_g": 50,
+              "fat_g": 5,
+              "sodium_mg": 100,
+              "calories": 600
+            },
+            {
+              "item": "Protein shake (30g whey protein) with almond milk (250ml)",
+              "carbs_g": 10,
+              "protein_g": 25,
+              "fat_g": 5,
+              "sodium_mg": 200,
+              "calories": 250
+            }
+          ],
+          "total_carbs_g": 70,
+          "total_protein_g": 75,
+          "total_fat_g": 10,
+          "total_sodium_mg": 300,
+          "total_calories": 850,
+          "rationale": "After the workout, it\u2019s crucial to replenish glycogen stores and support muscle recovery with protein (ISSN2017). The combination of chicken and rice provides a good balance of protein and carbs necessary for recovery.",
+          "israel_alternatives": [
+            "Tnuva chicken",
+            "Osem brown rice",
+            "Strauss protein shake"
+          ]
+        },
+        {
+          "time": "14:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Quinoa salad (100g cooked) with chickpeas (100g) and mixed veggies",
+              "carbs_g": 55,
+              "protein_g": 15,
+              "fat_g": 10,
+              "sodium_mg": 150,
+              "calories": 400
+            }
+          ],
+          "total_carbs_g": 55,
+          "total_protein_g": 15,
+          "total_fat_g": 10,
+          "total_sodium_mg": 150,
+          "total_calories": 400,
+          "rationale": "A nutrient-dense lunch with carbohydrates and protein to sustain energy levels and support muscle maintenance during the day (ACSM2016). Quinoa and chickpeas provide a complete protein source along with fiber.",
+          "israel_alternatives": [
+            "Osem quinoa",
+            "Tnuva canned chickpeas",
+            "Prigat mixed veggies"
+          ]
+        },
+        {
+          "time": "17:00",
+          "name": "Afternoon Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Rice cakes (2) with peanut butter (2 tbsp) and honey (1 tsp)",
+              "carbs_g": 40,
+              "protein_g": 6,
+              "fat_g": 9,
+              "sodium_mg": 5,
+              "calories": 300
+            }
+          ],
+          "total_carbs_g": 40,
+          "total_protein_g": 6,
+          "total_fat_g": 9,
+          "total_sodium_mg": 5,
+          "total_calories": 300,
+          "rationale": "This snack provides a quick source of carbohydrates and healthy fats, ensuring energy levels remain high before the second workout (ISSN2017). The combination of rice cakes and peanut butter is a great option for fueling an athlete.",
+          "israel_alternatives": [
+            "Osem rice cakes",
+            "Tnuva peanut butter",
+            "Prigat honey"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon (200g) with sweet potato (200g) and asparagus (100g)",
+              "carbs_g": 45,
+              "protein_g": 40,
+              "fat_g": 20,
+              "sodium_mg": 70,
+              "calories": 700
+            }
+          ],
+          "total_carbs_g": 45,
+          "total_protein_g": 40,
+          "total_fat_g": 20,
+          "total_sodium_mg": 70,
+          "total_calories": 700,
+          "rationale": "Dinner focuses on high-quality protein and healthy carbohydrates to promote muscle recovery and replenish glycogen stores (Morton2018). The inclusion of healthy fats from salmon aids in overall recovery and satiety.",
+          "israel_alternatives": [
+            "Tnuva salmon",
+            "Osem sweet potato",
+            "Prigat asparagus"
+          ]
+        },
+        {
+          "time": "21:00",
+          "name": "Evening Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Cottage cheese (200g) with pineapple (100g)",
+              "carbs_g": 20,
+              "protein_g": 25,
+              "fat_g": 5,
+              "sodium_mg": 300,
+              "calories": 250
+            }
+          ],
+          "total_carbs_g": 20,
+          "total_protein_g": 25,
+          "total_fat_g": 5,
+          "total_sodium_mg": 300,
+          "total_calories": 250,
+          "rationale": "A light evening snack to provide protein for overnight muscle repair while also including carbohydrates to round out the day's intake (Morton2018). Cottage cheese is rich in casein protein, which digests slowly.",
+          "israel_alternatives": [
+            "Tnuva cottage cheese",
+            "Prigat canned pineapple",
+            "Osem fruit cups"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4000
+      },
+      "key_recommendations": [
+        "Ensure adequate carbohydrate intake before and after workouts to optimize glycogen replenishment.",
+        "Focus on high-quality protein sources post-workout to enhance muscle recovery.",
+        "Stay hydrated throughout the day, especially before and after workouts."
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": true,
+    "duration_ms": 50265,
+    "usage": {
+      "prompt_tokens": 5190,
+      "completion_tokens": 2565,
+      "total_tokens": 7755,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal (100g)",
+              "carbs_g": 66,
+              "protein_g": 12,
+              "fat_g": 7,
+              "sodium_mg": 2,
+              "calories": 389
+            },
+            {
+              "item": "Banana (1 medium)",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Greek yogurt (200g)",
+              "carbs_g": 10,
+              "protein_g": 20,
+              "fat_g": 8,
+              "sodium_mg": 75,
+              "calories": 180
+            },
+            {
+              "item": "Honey (30g)",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 92
+            }
+          ],
+          "total_carbs_g": 128,
+          "total_protein_g": 33,
+          "total_fat_g": 15,
+          "total_sodium_mg": 79,
+          "total_calories": 766,
+          "rationale": "This breakfast provides a balanced mix of carbohydrates for energy, protein for muscle repair, and healthy fats. Oatmeal is a great source of complex carbs and fiber, while Greek yogurt adds protein and probiotics. Research recommends consuming a carbohydrate-rich meal before endurance training for optimal performance (ACSM2016).",
+          "israel_alternatives": [
+            "Muesli with fruit",
+            "Whole grain toast with avocado",
+            "Smoothie with protein powder"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Rice cakes (2 cakes)",
+              "carbs_g": 14,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 2,
+              "calories": 70
+            },
+            {
+              "item": "Peanut butter (15g)",
+              "carbs_g": 3,
+              "protein_g": 4,
+              "fat_g": 8,
+              "sodium_mg": 1,
+              "calories": 94
+            },
+            {
+              "item": "Sports drink (500ml)",
+              "carbs_g": 35,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 350,
+              "calories": 140
+            }
+          ],
+          "total_carbs_g": 52,
+          "total_protein_g": 5,
+          "total_fat_g": 8,
+          "total_sodium_mg": 353,
+          "total_calories": 304,
+          "rationale": "This snack is high in carbohydrates and provides a small amount of protein and fat. The sports drink ensures hydration and sodium replenishment before the workout, which is critical for performance (ACSM2016).",
+          "israel_alternatives": [
+            "Banana with almond butter",
+            "Energy bar",
+            "Yogurt with granola"
+          ]
+        },
+        {
+          "time": "10:30",
+          "name": "Post-Workout Meal",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Grilled chicken breast (150g)",
+              "carbs_g": 0,
+              "protein_g": 33,
+              "fat_g": 3,
+              "sodium_mg": 75,
+              "calories": 165
+            },
+            {
+              "item": "Quinoa (100g cooked)",
+              "carbs_g": 21,
+              "protein_g": 4,
+              "fat_g": 2,
+              "sodium_mg": 5,
+              "calories": 120
+            },
+            {
+              "item": "Mixed vegetables (200g)",
+              "carbs_g": 16,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 60,
+              "calories": 80
+            },
+            {
+              "item": "Olive oil (10g)",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 10,
+              "sodium_mg": 0,
+              "calories": 90
+            }
+          ],
+          "total_carbs_g": 37,
+          "total_protein_g": 40,
+          "total_fat_g": 15,
+          "total_sodium_mg": 140,
+          "total_calories": 455,
+          "rationale": "Post-workout, it's essential to replenish glycogen stores and support muscle recovery with protein. This meal combines lean protein, healthy fats, and carbohydrates for optimal recovery, following recommendations for muscle repair (ISSN2017).",
+          "israel_alternatives": [
+            "Turkey wrap with veggies",
+            "Cottage cheese with fruit",
+            "Protein shake with banana"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Brown rice (150g cooked)",
+              "carbs_g": 45,
+              "protein_g": 5,
+              "fat_g": 1,
+              "sodium_mg": 5,
+              "calories": 165
+            },
+            {
+              "item": "Salmon (150g)",
+              "carbs_g": 0,
+              "protein_g": 37,
+              "fat_g": 22,
+              "sodium_mg": 60,
+              "calories": 280
+            },
+            {
+              "item": "Avocado (100g)",
+              "carbs_g": 9,
+              "protein_g": 1,
+              "fat_g": 15,
+              "sodium_mg": 7,
+              "calories": 160
+            }
+          ],
+          "total_carbs_g": 54,
+          "total_protein_g": 43,
+          "total_fat_g": 38,
+          "total_sodium_mg": 72,
+          "total_calories": 605,
+          "rationale": "This lunch provides a substantial amount of protein and healthy fats, essential for recovery and muscle maintenance. The combination of brown rice and salmon ensures a good balance of nutrients, supporting endurance training (IOC2018).",
+          "israel_alternatives": [
+            "Chicken salad",
+            "Tuna with whole grain bread",
+            "Vegetable stir-fry with tofu"
+          ]
+        },
+        {
+          "time": "16:00",
+          "name": "Afternoon Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Apple (1 medium)",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 2,
+              "calories": 95
+            },
+            {
+              "item": "Almonds (30g)",
+              "carbs_g": 6,
+              "protein_g": 6,
+              "fat_g": 14,
+              "sodium_mg": 1,
+              "calories": 174
+            }
+          ],
+          "total_carbs_g": 31,
+          "total_protein_g": 6,
+          "total_fat_g": 14,
+          "total_sodium_mg": 3,
+          "total_calories": 269,
+          "rationale": "A healthy snack that combines carbohydrates from the apple for energy with protein and healthy fats from almonds. This balance supports sustained energy levels throughout the afternoon (Morton2018).",
+          "israel_alternatives": [
+            "Carrot sticks with hummus",
+            "Rice cakes with cottage cheese",
+            "Protein bar"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Whole wheat pasta (100g cooked)",
+              "carbs_g": 30,
+              "protein_g": 11,
+              "fat_g": 2,
+              "sodium_mg": 1,
+              "calories": 174
+            },
+            {
+              "item": "Ground turkey (150g)",
+              "carbs_g": 0,
+              "protein_g": 30,
+              "fat_g": 10,
+              "sodium_mg": 70,
+              "calories": 200
+            },
+            {
+              "item": "Marinara sauce (100g)",
+              "carbs_g": 10,
+              "protein_g": 2,
+              "fat_g": 1,
+              "sodium_mg": 180,
+              "calories": 80
+            },
+            {
+              "item": "Parmesan cheese (20g)",
+              "carbs_g": 0,
+              "protein_g": 2,
+              "fat_g": 4,
+              "sodium_mg": 200,
+              "calories": 88
+            }
+          ],
+          "total_carbs_g": 50,
+          "total_protein_g": 45,
+          "total_fat_g": 17,
+          "total_sodium_mg": 451,
+          "total_calories": 542,
+          "rationale": "This dinner provides a good source of carbohydrates and protein, essential for muscle recovery and glycogen replenishment after training. Whole wheat pasta is an excellent source of complex carbohydrates (ACSM2016).",
+          "israel_alternatives": [
+            "Quinoa bowl with black beans",
+            "Stir-fried chicken with vegetables",
+            "Fish tacos with corn tortillas"
+          ]
+        },
+        {
+          "time": "21:00",
+          "name": "Evening Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Cottage cheese (200g)",
+              "carbs_g": 6,
+              "protein_g": 28,
+              "fat_g": 2,
+              "sodium_mg": 300,
+              "calories": 180
+            },
+            {
+              "item": "Mixed berries (100g)",
+              "carbs_g": 14,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 57
+            }
+          ],
+          "total_carbs_g": 20,
+          "total_protein_g": 29,
+          "total_fat_g": 2,
+          "total_sodium_mg": 301,
+          "total_calories": 237,
+          "rationale": "This evening snack is high in protein and low in fat, which is ideal for muscle recovery overnight. Cottage cheese provides casein protein, which digests slowly and supports muscle repair during sleep (Morton2018).",
+          "israel_alternatives": [
+            "Greek yogurt with honey",
+            "Protein shake",
+            "Nut butter on whole grain toast"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4000
+      },
+      "key_recommendations": [
+        "Focus on carbohydrate-rich meals and snacks around workouts to optimize performance.",
+        "Incorporate a mix of protein sources throughout the day for muscle recovery.",
+        "Stay hydrated and consider sodium intake to support endurance training in hot conditions."
+      ]
+    },
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": 55181,
+    "token_reduction": 6956,
+    "both_successful": true
+  }
+}

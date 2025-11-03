@@ -1,0 +1,60 @@
+{
+  "comparisons": [
+    {
+      "model": "google-gemini-2.5-flash",
+      "fast_mode_score": 8,
+      "full_mode_score": 9,
+      "fast_meal_count": 2,
+      "full_meal_count": 2,
+      "quality_difference": "minor",
+      "fast_mode_drawbacks": "The Fast Mode lacks additional protein and sodium options, which could be beneficial for recovery and hydration. It also provides less detailed rationale and fewer alternatives.",
+      "recommendation": "either_ok",
+      "reasoning": "Both meal plans are well-structured and align with nutritional guidelines for pre- and intra-workout fueling. The Full Mode offers slightly more comprehensive options and rationale, but the Fast Mode is still effective and sufficient for most users."
+    },
+    {
+      "model": "openai-gpt-4o-mini",
+      "fast_mode_score": 7,
+      "full_mode_score": 9,
+      "fast_meal_count": 3,
+      "full_meal_count": 3,
+      "quality_difference": "minor",
+      "fast_mode_drawbacks": "The Fast Mode lacks variety in food options and has slightly less detailed rationales and alternatives.",
+      "recommendation": "either_ok",
+      "reasoning": "Both modes provide well-structured meal plans with nutritional rationales. The Full Mode offers more variety and slightly more detailed alternatives, but the Fast Mode still delivers a solid plan. For most users, either option would be satisfactory."
+    },
+    {
+      "model": "google-gemini-2.0-flash-exp:free",
+      "fast_mode_score": 8,
+      "full_mode_score": 9,
+      "fast_meal_count": 3,
+      "full_meal_count": 3,
+      "quality_difference": "minor",
+      "fast_mode_drawbacks": "Slightly less detailed nutritional breakdown and fewer food options.",
+      "recommendation": "either_ok",
+      "reasoning": "Both meal plans provide comprehensive nutritional guidance with minor differences in detail and variety. Fast Mode offers a slightly less detailed breakdown, but still meets the nutritional needs effectively. Either mode is suitable depending on the user's preference for detail."
+    },
+    {
+      "model": "mistralai-mistral-small-3.2-24b-instruct",
+      "fast_mode_score": 8,
+      "full_mode_score": 9,
+      "fast_meal_count": 3,
+      "full_meal_count": 3,
+      "quality_difference": "minor",
+      "fast_mode_drawbacks": "The Fast Mode plan has slightly less variety and nutritional detail compared to the Full Mode, particularly in terms of meal timing and diversity of food items.",
+      "recommendation": "either_ok",
+      "reasoning": "Both meal plans provide balanced nutrition and are well-structured. The Full Mode offers slightly more variety and detail, but the Fast Mode is still comprehensive and effective. The choice between them can depend on the user's preference for detail and variety."
+    },
+    {
+      "model": "anthropic-claude-3.5-sonnet",
+      "fast_mode_score": 7,
+      "full_mode_score": 9,
+      "fast_meal_count": 2,
+      "full_meal_count": 3,
+      "quality_difference": "significant",
+      "fast_mode_drawbacks": "The Fast Mode lacks an intra-workout meal, which is crucial for maintaining energy levels during extended sessions. It also provides less detailed nutritional rationale and fewer meal options.",
+      "recommendation": "use_full",
+      "reasoning": "The Full Mode offers a more comprehensive meal plan with an additional intra-workout meal, providing better support for athletes during long training sessions. It also includes more detailed nutritional rationale, making it a more robust choice for those needing precise dietary guidance."
+    }
+  ],
+  "scored_by": "openai/gpt-4o"
+}

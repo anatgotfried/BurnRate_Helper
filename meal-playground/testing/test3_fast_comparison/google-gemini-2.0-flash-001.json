@@ -1,0 +1,610 @@
+{
+  "model": "google/gemini-2.0-flash-001",
+  "test_number": 2,
+  "timestamp": "2025-11-03T11:33:21.408478",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 21623,
+    "usage": {
+      "prompt_tokens": 13835,
+      "completion_tokens": 2956,
+      "total_tokens": 16791,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0
+      }
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "06:30",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal (1 cup cooked) with 1/2 cup berries",
+              "carbs_g": 40,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 5,
+              "calories": 200
+            },
+            {
+              "item": "Protein shake (30g whey protein)",
+              "carbs_g": 5,
+              "protein_g": 24,
+              "fat_g": 1,
+              "sodium_mg": 80,
+              "calories": 130
+            }
+          ],
+          "total_carbs_g": 45,
+          "total_protein_g": 29,
+          "total_fat_g": 3,
+          "total_sodium_mg": 85,
+          "total_calories": 330,
+          "rationale": "Provides a carbohydrate and protein-rich start to the day, fueling early morning activities and providing amino acids for muscle protein synthesis. Oatmeal offers sustained energy release, while whey protein provides a quick source of essential amino acids [ISSN2017, ACSM2016]. Berries add micronutrients and antioxidants.",
+          "israel_alternatives": [
+            "Overnight oats with Tnuva Skyr yogurt and dates",
+            "Hard-boiled eggs and rice cakes with jam",
+            "Strauss Achla hummus on whole wheat bread"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Banana (medium)",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Sports drink (500ml)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 500,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 57,
+          "total_protein_g": 1,
+          "total_fat_g": 0,
+          "total_sodium_mg": 501,
+          "total_calories": 225,
+          "rationale": "Delivers readily available carbohydrates to fuel the upcoming moderate-intensity runs, ensuring adequate glycogen stores for sustained performance. The banana provides glucose and fructose, while the sports drink contributes to hydration and electrolyte balance, especially sodium, which is crucial for maintaining fluid balance during endurance exercise [ACSM2016]. Given the workout duration is 2 hours, this pre-workout is appropriate. (0.8g/kg carbs)",
+          "israel_alternatives": [
+            "Prigat 100% orange juice",
+            "Medjool dates",
+            "Rice cakes with honey"
+          ]
+        },
+        {
+          "time": "09:00 - 11:00",
+          "name": "Intra-Workout Fuel",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Sports drink (1000ml)",
+              "carbs_g": 60,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 600,
+              "calories": 240
+            }
+          ],
+          "total_carbs_g": 60,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 600,
+          "total_calories": 240,
+          "rationale": "Provides a sustained carbohydrate supply during the 2-hour moderate run, preventing glycogen depletion and maintaining blood glucose levels. The sports drink also helps replace fluids and electrolytes lost through sweat, supporting hydration and preventing dehydration [ISSN2017, ACSM2016]. 60g carbs/hr is a good starting point for moderate intensity endurance.",
+          "israel_alternatives": [
+            "SIS Beta Fuel drink mix",
+            "Electrolyte gels",
+            "Diluted fruit juice with added salt"
+          ]
+        },
+        {
+          "time": "11:30",
+          "name": "Post-Workout Meal",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Chicken breast (150g)",
+              "carbs_g": 0,
+              "protein_g": 45,
+              "fat_g": 3,
+              "sodium_mg": 75,
+              "calories": 215
+            },
+            {
+              "item": "Sweet potato (1 large, baked)",
+              "carbs_g": 40,
+              "protein_g": 4,
+              "fat_g": 0,
+              "sodium_mg": 65,
+              "calories": 170
+            },
+            {
+              "item": "Broccoli (1 cup)",
+              "carbs_g": 6,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 30,
+              "calories": 30
+            }
+          ],
+          "total_carbs_g": 46,
+          "total_protein_g": 52,
+          "total_fat_g": 3,
+          "total_sodium_mg": 170,
+          "total_calories": 415,
+          "rationale": "Replenishes glycogen stores and provides protein for muscle repair and recovery after the run. Sweet potato offers complex carbohydrates for sustained energy release, while chicken breast delivers high-quality protein with essential amino acids, including leucine, to stimulate muscle protein synthesis [Morton2018]. Broccoli provides micronutrients and fiber.",
+          "israel_alternatives": [
+            "Salmon or tofu instead of chicken",
+            "Rice or quinoa instead of sweet potato",
+            "Green beans or zucchini instead of broccoli"
+          ]
+        },
+        {
+          "time": "14:30",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Lentil soup (2 cups)",
+              "carbs_g": 60,
+              "protein_g": 36,
+              "fat_g": 2,
+              "sodium_mg": 900,
+              "calories": 380
+            },
+            {
+              "item": "Whole wheat bread (2 slices)",
+              "carbs_g": 30,
+              "protein_g": 6,
+              "fat_g": 2,
+              "sodium_mg": 200,
+              "calories": 160
+            }
+          ],
+          "total_carbs_g": 90,
+          "total_protein_g": 42,
+          "total_fat_g": 4,
+          "total_sodium_mg": 1100,
+          "total_calories": 540,
+          "rationale": "Provides a balanced combination of carbohydrates, protein, and fiber. Lentil soup is a good source of complex carbohydrates, protein, and iron. Whole wheat bread provides additional carbohydrates and fiber for satiety and digestive health [ACSM2016].",
+          "israel_alternatives": [
+            "Chickpea stew (chick peas)",
+            "Whole-grain pita bread",
+            "Vegetable salad with quinoa"
+          ]
+        },
+        {
+          "time": "17:30",
+          "name": "Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Greek yogurt (1 cup, plain)",
+              "carbs_g": 10,
+              "protein_g": 20,
+              "fat_g": 0,
+              "sodium_mg": 70,
+              "calories": 120
+            },
+            {
+              "item": "Almonds (1/4 cup)",
+              "carbs_g": 6,
+              "protein_g": 6,
+              "fat_g": 14,
+              "sodium_mg": 0,
+              "calories": 160
+            }
+          ],
+          "total_carbs_g": 16,
+          "total_protein_g": 26,
+          "total_fat_g": 14,
+          "total_sodium_mg": 70,
+          "total_calories": 280,
+          "rationale": "Supplies a high-protein snack to support muscle protein synthesis and satiety. Greek yogurt is an excellent source of protein and calcium. Almonds provide healthy fats, protein, and fiber, contributing to overall satiety and nutrient intake [Morton2018].",
+          "israel_alternatives": [
+            "Tnuva Skyr yogurt",
+            "Walnuts or cashews",
+            "Edamame"
+          ]
+        },
+        {
+          "time": "20:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon (150g)",
+              "carbs_g": 0,
+              "protein_g": 30,
+              "fat_g": 13,
+              "sodium_mg": 50,
+              "calories": 240
+            },
+            {
+              "item": "Brown rice (1 cup, cooked)",
+              "carbs_g": 45,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 5,
+              "calories": 220
+            },
+            {
+              "item": "Mixed vegetables (1.5 cups, steamed)",
+              "carbs_g": 15,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 40,
+              "calories": 70
+            }
+          ],
+          "total_carbs_g": 60,
+          "total_protein_g": 37,
+          "total_fat_g": 15,
+          "total_sodium_mg": 95,
+          "total_calories": 530,
+          "rationale": "Consists of a high-quality protein source, complex carbohydrates, and healthy fats. Salmon provides essential omega-3 fatty acids and protein for muscle repair and overall health. Brown rice offers sustained energy release and essential nutrients. Mixed vegetables contribute to micronutrient intake and fiber content [ACSM2016].",
+          "israel_alternatives": [
+            "Tuna or sardines instead of salmon",
+            "Quinoa or couscous instead of brown rice",
+            "Israeli salad"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3240,
+        "carbs_g": 574,
+        "protein_g": 208,
+        "fat_g": 53,
+        "sodium_mg": 2621
+      },
+      "key_recommendations": [
+        "Prioritize carbohydrate intake around workouts to fuel performance and replenish glycogen stores [ACSM2016].",
+        "Consume adequate protein (1.6-2.2 g/kg/day) spread throughout the day to support muscle repair and growth [Morton2018].",
+        "Ensure sufficient hydration by drinking to thirst and replacing fluids lost through sweat, especially during and after workouts [ACSM2016].",
+        "Include a variety of nutrient-dense foods, such as fruits, vegetables, whole grains, and lean protein sources, to meet micronutrient needs.",
+        "Adjust sodium intake based on sweat rate and environmental conditions to prevent hyponatremia [McCubbin2025].",
+        "Consider individual GI tolerance and adjust food choices accordingly, especially before and during workouts [Lis2018].",
+        "Focus on recovery nutrition immediately after workouts, including carbohydrates and protein, to optimize glycogen replenishment and muscle repair [ISSN2017]."
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": true,
+    "duration_ms": 35015,
+    "usage": {
+      "prompt_tokens": 6047,
+      "completion_tokens": 3024,
+      "total_tokens": 9071,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0
+      }
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "06:00",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Oatmeal (80g dry weight)",
+              "carbs_g": 56,
+              "protein_g": 10,
+              "fat_g": 5,
+              "sodium_mg": 5,
+              "calories": 341
+            },
+            {
+              "item": "Banana (1 medium)",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Almonds (30g)",
+              "carbs_g": 6,
+              "protein_g": 6,
+              "fat_g": 15,
+              "sodium_mg": 0,
+              "calories": 173
+            }
+          ],
+          "total_carbs_g": 89,
+          "total_protein_g": 17,
+          "total_fat_g": 20,
+          "total_sodium_mg": 6,
+          "total_calories": 619,
+          "rationale": "A carbohydrate-rich breakfast to replenish glycogen stores after overnight fast and prepare for the morning runs. Oatmeal provides sustained energy release due to its complex carbohydrate content. The banana offers readily available glucose for quick energy, and almonds contribute healthy fats and protein for satiety. This meal provides a good balance of macronutrients to support endurance training. (ACSM2016)",
+          "israel_alternatives": [
+            "Quaker Oats",
+            "Israeli Banana",
+            "Shkedia Almonds"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Sports drink (500ml, 6% carb solution)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 250,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 250,
+          "total_calories": 120,
+          "rationale": "This pre-workout snack provides easily digestible carbohydrates to fuel the 60-minute and 60-minute moderate runs. The sports drink delivers a quick source of glucose to maintain blood sugar levels during exercise. It also contributes to hydration and provides electrolytes (sodium) lost through sweat. A 6% carbohydrate solution is easily absorbed and minimizes the risk of GI distress. (ACSM2016)",
+          "israel_alternatives": [
+            "Powerade",
+            "Gatorade",
+            "ISOSTAR"
+          ]
+        },
+        {
+          "time": "11:00",
+          "name": "Post-Workout Recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Whey protein shake (35g protein)",
+              "carbs_g": 5,
+              "protein_g": 30,
+              "fat_g": 2,
+              "sodium_mg": 50,
+              "calories": 160
+            },
+            {
+              "item": "Rice Cakes (2)",
+              "carbs_g": 14,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 40,
+              "calories": 60
+            },
+            {
+              "item": "Jam (2 tbsp)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 2,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 49,
+          "total_protein_g": 31,
+          "total_fat_g": 2,
+          "total_sodium_mg": 92,
+          "total_calories": 340,
+          "rationale": "This post-workout meal is designed for rapid glycogen replenishment and muscle repair after the morning runs. Whey protein provides essential amino acids, including leucine, to stimulate muscle protein synthesis (MPS). The rice cakes with jam offer easily digestible carbohydrates to replenish glycogen stores quickly. Consuming carbohydrates and protein within an hour post-exercise optimizes recovery. (ISSN2017)",
+          "israel_alternatives": [
+            "Israeli Whey Protein",
+            "Rice Cakes in Israel",
+            "Local Jam"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Chicken breast (150g)",
+              "carbs_g": 0,
+              "protein_g": 45,
+              "fat_g": 5,
+              "sodium_mg": 75,
+              "calories": 245
+            },
+            {
+              "item": "Sweet potato (200g)",
+              "carbs_g": 41,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 55,
+              "calories": 180
+            },
+            {
+              "item": "Broccoli (1 cup)",
+              "carbs_g": 6,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 30,
+              "calories": 30
+            },
+            {
+              "item": "Olive Oil (1 tbsp)",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 14,
+              "sodium_mg": 0,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 47,
+          "total_protein_g": 51,
+          "total_fat_g": 19,
+          "total_sodium_mg": 160,
+          "total_calories": 575,
+          "rationale": "A balanced lunch to provide sustained energy and support muscle recovery. Chicken breast is a lean protein source that aids in muscle repair and growth. Sweet potato offers complex carbohydrates for sustained energy release. Broccoli provides essential vitamins, minerals, and fiber. Olive oil provides healthy fats for overall health and satiety.(ACSM2016)",
+          "israel_alternatives": [
+            "Israeli Chicken",
+            "Sweet Potato in Israel",
+            "Local Broccoli"
+          ]
+        },
+        {
+          "time": "16:00",
+          "name": "Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Greek yogurt (200g)",
+              "carbs_g": 10,
+              "protein_g": 20,
+              "fat_g": 0,
+              "sodium_mg": 70,
+              "calories": 120
+            },
+            {
+              "item": "Mixed Berries (1 cup)",
+              "carbs_g": 15,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 25,
+          "total_protein_g": 21,
+          "total_fat_g": 0,
+          "total_sodium_mg": 71,
+          "total_calories": 180,
+          "rationale": "A mid-afternoon snack to maintain energy levels and provide a protein boost. Greek yogurt is a good source of protein and calcium. Mixed berries offer antioxidants and vitamins. This snack helps prevent energy crashes and supports muscle recovery throughout the day.(ACSM2016)",
+          "israel_alternatives": [
+            "Israeli Greek Yogurt",
+            "Berries in Israel"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon (150g)",
+              "carbs_g": 0,
+              "protein_g": 30,
+              "fat_g": 13,
+              "sodium_mg": 60,
+              "calories": 230
+            },
+            {
+              "item": "Brown rice (1 cup cooked)",
+              "carbs_g": 45,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 10,
+              "calories": 216
+            },
+            {
+              "item": "Asparagus (1 cup)",
+              "carbs_g": 5,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 15,
+              "calories": 20
+            },
+            {
+              "item": "Lemon juice (1 tbsp)",
+              "carbs_g": 1,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 4
+            }
+          ],
+          "total_carbs_g": 51,
+          "total_protein_g": 38,
+          "total_fat_g": 15,
+          "total_sodium_mg": 86,
+          "total_calories": 470,
+          "rationale": "A nutritious dinner to support overnight recovery and muscle repair. Salmon provides high-quality protein and omega-3 fatty acids, which are beneficial for overall health and recovery. Brown rice offers complex carbohydrates for sustained energy release. Asparagus provides essential vitamins, minerals, and fiber. Lemon juice enhances flavor and provides vitamin C.(ACSM2016)",
+          "israel_alternatives": [
+            "Salmon in Israel",
+            "Brown Rice in Israel",
+            "Israeli Asparagus"
+          ]
+        },
+        {
+          "time": "21:00",
+          "name": "Evening Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Cottage Cheese (100g)",
+              "carbs_g": 3,
+              "protein_g": 11,
+              "fat_g": 4,
+              "sodium_mg": 350,
+              "calories": 80
+            },
+            {
+              "item": "Walnuts (30g)",
+              "carbs_g": 4,
+              "protein_g": 4,
+              "fat_g": 20,
+              "sodium_mg": 1,
+              "calories": 200
+            }
+          ],
+          "total_carbs_g": 7,
+          "total_protein_g": 15,
+          "total_fat_g": 24,
+          "total_sodium_mg": 351,
+          "total_calories": 280,
+          "rationale": "This evening snack provides a slow-digesting protein source (cottage cheese) to support muscle recovery overnight. Walnuts contribute healthy fats and micronutrients. This snack helps stabilize blood sugar levels and promotes restful sleep.(ACSM2016)",
+          "israel_alternatives": [
+            "Cottage Cheese in Israel",
+            "Walnuts in Israel"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3284,
+        "carbs_g": 298,
+        "protein_g": 203,
+        "fat_g": 100,
+        "sodium_mg": 1317
+      },
+      "key_recommendations": [
+        "Ensure adequate hydration throughout the day, especially before, during, and after workouts. Aim for at least 3-4 liters of water daily.",
+        "Adjust portion sizes based on hunger levels and energy expenditure.",
+        "Consider adding a multivitamin and mineral supplement to address any potential nutrient deficiencies.",
+        "Prioritize whole, unprocessed foods over processed foods whenever possible.",
+        "Monitor body weight and body composition regularly to assess the effectiveness of the nutrition plan.",
+        "Based on research, protein intake should be between 1.6-2.0 grams per kilogram of body weight.",
+        "Based on research, carb intake should be between 5-10+ grams per kilogram of body weight."
+      ]
+    },
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": -13392,
+    "token_reduction": 7788,
+    "both_successful": true
+  }
+}

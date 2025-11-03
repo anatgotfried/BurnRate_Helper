@@ -1,0 +1,600 @@
+{
+  "model": "mistralai/mistral-small-3.2-24b-instruct",
+  "test_number": 4,
+  "timestamp": "2025-11-03T11:37:25.385701",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 96552,
+    "usage": {
+      "prompt_tokens": 13326,
+      "completion_tokens": 2613,
+      "total_tokens": 15939,
+      "prompt_tokens_details": null
+    },
+    "meal_count": 9,
+    "response": {
+      "meals": [
+        {
+          "time": "06:30",
+          "name": "Pre-Workout Meal",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Overnight oats with almond milk and raisins",
+              "carbs_g": 40,
+              "protein_g": 12,
+              "fat_g": 5,
+              "sodium_mg": 100,
+              "calories": 250
+            }
+          ],
+          "total_carbs_g": 40,
+          "total_protein_g": 12,
+          "total_fat_g": 5,
+          "total_sodium_mg": 100,
+          "total_calories": 250,
+          "rationale": "This meal provides a moderate amount of carbohydrates to top off glycogen stores and a small amount of protein to start muscle protein synthesis. The use of almond milk and raisins ensures low FODMAP and easy digestion. This aligns with the recommendation to consume 1-4 g/kg of carbohydrates 1-4 hours before exercise (ACSM2016).",
+          "israel_alternatives": [
+            "Tnuva almond milk",
+            "Del Monte raisins",
+            "Osem oats"
+          ]
+        },
+        {
+          "time": "08:45",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Banana and a scoop of protein powder in water",
+              "carbs_g": 30,
+              "protein_g": 20,
+              "fat_g": 0,
+              "sodium_mg": 10,
+              "calories": 150
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 20,
+          "total_fat_g": 0,
+          "total_sodium_mg": 10,
+          "total_calories": 150,
+          "rationale": "This snack provides a quick source of carbohydrates to maintain blood glucose levels during the workout and a small amount of protein to aid muscle repair. The banana is easily digestible and provides essential vitamins and minerals. This aligns with the recommendation to consume 0.5-1.0 g/kg of carbohydrates 1 hour before exercise (ACSM2016).",
+          "israel_alternatives": [
+            "Dole bananas",
+            "Strauss protein powder",
+            "Tnuva water"
+          ]
+        },
+        {
+          "time": "10:00",
+          "name": "Intra-Workout Hydration",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "Sports drink with electrolytes",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 300,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 300,
+          "total_calories": 120,
+          "rationale": "This sports drink provides carbohydrates to sustain performance and electrolytes to replace sweat losses. The recommendation is to consume 30-60 g of carbohydrates per hour during endurance exercise (ISSN2017).",
+          "israel_alternatives": [
+            "Gatorade",
+            "Powerade",
+            "Isotonic sports drinks"
+          ]
+        },
+        {
+          "time": "12:00",
+          "name": "Post-Workout Meal",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Grilled chicken breast with white rice and steamed zucchini",
+              "carbs_g": 50,
+              "protein_g": 30,
+              "fat_g": 5,
+              "sodium_mg": 500,
+              "calories": 400
+            }
+          ],
+          "total_carbs_g": 50,
+          "total_protein_g": 30,
+          "total_fat_g": 5,
+          "total_sodium_mg": 500,
+          "total_calories": 400,
+          "rationale": "This meal provides a balance of carbohydrates to replenish glycogen stores and protein to aid muscle repair. The use of white rice ensures rapid digestion and absorption of carbohydrates. The recommendation is to consume 1.0-1.2 g/kg of carbohydrates and 0.2-0.4 g/kg of protein within 30 minutes after exercise (ISSN2017).",
+          "israel_alternatives": [
+            "Tnuva grilled chicken",
+            "Golden rice",
+            "Tnuva zucchini"
+          ]
+        },
+        {
+          "time": "15:00",
+          "name": "Afternoon Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Greek yogurt with honey and almonds",
+              "carbs_g": 20,
+              "protein_g": 15,
+              "fat_g": 10,
+              "sodium_mg": 100,
+              "calories": 250
+            }
+          ],
+          "total_carbs_g": 20,
+          "total_protein_g": 15,
+          "total_fat_g": 10,
+          "total_sodium_mg": 100,
+          "total_calories": 250,
+          "rationale": "This snack provides a balance of carbohydrates, protein, and healthy fats to sustain energy levels and aid muscle recovery. The use of Greek yogurt ensures a high protein content. This aligns with the recommendation to consume protein evenly throughout the day (Morton2018).",
+          "israel_alternatives": [
+            "Tnuva Greek yogurt",
+            "Natural honey",
+            "Yarden almonds"
+          ]
+        },
+        {
+          "time": "18:00",
+          "name": "Pre-Workout Meal",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Whole grain bread with tuna and avocado",
+              "carbs_g": 40,
+              "protein_g": 20,
+              "fat_g": 10,
+              "sodium_mg": 300,
+              "calories": 350
+            }
+          ],
+          "total_carbs_g": 40,
+          "total_protein_g": 20,
+          "total_fat_g": 10,
+          "total_sodium_mg": 300,
+          "total_calories": 350,
+          "rationale": "This meal provides a balance of carbohydrates, protein, and healthy fats to sustain energy levels during the workout. The use of whole grain bread ensures a moderate amount of fiber for digestion. This aligns with the recommendation to consume 1.0-1.5 g/kg of carbohydrates 1-2 hours before exercise (ISSN2017).",
+          "israel_alternatives": [
+            "Tnuva whole grain bread",
+            "Tnuva tuna",
+            "Haolam hazeh avocado"
+          ]
+        },
+        {
+          "time": "19:45",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "Energy gel with water",
+              "carbs_g": 20,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 100,
+              "calories": 80
+            }
+          ],
+          "total_carbs_g": 20,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 100,
+          "total_calories": 80,
+          "rationale": "This snack provides a quick source of carbohydrates to maintain blood glucose levels during the workout. The energy gel is easily digestible and provides essential electrolytes. This aligns with the recommendation to consume 0.5-1.0 g/kg of carbohydrates 30-60 minutes before exercise (ACSM2016).",
+          "israel_alternatives": [
+            "GU energy gels",
+            "Clif Blok energy gels",
+            "Powerbar energy gels"
+          ]
+        },
+        {
+          "time": "20:30",
+          "name": "Intra-Workout Hydration",
+          "type": "intra_workout",
+          "foods": [
+            {
+              "item": "Sports drink with electrolytes",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 300,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 300,
+          "total_calories": 120,
+          "rationale": "This sports drink provides carbohydrates to sustain performance and electrolytes to replace sweat losses. The recommendation is to consume 30-60 g of carbohydrates per hour during endurance exercise (ISSN2017).",
+          "israel_alternatives": [
+            "Gatorade",
+            "Powerade",
+            "Isotonic sports drinks"
+          ]
+        },
+        {
+          "time": "21:00",
+          "name": "Post-Workout Meal",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Grilled salmon with quinoa and steamed broccoli",
+              "carbs_g": 40,
+              "protein_g": 30,
+              "fat_g": 10,
+              "sodium_mg": 400,
+              "calories": 400
+            }
+          ],
+          "total_carbs_g": 40,
+          "total_protein_g": 30,
+          "total_fat_g": 10,
+          "total_sodium_mg": 400,
+          "total_calories": 400,
+          "rationale": "This meal provides a balance of carbohydrates to replenish glycogen stores and protein to aid muscle repair. The use of quinoa ensures a high protein and fiber content. The recommendation is to consume 1.0-1.2 g/kg of carbohydrates and 0.2-0.4 g/kg of protein within 30 minutes after exercise (ISSN2017).",
+          "israel_alternatives": [
+            "Tnuva grilled salmon",
+            "Quinoa from the health food store",
+            "Tnuva broccoli"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4000
+      },
+      "key_recommendations": [
+        "Consume a balance of carbohydrates, protein, and healthy fats throughout the day to sustain energy levels and aid muscle recovery.",
+        "Hydrate adequately before, during, and after workouts to replace sweat losses and maintain performance.",
+        "Include a variety of nutrient-dense foods to ensure adequate intake of vitamins and minerals.",
+        "Adjust portion sizes and macronutrient ratios based on individual needs and training intensity.",
+        "Monitor and adjust sodium intake to meet daily targets and replace sweat losses during workouts."
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": true,
+    "duration_ms": 99140,
+    "usage": {
+      "prompt_tokens": 5753,
+      "completion_tokens": 3249,
+      "total_tokens": 9002,
+      "prompt_tokens_details": null
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "07:00",
+          "name": "Pre-Workout Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "150g oats with 1 banana, 250ml soy milk, 1 tbsp honey",
+              "carbs_g": 110,
+              "protein_g": 20,
+              "fat_g": 8,
+              "sodium_mg": 150,
+              "calories": 550
+            },
+            {
+              "item": "1 whole wheat toast with 1 tbsp almond butter",
+              "carbs_g": 20,
+              "protein_g": 5,
+              "fat_g": 8,
+              "sodium_mg": 100,
+              "calories": 240
+            },
+            {
+              "item": "500ml electrolyte drink (500mg sodium per 500ml)",
+              "carbs_g": 20,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 500,
+              "calories": 80
+            }
+          ],
+          "total_carbs_g": 150,
+          "total_protein_g": 25,
+          "total_fat_g": 16,
+          "total_sodium_mg": 750,
+          "total_calories": 870,
+          "rationale": "This meal provides a balanced mix of carbohydrates and protein to fuel the upcoming workouts. The oats and banana provide readily available carbohydrates, while the soy milk and almond butter offer protein and healthy fats. The electrolyte drink ensures hydration and sodium replacement. This aligns with the recommendation to consume a high-carb meal 3-4 hours prior to exercise (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Shredded wheat with banana and honey",
+            "Peanut butter on whole wheat toast",
+            "Local electrolyte drink"
+          ]
+        },
+        {
+          "time": "08:30",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "1 sports gel (25g carbs, 100mg sodium)",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 100,
+              "calories": 100
+            },
+            {
+              "item": "250ml electrolyte drink (500mg sodium per 500ml)",
+              "carbs_g": 20,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 250,
+              "calories": 80
+            }
+          ],
+          "total_carbs_g": 45,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 350,
+          "total_calories": 180,
+          "rationale": "This snack provides a quick source of carbohydrates to top up glycogen stores before the second workout. The sports gel and electrolyte drink ensure adequate carbohydrate intake and sodium replacement. This aligns with the recommendation to consume a small carb top-up 30-60 minutes pre-workout (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Banana",
+            "Energy bar",
+            "Local sports drink"
+          ]
+        },
+        {
+          "time": "11:30",
+          "name": "Post-Workout Lunch",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "150g grilled chicken breast",
+              "carbs_g": 0,
+              "protein_g": 45,
+              "fat_g": 4,
+              "sodium_mg": 100,
+              "calories": 270
+            },
+            {
+              "item": "200g cooked quinoa",
+              "carbs_g": 35,
+              "protein_g": 8,
+              "fat_g": 3,
+              "sodium_mg": 50,
+              "calories": 200
+            },
+            {
+              "item": "100g steamed broccoli",
+              "carbs_g": 7,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 30,
+              "calories": 35
+            },
+            {
+              "item": "1 tbsp olive oil",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 14,
+              "sodium_mg": 0,
+              "calories": 120
+            },
+            {
+              "item": "500ml electrolyte drink (500mg sodium per 500ml)",
+              "carbs_g": 20,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 500,
+              "calories": 80
+            }
+          ],
+          "total_carbs_g": 62,
+          "total_protein_g": 56,
+          "total_fat_g": 21,
+          "total_sodium_mg": 680,
+          "total_calories": 705,
+          "rationale": "This meal provides a balanced mix of carbohydrates and protein to support muscle recovery and glycogen replenishment. The grilled chicken breast offers high-quality protein, while the quinoa and broccoli provide carbohydrates and additional protein. The olive oil adds healthy fats. The electrolyte drink ensures hydration and sodium replacement. This aligns with the recommendation to consume a mixed meal with 0.8 g/kg carbs and 0.2-0.3 g/kg protein within an hour post-exercise (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Grilled fish with quinoa and vegetables",
+            "Chickpea salad with olive oil",
+            "Local electrolyte drink"
+          ]
+        },
+        {
+          "time": "14:00",
+          "name": "Midday Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "1 apple",
+              "carbs_g": 25,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 5,
+              "calories": 100
+            },
+            {
+              "item": "30g almonds",
+              "carbs_g": 6,
+              "protein_g": 6,
+              "fat_g": 15,
+              "sodium_mg": 0,
+              "calories": 200
+            }
+          ],
+          "total_carbs_g": 31,
+          "total_protein_g": 6,
+          "total_fat_g": 15,
+          "total_sodium_mg": 5,
+          "total_calories": 300,
+          "rationale": "This snack provides a mix of carbohydrates, protein, and healthy fats to sustain energy levels and support recovery. The apple offers readily available carbohydrates, while the almonds provide protein and healthy fats. This aligns with the recommendation to consume balanced meals and snacks throughout the day (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Banana with peanut butter",
+            "Yogurt with granola",
+            "Local nuts and fruits"
+          ]
+        },
+        {
+          "time": "17:00",
+          "name": "Pre-Dinner Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "1 sports bar (40g carbs, 10g protein, 5g fat, 150mg sodium)",
+              "carbs_g": 40,
+              "protein_g": 10,
+              "fat_g": 5,
+              "sodium_mg": 150,
+              "calories": 250
+            },
+            {
+              "item": "300ml electrolyte drink (500mg sodium per 500ml)",
+              "carbs_g": 15,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 300,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 55,
+          "total_protein_g": 10,
+          "total_fat_g": 5,
+          "total_sodium_mg": 450,
+          "total_calories": 310,
+          "rationale": "This snack provides a quick source of carbohydrates and protein to sustain energy levels and support muscle recovery. The sports bar and electrolyte drink ensure adequate carbohydrate intake and sodium replacement. This aligns with the recommendation to consume balanced meals and snacks throughout the day (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Energy bar with a sports drink",
+            "Banana with a protein shake",
+            "Local sports nutrition products"
+          ]
+        },
+        {
+          "time": "19:30",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "150g grilled salmon",
+              "carbs_g": 0,
+              "protein_g": 35,
+              "fat_g": 10,
+              "sodium_mg": 100,
+              "calories": 270
+            },
+            {
+              "item": "200g sweet potato",
+              "carbs_g": 45,
+              "protein_g": 4,
+              "fat_g": 0,
+              "sodium_mg": 50,
+              "calories": 180
+            },
+            {
+              "item": "100g steamed spinach",
+              "carbs_g": 4,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 20,
+              "calories": 25
+            },
+            {
+              "item": "1 tbsp olive oil",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 14,
+              "sodium_mg": 0,
+              "calories": 120
+            },
+            {
+              "item": "500ml electrolyte drink (500mg sodium per 500ml)",
+              "carbs_g": 20,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 500,
+              "calories": 80
+            }
+          ],
+          "total_carbs_g": 69,
+          "total_protein_g": 42,
+          "total_fat_g": 24,
+          "total_sodium_mg": 670,
+          "total_calories": 675,
+          "rationale": "This meal provides a balanced mix of carbohydrates, protein, and healthy fats to support muscle recovery and glycogen replenishment. The grilled salmon offers high-quality protein and healthy fats, while the sweet potato and spinach provide carbohydrates and additional nutrients. The olive oil adds healthy fats. The electrolyte drink ensures hydration and sodium replacement. This aligns with the recommendation to consume a balanced meal with adequate protein and carbohydrates for recovery (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Grilled chicken with quinoa and vegetables",
+            "Lentil stew with brown rice",
+            "Local electrolyte drink"
+          ]
+        },
+        {
+          "time": "21:30",
+          "name": "Evening Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "200g Greek yogurt",
+              "carbs_g": 10,
+              "protein_g": 20,
+              "fat_g": 5,
+              "sodium_mg": 100,
+              "calories": 180
+            },
+            {
+              "item": "1 tbsp honey",
+              "carbs_g": 17,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 0,
+              "calories": 60
+            }
+          ],
+          "total_carbs_g": 27,
+          "total_protein_g": 20,
+          "total_fat_g": 5,
+          "total_sodium_mg": 100,
+          "total_calories": 240,
+          "rationale": "This snack provides a mix of carbohydrates and protein to support muscle recovery and glycogen replenishment. The Greek yogurt offers high-quality protein, while the honey provides readily available carbohydrates. This aligns with the recommendation to consume balanced meals and snacks throughout the day (ISSN2017, ACSM2016).",
+          "israel_alternatives": [
+            "Cottage cheese with honey",
+            "Protein shake with a banana",
+            "Local dairy products with honey"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 3248,
+        "carbs_g": 560,
+        "protein_g": 126,
+        "fat_g": 56,
+        "sodium_mg": 4000
+      },
+      "key_recommendations": [
+        "Consume a high-carb meal 3-4 hours before workouts to top off glycogen stores (ISSN2017, ACSM2016).",
+        "Include a small carb top-up 30-60 minutes before workouts to maintain blood glucose levels (ISSN2017, ACSM2016).",
+        "Consume a balanced meal with 0.8 g/kg carbs and 0.2-0.3 g/kg protein within an hour post-exercise to support muscle recovery and glycogen replenishment (ISSN2017, ACSM2016).",
+        "Ensure adequate hydration and sodium replacement throughout the day, especially around workouts (ISSN2017, ACSM2016).",
+        "Consume balanced meals and snacks throughout the day to sustain energy levels and support recovery (ISSN2017, ACSM2016)."
+      ]
+    },
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": -2588,
+    "token_reduction": 7573,
+    "both_successful": true
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "model": "mistralai/mistral-small-3.2-24b-instruct",
+  "fast_mode": false,
+  "duration_ms": 32266,
+  "usage": {
+    "prompt_tokens": 13281,
+    "completion_tokens": 2063,
+    "total_tokens": 15344,
+    "prompt_tokens_details": null
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Overnight oats",
+            "carbs_g": 60,
+            "protein_g": 12,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 340
+          },
+          {
+            "item": "Banana",
+            "carbs_g": 27,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 105
+          },
+          {
+            "item": "Almond milk (200 ml)",
+            "carbs_g": 4,
+            "protein_g": 1,
+            "fat_g": 3,
+            "sodium_mg": 100,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 91,
+        "total_protein_g": 14,
+        "total_fat_g": 8,
+        "total_sodium_mg": 201,
+        "total_calories": 505,
+        "rationale": "This meal provides a balanced mix of carbohydrates to fuel the upcoming runs, along with some protein for muscle maintenance. The overnight oats and banana provide easily digestible carbohydrates, while the almond milk adds a small amount of protein and healthy fats. The sodium content helps with hydration and electrolyte balance. Citation: ACSM2016, ISSN2017",
+        "israel_alternatives": [
+          "Osem oats",
+          "Tnuva almond milk"
+        ]
+      },
+      {
+        "time": "12:00",
+        "name": "Lunch",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Grilled chicken breast (150g)",
+            "carbs_g": 0,
+            "protein_g": 45,
+            "fat_g": 5,
+            "sodium_mg": 100,
+            "calories": 270
+          },
+          {
+            "item": "White rice (100g cooked)",
+            "carbs_g": 46,
+            "protein_g": 4,
+            "fat_g": 0,
+            "sodium_mg": 2,
+            "calories": 200
+          },
+          {
+            "item": "Steamed broccoli (100g)",
+            "carbs_g": 7,
+            "protein_g": 3,
+            "fat_g": 0,
+            "sodium_mg": 30,
+            "calories": 35
+          },
+          {
+            "item": "Olive oil (1 tbsp)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 53,
+        "total_protein_g": 52,
+        "total_fat_g": 19,
+        "total_sodium_mg": 132,
+        "total_calories": 625,
+        "rationale": "This meal focuses on protein for muscle recovery and carbohydrates to replenish glycogen stores after the runs. The chicken breast provides high-quality protein, while the white rice offers easily digestible carbohydrates. The broccoli adds fiber and vitamins, and the olive oil contributes healthy fats. Citation: Morton2018, ISSN2017",
+        "israel_alternatives": [
+          "Tnuva chicken breast",
+          "Osem rice",
+          "Local broccoli"
+        ]
+      },
+      {
+        "time": "15:00",
+        "name": "Snack",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Greek yogurt (150g)",
+            "carbs_g": 9,
+            "protein_g": 15,
+            "fat_g": 2,
+            "sodium_mg": 75,
+            "calories": 120
+          },
+          {
+            "item": "Honey (1 tbsp)",
+            "carbs_g": 17,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 64
+          },
+          {
+            "item": "Almonds (10g)",
+            "carbs_g": 2,
+            "protein_g": 1,
+            "fat_g": 1,
+            "sodium_mg": 0,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 28,
+        "total_protein_g": 16,
+        "total_fat_g": 3,
+        "total_sodium_mg": 76,
+        "total_calories": 244,
+        "rationale": "This snack provides a mix of carbohydrates and protein to fuel the second run. The Greek yogurt offers protein and probiotics, while the honey provides quick-digesting carbohydrates. The almonds add a small amount of healthy fats. Citation: ACSM2016, ISSN2017",
+        "israel_alternatives": [
+          "Tnuva Greek yogurt",
+          "Local honey",
+          "Local almonds"
+        ]
+      },
+      {
+        "time": "18:00",
+        "name": "Dinner",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Salmon (150g)",
+            "carbs_g": 0,
+            "protein_g": 34,
+            "fat_g": 15,
+            "sodium_mg": 100,
+            "calories": 300
+          },
+          {
+            "item": "Quinoa (100g cooked)",
+            "carbs_g": 39,
+            "protein_g": 8,
+            "fat_g": 3,
+            "sodium_mg": 10,
+            "calories": 190
+          },
+          {
+            "item": "Roasted vegetables (100g)",
+            "carbs_g": 10,
+            "protein_g": 2,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 50
+          },
+          {
+            "item": "Olive oil (1 tbsp)",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 14,
+            "sodium_mg": 0,
+            "calories": 120
+          }
+        ],
+        "total_carbs_g": 49,
+        "total_protein_g": 44,
+        "total_fat_g": 32,
+        "total_sodium_mg": 160,
+        "total_calories": 660,
+        "rationale": "This meal provides a balance of protein, carbohydrates, and healthy fats to support recovery and overall health. The salmon offers high-quality protein and omega-3 fatty acids, while the quinoa provides complex carbohydrates and additional protein. The roasted vegetables add fiber and vitamins, and the olive oil contributes healthy fats. Citation: Morton2018, ISSN2017",
+        "israel_alternatives": [
+          "Local salmon",
+          "Osem quinoa",
+          "Local vegetables"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Dessert",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Dark chocolate (30g)",
+            "carbs_g": 15,
+            "protein_g": 2,
+            "fat_g": 10,
+            "sodium_mg": 10,
+            "calories": 180
+          },
+          {
+            "item": "Strawberries (100g)",
+            "carbs_g": 8,
+            "protein_g": 1,
+            "fat_g": 0,
+            "sodium_mg": 1,
+            "calories": 32
+          }
+        ],
+        "total_carbs_g": 23,
+        "total_protein_g": 3,
+        "total_fat_g": 10,
+        "total_sodium_mg": 11,
+        "total_calories": 212,
+        "rationale": "This dessert provides a small amount of carbohydrates and healthy fats to support recovery and overall health. The dark chocolate offers antioxidants and healthy fats, while the strawberries provide vitamins and fiber. Citation: Morton2018, ISSN2017",
+        "israel_alternatives": [
+          "Local dark chocolate",
+          "Local strawberries"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 2241,
+      "protein_g": 129,
+      "carbs_g": 244,
+      "fat_g": 62,
+      "sodium_mg": 579
+    }
+  }
+}

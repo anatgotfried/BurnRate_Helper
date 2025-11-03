@@ -1,0 +1,236 @@
+{
+  "model": "google/gemini-2.0-flash-exp:free",
+  "fast_mode": true,
+  "duration_ms": 20461,
+  "usage": {
+    "prompt_tokens": 4507,
+    "completion_tokens": 2190,
+    "total_tokens": 6697,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0
+    }
+  },
+  "response": {
+    "meals": [
+      {
+        "time": "07:00",
+        "name": "Pre-Run Breakfast",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Oatmeal with Banana and Almonds",
+            "carbs_g": 70,
+            "protein_g": 10,
+            "fat_g": 15,
+            "sodium_mg": 50,
+            "calories": 475
+          }
+        ],
+        "total_carbs_g": 70,
+        "total_protein_g": 10,
+        "total_fat_g": 15,
+        "total_sodium_mg": 50,
+        "total_calories": 475,
+        "rationale": "Provides ~1g/kg carbs before the run, as recommended for moderate intensity sessions less than 90 minutes (ACSM2016, Gejl2021). The oatmeal provides sustained energy, while the banana offers quick-releasing carbohydrates. Almonds contribute healthy fats. Sodium content is low, but will be addressed intra-workout.",
+        "israel_alternatives": [
+          "Instant oatmeal with fruit and nuts",
+          "Bread with tahini and date honey"
+        ]
+      },
+      {
+        "time": "08:30",
+        "name": "Pre-Run Hydration",
+        "type": "pre_workout",
+        "foods": [
+          {
+            "item": "Electrolyte Drink",
+            "carbs_g": 15,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 350,
+            "calories": 60
+          }
+        ],
+        "total_carbs_g": 15,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 350,
+        "total_calories": 60,
+        "rationale": "Provides additional hydration and electrolytes before the run. Aiming for ~5ml/kg fluid with ~500mg/L sodium (ACSM2016).",
+        "israel_alternatives": [
+          "Hydration tabs dissolved in water",
+          "Homemade electrolyte drink (water, salt, lemon juice)"
+        ]
+      },
+      {
+        "time": "09:30",
+        "name": "Intra-Workout Fuel",
+        "type": "intra_workout",
+        "foods": [
+          {
+            "item": "Energy Gel",
+            "carbs_g": 30,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 50,
+            "calories": 120
+          },
+          {
+            "item": "Water",
+            "carbs_g": 0,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 0,
+            "calories": 0
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 50,
+        "total_calories": 120,
+        "rationale": "Provides ~30g carbohydrate per hour as recommended for workouts about an hour long, especially at high intensity (ACSM2016, ISSN2017). Focus on glucose or maltodextrin sources. Water helps with hydration.",
+        "israel_alternatives": [
+          "Dates",
+          "Sports drink"
+        ]
+      },
+      {
+        "time": "11:00",
+        "name": "Post-Run Recovery",
+        "type": "post_workout",
+        "foods": [
+          {
+            "item": "Protein Shake (Whey Protein with Fruit and Milk)",
+            "carbs_g": 50,
+            "protein_g": 25,
+            "fat_g": 5,
+            "sodium_mg": 150,
+            "calories": 385
+          }
+        ],
+        "total_carbs_g": 50,
+        "total_protein_g": 25,
+        "total_fat_g": 5,
+        "total_sodium_mg": 150,
+        "total_calories": 385,
+        "rationale": "Provides ~0.8g/kg carbs and ~0.3g/kg protein within an hour of the run (ISSN2017). This aids in glycogen replenishment and muscle repair. Whey protein provides leucine to stimulate muscle protein synthesis.",
+        "israel_alternatives": [
+          "Greek yogurt with fruit and granola",
+          "Chocolate milk"
+        ]
+      },
+      {
+        "time": "13:00",
+        "name": "Lunch",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Chicken Breast with Quinoa and Vegetables",
+            "carbs_g": 80,
+            "protein_g": 40,
+            "fat_g": 10,
+            "sodium_mg": 700,
+            "calories": 610
+          }
+        ],
+        "total_carbs_g": 80,
+        "total_protein_g": 40,
+        "total_fat_g": 10,
+        "total_sodium_mg": 700,
+        "total_calories": 610,
+        "rationale": "Balanced meal to continue recovery and provide sustained energy. Quinoa provides complex carbohydrates, while chicken breast offers a lean protein source and vegetables offer micronutrients.",
+        "israel_alternatives": [
+          "Falafel with pita and salad",
+          "Shakshuka with bread"
+        ]
+      },
+      {
+        "time": "16:00",
+        "name": "Snack",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Fruit and Nuts",
+            "carbs_g": 30,
+            "protein_g": 5,
+            "fat_g": 10,
+            "sodium_mg": 10,
+            "calories": 230
+          }
+        ],
+        "total_carbs_g": 30,
+        "total_protein_g": 5,
+        "total_fat_g": 10,
+        "total_sodium_mg": 10,
+        "total_calories": 230,
+        "rationale": "Provides a quick energy boost and helps maintain blood sugar levels between meals.",
+        "israel_alternatives": [
+          "Bamba",
+          "Sunflower seeds"
+        ]
+      },
+      {
+        "time": "19:00",
+        "name": "Dinner",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Salmon with Sweet Potato and Broccoli",
+            "carbs_g": 135,
+            "protein_g": 46,
+            "fat_g": 6,
+            "sodium_mg": 600,
+            "calories": 978
+          }
+        ],
+        "total_carbs_g": 135,
+        "total_protein_g": 46,
+        "total_fat_g": 6,
+        "total_sodium_mg": 600,
+        "total_calories": 978,
+        "rationale": "Provides essential fatty acids, complex carbohydrates, and protein for overall health and recovery. Salmon is rich in omega-3 fatty acids, sweet potato provides sustained energy, and broccoli offers micronutrients.",
+        "israel_alternatives": [
+          "Lentil soup with bread",
+          "Tuna salad sandwich"
+        ]
+      },
+      {
+        "time": "21:00",
+        "name": "Evening Snack",
+        "type": "general",
+        "foods": [
+          {
+            "item": "Cottage Cheese with Berries",
+            "carbs_g": 70,
+            "protein_g": 0,
+            "fat_g": 0,
+            "sodium_mg": 1100,
+            "calories": 390
+          }
+        ],
+        "total_carbs_g": 70,
+        "total_protein_g": 0,
+        "total_fat_g": 0,
+        "total_sodium_mg": 1100,
+        "total_calories": 390,
+        "rationale": "Provides slow-digesting protein for overnight muscle recovery and berries provide antioxidants.",
+        "israel_alternatives": [
+          "Labneh",
+          "White cheese"
+        ]
+      }
+    ],
+    "daily_totals": {
+      "calories": 3248,
+      "protein_g": 126,
+      "carbs_g": 560,
+      "fat_g": 56,
+      "sodium_mg": 4000
+    }
+  }
+}

@@ -1,6 +1,6 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.4.0';
-const VERSION_DATE = '2025-11-03';
+const VERSION = '1.4.1';
+const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001' 

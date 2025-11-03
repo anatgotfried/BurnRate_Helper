@@ -1,0 +1,318 @@
+{
+  "model": "google/gemini-2.0-flash-exp:free",
+  "test_number": 3,
+  "timestamp": "2025-11-03T11:34:03.670768",
+  "fast_mode_off": {
+    "mode": "full_corpus",
+    "success": true,
+    "duration_ms": 24366,
+    "usage": {
+      "prompt_tokens": 13835,
+      "completion_tokens": 2649,
+      "total_tokens": 16484,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0
+      }
+    },
+    "meal_count": 7,
+    "response": {
+      "meals": [
+        {
+          "time": "06:30",
+          "name": "Breakfast",
+          "type": "breakfast",
+          "foods": [
+            {
+              "item": "Overnight Oats (1/2 cup oats, 200ml low-fat milk)",
+              "carbs_g": 40,
+              "protein_g": 12,
+              "fat_g": 5,
+              "sodium_mg": 100,
+              "calories": 280
+            },
+            {
+              "item": "Banana",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            },
+            {
+              "item": "Peanut Butter (2 tbsp)",
+              "carbs_g": 7,
+              "protein_g": 7,
+              "fat_g": 16,
+              "sodium_mg": 150,
+              "calories": 200
+            }
+          ],
+          "total_carbs_g": 74,
+          "total_protein_g": 20,
+          "total_fat_g": 21,
+          "total_sodium_mg": 251,
+          "total_calories": 585,
+          "rationale": "Provides a moderate amount of carbohydrates to replenish glycogen stores after the overnight fast and fuel for the morning workout. The protein helps with muscle recovery and satiety. The fat content is moderate to provide sustained energy. This aligns with pre-workout recommendations of 1g/kg carbs and 0.2g/kg protein for strength training [ISSN2017].",
+          "israel_alternatives": [
+            "Tnuva cottage cheese with dates",
+            "Skyr yogurt with granola",
+            "Hard-boiled eggs with whole-grain toast"
+          ]
+        },
+        {
+          "time": "08:00",
+          "name": "Pre-Workout Snack",
+          "type": "pre_workout",
+          "foods": [
+            {
+              "item": "White Bread (2 slices)",
+              "carbs_g": 28,
+              "protein_g": 4,
+              "fat_g": 1,
+              "sodium_mg": 200,
+              "calories": 140
+            },
+            {
+              "item": "Jam (2 tbsp)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 0,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 58,
+          "total_protein_g": 4,
+          "total_fat_g": 1,
+          "total_sodium_mg": 200,
+          "total_calories": 260,
+          "rationale": "A quick source of easily digestible carbohydrates to top off glycogen stores before the run. This provides about 0.8g/kg carbs pre-workout, which is within the recommended range of 0.5-1.0 g/kg for endurance workouts less than 90 minutes [ACSM2016]. The low fat and fiber content helps prevent GI distress during the run.",
+          "israel_alternatives": [
+            "Rice cakes with honey",
+            "Banana",
+            "Dates"
+          ]
+        },
+        {
+          "time": "09:30",
+          "name": "Intra-Workout Fuel",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Sports Drink (500ml)",
+              "carbs_g": 30,
+              "protein_g": 0,
+              "fat_g": 0,
+              "sodium_mg": 300,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 30,
+          "total_protein_g": 0,
+          "total_fat_g": 0,
+          "total_sodium_mg": 300,
+          "total_calories": 120,
+          "rationale": "Provides carbohydrates and electrolytes during the run to maintain blood glucose levels and prevent dehydration. This provides 30g carbs per hour, which aligns with recommendations for endurance exercise lasting 60-90 minutes [ISSN2017]. The sodium helps replace sweat losses and maintain fluid balance.",
+          "israel_alternatives": [
+            "Electrolyte tablets in water",
+            "Diluted fruit juice",
+            "Energy gels"
+          ]
+        },
+        {
+          "time": "11:00",
+          "name": "Post-Workout Recovery",
+          "type": "post_workout",
+          "foods": [
+            {
+              "item": "Whey Protein Shake (30g protein)",
+              "carbs_g": 5,
+              "protein_g": 30,
+              "fat_g": 2,
+              "sodium_mg": 100,
+              "calories": 150
+            },
+            {
+              "item": "Banana",
+              "carbs_g": 27,
+              "protein_g": 1,
+              "fat_g": 0,
+              "sodium_mg": 1,
+              "calories": 105
+            }
+          ],
+          "total_carbs_g": 32,
+          "total_protein_g": 31,
+          "total_fat_g": 2,
+          "total_sodium_mg": 101,
+          "total_calories": 255,
+          "rationale": "Provides protein and carbohydrates to initiate muscle recovery and replenish glycogen stores after the workout. The whey protein provides essential amino acids to stimulate muscle protein synthesis [Morton2018]. The banana provides easily digestible carbohydrates to replenish glycogen. This combination aligns with post-workout recommendations of 0.8g/kg carbs and 0.25g/kg protein [ACSM2016].",
+          "israel_alternatives": [
+            "Greek yogurt with fruit",
+            "Chocolate milk",
+            "Protein bar"
+          ]
+        },
+        {
+          "time": "13:00",
+          "name": "Lunch",
+          "type": "lunch",
+          "foods": [
+            {
+              "item": "Chicken Breast (150g)",
+              "carbs_g": 0,
+              "protein_g": 45,
+              "fat_g": 5,
+              "sodium_mg": 100,
+              "calories": 230
+            },
+            {
+              "item": "Brown Rice (1 cup cooked)",
+              "carbs_g": 45,
+              "protein_g": 5,
+              "fat_g": 2,
+              "sodium_mg": 10,
+              "calories": 220
+            },
+            {
+              "item": "Mixed Vegetables (1 cup)",
+              "carbs_g": 10,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 50,
+              "calories": 50
+            },
+            {
+              "item": "Olive Oil (1 tbsp)",
+              "carbs_g": 0,
+              "protein_g": 0,
+              "fat_g": 14,
+              "sodium_mg": 0,
+              "calories": 120
+            }
+          ],
+          "total_carbs_g": 55,
+          "total_protein_g": 52,
+          "total_fat_g": 21,
+          "total_sodium_mg": 160,
+          "total_calories": 620,
+          "rationale": "Provides a balanced meal with protein, carbohydrates, and healthy fats to support muscle recovery and overall energy levels. The protein helps with muscle repair and satiety. The carbohydrates replenish glycogen stores. The healthy fats provide sustained energy and support hormone production. This supports muscle protein synthesis throughout the day [ISSN2017].",
+          "israel_alternatives": [
+            "Falafel in pita with salad",
+            "Shakshuka with whole-grain bread",
+            "Lentil soup"
+          ]
+        },
+        {
+          "time": "16:00",
+          "name": "Afternoon Snack",
+          "type": "snack",
+          "foods": [
+            {
+              "item": "Whole Wheat Bread (2 slices)",
+              "carbs_g": 28,
+              "protein_g": 8,
+              "fat_g": 2,
+              "sodium_mg": 200,
+              "calories": 160
+            },
+            {
+              "item": "Avocado (1/2)",
+              "carbs_g": 9,
+              "protein_g": 2,
+              "fat_g": 15,
+              "sodium_mg": 7,
+              "calories": 160
+            }
+          ],
+          "total_carbs_g": 37,
+          "total_protein_g": 10,
+          "total_fat_g": 17,
+          "total_sodium_mg": 207,
+          "total_calories": 320,
+          "rationale": "Provides a source of carbohydrates and healthy fats to maintain energy levels and prevent cravings. The carbohydrates replenish glycogen stores. The healthy fats provide sustained energy and support hormone production. This helps with satiety and prevents overeating later in the day.",
+          "israel_alternatives": [
+            "Hummus on whole-grain crackers",
+            "Tahini with dates",
+            "Nuts and seeds"
+          ]
+        },
+        {
+          "time": "19:00",
+          "name": "Dinner",
+          "type": "dinner",
+          "foods": [
+            {
+              "item": "Salmon (150g)",
+              "carbs_g": 0,
+              "protein_g": 30,
+              "fat_g": 13,
+              "sodium_mg": 80,
+              "calories": 250
+            },
+            {
+              "item": "Sweet Potato (1 medium)",
+              "carbs_g": 26,
+              "protein_g": 2,
+              "fat_g": 0,
+              "sodium_mg": 40,
+              "calories": 100
+            },
+            {
+              "item": "Broccoli (1 cup)",
+              "carbs_g": 6,
+              "protein_g": 3,
+              "fat_g": 0,
+              "sodium_mg": 30,
+              "calories": 30
+            }
+          ],
+          "total_carbs_g": 32,
+          "total_protein_g": 35,
+          "total_fat_g": 13,
+          "total_sodium_mg": 150,
+          "total_calories": 380,
+          "rationale": "Provides a balanced meal with protein, carbohydrates, and healthy fats to support muscle recovery and overall health. The protein helps with muscle repair and satiety. The carbohydrates replenish glycogen stores. The healthy fats provide sustained energy and support hormone production. Salmon is a good source of omega-3 fatty acids, which are beneficial for reducing inflammation.",
+          "israel_alternatives": [
+            "Grilled chicken with couscous and roasted vegetables",
+            "Tofu stir-fry with rice noodles",
+            "Vegetarian chili"
+          ]
+        }
+      ],
+      "daily_totals": {
+        "calories": 2540,
+        "carbs_g": 318,
+        "protein_g": 192,
+        "fat_g": 80,
+        "sodium_mg": 1269
+      },
+      "key_recommendations": [
+        "Prioritize carbohydrate intake around workouts to fuel performance and replenish glycogen stores [ACSM2016].",
+        "Consume adequate protein throughout the day to support muscle repair and growth [Morton2018].",
+        "Ensure sufficient hydration with electrolytes, especially during and after workouts [McCubbin2025].",
+        "Adjust sodium intake based on sweat rate and environmental conditions to prevent hyponatremia [McCubbin2025].",
+        "Consume a balanced diet with a variety of nutrients to support overall health and recovery."
+      ]
+    },
+    "error": null
+  },
+  "fast_mode_on": {
+    "mode": "filtered_corpus",
+    "success": false,
+    "duration_ms": 11875,
+    "usage": {},
+    "meal_count": 0,
+    "response": null,
+    "error": null
+  },
+  "comparison": {
+    "speed_difference_ms": 12491,
+    "token_reduction": 0,
+    "both_successful": false
+  }
+}

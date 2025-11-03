@@ -1,0 +1,235 @@
+{
+  "model": "openai/gpt-4o-mini",
+  "fast_mode": true,
+  "timestamp": "2025-11-03T11:54:23.062596",
+  "duration_ms": 31587,
+  "usage": {
+    "prompt_tokens": 132,
+    "completion_tokens": 1433,
+    "total_tokens": 1565,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "response": {
+    "meals": [
+      {
+        "meal": "Breakfast",
+        "foods": [
+          {
+            "food": "Oatmeal",
+            "portion": "100g",
+            "sodium": 2,
+            "rationale": "High in carbohydrates and fiber to provide sustained energy for morning run.",
+            "israel_alternatives": [
+              "\u05e7\u05d5\u05d5\u05d0\u05e7\u05e8",
+              "\u05d3\u05d9\u05d9\u05e1\u05ea \u05e9\u05d9\u05d1\u05d5\u05dc\u05ea \u05e9\u05d5\u05e2\u05dc"
+            ]
+          },
+          {
+            "food": "Banana",
+            "portion": "1 medium",
+            "sodium": 1,
+            "rationale": "Rich in potassium and easily digestible carbs to support energy levels.",
+            "israel_alternatives": [
+              "\u05d1\u05e0\u05e0\u05d4"
+            ]
+          },
+          {
+            "food": "Greek Yogurt",
+            "portion": "200g",
+            "sodium": 80,
+            "rationale": "High in protein to aid muscle recovery post-workout.",
+            "israel_alternatives": [
+              "\u05d9\u05d5\u05d2\u05d5\u05e8\u05d8 \u05d9\u05d5\u05d5\u05e0\u05d9"
+            ]
+          },
+          {
+            "food": "Honey",
+            "portion": "20g",
+            "sodium": 1,
+            "rationale": "Natural source of quick carbs for energy.",
+            "israel_alternatives": [
+              "\u05d3\u05d1\u05e9"
+            ]
+          }
+        ],
+        "total_sodium": 84
+      },
+      {
+        "meal": "Snack",
+        "foods": [
+          {
+            "food": "Rice Cakes",
+            "portion": "2 cakes",
+            "sodium": 10,
+            "rationale": "Light snack with carbs for energy before the second workout.",
+            "israel_alternatives": [
+              "\u05e2\u05d5\u05d2\u05d9\u05d5\u05ea \u05d0\u05d5\u05e8\u05d6"
+            ]
+          },
+          {
+            "food": "Peanut Butter",
+            "portion": "30g",
+            "sodium": 5,
+            "rationale": "Healthy fat and protein to keep energy levels stable.",
+            "israel_alternatives": [
+              "\u05d7\u05de\u05d0\u05ea \u05d1\u05d5\u05d8\u05e0\u05d9\u05dd"
+            ]
+          }
+        ],
+        "total_sodium": 15
+      },
+      {
+        "meal": "Lunch",
+        "foods": [
+          {
+            "food": "Grilled Chicken Breast",
+            "portion": "150g",
+            "sodium": 70,
+            "rationale": "High-quality protein source to support muscle maintenance.",
+            "israel_alternatives": [
+              "\u05d7\u05d6\u05d4 \u05e2\u05d5\u05e3 \u05e2\u05dc \u05d4\u05d0\u05e9"
+            ]
+          },
+          {
+            "food": "Quinoa",
+            "portion": "150g",
+            "sodium": 7,
+            "rationale": "Excellent source of complex carbohydrates and protein.",
+            "israel_alternatives": [
+              "\u05db\u05d5\u05e1\u05de\u05ea"
+            ]
+          },
+          {
+            "food": "Steamed Broccoli",
+            "portion": "100g",
+            "sodium": 33,
+            "rationale": "High in fiber and micronutrients for overall health.",
+            "israel_alternatives": [
+              "\u05d1\u05e8\u05d5\u05e7\u05d5\u05dc\u05d9 \u05de\u05d0\u05d5\u05d3\u05d4"
+            ]
+          },
+          {
+            "food": "Olive Oil",
+            "portion": "15g",
+            "sodium": 0,
+            "rationale": "Healthy fat addition for flavor and energy.",
+            "israel_alternatives": [
+              "\u05e9\u05de\u05df \u05d6\u05d9\u05ea"
+            ]
+          }
+        ],
+        "total_sodium": 110
+      },
+      {
+        "meal": "Post-Workout Shake",
+        "foods": [
+          {
+            "food": "Whey Protein Powder",
+            "portion": "30g",
+            "sodium": 60,
+            "rationale": "Quick protein source for muscle recovery immediately after workouts.",
+            "israel_alternatives": [
+              "\u05d0\u05d1\u05e7\u05ea \u05d7\u05dc\u05d1\u05d5\u05df"
+            ]
+          },
+          {
+            "food": "Mixed Berries",
+            "portion": "150g",
+            "sodium": 1,
+            "rationale": "Antioxidants and carbs to aid recovery.",
+            "israel_alternatives": [
+              "\u05e4\u05d9\u05e8\u05d5\u05ea \u05d9\u05e2\u05e8 \u05de\u05e2\u05d5\u05e8\u05d1\u05d9\u05dd"
+            ]
+          },
+          {
+            "food": "Coconut Water",
+            "portion": "300ml",
+            "sodium": 105,
+            "rationale": "Replenishes electrolytes lost during workouts.",
+            "israel_alternatives": [
+              "\u05de\u05d9\u05e5 \u05e7\u05d5\u05e7\u05d5\u05e1"
+            ]
+          }
+        ],
+        "total_sodium": 166
+      },
+      {
+        "meal": "Dinner",
+        "foods": [
+          {
+            "food": "Baked Salmon",
+            "portion": "200g",
+            "sodium": 80,
+            "rationale": "Rich in omega-3 fatty acids and protein for recovery.",
+            "israel_alternatives": [
+              "\u05e1\u05dc\u05de\u05d5\u05df \u05d0\u05e4\u05d5\u05d9"
+            ]
+          },
+          {
+            "food": "Sweet Potatoes",
+            "portion": "200g",
+            "sodium": 55,
+            "rationale": "Complex carbs for energy and recovery.",
+            "israel_alternatives": [
+              "\u05ea\u05e4\u05d5\u05d7\u05d9 \u05d0\u05d3\u05de\u05d4 \u05de\u05ea\u05d5\u05e7\u05d9\u05dd"
+            ]
+          },
+          {
+            "food": "Mixed Salad",
+            "portion": "150g",
+            "sodium": 40,
+            "rationale": "Variety of vegetables for vitamins and minerals.",
+            "israel_alternatives": [
+              "\u05e1\u05dc\u05d8 \u05d9\u05e8\u05e7\u05d5\u05ea \u05de\u05e2\u05d5\u05e8\u05d1"
+            ]
+          },
+          {
+            "food": "Feta Cheese",
+            "portion": "50g",
+            "sodium": 350,
+            "rationale": "Adds flavor and additional protein.",
+            "israel_alternatives": [
+              "\u05d2\u05d1\u05d9\u05e0\u05ea \u05e4\u05d8\u05d4"
+            ]
+          }
+        ],
+        "total_sodium": 525
+      },
+      {
+        "meal": "Evening Snack",
+        "foods": [
+          {
+            "food": "Cottage Cheese",
+            "portion": "200g",
+            "sodium": 400,
+            "rationale": "High in casein protein for overnight recovery.",
+            "israel_alternatives": [
+              "\u05d2\u05d1\u05d9\u05e0\u05ea \u05e7\u05d5\u05d8\u05d2'"
+            ]
+          },
+          {
+            "food": "Apple",
+            "portion": "1 medium",
+            "sodium": 2,
+            "rationale": "Fiber and natural sugars for a healthy snack.",
+            "israel_alternatives": [
+              "\u05ea\u05e4\u05d5\u05d7"
+            ]
+          }
+        ],
+        "total_sodium": 402
+      }
+    ],
+    "total_calories": 3250,
+    "total_protein": 126,
+    "total_carbs": 560,
+    "total_fat": 56,
+    "total_sodium": 1302
+  }
+}
