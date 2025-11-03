@@ -1,0 +1,340 @@
+{
+  "athletes": [
+    {
+      "id": "athlete_1",
+      "name": "🏃‍♀️ Sarah - Fat Loss Runner (2 workouts)",
+      "description": "60kg woman, fat loss, moderate training load",
+      "profile": {
+        "weight_kg": 60,
+        "height_cm": 165,
+        "age": 35,
+        "gender": "female",
+        "training_phase": "base",
+        "goal": "fat_loss",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["masters", "female_specific"]
+      },
+      "workouts": [
+        {
+          "type": "run",
+          "duration": 60,
+          "intensity": "moderate",
+          "startTime": "09:00",
+          "temperature": 20,
+          "humidity": 60
+        },
+        {
+          "type": "run",
+          "duration": 45,
+          "intensity": "moderate",
+          "startTime": "17:00",
+          "temperature": 25,
+          "humidity": 55
+        }
+      ]
+    },
+    {
+      "id": "athlete_2",
+      "name": "💪 David - Performance Builder (Heavy Load)",
+      "description": "75kg man, performance, very high training load",
+      "profile": {
+        "weight_kg": 75,
+        "height_cm": 180,
+        "age": 28,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts": [
+        {
+          "type": "run",
+          "duration": 90,
+          "intensity": "high",
+          "startTime": "06:00",
+          "temperature": 15,
+          "humidity": 70
+        },
+        {
+          "type": "strength",
+          "duration": 60,
+          "intensity": "high",
+          "startTime": "16:00",
+          "temperature": 22,
+          "humidity": 50
+        },
+        {
+          "type": "bike",
+          "duration": 45,
+          "intensity": "moderate",
+          "startTime": "19:00",
+          "temperature": 18,
+          "humidity": 60
+        }
+      ]
+    },
+    {
+      "id": "athlete_3",
+      "name": "🚴‍♀️ Emma - Light Recovery Day",
+      "description": "55kg woman, performance, low training load",
+      "profile": {
+        "weight_kg": 55,
+        "height_cm": 160,
+        "age": 42,
+        "gender": "female",
+        "training_phase": "recovery",
+        "goal": "performance",
+        "diet_pattern": "vegetarian",
+        "gi_tolerance": "low",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["masters", "female_specific"]
+      },
+      "workouts": [
+        {
+          "type": "bike",
+          "duration": 30,
+          "intensity": "low",
+          "startTime": "10:00",
+          "temperature": 20,
+          "humidity": 55
+        }
+      ]
+    },
+    {
+      "id": "athlete_4",
+      "name": "🏊 Marcus - Triathlete Peak Week",
+      "description": "70kg man, race prep, extreme load",
+      "profile": {
+        "weight_kg": 70,
+        "height_cm": 175,
+        "age": 32,
+        "gender": "male",
+        "training_phase": "race",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "very_high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts": [
+        {
+          "type": "swim",
+          "duration": 75,
+          "intensity": "moderate",
+          "startTime": "05:30",
+          "temperature": 24,
+          "humidity": 80
+        },
+        {
+          "type": "bike",
+          "duration": 120,
+          "intensity": "high",
+          "startTime": "09:00",
+          "temperature": 28,
+          "humidity": 65
+        },
+        {
+          "type": "run",
+          "duration": 45,
+          "intensity": "moderate",
+          "startTime": "16:00",
+          "temperature": 30,
+          "humidity": 60
+        }
+      ]
+    },
+    {
+      "id": "athlete_5",
+      "name": "🌱 Rachel - Vegan Fat Loss",
+      "description": "58kg woman, fat loss, vegan, GI sensitive",
+      "profile": {
+        "weight_kg": 58,
+        "height_cm": 162,
+        "age": 29,
+        "gender": "female",
+        "training_phase": "base",
+        "goal": "fat_loss",
+        "diet_pattern": "vegan",
+        "gi_tolerance": "low",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["female_specific"]
+      },
+      "workouts": [
+        {
+          "type": "run",
+          "duration": 50,
+          "intensity": "moderate",
+          "startTime": "07:00",
+          "temperature": 18,
+          "humidity": 70
+        }
+      ]
+    },
+    {
+      "id": "athlete_6",
+      "name": "🏋️ Alex - Muscle Gain + Strength",
+      "description": "80kg man, muscle gain, strength focus",
+      "profile": {
+        "weight_kg": 80,
+        "height_cm": 185,
+        "age": 25,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "muscle_gain",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts": [
+        {
+          "type": "strength",
+          "duration": 75,
+          "intensity": "high",
+          "startTime": "08:00",
+          "temperature": 20,
+          "humidity": 50
+        },
+        {
+          "type": "strength",
+          "duration": 60,
+          "intensity": "high",
+          "startTime": "17:00",
+          "temperature": 22,
+          "humidity": 55
+        }
+      ]
+    },
+    {
+      "id": "athlete_7",
+      "name": "👴 Michael - Masters Endurance",
+      "description": "65kg man, 55 years old, moderate training",
+      "profile": {
+        "weight_kg": 65,
+        "height_cm": 172,
+        "age": 55,
+        "gender": "male",
+        "training_phase": "base",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["masters"]
+      },
+      "workouts": [
+        {
+          "type": "bike",
+          "duration": 90,
+          "intensity": "low",
+          "startTime": "08:00",
+          "temperature": 22,
+          "humidity": 60
+        },
+        {
+          "type": "swim",
+          "duration": 45,
+          "intensity": "moderate",
+          "startTime": "16:00",
+          "temperature": 26,
+          "humidity": 75
+        }
+      ]
+    },
+    {
+      "id": "athlete_8",
+      "name": "🔥 Lisa - HIIT Fat Loss",
+      "description": "52kg woman, fat loss, high-intensity intervals",
+      "profile": {
+        "weight_kg": 52,
+        "height_cm": 158,
+        "age": 38,
+        "gender": "female",
+        "training_phase": "build",
+        "goal": "fat_loss",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "high",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["female_specific"]
+      },
+      "workouts": [
+        {
+          "type": "hiit",
+          "duration": 40,
+          "intensity": "very_high",
+          "startTime": "06:30",
+          "temperature": 20,
+          "humidity": 65
+        },
+        {
+          "type": "intervals",
+          "duration": 30,
+          "intensity": "high",
+          "startTime": "18:00",
+          "temperature": 24,
+          "humidity": 60
+        }
+      ]
+    },
+    {
+      "id": "athlete_9",
+      "name": "🏃 Tom - Ultra Runner Single Long Run",
+      "description": "68kg man, performance, single very long run",
+      "profile": {
+        "weight_kg": 68,
+        "height_cm": 176,
+        "age": 34,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "very_high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts": [
+        {
+          "type": "long_endurance",
+          "duration": 180,
+          "intensity": "moderate",
+          "startTime": "06:00",
+          "temperature": 18,
+          "humidity": 70
+        }
+      ]
+    },
+    {
+      "id": "athlete_10",
+      "name": "🧘‍♀️ Yael - Rest Day Nutrition",
+      "description": "62kg woman, performance, complete rest day",
+      "profile": {
+        "weight_kg": 62,
+        "height_cm": 168,
+        "age": 31,
+        "gender": "female",
+        "training_phase": "recovery",
+        "goal": "performance",
+        "diet_pattern": "vegetarian",
+        "gi_tolerance": "medium",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": ["female_specific"]
+      },
+      "workouts": []
+    }
+  ]
+}
+

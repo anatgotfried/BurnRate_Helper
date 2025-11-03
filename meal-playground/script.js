@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.5.2';
+const VERSION = '1.5.3';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -9,6 +9,7 @@ const API_URL = window.location.hostname === 'localhost'
 let workouts = [];
 let researchCorpus = {};
 let currentMealPlan = null;
+let testAthletes = [];
 
 // Load resources on page load
 window.addEventListener('DOMContentLoaded', async () => {
@@ -20,6 +21,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('generateBtn').addEventListener('click', generateMealPlan);
         document.getElementById('viewPromptBtn').addEventListener('click', viewPromptOnly);
         document.getElementById('copyJsonBtn').addEventListener('click', copyJson);
+        document.getElementById('loadAthleteSelect').addEventListener('change', loadAthleteProfile);
         document.getElementById('downloadJsonBtn').addEventListener('click', downloadJson);
         document.getElementById('copyPromptBtn')?.addEventListener('click', () => copyToClipboard('promptContent', 'Prompt'));
         document.getElementById('copyResponseBtn')?.addEventListener('click', () => copyToClipboard('responseContent', 'Response'));
@@ -65,11 +67,87 @@ async function loadResources() {
         const corpusResponse = await fetch('data/research_corpus.json');
         researchCorpus = await corpusResponse.json();
         
-        console.log('✅ Resources loaded');
+        // Load test athletes
+        const athletesResponse = await fetch('data/test-athletes.json');
+        const athletesData = await athletesResponse.json();
+        testAthletes = athletesData.athletes;
+        
+        // Populate athlete dropdown
+        const athleteSelect = document.getElementById('loadAthleteSelect');
+        if (athleteSelect) {
+            testAthletes.forEach(athlete => {
+                const option = document.createElement('option');
+                option.value = athlete.id;
+                option.textContent = athlete.name;
+                option.title = athlete.description;
+                athleteSelect.appendChild(option);
+            });
+        }
+        
+        console.log('✅ Resources loaded (including', testAthletes.length, 'test athletes)');
     } catch (error) {
         console.error('Failed to load resources:', error);
         throw error;
     }
+}
+
+// Load athlete profile
+function loadAthleteProfile() {
+    const select = document.getElementById('loadAthleteSelect');
+    const athleteId = select.value;
+    
+    if (!athleteId) return;
+    
+    const athlete = testAthletes.find(a => a.id === athleteId);
+    if (!athlete) return;
+    
+    console.log('📋 Loading athlete profile:', athlete.name);
+    
+    // Populate form fields
+    const form = document.getElementById('profileForm');
+    const profile = athlete.profile;
+    
+    // Set basic fields
+    form.querySelector('[name="weight_kg"]').value = profile.weight_kg;
+    form.querySelector('[name="height_cm"]').value = profile.height_cm;
+    form.querySelector('[name="gender"]').value = profile.gender;
+    form.querySelector('[name="training_phase"]').value = profile.training_phase;
+    form.querySelector('[name="goal"]').value = profile.goal;
+    form.querySelector('[name="diet_pattern"]').value = profile.diet_pattern;
+    form.querySelector('[name="gi_tolerance"]').value = profile.gi_tolerance;
+    form.querySelector('[name="sweat_rate"]').value = profile.sweat_rate;
+    form.querySelector('[name="timezone"]').value = profile.timezone;
+    
+    // Set population checkboxes
+    const mastersCheckbox = document.getElementById('masters');
+    const femaleCheckbox = document.getElementById('female_specific');
+    const youthCheckbox = document.getElementById('youth');
+    
+    if (mastersCheckbox) mastersCheckbox.checked = profile.populations.includes('masters');
+    if (femaleCheckbox) femaleCheckbox.checked = profile.populations.includes('female_specific');
+    if (youthCheckbox) youthCheckbox.checked = profile.populations.includes('youth');
+    
+    // Clear existing workouts and load new ones
+    workouts = [];
+    athlete.workouts.forEach(w => {
+        workouts.push({
+            id: Date.now() + Math.random(),
+            type: w.type,
+            duration: w.duration,
+            intensity: w.intensity,
+            startTime: w.startTime,
+            temperature: w.temperature,
+            humidity: w.humidity
+        });
+    });
+    
+    renderWorkouts();
+    
+    // Show success message
+    showStatus(`✅ Loaded: ${athlete.name}`, 'success');
+    
+    console.log('✅ Profile loaded:', profile);
+    console.log('✅ Workouts loaded:', workouts.length);
 }
 
 // Add workout
