@@ -1,6 +1,6 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.6';
-const VERSION_DATE = '2025-01-02';
+const VERSION = '1.3.7';
+const VERSION_DATE = '2025-11-03';
 
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001' 
@@ -875,13 +875,14 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.6) - Fix NaN Values
-🐛 Fixed workout field mismatch (duration vs duration_min)
-🐛 Fixed session cost NaN
-✅ All macro calculations now work!
-✅ No more NaN in explanations
+CURRENT VERSION (v1.3.7) - Model Testing & Optimization
+🧪 Tested all 9 models comprehensively
+❌ Removed Gemini 2.5 Pro (truncates)
+✅ Reordered by speed & reliability
+📊 Added timing to dropdown
 
 RECENT UPDATES:
+v1.3.6 - Fix NaN Values
 v1.3.5 - Token Limit & Response Display
 v1.3.4 - Cost Calculator Fix
 v1.3.3 - Cost Display Fix  

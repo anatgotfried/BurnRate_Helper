@@ -1,6 +1,36 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.6 - 2025-01-02 (Current)
+## v1.3.7 - 2025-11-03 (Current)
+**Comprehensive Model Testing & Optimization**
+
+### Changed
+- 🧪 **Ran comprehensive tests** on all 9 models with identical data
+- ❌ **Removed Gemini 2.5 Pro** - Truncates responses (tested, confirmed)
+- ✅ **Reordered models** by performance: Fastest free first, then by speed/cost
+- 📊 **Added timing indicators** - Shows avg response time per model
+- 📋 **Created MODEL_TEST_REPORT.md** - Full test results and recommendations
+- ⭐ **Kept Gemini 2.5 Flash as default** - Fastest (12.9s), FREE, 6 meals
+
+### Test Results (8/9 successful)
+- ✅ Gemini 2.5 Flash: 12.9s, 6 meals, FREE (FASTEST)
+- ✅ Gemini 2.0 Flash Exp: 18.7s, 6 meals, FREE
+- ✅ Gemini 2.0 Flash: 23.6s, 6 meals, FREE  
+- ✅ Mistral Small: 40.1s, 6 meals, $0.001
+- ✅ Qwen 2.5: 53.3s, 6 meals, $0.001
+- ✅ GPT-4o Mini: 32.5s, 6 meals, $0.001
+- ✅ Claude 3.5 Sonnet: 22.7s, 5 meals, $0.001
+- ✅ GPT-4o: 19.8s, 4 meals, $0.001
+- ❌ Gemini 2.5 Pro: FAILED (truncated)
+
+### Documentation Added
+- MODEL_TEST_REPORT.md - Full test results
+- test_models.py - Python testing script
+- test-all-models.js - Browser testing script
+- run-model-tests.html - Test harness UI
+
+---
+
+## v1.3.6 - 2025-01-02
 **Fix: NaN in Macro Calculations & Session Cost**
 
 ### Fixed

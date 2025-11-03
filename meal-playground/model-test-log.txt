@@ -1,0 +1,4 @@
+  File "/Users/anatgotfried/Documents/Projects/BurnRate/BurnRate_Helper/meal-playground/test_models.py", line 142
+    ("FREE" if result["cost"] == 0 else f"${result["cost"]:.6f}")
+                                                    ^
+SyntaxError: f-string: f-string: unmatched '['
