@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.7';
+const VERSION = '1.3.8';
 const VERSION_DATE = '2025-11-03';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -470,13 +470,13 @@ ${JSON.stringify(context, null, 2)}
 
 1. **Use Calculated Targets**: The calculated_targets in the context were determined using evidence-based formulas. Your meal plan's daily_totals MUST match these targets (within ±2%)
 
-2. **Sodium Tracking**: EVERY food item must include sodium_mg. Add salt/electrolytes to hit sodium target (${context.calculated_targets.sodium_mg}mg).
+2. **Sodium Tracking**: EVERY food item must include sodium_mg. Add salt/electrolytes to hit sodium target (${context.calculated_targets.sodium_target_mg}mg).
 
 3. **Detailed Rationales**: Each meal must have 3-5 sentences explaining food choices, timing, portions, and research citations (e.g., ISSN2017, Morton2018).
 
 4. **Israel Alternatives**: Provide 3+ specific Israel products (Tnuva, Osem, Yotvata, Strauss) with portions.
 
-5. **Protein Distribution**: Aim for 0.25-0.4 g/kg per meal for masters athletes (${context.calculated_targets.protein_per_meal_g}g per meal).
+5. **Protein Distribution**: Aim for 0.25-0.4 g/kg per meal (${Math.round(context.athlete.weight_kg * 0.3)}g per meal for this athlete).
 
 6. **Output Format**: Return ONLY valid JSON. No markdown, no code blocks, no explanations. First character { last character }
 
@@ -485,19 +485,18 @@ ${JSON.stringify(context, null, 2)}
 {
   "athlete_summary": {
     "weight_kg": ${context.athlete.weight_kg},
-    "daily_energy_target_kcal": ${context.calculated_targets.daily_energy_kcal},
-    "daily_protein_target_g": ${context.calculated_targets.protein_g},
-    "daily_carb_target_g": ${context.calculated_targets.carbs_g},
-    "daily_fat_target_g": ${context.calculated_targets.fat_g},
-    "hydration_target_l": ${context.calculated_targets.hydration_l},
-    "sodium_target_mg": ${context.calculated_targets.sodium_mg},
+    "daily_energy_target_kcal": ${context.calculated_targets.daily_energy_target_kcal},
+    "daily_protein_target_g": ${context.calculated_targets.daily_protein_target_g},
+    "daily_carb_target_g": ${context.calculated_targets.daily_carb_target_g},
+    "daily_fat_target_g": ${context.calculated_targets.daily_fat_target_g},
+    "hydration_target_l": ${context.calculated_targets.hydration_target_l},
+    "sodium_target_mg": ${context.calculated_targets.sodium_target_mg},
     "explanations": {
-      "energy": "${context.calculated_targets.explanations.energy}",
-      "protein": "${context.calculated_targets.explanations.protein}",
-      "carbs": "${context.calculated_targets.explanations.carbs}",
-      "fat": "${context.calculated_targets.explanations.fat}",
-      "hydration": "${context.calculated_targets.explanations.hydration}",
-      "sodium": "${context.calculated_targets.explanations.sodium}"
+      "protein": "${context.calculated_targets.explanations.protein || 'Protein target calculated'}",
+      "carbs": "${context.calculated_targets.explanations.carbs || 'Carbs target calculated'}",
+      "fat": "${context.calculated_targets.explanations.fat || 'Fat target calculated'}",
+      "hydration": "${context.calculated_targets.explanations.hydration || 'Hydration target calculated'}",
+      "sodium": "${context.calculated_targets.explanations.sodium || 'Sodium target calculated'}"
     }
   },
   "meals": [
@@ -875,13 +874,14 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.7) - Model Testing & Optimization
-🧪 Tested all 9 models comprehensively
-❌ Removed Gemini 2.5 Pro (truncates)
-✅ Reordered by speed & reliability
-📊 Added timing to dropdown
+CURRENT VERSION (v1.3.8) - Fix Prompt Template Bugs
+🐛 CRITICAL: Fixed undefined values in prompt
+🐛 Corrected all property names in template
+✅ AI now gets proper numeric targets
+✅ No more "undefinedmg" in prompts!
 
 RECENT UPDATES:
+v1.3.7 - Model Testing & Optimization
 v1.3.6 - Fix NaN Values
 v1.3.5 - Token Limit & Response Display
 v1.3.4 - Cost Calculator Fix

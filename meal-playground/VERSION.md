@@ -1,6 +1,25 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.7 - 2025-11-03 (Current)
+## v1.3.8 - 2025-11-03 (Current)
+**CRITICAL FIX: Prompt Template Variable Interpolation**
+
+### Fixed
+- 🐛 **CRITICAL: Fixed undefined values in prompt** - Property names were wrong
+- 🐛 **sodium_mg** → `sodium_target_mg`
+- 🐛 **daily_energy_kcal** → `daily_energy_target_kcal`
+- 🐛 **protein_g / carbs_g / fat_g** → Added `_target_` prefix
+- 🐛 **hydration_l** → `hydration_target_l`
+- 🐛 **Removed energy explanation** - Was causing undefined
+- ✅ **All template variables now interpolate correctly**
+- ✅ **AI receives proper numeric targets instead of undefined**
+
+### Impact
+Before: AI saw "sodium target: undefinedmg", "daily_energy: undefined"
+After: AI sees "sodium target: 4000mg", "daily_energy: 3248"
+
+---
+
+## v1.3.7 - 2025-11-03
 **Comprehensive Model Testing & Optimization**
 
 ### Changed
