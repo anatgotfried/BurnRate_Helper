@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.3.5';
+const VERSION = '1.3.6';
 const VERSION_DATE = '2025-01-02';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -424,12 +424,20 @@ function buildContext() {
     if (femaleCheckbox?.checked) athlete.populations.push('female_specific');
     if (youthCheckbox?.checked) athlete.populations.push('youth');
     
+    // Normalize workout data for macro-calculator (expects duration_min)
+    const normalizedWorkouts = workouts.map(w => ({
+        ...w,
+        duration_min: w.duration || w.duration_min || 60,
+        temp_c: w.temperature || w.temp_c || 20,
+        humidity_pct: w.humidity || w.humidity_pct || 60
+    }));
+    
     // Calculate daily targets using deterministic logic
-    const calculated_targets = calculateDailyTargets(athlete, workouts);
+    const calculated_targets = calculateDailyTargets(athlete, normalizedWorkouts);
     
     return {
         athlete,
-        workouts,
+        workouts: normalizedWorkouts,
         calculated_targets
     };
 }
@@ -867,13 +875,14 @@ function showChangelog() {
     const changelog = `
 🍽️ BurnRate AI Meal Planner - v${VERSION}
 
-CURRENT VERSION (v1.3.5) - Token Limit & Response Display
-🐛 Fixed token truncation detection
-🐛 Increased max_tokens 4000→6000
-✅ Better raw response display
-✅ Shows full AI content in Response tab
+CURRENT VERSION (v1.3.6) - Fix NaN Values
+🐛 Fixed workout field mismatch (duration vs duration_min)
+🐛 Fixed session cost NaN
+✅ All macro calculations now work!
+✅ No more NaN in explanations
 
 RECENT UPDATES:
+v1.3.5 - Token Limit & Response Display
 v1.3.4 - Cost Calculator Fix
 v1.3.3 - Cost Display Fix  
 v1.3.2 - Versioning Policy

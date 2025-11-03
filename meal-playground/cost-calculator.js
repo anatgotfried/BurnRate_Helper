@@ -134,10 +134,15 @@ function formatCost(cost) {
 
 /**
  * Track cumulative costs in localStorage
+ * @param {Object} costInfo - Cost info object from calculateCost
+ * @returns {Object} Cumulative stats
  */
-function addToCumulativeCost(cost) {
+function addToCumulativeCost(costInfo) {
+    // Handle if a number is passed instead of object (backwards compatibility)
+    const costToAdd = typeof costInfo === 'number' ? costInfo : (costInfo?.totalCost || 0);
+    
     const current = parseFloat(localStorage.getItem('totalCost') || '0');
-    const newTotal = current + cost.totalCost;
+    const newTotal = current + costToAdd;
     localStorage.setItem('totalCost', newTotal.toString());
     
     const count = parseInt(localStorage.getItem('generationCount') || '0');

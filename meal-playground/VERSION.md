@@ -1,6 +1,23 @@
 # Version History - BurnRate AI Meal Planner
 
-## v1.3.5 - 2025-01-02 (Current)
+## v1.3.6 - 2025-01-02 (Current)
+**Fix: NaN in Macro Calculations & Session Cost**
+
+### Fixed
+- 🐛 **NaN in macro calculations** - Workout field name mismatch fixed (duration vs duration_min)
+- 🐛 **NaN in session cost** - Fixed addToCumulativeCost to handle both object and number
+- 🐛 **Missing energy explanation** - Will now populate properly
+- ✅ **Workout data normalization** - Converts form data to macro-calculator format
+- ✅ **All calculations now work** - No more NaN values!
+
+### Technical Details
+- Form uses: `duration`, `temperature`, `humidity`
+- Calculator expects: `duration_min`, `temp_c`, `humidity_pct`
+- Added normalization layer in buildContext()
+
+---
+
+## v1.3.5 - 2025-01-02
 **Fix: Token Limit & Raw Response Display**
 
 ### Fixed
