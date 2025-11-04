@@ -16,12 +16,25 @@ The user has pre-planned these meals. They are LOCKED and cannot be changed. You
 {LOCKED_MEALS}
 
 **CRITICAL INSTRUCTIONS FOR SKELETON REFINEMENT:**
-If a skeleton is provided above:
-1. **Fill in meal names ONLY** (replace null with appropriate names like "Breakfast", "Lunch", etc.)
-2. **DO NOT change macro values** - they are research-calculated and must stay as-is
-3. **DO NOT adjust timing** unless there's an obvious error (like two meals at the same time)
-4. **DO NOT make "minor adjustments"** - the skeleton is already optimized
-5. **Copy the skeleton exactly** and only add names
+If a skeleton is provided above, your role is to refine it minimally:
+
+**YOU MUST DO:**
+1. ✅ Fill in meal names (null → "Pre-Swim Fuel", "Breakfast", "Lunch", etc.)
+2. ✅ Ensure timeline is sorted chronologically
+3. ✅ Fix obvious timing conflicts (two meals at same time, pre-workout too far from workout)
+4. ✅ Redistribute macros ONLY if totals deviate >5% from targets (maintain same entry count and structure)
+
+**YOU CANNOT DO:**
+1. ❌ Change macro totals by more than ±2% (must match targets)
+2. ❌ Add or remove timeline entries (keep same number of entries as skeleton)
+3. ❌ Change locked meals (marked with 'locked': true)
+4. ❌ Arbitrarily reduce macros "because it seems like too much" - trust the research formulas
+
+**MACRO ADJUSTMENT RULES (ONLY if skeleton totals are off):**
+- If fat total is <95% of target: Add fat to regular meals evenly
+- If fat total is >105% of target: Reduce fat from regular meals evenly
+- Same for protein and carbs
+- Adjust EVENLY across all non-locked, non-workout meals
 
 If no skeleton is provided, generate the complete timeline from scratch using the calculation formulas.
 
