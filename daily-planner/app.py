@@ -93,11 +93,24 @@ def parse_json_response(content):
     # Try to parse JSON
     try:
         return json.loads(cleaned_content)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
+        # Log the error with context
+        error_line = e.lineno if hasattr(e, 'lineno') else 'unknown'
+        error_col = e.colno if hasattr(e, 'colno') else 'unknown'
+        print(f"❌ JSON parse error at line {error_line}, col {error_col}: {e.msg}")
+        print(f"   Content around error (chars {max(0, e.pos-100)}:{e.pos+100}):")
+        print(f"   ...{cleaned_content[max(0, e.pos-100):e.pos+100]}...")
+        
         # Try to fix trailing commas
         import re
-        fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
-        return json.loads(fixed_content)
+        try:
+            fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
+            return json.loads(fixed_content)
+        except json.JSONDecodeError as e2:
+            print(f"❌ Still failed after comma fix: {e2.msg}")
+            # Save problematic content for debugging
+            print(f"   First 500 chars: {cleaned_content[:500]}")
+            raise
 
 @app.route('/api/generate', methods=['POST'])
 @app.route('/daily-planner/api/generate', methods=['POST'])
