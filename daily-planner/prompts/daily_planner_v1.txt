@@ -23,6 +23,30 @@ Your `daily_summary` MUST match the `calculated_targets` provided:
 
 The timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.
 
+### 1.1 CALORIE CONSISTENCY RULE
+
+**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**
+
+All calorie values MUST be computed using the formula:
+```
+calories = (carbs_g × 4) + (protein_g × 4) + (fat_g × 9)
+```
+
+**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.
+
+**Rules:**
+- Every timeline entry's `calories` field must equal `(carbs_g × 4) + (protein_g × 4) + (fat_g × 9)` exactly
+- The `daily_summary.calories` must equal the sum of all timeline entry calories (±1%)
+- The `daily_summary.calories` must also equal `(daily_summary.carbs_g × 4) + (daily_summary.protein_g × 4) + (daily_summary.fat_g × 9)` (±1%)
+- If the provided `daily_energy_target_kcal` conflicts with macro-derived calories, prioritize macro totals and adjust `daily_summary.calories` to match the macro calculation
+- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors
+
+**Before returning, recalculate:**
+1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`
+2. Verify: `total_calories ≈ (total_carbs × 4) + (total_protein × 4) + (total_fat × 9)` (±1%)
+3. If mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios
+4. Ensure `daily_summary` matches these recalculated totals
+
 ### 2. TIMELINE FORMAT (NOT FOOD LISTS)
 Each timeline entry represents a meal OR workout OR hydration event:
 - **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml)
@@ -112,14 +136,18 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations. First char
 ## VALIDATION CHECKLIST
 
 Before returning, verify:
-1. ✅ All timeline entries sum to `daily_summary` totals (±2%)
-2. ✅ Timeline is sorted chronologically by time
-3. ✅ Every entry has `hydration_ml` (not `hydration_l`)
-4. ✅ `daily_tip` includes research citation
-5. ✅ `schema_version` is "1.0"
-6. ✅ `phase` and `goal` match athlete profile
-7. ✅ No trailing commas in JSON
-8. ✅ All numeric values are numbers (not strings)
+1. ✅ **Calorie consistency**: Every timeline entry's calories = (carbs_g × 4) + (protein_g × 4) + (fat_g × 9) (±1%)
+2. ✅ **Macro totals**: All timeline entries sum to `daily_summary` totals (±2%)
+3. ✅ **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g × 4) + (daily_summary.protein_g × 4) + (daily_summary.fat_g × 9) (±1%)
+4. ✅ **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (±1%)
+5. ✅ Timeline is sorted chronologically by time
+6. ✅ Every entry has `hydration_ml` (not `hydration_l`)
+7. ✅ `daily_tip` includes research citation
+8. ✅ `schema_version` is "1.0"
+9. ✅ `phase` and `goal` match athlete profile
+10. ✅ No trailing commas in JSON
+11. ✅ All numeric values are numbers (not strings)
+12. ✅ All values rounded to nearest whole number
 
 ## COMMON ERRORS TO AVOID
 
@@ -156,6 +184,18 @@ Before returning, verify:
 ```json
 "daily_tip": {"text": "Consume 0.4g/kg protein within 30min post-workout to maximize MPS per ACSM2016", "source": "ACSM2016"}
 ```
+
+❌ **Calories not calculated from macros:**
+```json
+{"carbs_g": 70, "protein_g": 20, "fat_g": 10, "calories": 350}
+```
+This is WRONG because: 70×4 + 20×4 + 10×9 = 450 kcal, not 350.
+
+✅ **Correct:**
+```json
+{"carbs_g": 70, "protein_g": 20, "fat_g": 10, "calories": 450}
+```
+This is CORRECT because: 70×4 + 20×4 + 10×9 = 450 kcal exactly.
 
 Generate the timeline now. Return ONLY valid JSON.
 
