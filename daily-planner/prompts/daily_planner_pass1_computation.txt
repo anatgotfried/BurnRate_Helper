@@ -52,9 +52,10 @@ The timeline entries MUST sum exactly to these totals. Before returning, verify:
 - **Multi-workout:** If workouts <3 hours apart, merge post- and pre-fueling into one shared meal
 
 **Step 2: Allocate Workout Meals First** (if workouts exist)
-- Pre-workout: 1-4 hours before
-- Post-workout: 30-60 min after
-- Intra-workout: Only if >90 min or very high intensity
+- **Pre-workout meals**: 1-4 hours before (separate timeline entry)
+- **Post-workout meals**: 30-60 min after (separate timeline entry)
+- **Intra-workout fuel**: Include carbs/fluids consumed DURING the workout in the workout entry itself (NOT a separate entry)
+- For workouts >90 min or very high intensity, add appropriate carbs to the workout entry's macros
 - Calculate: `workout_calories`, `workout_carbs`, `workout_protein`, `workout_fat`
 
 **Step 3: Calculate Remaining**
@@ -96,8 +97,10 @@ The timeline entries MUST sum exactly to these totals. Before returning, verify:
 
 ### 3. WORKOUT ENTRIES
 - Workout entries represent fuel *consumed* during activity, not caloric expenditure
-- For intra-workout fuel, list as separate "meal" entry immediately before/after workout
+- **IMPORTANT**: Intra-workout fuel (carbs consumed during the workout) should be included IN the workout entry itself, NOT as a separate timeline entry
+- Example: "09:00 - Bike (120 min)" should include any carbs/fluids consumed during the bike ride in that same entry
 - For moderate swimming ≤45min, assume 0g carb intake during activity
+- Only create separate pre-workout and post-workout meal entries, NOT separate intra-workout entries
 
 ### 4. HYDRATION TRACKING
 - Every timeline entry must include `hydration_ml` (not `hydration_l`)
@@ -137,7 +140,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations. First char
   "timeline": [
     {
       "time": "HH:MM",
-      "type": "meal|workout|hydration",
+      "type": "meal|workout",
       "name": "Brief descriptive name",
       "carbs_g": number,
       "protein_g": number,
@@ -151,6 +154,15 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations. First char
 }
 ```
 
+**TIMELINE ENTRY CONSOLIDATION:**
+- Pre-workout meal (separate entry)
+- Workout entry (includes any intra-workout fuel in THIS entry)
+- Post-workout meal (separate entry)
+- Regular meals (breakfast, lunch, dinner, snacks as needed)
+
+**TYPICAL DAY**: 3 workouts = ~9-11 entries total (3 pre + 3 workouts + 3 post + 2-3 regular meals)
+**DO NOT EXCEED** 12 timeline entries unless there are 4+ workouts
+
 ## VALIDATION CHECKLIST
 
 Before returning, verify (use tolerances from Global Tolerances section):
@@ -161,10 +173,12 @@ Before returning, verify (use tolerances from Global Tolerances section):
 5. ✅ Sum of timeline hydration_ml = daily_summary.hydration_l × 1000 (within tolerances.hydration)
 6. ✅ Timeline sorted chronologically by time
 7. ✅ Every entry has `hydration_ml` (not `hydration_l`)
-8. ✅ `schema_version` is "1.0"
-9. ✅ `phase` is Title Case: "Base", "Build", "Race", "Taper", or "Recovery"
-10. ✅ `goal` matches athlete profile
-11. ✅ No trailing commas in JSON
-12. ✅ All numeric values are numbers (not strings)
-13. ✅ All values rounded to nearest whole number
+8. ✅ NO separate "intra-workout" or "hydration" entries - fuel is included in workout entries
+9. ✅ Timeline entry count is reasonable (typically 9-11 for 3 workouts, NOT 14+)
+10. ✅ `schema_version` is "1.0"
+11. ✅ `phase` is Title Case: "Base", "Build", "Race", "Taper", or "Recovery"
+12. ✅ `goal` matches athlete profile
+13. ✅ No trailing commas in JSON
+14. ✅ All numeric values are numbers (not strings)
+15. ✅ All values rounded to nearest whole number
 

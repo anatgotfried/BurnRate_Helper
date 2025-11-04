@@ -192,10 +192,34 @@ def generate_plan():
                     'raw_content': content_pass1[:1000]
                 }), 400
             
-            # Normalize timeline entries
+            # Normalize timeline entries and recalculate calories
             if 'timeline' in plan_data_pass1:
                 for entry in plan_data_pass1['timeline']:
                     normalize_timeline_entry(entry)
+                    # CRITICAL: Recalculate calories from macros to ensure accuracy
+                    calculated_cals = (entry.get('carbs_g', 0) * 4) + (entry.get('protein_g', 0) * 4) + (entry.get('fat_g', 0) * 9)
+                    entry['calories'] = round(calculated_cals)
+            
+            # Recalculate daily_summary from timeline totals to ensure accuracy
+            if 'daily_summary' in plan_data_pass1 and 'timeline' in plan_data_pass1:
+                timeline_totals = {
+                    'carbs_g': sum(e.get('carbs_g', 0) for e in plan_data_pass1['timeline']),
+                    'protein_g': sum(e.get('protein_g', 0) for e in plan_data_pass1['timeline']),
+                    'fat_g': sum(e.get('fat_g', 0) for e in plan_data_pass1['timeline']),
+                    'sodium_mg': sum(e.get('sodium_mg', 0) for e in plan_data_pass1['timeline']),
+                    'hydration_ml': sum(e.get('hydration_ml', 0) for e in plan_data_pass1['timeline'])
+                }
+                
+                # Update daily_summary with calculated totals
+                plan_data_pass1['daily_summary']['carbs_g'] = round(timeline_totals['carbs_g'])
+                plan_data_pass1['daily_summary']['protein_g'] = round(timeline_totals['protein_g'])
+                plan_data_pass1['daily_summary']['fat_g'] = round(timeline_totals['fat_g'])
+                plan_data_pass1['daily_summary']['sodium_mg'] = round(timeline_totals['sodium_mg'])
+                plan_data_pass1['daily_summary']['hydration_l'] = round(timeline_totals['hydration_ml'] / 1000, 1)
+                
+                # Calculate calories from macros
+                calculated_cals = (timeline_totals['carbs_g'] * 4) + (timeline_totals['protein_g'] * 4) + (timeline_totals['fat_g'] * 9)
+                plan_data_pass1['daily_summary']['calories'] = round(calculated_cals)
             
             # If two-pass mode, call Pass 2
             if is_two_pass:
