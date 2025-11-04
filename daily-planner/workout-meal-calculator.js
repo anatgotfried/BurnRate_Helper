@@ -428,6 +428,86 @@ function distributeRemainingMeals(remaining, numMeals, lockedMeals, workoutMeals
 }
 
 /**
+ * Merge meals that are too close together
+ * @param {Array} timeline - Sorted timeline entries
+ * @param {number} minGapMinutes - Minimum minutes between meals
+ * @returns {Array} Timeline with merged meals
+ * 
+ * Example: Post-swim at 07:15 + Pre-bike at 07:30 (15min apart)
+ * → Merged to "Recovery + Pre-Bike Fuel" at 07:22 with combined macros
+ */
+function mergeMealsTooClose(timeline, minGapMinutes) {
+    const merged = [];
+    let i = 0;
+    
+    while (i < timeline.length) {
+        const current = timeline[i];
+        
+        // If current is a workout or locked meal, don't merge
+        if (current.type === 'workout' || current.locked) {
+            merged.push(current);
+            i++;
+            continue;
+        }
+        
+        // Check if next entry is too close (and also a meal, not locked)
+        if (i + 1 < timeline.length) {
+            const next = timeline[i + 1];
+            const gap = getTimeDifferenceMinutes(current.time, next.time);
+            
+            if (gap < minGapMinutes && gap >= 0 && 
+                next.type === 'meal' && !next.locked) {
+                
+                // Merge current and next
+                const mergedMeal = {
+                    time: getMidpointTime(current.time, next.time),
+                    type: 'meal',
+                    name: null, // AI will name it appropriately (e.g., "Recovery + Pre-Bike Fuel")
+                    carbs_g: current.carbs_g + next.carbs_g,
+                    protein_g: current.protein_g + next.protein_g,
+                    fat_g: current.fat_g + next.fat_g,
+                    sodium_mg: current.sodium_mg + next.sodium_mg,
+                    hydration_ml: current.hydration_ml + next.hydration_ml,
+                    calories: current.calories + next.calories,
+                    merged_from: [current.name || 'meal', next.name || 'meal']
+                };
+                
+                merged.push(mergedMeal);
+                i += 2; // Skip both entries
+                continue;
+            }
+        }
+        
+        // No merge needed
+        merged.push(current);
+        i++;
+    }
+    
+    return merged;
+}
+
+/**
+ * Get time difference in minutes between two HH:MM times
+ */
+function getTimeDifferenceMinutes(time1, time2) {
+    const [h1, m1] = time1.split(':').map(Number);
+    const [h2, m2] = time2.split(':').map(Number);
+    return (h2 * 60 + m2) - (h1 * 60 + m1);
+}
+
+/**
+ * Get midpoint time between two HH:MM times
+ */
+function getMidpointTime(time1, time2) {
+    const [h1, m1] = time1.split(':').map(Number);
+    const [h2, m2] = time2.split(':').map(Number);
+    const mid = Math.round(((h1 * 60 + m1) + (h2 * 60 + m2)) / 2);
+    const hours = Math.floor(mid / 60);
+    const mins = mid % 60;
+    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+}
+
+/**
  * Check if a time conflicts with occupied times
  * @param {string} time - Time to check (HH:MM)
  * @param {Array} occupiedTimes - Array of occupied time strings
@@ -522,8 +602,11 @@ function generateTimelineSkeleton(athlete, workouts, lockedMeals, targets) {
     }));
     
     // 6. Combine all entries and sort by time
-    const timeline = [...workoutMeals, ...lockedTimeline, ...regularMeals];
+    let timeline = [...workoutMeals, ...lockedTimeline, ...regularMeals];
     timeline.sort((a, b) => a.time.localeCompare(b.time));
+    
+    // 6.5. Merge meals that are unrealistically close (<45 minutes apart)
+    timeline = mergeMealsTooClose(timeline, 45); // Minimum 45min between meals
     
     // 7. Calculate totals
     const totals = {
