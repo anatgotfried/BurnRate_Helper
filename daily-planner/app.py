@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 import requests
 import json
-from generate_skeleton import generate_skeleton_via_node
 
 # Load environment variables
 load_dotenv()
