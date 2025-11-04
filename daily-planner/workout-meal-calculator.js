@@ -359,9 +359,10 @@ function distributeRemainingMeals(remaining, numMeals, lockedMeals, workoutMeals
         ...lockedMeals.map(m => m.time)
     ];
     
-    // Find available time slots (not within 2 hours of occupied times)
+    // Find available time slots (not within 1 hour of occupied times)
+    // Note: 1-hour buffer allows breakfast after early morning workout without conflict
     const availableSlots = standardTimes.filter(slot => {
-        return !isTimeConflict(slot.time, occupiedTimes, 120); // 2-hour buffer
+        return !isTimeConflict(slot.time, occupiedTimes, 60); // 1-hour buffer
     });
     
     // Take first N available slots
@@ -448,7 +449,26 @@ function generateTimelineSkeleton(athlete, workouts, lockedMeals, targets) {
     const numRegularMealsToGenerate = Math.max(0, mealsPerDay - numLockedRegularMeals);
     
     // 4. Distribute remaining across regular meals
+    // Use console.error for logging (doesn't pollute stdout/JSON when called from Node.js)
+    if (typeof window === 'undefined') {
+        // Node.js context - use stderr
+        console.error(`📊 Distributing remaining macros across ${numRegularMealsToGenerate} regular meals:`);
+        console.error(`   Remaining: ${Math.round(remaining.carbs_g)}C / ${Math.round(remaining.protein_g)}P / ${Math.round(remaining.fat_g)}F`);
+        console.error(`   Per meal: ${Math.round(remaining.carbs_g / numRegularMealsToGenerate)}C / ${Math.round(remaining.protein_g / numRegularMealsToGenerate)}P / ${Math.round(remaining.fat_g / numRegularMealsToGenerate)}F`);
+    } else {
+        // Browser context - use console.log
+        console.log(`📊 Distributing remaining macros across ${numRegularMealsToGenerate} regular meals:`);
+        console.log(`   Remaining: ${Math.round(remaining.carbs_g)}C / ${Math.round(remaining.protein_g)}P / ${Math.round(remaining.fat_g)}F`);
+        console.log(`   Per meal: ${Math.round(remaining.carbs_g / numRegularMealsToGenerate)}C / ${Math.round(remaining.protein_g / numRegularMealsToGenerate)}P / ${Math.round(remaining.fat_g / numRegularMealsToGenerate)}F`);
+    }
+    
     const regularMeals = distributeRemainingMeals(remaining, numRegularMealsToGenerate, lockedMeals, workoutMeals);
+    
+    if (typeof window === 'undefined') {
+        console.error(`✅ Generated ${regularMeals.length} regular meals (requested ${numRegularMealsToGenerate})`);
+    } else {
+        console.log(`✅ Generated ${regularMeals.length} regular meals (requested ${numRegularMealsToGenerate})`);
+    }
     
     // 5. Convert locked meals to timeline format
     const lockedTimeline = lockedMeals.map(m => ({

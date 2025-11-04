@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '2.2.1';
+const VERSION = '2.3';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -434,7 +434,7 @@ function buildPrompts(context, skeleton = null) {
     // Build skeleton text
     let skeletonText;
     if (skeleton && skeleton.timeline) {
-        skeletonText = `Here is a programmatically generated timeline skeleton:\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nPlease refine this timeline by:\n1. Filling in meal names (currently null)\n2. Making minor macro adjustments if timing seems impractical (±5% max)\n3. Ensuring timeline makes sense for the athlete\n\nDo NOT change locked meals (marked with 'locked': true). Keep all macro totals within ±2% of targets.`;
+        skeletonText = `Here is a programmatically generated timeline skeleton (research-calculated):\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nCRITICAL: Copy this skeleton EXACTLY and only fill in meal names (null → appropriate name).\nDO NOT change any macro values - they are already optimized.\nDO NOT change locked meals (marked with 'locked': true).\nYour ONLY job is to replace null names with contextual meal names.`;
     } else {
         skeletonText = 'Generate the complete timeline from scratch.';
     }

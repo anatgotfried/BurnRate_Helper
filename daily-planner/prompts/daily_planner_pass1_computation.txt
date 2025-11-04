@@ -15,7 +15,15 @@ Based on current consensus from ACSM (2016), ISSN (2017), Burke & Jeukendrup (20
 The user has pre-planned these meals. They are LOCKED and cannot be changed. You must work around them:
 {LOCKED_MEALS}
 
-**IMPORTANT:** If a skeleton is provided above, use it as your starting point and refine it. If no skeleton is provided, generate the complete timeline from scratch.
+**CRITICAL INSTRUCTIONS FOR SKELETON REFINEMENT:**
+If a skeleton is provided above:
+1. **Fill in meal names ONLY** (replace null with appropriate names like "Breakfast", "Lunch", etc.)
+2. **DO NOT change macro values** - they are research-calculated and must stay as-is
+3. **DO NOT adjust timing** unless there's an obvious error (like two meals at the same time)
+4. **DO NOT make "minor adjustments"** - the skeleton is already optimized
+5. **Copy the skeleton exactly** and only add names
+
+If no skeleton is provided, generate the complete timeline from scratch using the calculation formulas.
 
 ## CRITICAL REQUIREMENTS
 
