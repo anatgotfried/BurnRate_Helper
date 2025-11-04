@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '1.0';
+const VERSION = '1.1';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -10,7 +10,8 @@ let workouts = [];
 let researchCorpus = {};
 let currentPlanData = null;
 let testAthletes = [];
-let promptTemplate = '';
+let promptTemplatePass1 = '';
+let promptTemplatePass2 = '';
 let context = null;
 
 // Load resources on page load
@@ -69,9 +70,12 @@ async function loadResources() {
         const athletesData = await athletesResponse.json();
         testAthletes = athletesData.athletes;
         
-        // Load prompt template
-        const promptResponse = await fetch('prompts/daily_planner_v1.txt');
-        promptTemplate = await promptResponse.text();
+        // Load prompt templates (two-pass mode)
+        const promptPass1Response = await fetch('prompts/daily_planner_pass1_computation.txt');
+        promptTemplatePass1 = await promptPass1Response.text();
+        
+        const promptPass2Response = await fetch('prompts/daily_planner_pass2_tip_generation.txt');
+        promptTemplatePass2 = await promptPass2Response.text();
         
         // Populate athlete dropdown
         const athleteSelect = document.getElementById('loadAthleteSelect');
@@ -291,8 +295,8 @@ function buildContext() {
     };
 }
 
-// Build prompt
-function buildPrompt(context) {
+// Build prompts (two-pass mode)
+function buildPrompts(context) {
     // Check if fast mode is enabled
     const fastMode = document.getElementById('fastMode')?.checked ?? true;
     
@@ -306,14 +310,21 @@ function buildPrompt(context) {
         console.log(`⚡ Fast mode enabled: ${filtered.savings}`);
     }
     
-    // Replace placeholders in prompt template
-    let prompt = promptTemplate
+    // Build Pass 1 prompt (computation)
+    let promptPass1 = promptTemplatePass1
         .replace('{RESEARCH_CORPUS}', JSON.stringify(corpus, null, 2))
-        .replace('{CONTEXT}', JSON.stringify(context, null, 2))
-        .replace('{PHASE}', context.athlete.training_phase)
-        .replace('{GOAL}', context.athlete.goal);
+        .replace('{CONTEXT}', JSON.stringify(context, null, 2));
     
-    return prompt + tokenSavings;
+    // Build Pass 2 prompt (tip generation) - will be completed after Pass 1
+    let promptPass2 = promptTemplatePass2
+        .replace('{RESEARCH_CORPUS}', JSON.stringify(corpus, null, 2))
+        .replace('{CONTEXT}', JSON.stringify(context, null, 2));
+    // Note: {PLAN_JSON} will be replaced in the backend after Pass 1 completes
+    
+    return {
+        pass1: promptPass1 + tokenSavings,
+        pass2: promptPass2
+    };
 }
 
 // Generate Plan
@@ -340,17 +351,18 @@ async function generatePlan() {
     // Show loading
     showLoading(true);
     
-    // Build prompt
-    const prompt = buildPrompt(context);
-    window.lastPrompt = prompt;
+    // Build prompts (two-pass mode)
+    const prompts = buildPrompts(context);
+    window.lastPrompt = prompts.pass1;
+    window.lastPromptPass2 = prompts.pass2;
     window.lastModel = selectedModel;
     
-    // Update prompt display
-    document.getElementById('promptContent').textContent = prompt;
+    // Update prompt display (show Pass 1)
+    document.getElementById('promptContent').textContent = prompts.pass1;
     
     // Show prompt stats
-    const promptTokens = Math.ceil(prompt.length / 4);
-    showStatus(`Generating with ${selectedModel}... (prompt: ~${promptTokens.toLocaleString()} tokens)`, 'info');
+    const promptTokens = Math.ceil((prompts.pass1.length + prompts.pass2.length) / 4);
+    showStatus(`Generating with ${selectedModel} (two-pass mode)... (prompts: ~${promptTokens.toLocaleString()} tokens)`, 'info');
     
     try {
         const response = await fetch(`${API_URL}/daily-planner/api/generate`, {
@@ -360,7 +372,8 @@ async function generatePlan() {
             },
             body: JSON.stringify({
                 model: selectedModel,
-                prompt: prompt,
+                prompt_pass1: prompts.pass1,
+                prompt_pass2: prompts.pass2,
                 max_tokens: 3000
             })
         });
@@ -371,9 +384,19 @@ async function generatePlan() {
         window.lastResponse = data;
         
         // Format response for display
-        let responseDisplay = JSON.stringify(data, null, 2);
-        if (data.data) {
-            responseDisplay = JSON.stringify(data.data, null, 2);
+        let responseDisplay = '';
+        if (data.two_pass) {
+            // Show both passes if two-pass mode
+            responseDisplay = `=== PASS 1 (Computation) ===\n${data.raw_content}\n\n`;
+            if (data.raw_content_pass2) {
+                responseDisplay += `=== PASS 2 (Tip Generation) ===\n${data.raw_content_pass2}\n\n`;
+            }
+            responseDisplay += `=== FINAL RESULT ===\n${JSON.stringify(data.data, null, 2)}`;
+        } else {
+            responseDisplay = JSON.stringify(data, null, 2);
+            if (data.data) {
+                responseDisplay = JSON.stringify(data.data, null, 2);
+            }
         }
         
         document.getElementById('responseContent').textContent = responseDisplay;
@@ -425,17 +448,18 @@ function viewPromptOnly() {
         return;
     }
     
-    // Build context and prompt
+    // Build context and prompts
     context = buildContext();
-    const prompt = buildPrompt(context);
+    const prompts = buildPrompts(context);
     const model = document.getElementById('modelSelect').value;
     
     // Store for viewing
-    window.lastPrompt = prompt;
+    window.lastPrompt = prompts.pass1;
+    window.lastPromptPass2 = prompts.pass2;
     window.lastModel = model;
     
-    // Update prompt tab
-    document.getElementById('promptContent').textContent = prompt;
+    // Update prompt tab (show Pass 1)
+    document.getElementById('promptContent').textContent = prompts.pass1;
     
     // Show output section and switch to prompt tab
     document.getElementById('outputSection').style.display = 'block';

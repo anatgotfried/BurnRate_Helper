@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "persona": {
+      "name": "Sarah",
+      "weight_kg": 65,
+      "height_cm": 165,
+      "age": 32,
+      "gender": "female",
+      "goal": "fat_loss",
+      "training_phase": "base",
+      "activity_level": "high",
+      "sweat_rate": null,
+      "masters": false,
+      "female_specific": true,
+      "youth": false
+    },
+    "workouts": [
+      {
+        "type": "run",
+        "duration_min": 60,
+        "intensity": "moderate",
+        "time": "06:00",
+        "temp_c": 22,
+        "humidity_percent": 60
+      },
+      {
+        "type": "swim",
+        "duration_min": 45,
+        "intensity": "moderate",
+        "time": "18:00",
+        "temp_c": 26,
+        "humidity_percent": 50
+      }
+    ],
+    "targets": {
+      "weight_kg": 65,
+      "daily_energy_target_kcal": 1768,
+      "daily_protein_target_g": 150,
+      "daily_carb_target_g": 364,
+      "daily_fat_target_g": 59,
+      "hydration_target_l": 3.1,
+      "sodium_target_mg": 3875,
+      "calorie_breakdown": {
+        "total": 1768,
+        "bmr": 1426,
+        "tdee": 2210,
+        "activityFactor": 1.55,
+        "activityLevel": "Moderately Active",
+        "isFatLoss": true,
+        "isSurplus": false,
+        "deficitPercent": 20,
+        "caloriesFromMacros": 2581
+      },
+      "explanations": {
+        "protein": "Protein set to 150 g (2.3 g/kg \u00d7 65 kg). Rationale: Higher protein (2.3 g/kg) during fat loss preserves lean muscle mass per Morton2018 meta-analysis. Distribute across 3-4 meals (0.25-0.4 g/kg each) to maximize muscle protein synthesis.",
+        "carbs": "Carbs set to 364 g (5.6 g/kg \u00d7 65 kg (reduced by 30% for fat loss while maintaining workout fuel)). Training load: 2.10 (high band). Rationale: Training load of 2.1 places you in the \"high\" band per IOC/ACSM guidance. For fat loss with moderate-high training, carbs reduced by 30% from performance baseline (6-10 g/kg \u2192 4.2-7 g/kg) to create deficit while fueling workouts per ACSM2016. Pre/post-workout carbs prioritized.",
+        "fat": "Fat set to 59 g (0.9 g/kg \u00d7 65 kg). Rationale: Moderate fat (0.9 g/kg) during fat loss provides satiety and supports hormone production while maintaining calorie deficit.",
+        "hydration": "Hydration set to 3115 ml (3.1 L). Base: 2275 ml (35 ml/kg). Workout additions: 840 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+        "sodium": "Sodium set to 3875 mg. Base: 3000 mg (athlete baseline). Workout losses: +875 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+        "calories": "BMR (1426 kcal) \u00d7 1.55 (Moderately Active) = TDEE 2210 kcal. Fat loss: 20% deficit = 1768 kcal. This moderate deficit promotes sustainable fat loss (~0.5-1% bodyweight/week) while preserving muscle mass and supporting training per ACSM2016."
+      }
+    },
+    "model": "google/gemini-2.5-flash",
+    "timestamp": "2025-11-04T11:12:34.755115",
+    "total_iterations": 5
+  },
+  "scores_summary": {
+    "overall": [
+      4,
+      4,
+      6,
+      5,
+      5.5
+    ],
+    "tip": [
+      8,
+      8,
+      8,
+      7,
+      8
+    ],
+    "macros": [
+      2,
+      2,
+      7,
+      2,
+      3
+    ],
+    "practical": [
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "timeline": [
+      7,
+      7,
+      7,
+      7,
+      7
+    ],
+    "technical": [
+      4.5,
+      2.5,
+      7.5,
+      4.5,
+      4.5
+    ]
+  },
+  "score_changes": [
+    {
+      "from_iteration": 1,
+      "to_iteration": 2,
+      "changes": {
+        "overall": 0,
+        "tip": 0,
+        "macros": 0,
+        "practical": 0,
+        "timeline": 0,
+        "technical": -2.0
+      }
+    },
+    {
+      "from_iteration": 2,
+      "to_iteration": 3,
+      "changes": {
+        "overall": 2,
+        "tip": 0,
+        "macros": 5,
+        "practical": 0,
+        "timeline": 0,
+        "technical": 5.0
+      }
+    },
+    {
+      "from_iteration": 3,
+      "to_iteration": 4,
+      "changes": {
+        "overall": -1,
+        "tip": -1,
+        "macros": -5,
+        "practical": 0,
+        "timeline": 0,
+        "technical": -3.0
+      }
+    },
+    {
+      "from_iteration": 4,
+      "to_iteration": 5,
+      "changes": {
+        "overall": 0.5,
+        "tip": 1,
+        "macros": 1,
+        "practical": 0,
+        "timeline": 0,
+        "technical": 0.0
+      }
+    }
+  ],
+  "iterations": [
+    {
+      "iteration": 1,
+      "prompt_text": "You are the BurnRate Daily Planner, a sports nutrition expert focused on creating precise, time-structured meal and workout plans.\n\nYour task is to generate a TIMELINE format (not detailed food lists) that shows when meals and workouts occur, with macro summaries for each entry. This is for timing validation and structure verification - you do NOT need to list individual foods.\n\n## RESEARCH CORPUS\nThe following research corpus contains evidence-based sports nutrition guidelines:\n\n{RESEARCH_CORPUS}\n\n## ATHLETE CONTEXT & CALCULATED TARGETS\n{CONTEXT}\n\n## CRITICAL REQUIREMENTS\n\n### 1. EXACT MATCH TO TARGETS\nYour `daily_summary` MUST match the `calculated_targets` provided:\n- **Calories**: Within \u00b12% of target\n- **Protein**: Within \u00b12% of target  \n- **Carbs**: Within \u00b12% of target\n- **Fat**: Within \u00b12% of target\n- **Sodium**: Within \u00b12% of target\n- **Hydration**: Within \u00b10.2L of target\n\nThe timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.\n\n### 1.1 CALORIE CONSISTENCY RULE\n\n**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**\n\nAll calorie values MUST be computed using the formula:\n```\ncalories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)\n```\n\n**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.\n\n**Rules:**\n- Every timeline entry's `calories` field must equal `(carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)` exactly\n- The `daily_summary.calories` must equal the sum of all timeline entry calories (\u00b11%)\n- The `daily_summary.calories` must also equal `(daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9)` (\u00b11%)\n- If the provided `daily_energy_target_kcal` conflicts with macro-derived calories, prioritize macro totals and adjust `daily_summary.calories` to match the macro calculation\n- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors\n\n**Before returning, recalculate:**\n1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_hydration_ml`\n2. **Calorie check**: Verify `total_calories \u2248 (total_carbs \u00d7 4) + (total_protein \u00d7 4) + (total_fat \u00d7 9)` (\u00b11%)\n3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values\n4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios\n5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number)\n6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (\u00b10.2L) after normalization\n\n### 2. TIMELINE FORMAT (NOT FOOD LISTS)\nEach timeline entry represents a meal OR workout OR hydration event:\n- **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml)\n- **Workout**: Show nutrition consumed during workout (carbs, hydration_ml, sodium_mg)\n- **Hydration**: Standalone hydration events (electrolyte top-ups, etc.)\n\nDO NOT list individual foods. Show only:\n- Time (HH:MM format)\n- Type (meal/workout/hydration)\n- Name (brief description)\n- Macro totals\n\n### 3. DAILY TIP GENERATION\n\nGenerate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.\n\n**Language Style:**\n- Use natural, encouraging tone (like a coach speaking to an athlete)\n- Be specific and actionable (\"try this\" rather than \"consider\")\n- Reference research naturally (e.g., \"studies show\" or \"research suggests\") rather than codified citations like \"ISSN2017\"\n- Keep it concise (1-2 sentences)\n- Make it relevant to the athlete's current training phase and goals\n\n**Phase-Specific Guidance:**\n- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs\n- **Taper phase**: Focus on glycogen optimization while staying lean\n- **Base/Build**: Focus on training adaptation and recovery\n- **Recovery**: Focus on muscle preservation and adaptation\n\n**Examples of Good Tips:**\n- **Race phase**: \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day.\"\n- **Taper phase**: \"During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most.\"\n- **Hot weather**: \"If you're training in heat over 28\u00b0C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions.\"\n- **Recovery**: \"Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out.\"\n\n**What to Avoid:**\n- \u274c Codified citations like \"(ISSN2017)\" or \"(ACSM2016)\" - use natural language\n- \u274c Generic advice like \"stay hydrated\" or \"eat well\"\n- \u274c Overly technical jargon without explanation\n- \u274c Tips that don't relate to the athlete's current context\n\n### 4. TRAINING LOAD SUMMARY\nCalculate and include:\n- `score`: Numeric training load score (1-10 scale)\n- `total_duration_min`: Sum of all workout durations\n- `intensity_level`: \"Low\", \"Moderate\", \"High\", or \"Very High\" based on workout intensity and duration\n\n### 5. HYDRATION TRACKING\n\nEvery timeline entry must include `hydration_ml`:\n- Meals: Include fluids consumed with meal\n- Workouts: Include sports drinks/water consumed during workout\n- Hydration events: Standalone electrolyte top-ups\n\nConvert all hydration to milliliters (mL). Do NOT use liters in timeline entries.\n\n**Hydration Normalization:**\n- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (\u00b10.2L)\n- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target\n- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) \u2248 0.86\n- This ensures `daily_summary.hydration_l` matches the target exactly (\u00b10.2L)\n\n## OUTPUT FORMAT\n\nReturn ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.\n\n```json\n{\n  \"schema_version\": \"1.0\",\n  \"phase\": \"{PHASE}\",\n  \"goal\": \"{GOAL}\",\n  \"training_load\": {\n    \"score\": number,\n    \"total_duration_min\": number,\n    \"intensity_level\": \"Low|Moderate|High|Very High\"\n  },\n  \"daily_summary\": {\n    \"calories\": number,\n    \"carbs_g\": number,\n    \"protein_g\": number,\n    \"fat_g\": number,\n    \"sodium_mg\": number,\n    \"hydration_l\": number\n  },\n  \"timeline\": [\n    {\n      \"time\": \"HH:MM\",\n      \"type\": \"meal|workout|hydration\",\n      \"name\": \"Brief descriptive name\",\n      \"carbs_g\": number,\n      \"protein_g\": number,\n      \"fat_g\": number,\n      \"sodium_mg\": number,\n      \"calories\": number,\n      \"hydration_ml\": number\n    }\n  ],\n  \"daily_tip\": {\n    \"text\": \"Motivating, actionable tip in natural language (1-2 sentences)\"\n  },\n  \"warnings\": []\n}\n```\n\n## VALIDATION CHECKLIST\n\nBefore returning, verify:\n1. \u2705 **Calorie consistency**: Every timeline entry's calories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9) (\u00b11%)\n2. \u2705 **Macro totals**: All timeline entries sum to `daily_summary` totals (\u00b12%)\n3. \u2705 **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9) (\u00b11%)\n4. \u2705 **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (\u00b11%)\n5. \u2705 **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l \u00d7 1000 (\u00b1200ml)\n6. \u2705 Timeline is sorted chronologically by time\n7. \u2705 Every entry has `hydration_ml` (not `hydration_l`)\n8. \u2705 `daily_tip` is motivating, natural, and phase-specific (no codified citations)\n9. \u2705 `schema_version` is \"1.0\"\n10. \u2705 `phase` and `goal` match athlete profile\n11. \u2705 No trailing commas in JSON\n12. \u2705 All numeric values are numbers (not strings)\n13. \u2705 All values rounded to nearest whole number\n\n## COMMON ERRORS TO AVOID\n\n\u274c Trailing commas:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"},\n]\n```\n\n\u2705 Correct:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"}\n]\n```\n\n\u274c Missing hydration_ml:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_l\": 0.5}\n```\n\n\u2705 Correct:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_ml\": 500}\n```\n\n\u274c Generic tip:\n```json\n\"daily_tip\": {\"text\": \"Stay hydrated\"}\n```\n\n\u274c Tip with codified citation (too technical):\n```json\n\"daily_tip\": {\"text\": \"Maintain 8-10g/kg carbs during race week (ISSN2017)\"}\n```\n\n\u2705 Correct (natural, motivating):\n```json\n\"daily_tip\": {\"text\": \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber in the days before your event can help minimize GI distress on race day.\"}\n```\n\n\u274c **Calories not calculated from macros:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 350}\n```\nThis is WRONG because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal, not 350.\n\n\u2705 **Correct:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 450}\n```\nThis is CORRECT because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal exactly.\n\nGenerate the timeline now. Return ONLY valid JSON.\n\n",
+      "prompt_length": 9591,
+      "scores": {
+        "overall": 4,
+        "tip": 8,
+        "macros": 2,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 4.5,
+      "technical_issues": [
+        "Calories don't match macros: 2643 vs 2587",
+        "Summary calories don't match timeline: 1768 vs 2643",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 2 (07:15): calories don't match macros",
+        "Entry 3 (10:30): calories don't match macros",
+        "Entry 4 (13:30): calories don't match macros",
+        "Entry 7 (19:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a good structure and a reasonable approach to fat loss for an active individual, but the fundamental calculation errors in calories and macros severely undermine its practical utility and trustworthiness. The high sodium is also a concern. If the numerical errors were corrected, it would be a decent plan.",
+        "tip": "The tip is actionable and aligns with the goal of fat loss while maintaining performance. It correctly emphasizes protein and strategic carb timing. It avoids codified citations and sounds natural and motivating. It could be slightly more specific on 'other meals' to create a deficit.",
+        "macros": "This is the weakest area. The discrepancy between the daily summary calories (1768) and the sum of timeline meal calories (2643) is a critical flaw. Furthermore, many individual meal entries have calorie counts that do not align with their stated macronutrients. The daily summary also shows 1768 calories but 2581 calories derived from the sum of its reported macros, which is inconsistent. This makes the plan unusable as presented.",
+        "practical": "The workout timings (early run, evening swim) are plausible for an active individual. Meal timings are generally well-spaced, though the 2.5-hour gap between the last meal and bedtime might be a bit short for some. The concept of consuming carbs during a swim workout is highly impractical and generally unnecessary unless it's a very long, high-intensity session (which 45 min moderate likely isn't). The sodium level is extremely high and potentially unhealthy for most individuals, even athletes, unless specifically advised for extreme conditions. A real athlete would likely question the calorie math and the sodium intake.",
+        "timeline": "The timeline is chronologically sound, with meals and workouts logically ordered throughout the day. The distribution of macros generally makes sense, with carbs around workouts and protein spread across meals. However, the 'carbs_g' listed for the swim workout is impractical to consume during the activity itself and should likely be shifted to the pre- or post-swim meals."
+      },
+      "improvements_needed": [
+        "**Fix all calorie and macro calculation errors:** This is paramount. The daily summary calories must match the sum of timeline calories, and individual meal calories must accurately reflect their macronutrient breakdown. The calories from macros in the summary must also match the target calories if the goal is fat loss.",
+        "**Adjust sodium levels:** The daily sodium intake of 3875 mg is excessively high for general recommendations, even for athletes, unless there's a specific medical or extreme endurance scenario. Re-evaluate sodium targets and distribution, ensuring it's safe and appropriate.",
+        "**Refine intra-workout nutrition for swimming:** Remove the carb intake allocated *during* the moderate swim workout. Instead, ensure adequate pre-swim fueling and post-swim recovery, as consuming solid or liquid carbs during a swim is difficult and rarely necessary for a 45-minute moderate session."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1768,
+          "carbs_g": 364,
+          "protein_g": 150,
+          "fat_g": 59,
+          "sodium_mg": 3875,
+          "hydration_l": 3.1
+        },
+        "daily_tip": {
+          "text": "To support your fat loss goal while maintaining performance, prioritize protein at each meal, aiming for about 0.3g per kg to protect muscle mass. Don't skip carbs around your workouts; fuel for the work required, then create your calorie deficit through other meals during the day."
+        },
+        "timeline_count": 9,
+        "training_load": {
+          "score": 6,
+          "total_duration_min": 105,
+          "intensity_level": "Moderate"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 17185,
+        "completion_tokens": 1161,
+        "total_tokens": 18346,
+        "prompt_tokens_details": {
+          "cached_tokens": 14329
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "prompt_changes": {
+        "previous_length": 9591,
+        "new_length": 9719,
+        "improvements_applied": [
+          "**Fix all calorie and macro calculation errors:** This is paramount. The daily summary calories must match the sum of timeline calories, and individual meal calories must accurately reflect their macronutrient breakdown. The calories from macros in the summary must also match the target calories if the goal is fat loss.",
+          "**Adjust sodium levels:** The daily sodium intake of 3875 mg is excessively high for general recommendations, even for athletes, unless there's a specific medical or extreme endurance scenario. Re-evaluate sodium targets and distribution, ensuring it's safe and appropriate.",
+          "**Refine intra-workout nutrition for swimming:** Remove the carb intake allocated *during* the moderate swim workout. Instead, ensure adequate pre-swim fueling and post-swim recovery, as consuming solid or liquid carbs during a swim is difficult and rarely necessary for a 45-minute moderate session."
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "prompt_text": "You are the BurnRate Daily Planner, a sports nutrition expert focused on creating precise, time-structured meal and workout plans.\n\nYour task is to generate a TIMELINE format (not detailed food lists) that shows when meals and workouts occur, with macro summaries for each entry. This is for timing validation and structure verification - you do NOT need to list individual foods.\n\n## RESEARCH CORPUS\nThe following research corpus contains evidence-based sports nutrition guidelines:\n\n{RESEARCH_CORPUS}\n\n## ATHLETE CONTEXT & CALCULATED TARGETS\n{CONTEXT}\n\n## CRITICAL REQUIREMENTS\n\n### 1. EXACT MATCH TO TARGETS\nYour `daily_summary` MUST match the `calculated_targets` provided:\n- **Calories**: Within \u00b12% of target\n- **Protein**: Within \u00b12% of target  \n- **Carbs**: Within \u00b12% of target\n- **Fat**: Within \u00b12% of target\n- **Sodium**: Within \u00b12% of target\n- **Hydration**: Within \u00b10.2L of target\n\nThe timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.\n\n### 1.1 CALORIE CONSISTENCY RULE\n\n**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**\n\nAll calorie values MUST be computed using the formula:\n```\ncalories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)\n```\n\n**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.\n\n**Rules:**\n- Every timeline entry's `calories` field must equal `(carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)` exactly\n- The `daily_summary.calories` must equal the sum of all timeline entry calories (\u00b11%)\n- The `daily_summary.calories` must also equal `(daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9)` (\u00b11%)\n- If the provided `daily_energy_target_kcal` conflicts with macro-derived calories, prioritize macro totals and adjust `daily_summary.calories` to match the macro calculation\n- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors\n\n**Before returning, recalculate:**\n1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_sodium_mg`, `total_hydration_ml`\n2. **Calorie check**: Verify `total_calories \u2248 (total_carbs \u00d7 4) + (total_protein \u00d7 4) + (total_fat \u00d7 9)` (\u00b11%)\n3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values\n4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios\n5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number)\n6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (\u00b10.2L) after normalization\n\n### 2. TIMELINE FORMAT (NOT FOOD LISTS)\nEach timeline entry represents a meal OR workout OR hydration event:\n- **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml)\n- **Workout**: Show nutrition consumed during workout (carbs, hydration_ml, sodium_mg). For swimming, avoid significant carb intake during moderate sessions; focus on pre-fueling and post-recovery.\n- **Hydration**: Standalone hydration events (electrolyte top-ups, etc.)\n\nDO NOT list individual foods. Show only:\n- Time (HH:MM format)\n- Type (meal/workout/hydration)\n- Name (brief description)\n- Macro totals\n\n### 3. DAILY TIP GENERATION\n\nGenerate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.\n\n**Language Style:**\n- Use natural, encouraging tone (like a coach speaking to an athlete)\n- Be specific and actionable (\"try this\" rather than \"consider\")\n- Reference research naturally (e.g., \"studies show\" or \"research suggests\") rather than codified citations like \"ISSN2017\"\n- Keep it concise (1-2 sentences)\n- Make it relevant to the athlete's current training phase and goals\n\n**Phase-Specific Guidance:**\n- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs\n- **Taper phase**: Focus on glycogen optimization while staying lean\n- **Base/Build**: Focus on training adaptation and recovery\n- **Recovery**: Focus on muscle preservation and adaptation\n\n**Examples of Good Tips:**\n- **Race phase**: \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day.\"\n- **Taper phase**: \"During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most.\"\n- **Hot weather**: \"If you're training in heat over 28\u00b0C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions.\"\n- **Recovery**: \"Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out.\"\n\n**What to Avoid:**\n- \u274c Codified citations like \"(ISSN2017)\" or \"(ACSM2016)\" - use natural language\n- \u274c Generic advice like \"stay hydrated\" or \"eat well\"\n- \u274c Overly technical jargon without explanation\n- \u274c Tips that don't relate to the athlete's current context\n\n### 4. TRAINING LOAD SUMMARY\nCalculate and include:\n- `score`: Numeric training load score (1-10 scale)\n- `total_duration_min`: Sum of all workout durations\n- `intensity_level`: \"Low\", \"Moderate\", \"High\", or \"Very High\" based on workout intensity and duration\n\n### 5. HYDRATION TRACKING\n\nEvery timeline entry must include `hydration_ml`:\n- Meals: Include fluids consumed with meal\n- Workouts: Include sports drinks/water consumed during workout\n- Hydration events: Standalone electrolyte top-ups\n\nConvert all hydration to milliliters (mL). Do NOT use liters in timeline entries.\n\n**Hydration Normalization:**\n- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (\u00b10.2L)\n- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target\n- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) \u2248 0.86\n- This ensures `daily_summary.hydration_l` matches the target exactly (\u00b10.2L)\n\n## OUTPUT FORMAT\n\nReturn ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.\n\n```json\n{\n  \"schema_version\": \"1.0\",\n  \"phase\": \"{PHASE}\",\n  \"goal\": \"{GOAL}\",\n  \"training_load\": {\n    \"score\": number,\n    \"total_duration_min\": number,\n    \"intensity_level\": \"Low|Moderate|High|Very High\"\n  },\n  \"daily_summary\": {\n    \"calories\": number,\n    \"carbs_g\": number,\n    \"protein_g\": number,\n    \"fat_g\": number,\n    \"sodium_mg\": number,\n    \"hydration_l\": number\n  },\n  \"timeline\": [\n    {\n      \"time\": \"HH:MM\",\n      \"type\": \"meal|workout|hydration\",\n      \"name\": \"Brief descriptive name\",\n      \"carbs_g\": number,\n      \"protein_g\": number,\n      \"fat_g\": number,\n      \"sodium_mg\": number,\n      \"calories\": number,\n      \"hydration_ml\": number\n    }\n  ],\n  \"daily_tip\": {\n    \"text\": \"Motivating, actionable tip in natural language (1-2 sentences)\"\n  },\n  \"warnings\": []\n}\n```\n\n## VALIDATION CHECKLIST\n\nBefore returning, verify:\n1. \u2705 **Calorie consistency**: Every timeline entry's calories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9) (\u00b11%)\n2. \u2705 **Macro totals**: All timeline entries sum to `daily_summary` totals (\u00b12%)\n3. \u2705 **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9) (\u00b11%)\n4. \u2705 **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (\u00b11%)\n5. \u2705 **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l \u00d7 1000 (\u00b1200ml)\n6. \u2705 Timeline is sorted chronologically by time\n7. \u2705 Every entry has `hydration_ml` (not `hydration_l`)\n8. \u2705 `daily_tip` is motivating, natural, and phase-specific (no codified citations)\n9. \u2705 `schema_version` is \"1.0\"\n10. \u2705 `phase` and `goal` match athlete profile\n11. \u2705 No trailing commas in JSON\n12. \u2705 All numeric values are numbers (not strings)\n13. \u2705 All values rounded to nearest whole number\n\n## COMMON ERRORS TO AVOID\n\n\u274c Trailing commas:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"},\n]\n```\n\n\u2705 Correct:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"}\n]\n```\n\n\u274c Missing hydration_ml:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_l\": 0.5}\n```\n\n\u2705 Correct:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_ml\": 500}\n```\n\n\u274c Generic tip:\n```json\n\"daily_tip\": {\"text\": \"Stay hydrated\"}\n```\n\n\u274c Tip with codified citation (too technical):\n```json\n\"daily_tip\": {\"text\": \"Maintain 8-10g/kg carbs during race week (ISSN2017)\"}\n```\n\n\u2705 Correct (natural, motivating):\n```json\n\"daily_tip\": {\"text\": \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber in the days before your event can help minimize GI distress on race day.\"}\n```\n\n\u274c **Calories not calculated from macros:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 350}\n```\nThis is WRONG because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal, not 350.\n\n\u2705 **Correct:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 450}\n```\nThis is CORRECT because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal exactly.\n\nGenerate the timeline now. Return ONLY valid JSON.",
+      "prompt_length": 9719,
+      "scores": {
+        "overall": 4,
+        "tip": 8,
+        "macros": 2,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 2.5,
+      "technical_issues": [
+        "Calories don't match macros: 2403 vs 2343",
+        "Summary calories don't match timeline: 1768 vs 2403",
+        "Summary carbs don't match timeline: 364 vs 303",
+        "Summary hydration doesn't match timeline: 3.1 vs 3.5",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 2 (07:15): calories don't match macros",
+        "Entry 4 (13:00): calories don't match macros",
+        "Entry 7 (19:00): calories don't match macros",
+        "Entry 8 (21:30): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has significant technical issues with calorie and macro calculations, which undermines its overall effectiveness despite some well-intentioned elements like the daily tip and general structure. The disconnect between target macros and the actual plan's macros, along with calorie calculation errors, makes it unreliable for an athlete aiming for fat loss.",
+        "tip": "The daily tip is well-written, motivating, actionable, and aligns with the fat loss goal and training type. It avoids codified citations and sounds natural, providing good guidance on carb intake around workouts for performance and muscle preservation during a deficit.",
+        "macros": "This is the weakest area. There are multiple inconsistencies: the daily summary calories do not match the sum of timeline calories, and more critically, the calories for individual meals do not match the macros provided for those meals. The total daily carbs and hydration in the summary also do not match the timeline sum. This makes the plan completely unreliable for macro tracking and fat loss.",
+        "practical": "The workout schedule (early run, late swim) is demanding but plausible for a dedicated athlete. Meal timings are generally logical, spaced out appropriately to support training and recovery. However, the idea of consuming carbs during a moderate 45-minute swim is unusual and often impractical, as most athletes wouldn't carry or consume fuel during such a session unless it was much longer or highly intense. The sodium target is very high, and while athletes need more, 3875mg might be excessive for a 'moderate' training load and could lead to issues if not carefully managed.",
+        "timeline": "The timeline is chronologically sound, with meals and workouts logically ordered from early morning to late evening. The distribution of macros generally makes sense, with carbs before and after workouts, and protein spread throughout the day. The only minor quibble is the carb consumption during the swim, as noted in 'Practical Sense'."
+      },
+      "improvements_needed": [
+        "**Fix all macro and calorie calculation errors:** Ensure that the sum of macros for each meal accurately reflects its stated calorie count, and that the daily summary perfectly matches the sum of all timeline entries. This is fundamental for a reliable nutrition plan.",
+        "**Re-evaluate and adjust workout-specific nutrition:** Remove the carb consumption during the 45-minute moderate swim (0g carbs for this type of session is more realistic). Re-evaluate the sodium target and include clear guidance on *how* to achieve such a high sodium intake (e.g., specific electrolyte drinks, salting food).",
+        "**Clarify the 'calories from macros' discrepancy:** The `target_macros` section indicates 'caloriesFromMacros: 2581' while the `daily_energy_target_kcal` is 1768. This large discrepancy needs to be resolved or clearly explained. If 2581 kcal is the target based on the provided macros, then the overall calorie target of 1768 kcal (for fat loss) is not being met by the plan's macro distribution."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1768,
+          "carbs_g": 364,
+          "protein_g": 150,
+          "fat_g": 59,
+          "sodium_mg": 3875,
+          "hydration_l": 3.1
+        },
+        "daily_tip": {
+          "text": "As you focus on fat loss during this base phase, remember it's crucial not to cut carbs too much around your workouts. Fueling your runs and swims with carbs and following up with protein helps maintain performance and muscle mass, so you get stronger while leaning out."
+        },
+        "timeline_count": 9,
+        "training_load": {
+          "score": 6,
+          "total_duration_min": 105,
+          "intensity_level": "Moderate"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 17214,
+        "completion_tokens": 1156,
+        "total_tokens": 18370,
+        "prompt_tokens_details": {
+          "cached_tokens": 14329
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "prompt_changes": {
+        "previous_length": 9719,
+        "new_length": 10365,
+        "improvements_applied": [
+          "**Fix all macro and calorie calculation errors:** Ensure that the sum of macros for each meal accurately reflects its stated calorie count, and that the daily summary perfectly matches the sum of all timeline entries. This is fundamental for a reliable nutrition plan.",
+          "**Re-evaluate and adjust workout-specific nutrition:** Remove the carb consumption during the 45-minute moderate swim (0g carbs for this type of session is more realistic). Re-evaluate the sodium target and include clear guidance on *how* to achieve such a high sodium intake (e.g., specific electrolyte drinks, salting food).",
+          "**Clarify the 'calories from macros' discrepancy:** The `target_macros` section indicates 'caloriesFromMacros: 2581' while the `daily_energy_target_kcal` is 1768. This large discrepancy needs to be resolved or clearly explained. If 2581 kcal is the target based on the provided macros, then the overall calorie target of 1768 kcal (for fat loss) is not being met by the plan's macro distribution."
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "prompt_text": "You are the BurnRate Daily Planner, a sports nutrition expert focused on creating precise, time-structured meal and workout plans.\n\nYour task is to generate a TIMELINE format (not detailed food lists) that shows when meals and workouts occur, with macro summaries for each entry. This is for timing validation and structure verification - you do NOT need to list individual foods.\n\n## RESEARCH CORPUS\nThe following research corpus contains evidence-based sports nutrition guidelines:\n\n{RESEARCH_CORPUS}\n\n## ATHLETE CONTEXT & CALCULATED TARGETS\n{CONTEXT}\n\n## CRITICAL REQUIREMENTS\n\n### 1. EXACT MATCH TO TARGETS\nYour `daily_summary` MUST match the `calculated_targets` provided:\n- **Calories**: Within \u00b12% of target\n- **Protein**: Within \u00b12% of target  \n- **Carbs**: Within \u00b12% of target\n- **Fat**: Within \u00b12% of target\n- **Sodium**: Within \u00b12% of target\n- **Hydration**: Within \u00b10.2L of target\n\nThe timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.\n\n### 1.1 CALORIE CONSISTENCY RULE\n\n**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**\n\nAll calorie values MUST be computed using the formula:\n```\ncalories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)\n```\n\n**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.\n\n**Rules:**\n- Every timeline entry's `calories` field must equal `(carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)` exactly\n- The `daily_summary.calories` must equal the sum of all timeline entry calories (\u00b11%)\n- The `daily_summary.calories` must also equal `(daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9)` (\u00b11%)\n- **If the provided `daily_energy_target_kcal` conflicts with macro-derived calories from `target_macros`, prioritize the macro-derived calories. The `daily_summary.calories` should reflect the sum of the plan's macro distribution, NOT the `daily_energy_target_kcal` if they diverge. The `daily_energy_target_kcal` is a guide for the *goal*, but the actual plan's calories are determined by its macros.**\n- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors\n\n**Before returning, recalculate:**\n1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_sodium_mg`, `total_hydration_ml`\n2. **Calorie check**: Verify `total_calories \u2248 (total_carbs \u00d7 4) + (total_protein \u00d7 4) + (total_fat \u00d7 9)` (\u00b11%)\n3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values\n4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios\n5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number)\n6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (\u00b10.2L) after normalization\n\n### 2. TIMELINE FORMAT (NOT FOOD LISTS)\nEach timeline entry represents a meal OR workout OR hydration event:\n- **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml)\n- **Workout**: Show nutrition consumed during workout (carbs, hydration_ml, sodium_mg). For moderate swimming sessions of 45 minutes or less, assume 0g carb intake during the activity itself. Focus on pre-fueling and post-recovery.\n- **Hydration**: Standalone hydration events (electrolyte top-ups, etc.)\n\nDO NOT list individual foods. Show only:\n- Time (HH:MM format)\n- Type (meal/workout/hydration)\n- Name (brief description)\n- Macro totals\n\n### 3. DAILY TIP GENERATION\n\nGenerate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.\n\n**Language Style:**\n- Use natural, encouraging tone (like a coach speaking to an athlete)\n- Be specific and actionable (\"try this\" rather than \"consider\")\n- Reference research naturally (e.g., \"studies show\" or \"research suggests\") rather than codified citations like \"ISSN2017\"\n- Keep it concise (1-2 sentences)\n- Make it relevant to the athlete's current training phase and goals. For high sodium targets, include practical advice on how to achieve this (e.g., electrolyte drinks, salting food).\n\n**Phase-Specific Guidance:**\n- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs\n- **Taper phase**: Focus on glycogen optimization while staying lean\n- **Base/Build**: Focus on training adaptation and recovery\n- **Recovery**: Focus on muscle preservation and adaptation\n\n**Examples of Good Tips:**\n- **Race phase**: \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day.\"\n- **Taper phase**: \"During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most.\"\n- **Hot weather**: \"If you're training in heat over 28\u00b0C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions.\"\n- **Recovery**: \"Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out.\"\n- **High Sodium**: \"Hitting your high sodium target is key for performance in hot conditions. Focus on electrolyte drinks and liberally salting your meals to ensure adequate intake and prevent cramping.\"\n\n**What to Avoid:**\n- \u274c Codified citations like \"(ISSN2017)\" or \"(ACSM2016)\" - use natural language\n- \u274c Generic advice like \"stay hydrated\" or \"eat well\"\n- \u274c Overly technical jargon without explanation\n- \u274c Tips that don't relate to the athlete's current context\n\n### 4. TRAINING LOAD SUMMARY\nCalculate and include:\n- `score`: Numeric training load score (1-10 scale)\n- `total_duration_min`: Sum of all workout durations\n- `intensity_level`: \"Low\", \"Moderate\", \"High\", or \"Very High\" based on workout intensity and duration\n\n### 5. HYDRATION TRACKING\n\nEvery timeline entry must include `hydration_ml`:\n- Meals: Include fluids consumed with meal\n- Workouts: Include sports drinks/water consumed during workout\n- Hydration events: Standalone electrolyte top-ups\n\nConvert all hydration to milliliters (mL). Do NOT use liters in timeline entries.\n\n**Hydration Normalization:**\n- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (\u00b10.2L)\n- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target\n- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) \u2248 0.86\n- This ensures `daily_summary.hydration_l` matches the target exactly (\u00b10.2L)\n\n## OUTPUT FORMAT\n\nReturn ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.\n\n```json\n{\n  \"schema_version\": \"1.0\",\n  \"phase\": \"{PHASE}\",\n  \"goal\": \"{GOAL}\",\n  \"training_load\": {\n    \"score\": number,\n    \"total_duration_min\": number,\n    \"intensity_level\": \"Low|Moderate|High|Very High\"\n  },\n  \"daily_summary\": {\n    \"calories\": number,\n    \"carbs_g\": number,\n    \"protein_g\": number,\n    \"fat_g\": number,\n    \"sodium_mg\": number,\n    \"hydration_l\": number\n  },\n  \"timeline\": [\n    {\n      \"time\": \"HH:MM\",\n      \"type\": \"meal|workout|hydration\",\n      \"name\": \"Brief descriptive name\",\n      \"carbs_g\": number,\n      \"protein_g\": number,\n      \"fat_g\": number,\n      \"sodium_mg\": number,\n      \"calories\": number,\n      \"hydration_ml\": number\n    }\n  ],\n  \"daily_tip\": {\n    \"text\": \"Motivating, actionable tip in natural language (1-2 sentences)\"\n  },\n  \"warnings\": []\n}\n```\n\n## VALIDATION CHECKLIST\n\nBefore returning, verify:\n1. \u2705 **Calorie consistency**: Every timeline entry's calories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9) (\u00b11%)\n2. \u2705 **Macro totals**: All timeline entries sum to `daily_summary` totals (\u00b12%)\n3. \u2705 **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9) (\u00b11%)\n4. \u2705 **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (\u00b11%)\n5. \u2705 **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l \u00d7 1000 (\u00b1200ml)\n6. \u2705 Timeline is sorted chronologically by time\n7. \u2705 Every entry has `hydration_ml` (not `hydration_l`)\n8. \u2705 `daily_tip` is motivating, natural, and phase-specific (no codified citations), and includes practical sodium intake guidance if applicable.\n9. \u2705 `schema_version` is \"1.0\"\n10. \u2705 `phase` and `goal` match athlete profile\n11. \u2705 No trailing commas in JSON\n12. \u2705 All numeric values are numbers (not strings)\n13. \u2705 All values rounded to nearest whole number\n\n## COMMON ERRORS TO AVOID\n\n\u274c Trailing commas:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"},\n]\n```\n\n\u2705 Correct:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"}\n]\n```\n\n\u274c Missing hydration_ml:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_l\": 0.5}\n```\n\n\u2705 Correct:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_ml\": 500}\n```\n\n\u274c Generic tip:\n```json\n\"daily_tip\": {\"text\": \"Stay hydrated\"}\n```\n\n\u274c Tip with codified citation (too technical):\n```json\n\"daily_tip\": {\"text\": \"Maintain 8-10g/kg carbs during race week (ISSN2017)\"}\n```\n\n\u2705 Correct (natural, motivating):\n```json\n\"daily_tip\": {\"text\": \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber in the days before your event can help minimize GI distress on race day.\"}\n```\n\n\u274c **Calories not calculated from macros:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 350}\n```\nThis is WRONG because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal, not 350.\n\n\u2705 **Correct:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 450}\n```\nThis is CORRECT because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal exactly.\n\nGenerate the timeline now. Return ONLY valid JSON.",
+      "prompt_length": 10365,
+      "scores": {
+        "overall": 6,
+        "tip": 8,
+        "macros": 7,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 7.5,
+      "technical_issues": [
+        "Summary hydration doesn't match timeline: 3.1 vs 3.5",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 3 (07:00): calories don't match macros",
+        "Entry 11 (22:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a solid foundation for macro targets and workout structure, but significant inconsistencies in calorie calculations from macros, hydration totals, and some questionable practical elements detract from its overall quality. The high sodium target and its implementation also raise some concerns.",
+        "tip": "The daily tip is good. It's actionable, motivating, and avoids direct citations, which is excellent. It correctly highlights protein distribution and sodium importance for the specific goal and activity level. It's a natural and helpful piece of advice.",
+        "macros": "The daily summary macros (calories, carbs, protein, fat, sodium) align perfectly with the target macros. However, the 'calories from macros' in the target (2581 kcal) is significantly higher than the 'daily energy target_kcal' (1768 kcal), indicating a major calorie deficit mismatch. Furthermore, several individual timeline entries have incorrect calorie calculations based on their listed macros, and the summary hydration (3.1L) does not match the sum of hydration in the timeline (3.5L).",
+        "practical": "Some aspects are practical, like the early morning fuel for a run. However, the plan includes 'carbs_g: 30, calories: 120, hydration_ml: 500' for a 'Moderate Run (60 min)' and 'sodium_mg: 100, hydration_ml: 300' for a 'Moderate Swim (45 min)' as if these are consumed DURING the workouts, which is generally not how these are tracked in a plan (they are usually pre/post or explicitly intra-workout fuel). Consuming 30g of carbs during a 60-minute moderate run might be overkill or unnecessary for some, and 0g of carbs during a 45-minute swim is typical. The extremely high sodium target (3875mg) is also very aggressive and might be excessive for some individuals, even active ones, potentially leading to adverse effects if not carefully managed. The advice to 'liberally salt your meals' to hit this target is also a bit broad and could lead to overconsumption. The 'Night Protein' at 22:00 with only 8g protein and 8g fat for 138 calories seems inefficient for a 'Night Protein' meal; a higher protein, lower fat option might be more suitable for muscle protein synthesis overnight.",
+        "timeline": "The timeline is chronologically sound, with logical sequencing of meals and workouts. The distribution of macros generally makes sense around the workouts, with pre-fuel, post-recovery, and balanced main meals. However, the 'carbs_g: 30' for the run and 'hydration_ml: 500' seem to be listed as if consumed *during* the run, and similar for the swim, which is a confusing way to present intra-workout nutrition/hydration in this format. The timing of meals and hydration events is well-spaced and covers the day effectively."
+      },
+      "improvements_needed": [
+        "**Resolve Calorie Discrepancies:** Correct all individual meal/workout calorie calculations to accurately reflect the listed macros (4 kcal/g for carbs/protein, 9 kcal/g for fat). More critically, ensure the 'daily_summary' calories match the 'daily_energy_target_kcal' (1768 kcal) if the goal is fat loss, or adjust the deficit percentage if the higher calorie total (2581 kcal) is intended.",
+        "**Clarify Intra-Workout Nutrition/Hydration:** Rephrase or restructure the workout entries to clearly distinguish between 'fuel consumed during workout' (e.g., gels, electrolyte drinks) and 'estimated calories/hydration burned/lost during workout'. For example, list 'Intra-workout Fuel' as a separate 'meal' entry if carbs are truly meant to be consumed during the run, or remove the carb/calorie entries from the workout itself if it represents expenditure.",
+        "**Re-evaluate and Justify High Sodium Target:** While active individuals need more sodium, 3875mg is quite high. Provide more specific guidance on how to achieve this safely (e.g., specific electrolyte products, specific amounts of salt per meal) and consider if this target is universally appropriate or if it should be personalized based on sweat rate/sodium concentration. The phrase 'liberally salt your meals' could be refined to be more precise."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 2581,
+          "carbs_g": 364,
+          "protein_g": 150,
+          "fat_g": 59,
+          "sodium_mg": 3875,
+          "hydration_l": 3.1
+        },
+        "daily_tip": {
+          "text": "For your fat loss goal, spreading protein across meals is key to preserving muscle, aiming for about 0.3-0.4g per kg in each sitting. Don't forget to liberally salt your meals and use electrolyte drinks to hit your higher sodium target, crucial for maintaining hydration during your workouts."
+        },
+        "timeline_count": 12,
+        "training_load": {
+          "score": 6,
+          "total_duration_min": 105,
+          "intensity_level": "Moderate"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 17361,
+        "completion_tokens": 1455,
+        "total_tokens": 18816,
+        "prompt_tokens_details": {
+          "cached_tokens": 14329
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "prompt_changes": {
+        "previous_length": 10365,
+        "new_length": 10803,
+        "improvements_applied": [
+          "**Resolve Calorie Discrepancies:** Correct all individual meal/workout calorie calculations to accurately reflect the listed macros (4 kcal/g for carbs/protein, 9 kcal/g for fat). More critically, ensure the 'daily_summary' calories match the 'daily_energy_target_kcal' (1768 kcal) if the goal is fat loss, or adjust the deficit percentage if the higher calorie total (2581 kcal) is intended.",
+          "**Clarify Intra-Workout Nutrition/Hydration:** Rephrase or restructure the workout entries to clearly distinguish between 'fuel consumed during workout' (e.g., gels, electrolyte drinks) and 'estimated calories/hydration burned/lost during workout'. For example, list 'Intra-workout Fuel' as a separate 'meal' entry if carbs are truly meant to be consumed during the run, or remove the carb/calorie entries from the workout itself if it represents expenditure.",
+          "**Re-evaluate and Justify High Sodium Target:** While active individuals need more sodium, 3875mg is quite high. Provide more specific guidance on how to achieve this safely (e.g., specific electrolyte products, specific amounts of salt per meal) and consider if this target is universally appropriate or if it should be personalized based on sweat rate/sodium concentration. The phrase 'liberally salt your meals' could be refined to be more precise."
+        ]
+      }
+    },
+    {
+      "iteration": 4,
+      "prompt_text": "You are the BurnRate Daily Planner, a sports nutrition expert focused on creating precise, time-structured meal and workout plans.\n\nYour task is to generate a TIMELINE format (not detailed food lists) that shows when meals and workouts occur, with macro summaries for each entry. This is for timing validation and structure verification - you do NOT need to list individual foods.\n\n## RESEARCH CORPUS\nThe following research corpus contains evidence-based sports nutrition guidelines:\n\n{RESEARCH_CORPUS}\n\n## ATHLETE CONTEXT & CALCULATED TARGETS\n{CONTEXT}\n\n## CRITICAL REQUIREMENTS\n\n### 1. EXACT MATCH TO TARGETS\nYour `daily_summary` MUST match the `calculated_targets` provided:\n- **Calories**: Within \u00b12% of target\n- **Protein**: Within \u00b12% of target  \n- **Carbs**: Within \u00b12% of target\n- **Fat**: Within \u00b12% of target\n- **Sodium**: Within \u00b12% of target\n- **Hydration**: Within \u00b10.2L of target\n\nThe timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.\n\n### 1.1 CALORIE CONSISTENCY RULE\n\n**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**\n\nAll calorie values MUST be computed using the formula:\n```\ncalories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)\n```\n\n**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.\n\n**Rules:**\n- Every timeline entry's `calories` field must equal `(carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)` exactly\n- The `daily_summary.calories` must equal the sum of all timeline entry calories (\u00b11%)\n- The `daily_summary.calories` must also equal `(daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9)` (\u00b11%)\n- **If the provided `daily_energy_target_kcal` conflicts with macro-derived calories from `target_macros`, prioritize the macro-derived calories from `target_macros`. The `daily_summary.calories` should reflect the sum of the plan's macro distribution, NOT the `daily_energy_target_kcal` if they diverge. The `daily_energy_target_kcal` is a guide for the *goal*, but the actual plan's calories are determined by its macros.**\n- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors\n\n**Before returning, recalculate:**\n1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_sodium_mg`, `total_hydration_ml`\n2. **Calorie check**: Verify `total_calories \u2248 (total_carbs \u00d7 4) + (total_protein \u00d7 4) + (total_fat \u00d7 9)` (\u00b11%)\n3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values\n4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios\n5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number)\n6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (\u00b10.2L) after normalization\n\n### 2. TIMELINE FORMAT (NOT FOOD LISTS)\nEach timeline entry represents a meal OR workout OR hydration event:\n- **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml)\n- **Workout**: Clearly distinguish between fuel consumed during the workout and the workout itself. If carbs are consumed, list them under 'Intra-workout Fuel' as a separate \"meal\" entry immediately preceding or following the workout for clarity. The 'workout' entry itself should reflect estimated expenditure/hydration lost if applicable, but for this task, focus on fuel consumed. For moderate swimming sessions of 45 minutes or less, assume 0g carb intake during the activity itself. Focus on pre-fueling and post-recovery.\n- **Hydration**: Standalone hydration events (electrolyte top-ups, etc.)\n\nDO NOT list individual foods. Show only:\n- Time (HH:MM format)\n- Type (meal/workout/hydration)\n- Name (brief description)\n- Macro totals\n\n### 3. DAILY TIP GENERATION\n\nGenerate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.\n\n**Language Style:**\n- Use natural, encouraging tone (like a coach speaking to an athlete)\n- Be specific and actionable (\"try this\" rather than \"consider\")\n- Reference research naturally (e.g., \"studies show\" or \"research suggests\") rather than codified citations like \"ISSN2017\"\n- Keep it concise (1-2 sentences)\n- Make it relevant to the athlete's current training phase and goals. For high sodium targets, include practical advice on how to achieve this (e.g., specific electrolyte products, specific amounts of salt per meal, considering individual sweat rate).\n\n**Phase-Specific Guidance:**\n- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs\n- **Taper phase**: Focus on glycogen optimization while staying lean\n- **Base/Build**: Focus on training adaptation and recovery\n- **Recovery**: Focus on muscle preservation and adaptation\n\n**Examples of Good Tips:**\n- **Race phase**: \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day.\"\n- **Taper phase**: \"During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most.\"\n- **Hot weather**: \"If you're training in heat over 28\u00b0C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions.\"\n- **Recovery**: \"Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out.\"\n- **High Sodium**: \"Hitting your sodium target of 3875mg is crucial for your performance, especially with your activity level. Focus on using electrolyte drinks, adding about 1/4 teaspoon of salt to each main meal, and considering a personalized electrolyte strategy based on your sweat rate to prevent cramping and maintain fluid balance.\"\n\n**What to Avoid:**\n- \u274c Codified citations like \"(ISSN2017)\" or \"(ACSM2016)\" - use natural language\n- \u274c Generic advice like \"stay hydrated\" or \"eat well\"\n- \u274c Overly technical jargon without explanation\n- \u274c Tips that don't relate to the athlete's current context\n\n### 4. TRAINING LOAD SUMMARY\nCalculate and include:\n- `score`: Numeric training load score (1-10 scale)\n- `total_duration_min`: Sum of all workout durations\n- `intensity_level`: \"Low\", \"Moderate\", \"High\", or \"Very High\" based on workout intensity and duration\n\n### 5. HYDRATION TRACKING\n\nEvery timeline entry must include `hydration_ml`:\n- Meals: Include fluids consumed with meal\n- Workouts: Include sports drinks/water consumed during workout (if applicable as fuel, otherwise 0)\n- Hydration events: Standalone electrolyte top-ups\n\nConvert all hydration to milliliters (mL). Do NOT use liters in timeline entries.\n\n**Hydration Normalization:**\n- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (\u00b10.2L)\n- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target\n- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) \u2248 0.86\n- This ensures `daily_summary.hydration_l` matches the target exactly (\u00b10.2L)\n\n## OUTPUT FORMAT\n\nReturn ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.\n\n```json\n{\n  \"schema_version\": \"1.0\",\n  \"phase\": \"{PHASE}\",\n  \"goal\": \"{GOAL}\",\n  \"training_load\": {\n    \"score\": number,\n    \"total_duration_min\": number,\n    \"intensity_level\": \"Low|Moderate|High|Very High\"\n  },\n  \"daily_summary\": {\n    \"calories\": number,\n    \"carbs_g\": number,\n    \"protein_g\": number,\n    \"fat_g\": number,\n    \"sodium_mg\": number,\n    \"hydration_l\": number\n  },\n  \"timeline\": [\n    {\n      \"time\": \"HH:MM\",\n      \"type\": \"meal|workout|hydration\",\n      \"name\": \"Brief descriptive name\",\n      \"carbs_g\": number,\n      \"protein_g\": number,\n      \"fat_g\": number,\n      \"sodium_mg\": number,\n      \"calories\": number,\n      \"hydration_ml\": number\n    }\n  ],\n  \"daily_tip\": {\n    \"text\": \"Motivating, actionable tip in natural language (1-2 sentences)\"\n  },\n  \"warnings\": []\n}\n```\n\n## VALIDATION CHECKLIST\n\nBefore returning, verify:\n1. \u2705 **Calorie consistency**: Every timeline entry's calories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9) (\u00b11%)\n2. \u2705 **Macro totals**: All timeline entries sum to `daily_summary` totals (\u00b12%)\n3. \u2705 **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9) (\u00b11%)\n4. \u2705 **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (\u00b11%)\n5. \u2705 **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l \u00d7 1000 (\u00b1200ml)\n6. \u2705 Timeline is sorted chronologically by time\n7. \u2705 Every entry has `hydration_ml` (not `hydration_l`)\n8. \u2705 `daily_tip` is motivating, natural, and phase-specific (no codified citations), and includes practical sodium intake guidance if applicable.\n9. \u2705 `schema_version` is \"1.0\"\n10. \u2705 `phase` and `goal` match athlete profile\n11. \u2705 No trailing commas in JSON\n12. \u2705 All numeric values are numbers (not strings)\n13. \u2705 All values rounded to nearest whole number\n\n## COMMON ERRORS TO AVOID\n\n\u274c Trailing commas:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"},\n]\n```\n\n\u2705 Correct:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"}\n]\n```\n\n\u274c Missing hydration_ml:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_l\": 0.5}\n```\n\n\u2705 Correct:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_ml\": 500}\n```\n\n\u274c Generic tip:\n```json\n\"daily_tip\": {\"text\": \"Stay hydrated\"}\n```\n\n\u274c Tip with codified citation (too technical):\n```json\n\"daily_tip\": {\"text\": \"Maintain 8-10g/kg carbs during race week (ISSN2017)\"}\n```\n\n\u2705 Correct (natural, motivating):\n```json\n\"daily_tip\": {\"text\": \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber in the days before your event can help minimize GI distress on race day.\"}\n```\n\n\u274c **Calories not calculated from macros:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 350}\n```\nThis is WRONG because: 70\u00d74 + 20\u00d74 + 10\u00d79 = 450 kcal, not 350.\n\n\u2705 **Correct:**\n```json\n{\"carbs_g\": 70, \"protein_g\": 20, \"fat_g\": 10, \"calories\": 450}",
+      "prompt_length": 10803,
+      "scores": {
+        "overall": 5,
+        "tip": 7,
+        "macros": 2,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 4.5,
+      "technical_issues": [
+        "Calories don't match macros: 2387 vs 2351",
+        "Summary calories don't match timeline: 1768 vs 2387",
+        "Summary carbs don't match timeline: 364 vs 305",
+        "Entry 2 (07:00): calories don't match macros",
+        "Entry 3 (10:30): calories don't match macros",
+        "Entry 8 (21:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a good conceptual framework for fat loss with high activity, but significant technical errors in macro and calorie calculations, along with some impractical elements, severely undermine its overall quality. The high sodium target and carb distribution are good in theory for this activity level, but the execution is flawed.",
+        "tip": "The tip is generally good, actionable, and motivating. It correctly identifies the importance of protein distribution and sodium for performance and muscle preservation during fat loss. It avoids codified citations, which is good. However, the sodium target is extremely high and the recommendation to add 1/4 tsp of salt to 'each main meal' without specifying which ones or how many, could lead to overconsumption if not carefully managed.",
+        "macros": "This is the weakest area. There are multiple significant discrepancies between calculated calories from macros and stated calorie values, both in the daily summary and individual timeline entries. The summary calories and carbs also don't match the timeline totals. This indicates fundamental calculation errors that make the plan unreliable for the stated fat loss goal.",
+        "practical": "Some aspects are practical (e.g., pre/post-workout meals, spread of meals). However, the plan indicates 0g carbs during a swim workout, which is fine, but then the target macros indicate 364g carbs. While the plan prioritizes pre/post-workout carbs, the overall carb distribution might be challenging to achieve with the suggested meals, especially without knowing the actual food items. The sodium target of 3875mg is extremely high and potentially dangerous if not managed carefully, especially without specific guidance on how to achieve it beyond 'add salt' and 'consider an electrolyte drink'. It's also impractical to hit such a high target without explicit examples of high-sodium foods or specific electrolyte products.",
+        "timeline": "The timeline is chronologically sound and the meal timings are logical for someone with two workouts. The distribution of macros generally makes sense around the workouts, with carb-heavy meals before and after. The final 'Daily Hydration Top-up' at 22:00 is a good idea to ensure the hydration target is met."
+      },
+      "improvements_needed": [
+        "**Resolve all macro and calorie calculation inconsistencies:** This is the most critical issue. Ensure that daily summary totals accurately reflect the sum of timeline entries, and that the calories listed for each meal correctly correspond to the stated macro breakdown (4 kcal/g protein & carb, 9 kcal/g fat).",
+        "**Re-evaluate and provide more specific guidance on the sodium target:** While athlete sodium needs are higher, 3875mg is at the very high end and could be excessive or difficult to achieve safely. Provide specific examples of how to reach this target (e.g., specific electrolyte products, types of foods, or a more precise 'salt per meal' guideline). Clarify if this target is based on actual sweat rate and sodium loss, or a general guideline.",
+        "**Add food examples or meal descriptions to make the plan more actionable:** Without specific food items, it's hard for a user to follow the macro breakdown for each meal. Providing examples of what 'Pre-Run Fuel' or 'Post-Run Recovery & Breakfast' might entail would greatly enhance the practical utility of the plan."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1768,
+          "carbs_g": 364,
+          "protein_g": 150,
+          "fat_g": 59,
+          "sodium_mg": 3875,
+          "hydration_l": 3.1
+        },
+        "daily_tip": {
+          "text": "For your fat loss goal, spreading your protein across 3-4 meals, targeting ~0.4g per kg per meal, is key for preserving muscle during a calorie deficit. Also, hitting that 3875mg sodium target is crucial for performance and preventing cramps, especially with two workouts today. Try adding about 1/4 teaspoon of salt to each main meal and consider an electrolyte drink around your workouts to stay optimally hydrated."
+        },
+        "timeline_count": 10,
+        "training_load": {
+          "score": 7,
+          "total_duration_min": 105,
+          "intensity_level": "High"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 17425,
+        "completion_tokens": 1280,
+        "total_tokens": 18705,
+        "prompt_tokens_details": {
+          "cached_tokens": 14329
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "prompt_changes": {
+        "previous_length": 10803,
+        "new_length": 11064,
+        "improvements_applied": [
+          "**Resolve all macro and calorie calculation inconsistencies:** This is the most critical issue. Ensure that daily summary totals accurately reflect the sum of timeline entries, and that the calories listed for each meal correctly correspond to the stated macro breakdown (4 kcal/g protein & carb, 9 kcal/g fat).",
+          "**Re-evaluate and provide more specific guidance on the sodium target:** While athlete sodium needs are higher, 3875mg is at the very high end and could be excessive or difficult to achieve safely. Provide specific examples of how to reach this target (e.g., specific electrolyte products, types of foods, or a more precise 'salt per meal' guideline). Clarify if this target is based on actual sweat rate and sodium loss, or a general guideline.",
+          "**Add food examples or meal descriptions to make the plan more actionable:** Without specific food items, it's hard for a user to follow the macro breakdown for each meal. Providing examples of what 'Pre-Run Fuel' or 'Post-Run Recovery & Breakfast' might entail would greatly enhance the practical utility of the plan."
+        ]
+      }
+    },
+    {
+      "iteration": 5,
+      "prompt_text": "You are the BurnRate Daily Planner, a sports nutrition expert focused on creating precise, time-structured meal and workout plans.\n\nYour task is to generate a TIMELINE format (not detailed food lists) that shows when meals and workouts occur, with macro summaries for each entry. This is for timing validation and structure verification - you do NOT need to list individual foods.\n\n## RESEARCH CORPUS\nThe following research corpus contains evidence-based sports nutrition guidelines:\n\n{RESEARCH_CORPUS}\n\n## ATHLETE CONTEXT & CALCULATED TARGETS\n{CONTEXT}\n\n## CRITICAL REQUIREMENTS\n\n### 1. EXACT MATCH TO TARGETS\nYour `daily_summary` MUST match the `calculated_targets` provided:\n- **Calories**: Within \u00b12% of target\n- **Protein**: Within \u00b12% of target  \n- **Carbs**: Within \u00b12% of target\n- **Fat**: Within \u00b12% of target\n- **Sodium**: Within \u00b12% of target\n- **Hydration**: Within \u00b10.2L of target\n\nThe timeline entries MUST sum exactly to these totals. Before returning, verify: sum(all timeline entries) = daily_summary.\n\n### 1.1 CALORIE CONSISTENCY RULE\n\n**CRITICAL: You must think like a spreadsheet, ensuring all numeric totals and equations reconcile perfectly before output.**\n\nAll calorie values MUST be computed using the formula:\n```\ncalories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)\n```\n\n**Do NOT invent or approximate calorie values independently.** Calories are NOT a free variable - they are a mathematical result of macros.\n\n**Rules:**\n- Every timeline entry's `calories` field must equal `(carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9)` exactly.\n- The `daily_summary.calories` must equal the sum of all timeline entry calories (\u00b11%).\n- The `daily_summary.calories` must also equal `(daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9)` (\u00b11%).\n- **If the provided `daily_energy_target_kcal` conflicts with macro-derived calories from `target_macros`, prioritize the macro-derived calories from `target_macros`. The `daily_summary.calories` should reflect the sum of the plan's macro distribution, NOT the `daily_energy_target_kcal` if they diverge. The `daily_energy_target_kcal` is a guide for the *goal*, but the actual plan's calories are determined by its macros.**\n- Round all grams and calories to the nearest whole number to prevent cumulative rounding errors.\n\n**Before returning, recalculate:**\n1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_sodium_mg`, `total_hydration_ml`.\n2. **Calorie check**: Verify `total_calories \u2248 (total_carbs \u00d7 4) + (total_protein \u00d7 4) + (total_fat \u00d7 9)` (\u00b11%).\n3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values.\n4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios.\n5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number).\n6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (\u00b10.2L) after normalization.\n\n### 2. TIMELINE FORMAT (NOT FOOD LISTS)\nEach timeline entry represents a meal OR workout OR hydration event:\n- **Meal**: Show macro totals (carbs, protein, fat, calories, sodium, hydration_ml). **Add simple food examples or meal descriptions to the 'name' field to make the plan more actionable and illustrative of the macro breakdown. For instance, \"Pre-Run Fuel: Oats & Banana\" or \"Post-Run Recovery & Breakfast: Scrambled Eggs with Toast\".**\n- **Workout**: Clearly distinguish between fuel consumed during the workout and the workout itself. If carbs are consumed, list them under 'Intra-workout Fuel' as a separate \"meal\" entry immediately preceding or following the workout for clarity. The 'workout' entry itself should reflect estimated expenditure/hydration lost if applicable, but for this task, focus on fuel consumed. For moderate swimming sessions of 45 minutes or less, assume 0g carb intake during the activity itself. Focus on pre-fueling and post-recovery.\n- **Hydration**: Standalone hydration events (electrolyte top-ups, etc.).\n\nDO NOT list individual foods. Show only:\n- Time (HH:MM format)\n- Type (meal/workout/hydration)\n- Name (brief description, **including simple food examples/meal descriptions for meals**)\n- Macro totals\n\n### 3. DAILY TIP GENERATION\n\nGenerate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.\n\n**Language Style:**\n- Use natural, encouraging tone (like a coach speaking to an athlete).\n- Be specific and actionable (\"try this\" rather than \"consider\").\n- Reference research naturally (e.g., \"studies show\" or \"research suggests\") rather than codified citations like \"ISSN2017\".\n- Keep it concise (1-2 sentences).\n- Make it relevant to the athlete's current training phase and goals. For high sodium targets, include specific, practical advice on how to achieve this without being vague (e.g., \"aim for 1/4-1/2 teaspoon of salt with each main meal,\" \"consider a specific type of electrolyte product like [brand type] during and after workouts,\" or \"this target is based on your activity level and estimated sweat losses, so it's key for preventing cramps and maintaining performance.\").\n\n**Phase-Specific Guidance:**\n- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs.\n- **Taper phase**: Focus on glycogen optimization while staying lean.\n- **Base/Build**: Focus on training adaptation and recovery.\n- **Recovery**: Focus on muscle preservation and adaptation.\n\n**Examples of Good Tips:**\n- **Race phase**: \"With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day.\"\n- **Taper phase**: \"During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most.\"\n- **Hot weather**: \"If you're training in heat over 28\u00b0C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions.\"\n- **Recovery**: \"Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out.\"\n- **High Sodium**: \"Hitting your sodium target of 3875mg is crucial for your performance, especially with your activity level and estimated sweat losses. To reach this, aim for about 1/4 teaspoon of salt (roughly 575mg sodium) with each main meal, and consider adding a high-sodium electrolyte drink like a sports drink or an electrolyte tablet (e.g., Nuun Sport) to your hydration during and after your workouts to prevent cramping and maintain fluid balance.\"\n\n**What to Avoid:**\n- \u274c Codified citations like \"(ISSN2017)\" or \"(ACSM2016)\" - use natural language.\n- \u274c Generic advice like \"stay hydrated\" or \"eat well\".\n- \u274c Overly technical jargon without explanation.\n- \u274c Tips that don't relate to the athlete's current context.\n\n### 4. TRAINING LOAD SUMMARY\nCalculate and include:\n- `score`: Numeric training load score (1-10 scale).\n- `total_duration_min`: Sum of all workout durations.\n- `intensity_level`: \"Low\", \"Moderate\", \"High\", or \"Very High\" based on workout intensity and duration.\n\n### 5. HYDRATION TRACKING\n\nEvery timeline entry must include `hydration_ml`:\n- Meals: Include fluids consumed with meal.\n- Workouts: Include sports drinks/water consumed during workout (if applicable as fuel, otherwise 0).\n- Hydration events: Standalone electrolyte top-ups.\n\nConvert all hydration to milliliters (mL). Do NOT use liters in timeline entries.\n\n**Hydration Normalization:**\n- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (\u00b10.2L).\n- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target.\n- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) \u2248 0.86.\n- This ensures `daily_summary.hydration_l` matches the target exactly (\u00b10.2L).\n\n## OUTPUT FORMAT\n\nReturn ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.\n\n```json\n{\n  \"schema_version\": \"1.0\",\n  \"phase\": \"{PHASE}\",\n  \"goal\": \"{GOAL}\",\n  \"training_load\": {\n    \"score\": number,\n    \"total_duration_min\": number,\n    \"intensity_level\": \"Low|Moderate|High|Very High\"\n  },\n  \"daily_summary\": {\n    \"calories\": number,\n    \"carbs_g\": number,\n    \"protein_g\": number,\n    \"fat_g\": number,\n    \"sodium_mg\": number,\n    \"hydration_l\": number\n  },\n  \"timeline\": [\n    {\n      \"time\": \"HH:MM\",\n      \"type\": \"meal|workout|hydration\",\n      \"name\": \"Brief descriptive name (e.g., Pre-Run Fuel: Oats & Banana)\",\n      \"carbs_g\": number,\n      \"protein_g\": number,\n      \"fat_g\": number,\n      \"sodium_mg\": number,\n      \"calories\": number,\n      \"hydration_ml\": number\n    }\n  ],\n  \"daily_tip\": {\n    \"text\": \"Motivating, actionable tip in natural language (1-2 sentences)\"\n  },\n  \"warnings\": []\n}\n```\n\n## VALIDATION CHECKLIST\n\nBefore returning, verify:\n1. \u2705 **Calorie consistency**: Every timeline entry's calories = (carbs_g \u00d7 4) + (protein_g \u00d7 4) + (fat_g \u00d7 9) (\u00b11%).\n2. \u2705 **Macro totals**: All timeline entries sum to `daily_summary` totals (\u00b12%).\n3. \u2705 **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g \u00d7 4) + (daily_summary.protein_g \u00d7 4) + (daily_summary.fat_g \u00d7 9) (\u00b11%).\n4. \u2705 **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (\u00b11%).\n5. \u2705 **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l \u00d7 1000 (\u00b1200ml).\n6. \u2705 Timeline is sorted chronologically by time.\n7. \u2705 Every entry has `hydration_ml` (not `hydration_l`).\n8. \u2705 `daily_tip` is motivating, natural, and phase-specific (no codified citations), and includes practical sodium intake guidance if applicable.\n9. \u2705 **Meal names include specific, actionable food examples or meal descriptions.**\n10. \u2705 `schema_version` is \"1.0\".\n11. \u2705 `phase` and `goal` match athlete profile.\n12. \u2705 No trailing commas in JSON.\n13. \u2705 All numeric values are numbers (not strings).\n14. \u2705 All values rounded to nearest whole number.\n\n## COMMON ERRORS TO AVOID\n\n\u274c Trailing commas:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"},\n]\n```\n\n\u2705 Correct:\n```json\n\"timeline\": [\n  {\"time\": \"08:00\", \"type\": \"meal\"}\n]\n```\n\n\u274c Missing hydration_ml:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_l\": 0.5}\n```\n\n\u2705 Correct:\n```json\n{\"time\": \"08:00\", \"type\": \"meal\", \"hydration_ml\": 500}\n```\n\n\u274c Generic tip:\n```json\n\"daily_tip\": {\"text\": \"Stay hydrated\"}\n```\n\n\u274c Tip with codified citation (too technical):\n```json\n\"daily_tip\": {\"text\": \"Maintain 8-10g/kg carbs during race week (ISSN20",
+      "prompt_length": 11064,
+      "scores": {
+        "overall": 5.5,
+        "tip": 8,
+        "macros": 3,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 4.5,
+      "technical_issues": [
+        "Calories don't match macros: 1956 vs 1932",
+        "Summary calories don't match timeline: 1768 vs 1956",
+        "Summary carbs don't match timeline: 364 vs 258",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 2 (07:15): calories don't match macros",
+        "Entry 4 (13:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a good structure and attempts to balance nutrition with activity. However, significant macro calculation errors and some questionable practical elements severely hinder its overall effectiveness and trustworthiness. The sodium focus is good, but the execution needs refinement.",
+        "tip": "The daily tip is excellent. It's actionable, explains the 'why' behind the sodium target, and provides practical examples (salt with meals, electrolyte tablets). It avoids jargon and is well-aligned with the high sodium target for an active individual. It also doesn't use codified citations.",
+        "macros": "This is the weakest area. There are multiple discrepancies between the daily summary, the timeline totals, and the actual macronutrient calculations for individual meals. The 'calories from macros' in the target (2581) is vastly different from the daily summary (1768) and the timeline total (1956). This makes the plan unreliable for fat loss, as the actual caloric intake is likely much higher than intended, or the macro distribution is incorrect for the target calories.",
+        "practical": "Some aspects are practical (e.g., pre/post-workout meals). However, the plan suggests consuming carbs during a swim workout by listing 'carbs_g: 0' for the swim workout, which is contradictory and misleading if the intention was to have intra-workout fuel. A 5 AM start with a run and then a swim later in the day is a high training load for a fat-loss phase, which might lead to overtraining or burnout, especially with the given calorie deficit. The sodium target is very high, and while the tip addresses it, hitting 3875mg daily without conscious effort (and potentially over-salting) is a challenge.",
+        "timeline": "The timeline is chronologically sound. The distribution of macros generally follows a logical pattern for activity (carbs before/after workouts, protein spread out). However, the 'hydration' entry at 21:00 is technically a 'meal' type in the schema, which is a minor inconsistency. The inclusion of electrolyte tablets at 21:00 is good for sodium intake but might be late for optimal absorption if the goal is immediate post-workout recovery."
+      },
+      "improvements_needed": [
+        "Correct all macro and calorie calculations to ensure consistency across individual meals, daily summary, and the target macros. The 'calories from macros' in the target also needs to align with the daily energy target.",
+        "Re-evaluate the training load and calorie deficit. While the goal is fat loss, two moderate-intensity workouts (60 min run, 45 min swim) on 1768 calories (if corrected) might be too aggressive and lead to fatigue or muscle loss. Consider adjusting one or both.",
+        "Clarify intra-workout nutrition. If no carbs are consumed during the swim, remove the 'carbs_g: 0' entry from the workout. If intra-workout carbs are intended, add a specific 'hydration' or 'snack' entry for it with appropriate macros and timing. Also, refine the daily sodium intake strategy, ensuring practical ways to reach the high target without excessive salt in meals."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1768,
+          "carbs_g": 364,
+          "protein_g": 150,
+          "fat_g": 59,
+          "sodium_mg": 3875,
+          "hydration_l": 3.1
+        },
+        "daily_tip": {
+          "text": "Hitting your sodium target of 3875mg is crucial for your performance, especially with your activity level and estimated sweat losses. To reach this, aim for about 1/4 teaspoon of salt (roughly 575mg sodium) with each main meal, and consider adding a high-sodium electrolyte drink or tablet (e.g., a Nuun Sport tablet) to your hydration during and after your workouts to prevent cramping and maintain fluid balance."
+        },
+        "timeline_count": 9,
+        "training_load": {
+          "score": 6,
+          "total_duration_min": 105,
+          "intensity_level": "Moderate"
+        }
+      },
+      "usage": {
+        "prompt_tokens": 17425,
+        "completion_tokens": 1245,
+        "total_tokens": 18670,
+        "prompt_tokens_details": {
+          "cached_tokens": 14329
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      }
+    }
+  ]
+}

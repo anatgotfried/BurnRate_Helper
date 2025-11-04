@@ -1,0 +1,596 @@
+/Users/anatgotfried/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+================================================================================
+Testing Iteration 3 Prompt Across All Personas
+================================================================================
+
+Prompt: prompts/daily_planner_v1_iter3.txt
+Model: google/gemini-2.5-flash
+
+Loading components...
+✅ Loaded 11 test athletes
+
+
+################################################################################
+PERSONA 1/11
+################################################################################
+
+================================================================================
+Testing: 🏃‍♀️ Sarah - Fat Loss Runner (2 workouts)
+================================================================================
+  ID: athlete_1
+  Goal: fat_loss
+  Phase: base
+  Workouts: 2
+
+📊 Calculating macros...
+   Target Calories: 1690
+   Target Carbs: 336g
+   Target Protein: 138g
+   Target Fat: 54g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61554 chars (~15388 tokens)
+   Waiting for response...
+✅ Response received (18812 tokens)
+   Prompt tokens: 17425
+   Completion tokens: 1387
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 11
+   Daily summary calories: 1690
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 4/10
+   Tip: 7/10
+   Macros: 2/10
+   Practical: 5/10
+   Timeline: 6/10
+   Technical: 4.0/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 2092 vs 2052
+   - Summary calories don't match timeline: 1690 vs 2092
+   - Summary carbs don't match timeline: 336 vs 276
+   - Entry 3 (09:45): calories don't match macros
+   - Entry 4 (10:30): calories don't match macros
+
+################################################################################
+PERSONA 2/11
+################################################################################
+
+================================================================================
+Testing: 💪 David - Performance Builder (Heavy Load)
+================================================================================
+  ID: athlete_2
+  Goal: performance
+  Phase: build
+  Workouts: 3
+
+📊 Calculating macros...
+   Target Calories: 3426
+   Target Carbs: 750g
+   Target Protein: 135g
+   Target Fat: 60g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61358 chars (~15339 tokens)
+   Waiting for response...
+✅ Response received (18963 tokens)
+   Prompt tokens: 17372
+   Completion tokens: 1591
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 13
+   Daily summary calories: 4080
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 6/10
+   Tip: 7/10
+   Macros: 3/10
+   Practical: 6/10
+   Timeline: 7/10
+   Technical: 4.0/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 4494 vs 4300
+   - Summary calories don't match timeline: 4080 vs 4494
+   - Entry 0 (05:00): calories don't match macros
+   - Entry 3 (07:30): calories don't match macros
+   - Entry 4 (09:30): calories don't match macros
+
+################################################################################
+PERSONA 3/11
+################################################################################
+
+================================================================================
+Testing: 🚴‍♀️ Emma - Light Recovery Day
+================================================================================
+  ID: athlete_3
+  Goal: performance
+  Phase: recovery
+  Workouts: 1
+
+📊 Calculating macros...
+   Target Calories: 1528
+   Target Carbs: 193g
+   Target Protein: 94g
+   Target Fat: 44g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61055 chars (~15263 tokens)
+   Waiting for response...
+✅ Response received (18380 tokens)
+   Prompt tokens: 17225
+   Completion tokens: 1155
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 9
+   Daily summary calories: 1540
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 7/10
+   Tip: 8/10
+   Macros: 7/10
+   Practical: 8/10
+   Timeline: 8/10
+   Technical: 9.0/10
+
+⚠️  Technical Issues:
+   - Entry 4 (12:30): calories don't match macros
+   - Entry 6 (18:30): calories don't match macros
+
+################################################################################
+PERSONA 4/11
+################################################################################
+
+================================================================================
+Testing: 🏊 Marcus - Triathlete Peak Week
+================================================================================
+  ID: athlete_4
+  Goal: performance
+  Phase: race
+  Workouts: 3
+
+📊 Calculating macros...
+   Target Calories: 3197
+   Target Carbs: 700g
+   Target Protein: 126g
+   Target Fat: 56g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61375 chars (~15343 tokens)
+   Waiting for response...
+✅ Response received (18882 tokens)
+   Prompt tokens: 17385
+   Completion tokens: 1497
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 12
+   Daily summary calories: 3197
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 4/10
+   Tip: 7/10
+   Macros: 2/10
+   Practical: 4/10
+   Timeline: 7/10
+   Technical: 3.5/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 4004 vs 3868
+   - Summary calories don't match timeline: 3197 vs 4004
+   - Entry 0 (05:00): calories don't match macros
+   - Entry 2 (06:45): calories don't match macros
+   - Entry 3 (08:00): calories don't match macros
+
+################################################################################
+PERSONA 5/11
+################################################################################
+
+================================================================================
+Testing: 🌱 Rachel - Vegan Fat Loss
+================================================================================
+  ID: athlete_5
+  Goal: fat_loss
+  Phase: base
+  Workouts: 1
+
+📊 Calculating macros...
+   Target Calories: 1504
+   Target Carbs: 226g
+   Target Protein: 133g
+   Target Fat: 52g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61386 chars (~15346 tokens)
+   Waiting for response...
+✅ Response received (18414 tokens)
+   Prompt tokens: 17352
+   Completion tokens: 1062
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 8
+   Daily summary calories: 1504
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 6/10
+   Tip: 7/10
+   Macros: 4/10
+   Practical: 8/10
+   Timeline: 7/10
+   Technical: 6.5/10
+
+⚠️  Technical Issues:
+   - Summary calories don't match timeline: 1504 vs 1727
+   - Summary carbs don't match timeline: 226 vs 201
+   - Entry 3 (08:10): calories don't match macros
+   - Entry 5 (13:30): calories don't match macros
+   - Entry 7 (19:00): calories don't match macros
+
+################################################################################
+PERSONA 6/11
+################################################################################
+
+================================================================================
+Testing: 🏋️ Alex - Muscle Gain + Strength
+================================================================================
+  ID: athlete_6
+  Goal: muscle_gain
+  Phase: build
+  Workouts: 2
+
+📊 Calculating macros...
+   Target Calories: 3638
+   Target Carbs: 800g
+   Target Protein: 128g
+   Target Fat: 64g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61226 chars (~15306 tokens)
+   Waiting for response...
+✅ Response received (18738 tokens)
+   Prompt tokens: 17332
+   Completion tokens: 1406
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 11
+   Daily summary calories: 4288
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 4/10
+   Tip: 7/10
+   Macros: 2/10
+   Practical: 4/10
+   Timeline: 5/10
+   Technical: 3.5/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 4492 vs 4348
+   - Summary calories don't match timeline: 4288 vs 4492
+   - Summary hydration doesn't match timeline: 4.2 vs 3.8
+   - Entry 0 (07:00): calories don't match macros
+   - Entry 3 (09:30): calories don't match macros
+
+################################################################################
+PERSONA 7/11
+################################################################################
+
+================================================================================
+Testing: 👴 Michael - Masters Endurance
+================================================================================
+  ID: athlete_7
+  Goal: performance
+  Phase: base
+  Workouts: 2
+
+📊 Calculating macros...
+   Target Calories: 2236
+   Target Carbs: 520g
+   Target Protein: 117g
+   Target Fat: 52g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61192 chars (~15298 tokens)
+   Waiting for response...
+✅ Response received (18683 tokens)
+   Prompt tokens: 17304
+   Completion tokens: 1379
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 11
+   Daily summary calories: 3016
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 6/10
+   Tip: 7/10
+   Macros: 4/10
+   Practical: 6/10
+   Timeline: 7/10
+   Technical: 5.5/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 2995 vs 2895
+   - Entry 0 (07:00): calories don't match macros
+   - Entry 3 (09:30): calories don't match macros
+   - Entry 4 (12:00): calories don't match macros
+   - Entry 8 (17:00): calories don't match macros
+
+################################################################################
+PERSONA 8/11
+################################################################################
+
+================================================================================
+Testing: 🔥 Lisa - HIIT Fat Loss
+================================================================================
+  ID: athlete_8
+  Goal: fat_loss
+  Phase: build
+  Workouts: 2
+
+📊 Calculating macros...
+   Target Calories: 1562
+   Target Carbs: 291g
+   Target Protein: 130g
+   Target Fat: 47g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61561 chars (~15390 tokens)
+   Waiting for response...
+✅ Response received (18604 tokens)
+   Prompt tokens: 17428
+   Completion tokens: 1176
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 9
+   Daily summary calories: 1562
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 4/10
+   Tip: 7/10
+   Macros: 2/10
+   Practical: 4/10
+   Timeline: 7/10
+   Technical: 4.0/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 1927 vs 1907
+   - Summary calories don't match timeline: 1562 vs 1927
+   - Summary carbs don't match timeline: 291 vs 241
+   - Entry 2 (07:10): calories don't match macros
+   - Entry 3 (08:30): calories don't match macros
+
+################################################################################
+PERSONA 9/11
+################################################################################
+
+================================================================================
+Testing: 🏃 Tom - Ultra Runner Single Long Run
+================================================================================
+  ID: athlete_9
+  Goal: performance
+  Phase: build
+  Workouts: 1
+
+📊 Calculating macros...
+   Target Calories: 2840
+   Target Carbs: 680g
+   Target Protein: 136g
+   Target Fat: 54g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61094 chars (~15273 tokens)
+   Waiting for response...
+✅ Response received (18652 tokens)
+   Prompt tokens: 17256
+   Completion tokens: 1396
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 11
+   Daily summary calories: 3020
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 6/10
+   Tip: 8/10
+   Macros: 3/10
+   Practical: 7/10
+   Timeline: 8/10
+   Technical: 5.0/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 3880 vs 3750
+   - Summary calories don't match timeline: 3020 vs 3880
+   - Entry 0 (05:00): calories don't match macros
+   - Entry 7 (10:30): calories don't match macros
+   - Entry 8 (14:00): calories don't match macros
+
+################################################################################
+PERSONA 10/11
+################################################################################
+
+================================================================================
+Testing: 🧘‍♀️ Yael - Rest Day Nutrition
+================================================================================
+  ID: athlete_10
+  Goal: performance
+  Phase: recovery
+  Workouts: 0
+
+📊 Calculating macros...
+   Target Calories: 1688
+   Target Carbs: 217g
+   Target Protein: 105g
+   Target Fat: 50g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 60910 chars (~15227 tokens)
+   Waiting for response...
+✅ Response received (17925 tokens)
+   Prompt tokens: 17155
+   Completion tokens: 770
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 5
+   Daily summary calories: 1736
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 7/10
+   Tip: 8/10
+   Macros: 7/10
+   Practical: 8/10
+   Timeline: 9/10
+   Technical: 8.5/10
+
+⚠️  Technical Issues:
+   - Entry 0 (07:00): calories don't match macros
+   - Entry 2 (13:00): calories don't match macros
+   - Entry 4 (19:00): calories don't match macros
+
+################################################################################
+PERSONA 11/11
+################################################################################
+
+================================================================================
+Testing: 🏃‍♂️ Lior - Masters Long Run
+================================================================================
+  ID: athlete_11
+  Goal: performance
+  Phase: build
+  Workouts: 1
+
+📊 Calculating macros...
+   Target Calories: 2858
+   Target Carbs: 750g
+   Target Protein: 150g
+   Target Fat: 60g
+
+📤 Calling OpenRouter API...
+   Model: google/gemini-2.5-flash
+   Prompt length: 61094 chars (~15273 tokens)
+   Waiting for response...
+✅ Response received (18664 tokens)
+   Prompt tokens: 17256
+   Completion tokens: 1408
+
+📊 Parsing response...
+✅ Successfully parsed JSON
+   Timeline entries: 11
+   Daily summary calories: 4140
+
+🔍 Evaluating response...
+   Running technical validation... ✅
+   Running AI evaluation... ✅
+
+📈 Evaluation Scores:
+   Overall: 6/10
+   Tip: 7/10
+   Macros: 3/10
+   Practical: 6/10
+   Timeline: 7/10
+   Technical: 3.5/10
+
+⚠️  Technical Issues:
+   - Calories don't match macros: 4358 vs 4220
+   - Summary calories don't match timeline: 4140 vs 4358
+   - Summary hydration doesn't match timeline: 3.8 vs 3.5
+   - Entry 0 (06:00): calories don't match macros
+   - Entry 6 (11:00): calories don't match macros
+
+================================================================================
+FINAL SUMMARY
+================================================================================
+
+✅ Successful: 11/11
+❌ Failed: 0/11
+
+📊 Average Scores Across All Personas:
+   Overall: 5.5/10
+   Tip: 7.3/10
+   Macros: 3.5/10
+   Practical: 6.0/10
+   Timeline: 7.1/10
+   Technical: 5.2/10
+
+📊 Scores by Persona:
+Persona                                  Overall    Tip      Macros     Practical    Timeline   Technical 
+----------------------------------------------------------------------------------------------------
+🏃‍♀️ Sarah - Fat Loss Runner (2 workou   4.0        7.0      2.0        5.0          6.0        4.0       
+💪 David - Performance Builder (Heavy L   6.0        7.0      3.0        6.0          7.0        4.0       
+🚴‍♀️ Emma - Light Recovery Day           7.0        8.0      7.0        8.0          8.0        9.0       
+🏊 Marcus - Triathlete Peak Week          4.0        7.0      2.0        4.0          7.0        3.5       
+🌱 Rachel - Vegan Fat Loss                6.0        7.0      4.0        8.0          7.0        6.5       
+🏋️ Alex - Muscle Gain + Strength         4.0        7.0      2.0        4.0          5.0        3.5       
+👴 Michael - Masters Endurance            6.0        7.0      4.0        6.0          7.0        5.5       
+🔥 Lisa - HIIT Fat Loss                   4.0        7.0      2.0        4.0          7.0        4.0       
+🏃 Tom - Ultra Runner Single Long Run     6.0        8.0      3.0        7.0          8.0        5.0       
+🧘‍♀️ Yael - Rest Day Nutrition           7.0        8.0      7.0        8.0          9.0        8.5       
+🏃‍♂️ Lior - Masters Long Run             6.0        7.0      3.0        6.0          7.0        3.5       
+
+💾 Saving results...
+✅ Results saved to persona_test_results_20251104_112107.json
+📝 Creating markdown summary...
+✅ Summary saved to persona_test_summary_20251104_112107.md
+
+================================================================================
+✅ PERSONA TESTING COMPLETE!
+================================================================================

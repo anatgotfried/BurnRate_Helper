@@ -37,6 +37,68 @@ def normalize_timeline_entry(entry):
     
     return entry
 
+def call_openrouter_api(model, prompt, max_tokens=3000, temperature=0.7):
+    """Helper function to call OpenRouter API"""
+    headers = {
+        'Authorization': f'Bearer {OPENROUTER_API_KEY}',
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://callback.burnrate.fit',
+        'X-Title': 'BurnRate Daily Planner'
+    }
+    
+    payload = {
+        'model': model,
+        'messages': [
+            {
+                'role': 'system',
+                'content': 'You are a JSON API. Return ONLY valid JSON. No markdown, no code blocks, no explanations. Your response must start with { and end with }.'
+            },
+            {
+                'role': 'user',
+                'content': prompt
+            }
+        ],
+        'max_tokens': max_tokens,
+        'temperature': temperature
+    }
+    
+    response = requests.post(
+        OPENROUTER_API_URL,
+        headers=headers,
+        json=payload,
+        timeout=60
+    )
+    
+    return response
+
+def parse_json_response(content):
+    """Parse JSON from AI response, handling markdown and other formats"""
+    cleaned_content = content
+    
+    # Remove markdown code blocks if present
+    if '```json' in cleaned_content:
+        cleaned_content = cleaned_content.split('```json')[1].split('```')[0].strip()
+    elif '```' in cleaned_content:
+        parts = cleaned_content.split('```')
+        if len(parts) >= 3:
+            cleaned_content = parts[1].strip()
+    
+    # Remove any leading/trailing text before first { or after last }
+    first_brace = cleaned_content.find('{')
+    last_brace = cleaned_content.rfind('}')
+    
+    if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+        cleaned_content = cleaned_content[first_brace:last_brace + 1]
+    
+    # Try to parse JSON
+    try:
+        return json.loads(cleaned_content)
+    except json.JSONDecodeError:
+        # Try to fix trailing commas
+        import re
+        fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
+        return json.loads(fixed_content)
+
 @app.route('/api/generate', methods=['POST'])
 @app.route('/daily-planner/api/generate', methods=['POST'])
 def generate_plan():
@@ -66,149 +128,146 @@ def generate_plan():
             }), 400
 
         model = data.get('model', 'google/gemini-2.5-flash')
-        prompt = data.get('prompt', '')
+        prompt_pass1 = data.get('prompt_pass1', '')
+        prompt_pass2 = data.get('prompt_pass2', '')
+        plan_json = data.get('plan_json', None)  # For Pass 2 only
         max_tokens = data.get('max_tokens', 3000)
-
-        if not prompt:
-            return jsonify({
-                'success': False,
-                'error': 'No prompt provided'
-            }), 400
-
-        # Prepare OpenRouter API request
-        headers = {
-            'Authorization': f'Bearer {OPENROUTER_API_KEY}',
-            'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://callback.burnrate.fit',
-            'X-Title': 'BurnRate Daily Planner'
-        }
-
-        payload = {
-            'model': model,
-            'messages': [
-                {
-                    'role': 'system',
-                    'content': 'You are a JSON API. Return ONLY valid JSON. No markdown, no code blocks, no explanations. Your response must start with { and end with }.'
-                },
-                {
-                    'role': 'user',
-                    'content': prompt
-                }
-            ],
-            'max_tokens': max_tokens,
-            'temperature': 0.7
-        }
-
-        # Call OpenRouter API
-        response = requests.post(
-            OPENROUTER_API_URL,
-            headers=headers,
-            json=payload,
-            timeout=60
-        )
-
-        if response.status_code != 200:
-            error_detail = response.text
-            
-            try:
-                error_json = response.json()
-                if 'error' in error_json:
-                    error_obj = error_json['error']
-                    if isinstance(error_obj, dict):
-                        error_detail = error_obj.get('message', str(error_obj))
-            except:
-                pass
-            
-            return jsonify({
-                'success': False,
-                'error': error_detail,
-                'status_code': response.status_code,
-                'model_attempted': model
-            }), response.status_code
-
-        result = response.json()
         
-        # Extract the generated content
-        if 'choices' in result and len(result['choices']) > 0:
-            content = result['choices'][0]['message']['content']
-            
-            # Try to parse as JSON
-            try:
-                cleaned_content = content
-                
-                # Remove markdown code blocks if present
-                if '```json' in cleaned_content:
-                    cleaned_content = cleaned_content.split('```json')[1].split('```')[0].strip()
-                elif '```' in cleaned_content:
-                    parts = cleaned_content.split('```')
-                    if len(parts) >= 3:
-                        cleaned_content = parts[1].strip()
-                
-                # Remove any leading/trailing text before first { or after last }
-                first_brace = cleaned_content.find('{')
-                last_brace = cleaned_content.rfind('}')
-                
-                if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
-                    cleaned_content = cleaned_content[first_brace:last_brace + 1]
-                
-                # Parse JSON
-                plan_data = json.loads(cleaned_content)
-                
-                # Schema validation
-                required_fields = ['daily_summary', 'timeline', 'daily_tip']
-                if not all(field in plan_data for field in required_fields):
-                    return jsonify({
-                        'success': False,
-                        'error': 'Missing required fields in response',
-                        'raw_content': content[:1000]
-                    }), 400
-                
-                # Normalize timeline entries
-                if 'timeline' in plan_data:
-                    for entry in plan_data['timeline']:
-                        normalize_timeline_entry(entry)
+        # Determine if this is a two-pass request or single-pass
+        is_two_pass = bool(prompt_pass1 and prompt_pass2)
+        is_pass2_only = bool(prompt_pass2 and plan_json)
+        
+        if not prompt_pass1 and not prompt_pass2:
+            # Fallback to old single-prompt format
+            old_prompt = data.get('prompt', '')
+            if not old_prompt:
+                return jsonify({
+                    'success': False,
+                    'error': 'No prompt provided'
+                }), 400
+            prompt_pass1 = old_prompt
+            is_two_pass = False
+
+        # Pass 1: Generate computation layer
+        if not is_pass2_only:
+            response = call_openrouter_api(model, prompt_pass1, max_tokens, temperature=0.3)
+
+            if response.status_code != 200:
+                error_detail = response.text
+                try:
+                    error_json = response.json()
+                    if 'error' in error_json:
+                        error_obj = error_json['error']
+                        if isinstance(error_obj, dict):
+                            error_detail = error_obj.get('message', str(error_obj))
+                except:
+                    pass
                 
                 return jsonify({
-                    'success': True,
-                    'data': plan_data,
-                    'raw_content': content,
-                    'usage': result.get('usage', {}),
-                    'model': result.get('model', model)
-                })
+                    'success': False,
+                    'error': error_detail,
+                    'status_code': response.status_code,
+                    'model_attempted': model,
+                    'pass': 1
+                }), response.status_code
+
+            result = response.json()
+            
+            if 'choices' not in result or len(result['choices']) == 0:
+                return jsonify({
+                    'success': False,
+                    'error': 'No content in API response (Pass 1)'
+                }), 500
+            
+            content_pass1 = result['choices'][0]['message']['content']
+            plan_data_pass1 = parse_json_response(content_pass1)
+            usage_pass1 = result.get('usage', {})
+            
+            # Schema validation for Pass 1
+            required_fields_pass1 = ['daily_summary', 'timeline']
+            if not all(field in plan_data_pass1 for field in required_fields_pass1):
+                return jsonify({
+                    'success': False,
+                    'error': 'Missing required fields in Pass 1 response',
+                    'raw_content': content_pass1[:1000]
+                }), 400
+            
+            # Normalize timeline entries
+            if 'timeline' in plan_data_pass1:
+                for entry in plan_data_pass1['timeline']:
+                    normalize_timeline_entry(entry)
+            
+            # If two-pass mode, call Pass 2
+            if is_two_pass:
+                # Build Pass 2 prompt with plan JSON
+                pass2_prompt = prompt_pass2.replace('{PLAN_JSON}', json.dumps(plan_data_pass1, indent=2))
                 
-            except json.JSONDecodeError as e:
-                # Try to fix common JSON errors
-                try:
-                    import re
-                    fixed_content = re.sub(r',(\s*[}\]])', r'\1', cleaned_content)
-                    plan_data = json.loads(fixed_content)
+                # Call Pass 2
+                response_pass2 = call_openrouter_api(model, pass2_prompt, max_tokens=500, temperature=0.7)
+                
+                if response_pass2.status_code != 200:
+                    # If Pass 2 fails, return Pass 1 data without tip
+                    plan_data_pass1['daily_tip'] = {'text': 'Tip generation failed - plan is still valid.'}
+                    return jsonify({
+                        'success': True,
+                        'data': plan_data_pass1,
+                        'raw_content': content_pass1,
+                        'usage': usage_pass1,
+                        'model': result.get('model', model),
+                        'pass2_failed': True
+                    })
+                
+                result_pass2 = response_pass2.json()
+                
+                if 'choices' in result_pass2 and len(result_pass2['choices']) > 0:
+                    content_pass2 = result_pass2['choices'][0]['message']['content']
+                    tip_data = parse_json_response(content_pass2)
                     
-                    # Normalize timeline entries
-                    if 'timeline' in plan_data:
-                        for entry in plan_data['timeline']:
-                            normalize_timeline_entry(entry)
+                    # Merge tip into plan data
+                    if 'daily_tip' in tip_data:
+                        plan_data_pass1['daily_tip'] = tip_data['daily_tip']
+                    else:
+                        plan_data_pass1['daily_tip'] = {'text': 'Tip generated but format invalid.'}
+                    
+                    # Combine usage
+                    usage_pass2 = result_pass2.get('usage', {})
+                    combined_usage = {
+                        'prompt_tokens': usage_pass1.get('prompt_tokens', 0) + usage_pass2.get('prompt_tokens', 0),
+                        'completion_tokens': usage_pass1.get('completion_tokens', 0) + usage_pass2.get('completion_tokens', 0),
+                        'total_tokens': usage_pass1.get('total_tokens', 0) + usage_pass2.get('total_tokens', 0)
+                    }
                     
                     return jsonify({
                         'success': True,
-                        'data': plan_data,
-                        'raw_content': content,
-                        'auto_fixed': 'trailing_commas',
-                        'usage': result.get('usage', {}),
-                        'model': result.get('model', model)
+                        'data': plan_data_pass1,
+                        'raw_content': content_pass1,
+                        'raw_content_pass2': content_pass2,
+                        'usage': combined_usage,
+                        'model': result.get('model', model),
+                        'two_pass': True
                     })
-                except:
+                else:
+                    plan_data_pass1['daily_tip'] = {'text': 'Tip generation failed - plan is still valid.'}
                     return jsonify({
-                        'success': False,
-                        'error': f'Invalid JSON: {str(e)}',
-                        'raw_content': cleaned_content[:1000],
-                        'usage': result.get('usage', {}),
-                        'model': result.get('model', model)
-                    }), 400
-        else:
-            return jsonify({
-                'success': False,
-                'error': 'No content in API response'
-            }), 500
+                        'success': True,
+                        'data': plan_data_pass1,
+                        'raw_content': content_pass1,
+                        'usage': usage_pass1,
+                        'model': result.get('model', model),
+                        'pass2_failed': True
+                    })
+            else:
+                # Single-pass mode (backward compatibility)
+                if 'daily_tip' not in plan_data_pass1:
+                    plan_data_pass1['daily_tip'] = {'text': ''}
+                
+                return jsonify({
+                    'success': True,
+                    'data': plan_data_pass1,
+                    'raw_content': content_pass1,
+                    'usage': usage_pass1,
+                    'model': result.get('model', model)
+                })
 
     except requests.exceptions.Timeout:
         return jsonify({

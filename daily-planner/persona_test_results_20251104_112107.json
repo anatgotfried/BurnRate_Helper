@@ -1,0 +1,1165 @@
+{
+  "metadata": {
+    "prompt_file": "prompts/daily_planner_v1_iter3.txt",
+    "model": "google/gemini-2.5-flash",
+    "timestamp": "2025-11-04T11:21:07.476604",
+    "total_personas": 11,
+    "successful": 11,
+    "failed": 0
+  },
+  "average_scores": {
+    "overall": 5.454545454545454,
+    "tip": 7.2727272727272725,
+    "macros": 3.5454545454545454,
+    "practical": 6.0,
+    "timeline": 7.090909090909091,
+    "technical": 5.181818181818182
+  },
+  "results": [
+    {
+      "athlete_id": "athlete_1",
+      "athlete_name": "\ud83c\udfc3\u200d\u2640\ufe0f Sarah - Fat Loss Runner (2 workouts)",
+      "profile": {
+        "weight_kg": 60,
+        "height_cm": 165,
+        "age": 35,
+        "gender": "female",
+        "training_phase": "base",
+        "goal": "fat_loss",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "masters",
+          "female_specific"
+        ]
+      },
+      "workouts_count": 2,
+      "targets": {
+        "weight_kg": 60,
+        "daily_energy_target_kcal": 1690,
+        "daily_protein_target_g": 138,
+        "daily_carb_target_g": 336,
+        "daily_fat_target_g": 54,
+        "hydration_target_l": 2.9,
+        "sodium_target_mg": 3875,
+        "calorie_breakdown": {
+          "total": 1690,
+          "bmr": 1364,
+          "tdee": 2113,
+          "activityFactor": 1.55,
+          "activityLevel": "Moderately Active",
+          "isFatLoss": true,
+          "isSurplus": false,
+          "deficitPercent": 20,
+          "caloriesFromMacros": 2382
+        },
+        "explanations": {
+          "protein": "Protein set to 138 g (2.3 g/kg \u00d7 60 kg). Rationale: Higher protein (2.3 g/kg) during fat loss preserves lean muscle mass per Morton2018 meta-analysis. Distribute across 3-4 meals (0.25-0.4 g/kg each) to maximize muscle protein synthesis.",
+          "carbs": "Carbs set to 336 g (5.6 g/kg \u00d7 60 kg (reduced by 30% for fat loss while maintaining workout fuel)). Training load: 2.10 (high band). Rationale: Training load of 2.1 places you in the \"high\" band per IOC/ACSM guidance. For fat loss with moderate-high training, carbs reduced by 30% from performance baseline (6-10 g/kg \u2192 4.2-7 g/kg) to create deficit while fueling workouts per ACSM2016. Pre/post-workout carbs prioritized.",
+          "fat": "Fat set to 54 g (0.9 g/kg \u00d7 60 kg). Rationale: Moderate fat (0.9 g/kg) during fat loss provides satiety and supports hormone production while maintaining calorie deficit.",
+          "hydration": "Hydration set to 2940 ml (2.9 L). Base: 2100 ml (35 ml/kg). Workout additions: 840 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 3875 mg. Base: 3000 mg (athlete baseline). Workout losses: +875 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1364 kcal) \u00d7 1.55 (Moderately Active) = TDEE 2113 kcal. Fat loss: 20% deficit = 1690 kcal. This moderate deficit promotes sustainable fat loss (~0.5-1% bodyweight/week) while preserving muscle mass and supporting training per ACSM2016."
+        }
+      },
+      "scores": {
+        "overall": 4,
+        "tip": 7,
+        "macros": 2,
+        "practical": 5,
+        "timeline": 6
+      },
+      "technical_score": 4.0,
+      "technical_issues": [
+        "Calories don't match macros: 2092 vs 2052",
+        "Summary calories don't match timeline: 1690 vs 2092",
+        "Summary carbs don't match timeline: 336 vs 276",
+        "Entry 3 (09:45): calories don't match macros",
+        "Entry 4 (10:30): calories don't match macros",
+        "Entry 5 (13:30): calories don't match macros",
+        "Entry 8 (17:45): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has significant issues with macro and calorie calculations, making it unreliable for the stated fat loss goal. While the general structure of timing nutrition around workouts is sound, the fundamental mathematical errors undermine its utility. The high sodium target and its implementation also raise concerns.",
+        "tip": "The tip is generally good, providing actionable advice on carb timing, protein distribution, and sodium intake, all relevant to the goal. It avoids codified citations well. However, the high sodium target itself, as explained in the target macros, is questionable for some individuals, even athletes, and the tip reinforces it without nuance.",
+        "macros": "This is the weakest area. The summary calories (1690 kcal) do not match the sum of timeline calories (2092 kcal) or the calories calculated from the sum of timeline macros (2052 kcal). Furthermore, several individual meal entries have calorie calculations that do not align with their listed macros. The summary carbs also do not match the timeline total. This fundamental inaccuracy makes the plan unusable for precise fat loss.",
+        "practical": "The plan's practical sense is mixed. Two moderate runs (60 min and 45 min) in one day, especially for someone aiming for fat loss, is a high training load, though not impossible for a well-conditioned individual. The timing of meals around workouts is generally good (pre-workout, post-workout recovery). However, the frequency of meals (7 meals + 2 hydration events) is quite high and might be challenging for some to adhere to daily. The sodium target of 3875mg is very high and could be excessive for many, even active individuals, without specific medical guidance or extremely high sweat rates. The plan also includes 'Pre-Workout Electrolyte Drink' twice, which is fine, but the overall sodium content is a concern.",
+        "timeline": "The timeline is chronologically sound. The distribution of macros generally makes sense, with carbs and protein strategically placed around workouts. The morning is heavily front-loaded with nutrition and activity. The inclusion of a late-night protein snack is good for muscle protein synthesis. However, the extremely high sodium intake is spread throughout the day, which, while logical for the given target, is still a problematic target in itself."
+      },
+      "improvements": [
+        "**Correct all macro and calorie calculations:** Ensure the sum of daily timeline macros matches the daily summary, and that the calories listed for each meal accurately reflect the macros provided for that meal. The daily summary calories must also align with the target calories.",
+        "**Re-evaluate the sodium target:** While athletes have higher needs, 3875mg is at the very high end and should be justified with more specific athlete data (e.g., individual sweat rate, climate) or adjusted to a more standard, still adequate, range for general athletic performance and health. If kept, explicitly state the rationale more strongly in the tip or a warning.",
+        "**Clarify the training load context:** While 'High' is stated, two moderate runs in one day is significant. Consider if this is sustainable and appropriate for a general 'fat_loss' goal, or if it implies a specific type of athlete (e.g., runner). Add a warning if this intensity is not suitable for everyone.",
+        "**Provide meal examples or food types:** The plan lists 'Pre-Workout Breakfast' or 'Lunch' but doesn't specify what these meals contain. Adding example foods would make the plan much more actionable and help users understand how to hit the macro targets.",
+        "**Add a 'wind-down' or 'sleep' entry:** Including a suggested bedtime or wind-down period can enhance the overall well-being aspect of the plan, especially for recovery."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1690,
+          "carbs_g": 336,
+          "protein_g": 138,
+          "fat_g": 54,
+          "sodium_mg": 3875,
+          "hydration_l": 2.9
+        },
+        "daily_tip": {
+          "text": "For your fat loss goal, remember that strategically timing your carbs around your workouts helps fuel performance and recovery without excess calories. Spread your protein across 4 or more meals today \u2013 aiming for about 0.4g per kg every few hours helps preserve muscle even during a calorie deficit, keeping your strength as you lean out. Don't forget your sodium target of 3875mg; adding a pinch of salt to meals and using electrolyte drinks around your runs is key for hydration and preventing cramps."
+        },
+        "timeline_count": 11
+      },
+      "usage": {
+        "prompt_tokens": 17425,
+        "completion_tokens": 1387,
+        "total_tokens": 18812,
+        "prompt_tokens_details": {
+          "cached_tokens": 17400
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_2",
+      "athlete_name": "\ud83d\udcaa David - Performance Builder (Heavy Load)",
+      "profile": {
+        "weight_kg": 75,
+        "height_cm": 180,
+        "age": 28,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts_count": 3,
+      "targets": {
+        "weight_kg": 75,
+        "daily_energy_target_kcal": 3426,
+        "daily_protein_target_g": 135,
+        "daily_carb_target_g": 750,
+        "daily_fat_target_g": 60,
+        "hydration_target_l": 4.5,
+        "sodium_target_mg": 5125,
+        "calorie_breakdown": {
+          "total": 3426,
+          "bmr": 1803,
+          "tdee": 3426,
+          "activityFactor": 1.9,
+          "activityLevel": "Extremely Active",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 4080
+        },
+        "explanations": {
+          "protein": "Protein set to 135 g (1.8 g/kg \u00d7 75 kg). Rationale: Moderate protein for build training phase supports adaptation and recovery per ACSM2016 guidelines.",
+          "carbs": "Carbs set to 750 g (10.0 g/kg \u00d7 75 kg). Training load: 4.65 (very high band). Rationale: Training load of 4.7 places you in the \"very high\" band per IOC/ACSM guidance. High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.",
+          "fat": "Fat set to 60 g (0.8 g/kg \u00d7 75 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 4485 ml (4.5 L). Base: 2625 ml (35 ml/kg). Workout additions: 1860 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 5125 mg. Base: 3000 mg (athlete baseline). Workout losses: +2125 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1803 kcal) \u00d7 1.9 (Extremely Active) = TDEE 3426 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 6,
+        "tip": 7,
+        "macros": 3,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 4.0,
+      "technical_issues": [
+        "Calories don't match macros: 4494 vs 4300",
+        "Summary calories don't match timeline: 4080 vs 4494",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 3 (07:30): calories don't match macros",
+        "Entry 4 (09:30): calories don't match macros",
+        "Entry 6 (15:00): calories don't match macros",
+        "Entry 8 (17:00): calories don't match macros",
+        "Entry 11 (20:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan attempts to cater to a high-performance athlete in a 'build' phase with a very high training load. It provides a good structure for meal and workout timing around multiple training sessions. However, significant inaccuracies in macro calculations and calorie totals undermine its effectiveness. While the general approach to high carb intake is appropriate, the execution falls short due to numerical errors.",
+        "tip": "The daily tip is generally good: it's motivating, actionable, and uses natural language. It correctly emphasizes high carbohydrate intake for performance, consistent protein distribution, and active sodium replacement, which are all relevant for the described athlete. It avoids codified citations, which is a plus.",
+        "macros": "This is the weakest area. The 'Technical Validation Score' already highlights numerous discrepancies. The summary calories (4080) do not match the sum of timeline calories (4494), nor do they match the calories calculated from the daily summary macros (750g C * 4 + 135g P * 4 + 60g F * 9 = 3000 + 540 + 540 = 4080 kcal). The individual meal entries also frequently have calorie totals that do not align with their listed macros. This makes the plan unreliable for precise nutritional tracking.",
+        "practical": "The overall structure of the day with multiple training sessions and strategically placed meals makes practical sense for a high-performance athlete in a build phase. Pre-run, intra-run, and post-run fueling, followed by strength training and another workout, is a common approach. However, there are a few points for refinement: \n- 'Intra-Run Fuel' at 06:45 during a 90-minute high-intensity run starting at 06:00 is good, but the plan states 0g carbs for the workout itself which is a bit misleading as the fuel is consumed during it. \n- The prompt asks: 'Can you actually consume carbs during a swim workout?' - there is no swim workout in this plan, so this question is not directly applicable. If it were, intra-swim fueling is possible with specific products. \n- The timing of meals around workouts (pre, intra, post) is logical. \n- The sheer volume of food and liquids might be challenging for some athletes, but for a 'build' phase with high training load, it's expected.",
+        "timeline": "The timeline is chronologically sound, with meals strategically placed around the three high-intensity workouts. The distribution of macros generally makes sense, with high carbs pre- and post-workouts, and protein spread throughout the day. The inclusion of an 'Intra-Run Fuel' during the long run is excellent. The evening recovery snack is also well-placed. The overall flow supports the demanding training schedule."
+      },
+      "improvements": [
+        "**Correct all calorie calculations:** Ensure that the calories listed for each meal and in the daily summary accurately reflect the provided macronutrient values (Carbs: 4 kcal/g, Protein: 4 kcal/g, Fat: 9 kcal/g). This is the most critical fix.",
+        "**Reconcile daily summary totals with timeline totals:** The sum of macros and calories from the individual timeline entries must exactly match the daily summary totals to ensure consistency and accuracy.",
+        "**Clarify workout nutrition:** While 'Intra-Run Fuel' is present, the workout entries themselves list 0g carbs. It would be clearer to acknowledge that fueling occurs *during* the workout or to integrate the intra-workout nutrition more explicitly with the workout event itself in the schema, if possible.",
+        "**Review protein distribution:** While the tip mentions spreading protein (0.4g/kg per meal), some meals (e.g., 'Pre-Run High-Carb Meal' at 19g, 'Evening Recovery Snack' at 20g) are a bit lower than the ideal 30-40g for optimal muscle protein synthesis, especially given the overall daily protein target. Adjusting these slightly higher might be beneficial, ensuring the daily total is still met.",
+        "**Consider practicalities of sodium intake:** While the high sodium target is appropriate for the activity level, 5125mg is a lot. The tip mentions adding salt to meals, but specific examples or a breakdown of how this sodium is distributed across meals (beyond the listed amounts) would be helpful for the athlete to practically achieve this without over-salting everything."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 4080,
+          "carbs_g": 750,
+          "protein_g": 135,
+          "fat_g": 60,
+          "sodium_mg": 5125,
+          "hydration_l": 4.5
+        },
+        "daily_tip": {
+          "text": "During this build phase, consistent high carbohydrate intake is your secret weapon for performance. Aim for ~1.2g/kg/hour of high-GI carbs immediately post-run, and spread your protein intake evenly throughout the day (around 0.4g/kg per meal) to maximize muscle repair and growth. Given your high activity, remember to actively replace sodium with electrolyte drinks or by adding salt to meals to meet your 5125mg target and prevent cramping."
+        },
+        "timeline_count": 13
+      },
+      "usage": {
+        "prompt_tokens": 17372,
+        "completion_tokens": 1591,
+        "total_tokens": 18963,
+        "prompt_tokens_details": {
+          "cached_tokens": 16376
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_3",
+      "athlete_name": "\ud83d\udeb4\u200d\u2640\ufe0f Emma - Light Recovery Day",
+      "profile": {
+        "weight_kg": 55,
+        "height_cm": 160,
+        "age": 42,
+        "gender": "female",
+        "training_phase": "recovery",
+        "goal": "performance",
+        "diet_pattern": "vegetarian",
+        "gi_tolerance": "low",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "masters",
+          "female_specific"
+        ]
+      },
+      "workouts_count": 1,
+      "targets": {
+        "weight_kg": 55,
+        "daily_energy_target_kcal": 1528,
+        "daily_protein_target_g": 94,
+        "daily_carb_target_g": 193,
+        "daily_fat_target_g": 44,
+        "hydration_target_l": 2.1,
+        "sodium_target_mg": 3250,
+        "calorie_breakdown": {
+          "total": 1528,
+          "bmr": 1274,
+          "tdee": 1528,
+          "activityFactor": 1.2,
+          "activityLevel": "Sedentary",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 1540
+        },
+        "explanations": {
+          "protein": "Protein set to 94 g (1.7 g/kg \u00d7 55 kg). Rationale: Moderate protein for recovery training phase supports adaptation and recovery per ACSM2016 guidelines.",
+          "carbs": "Carbs set to 193 g (3.5 g/kg \u00d7 55 kg). Training load: 0.40 (rest/recovery band). Rationale: Training load of 0.4 places you in the \"rest/recovery\" band per IOC/ACSM guidance. Lower carbs appropriate for rest/recovery days, maintains baseline glycogen without excess.",
+          "fat": "Fat set to 44 g (0.8 g/kg \u00d7 55 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 2125 ml (2.1 L). Base: 1925 ml (35 ml/kg). Workout additions: 200 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 3250 mg. Base: 3000 mg (athlete baseline). Workout losses: +250 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1274 kcal) \u00d7 1.2 (Sedentary) = TDEE 1528 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 7,
+        "tip": 8,
+        "macros": 7,
+        "practical": 8,
+        "timeline": 8
+      },
+      "technical_score": 9.0,
+      "technical_issues": [
+        "Entry 4 (12:30): calories don't match macros",
+        "Entry 6 (18:30): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan provides a reasonable structure for a recovery day with low-intensity training. The macro targets are well-justified for the stated phase and goal. However, the calorie calculation discrepancies and the slightly high sodium target for a low-intensity day slightly detract from its overall quality.",
+        "tip": "The daily tip is actionable, motivating, and provides clear guidance on protein intake and sodium. It avoids codified citations, making it feel more natural. The advice on sodium is particularly relevant given the high target.",
+        "macros": "While the overall daily macros are very close to the targets, there are two specific meal entries where the calories calculated from the given macros do not match the stated calorie total. This indicates a minor calculation error within the plan's generation. Additionally, the pre-sleep snack is only carbs (52 calories), which is a bit odd, and the protein target for the day is met without it.",
+        "practical": "The meal timings are logical and spread out throughout the day, supporting consistent nutrient intake. The workout (bike, low intensity) is appropriate for a recovery phase. The plan does not suggest consuming carbs during a swim workout (as the prompt asks about), but rather during a bike workout, which is generally not needed for a 30-min low-intensity session. The hydration schedule is well-distributed. A real athlete would generally follow this type of structure, though they might question the very high sodium intake for a low-intensity day.",
+        "timeline": "The timeline is chronologically sound, with meals and hydration strategically placed around the workout. The macro distribution seems appropriate, with a post-workout snack to aid recovery. The only minor point is the pre-sleep snack being only carbs, which isn't inherently bad but could be optimized for recovery with some protein."
+      },
+      "improvements": [
+        "Correct the calorie calculation discrepancies in the Lunch (12:30) and Dinner (18:30) entries to accurately reflect the provided macronutrients.",
+        "Re-evaluate the sodium target for a low-intensity recovery day. While athletes need more sodium, 3250mg for 30 minutes of low-intensity biking might be on the higher side unless there's an underlying reason (e.g., extremely high sweat rate, hot environment). Consider if a slightly lower target is more appropriate or add a stronger justification for this specific amount.",
+        "Consider adding a small amount of protein to the pre-sleep snack to further aid muscle repair overnight, especially given the 'recovery' phase. Even 5-10g of casein or a slow-digesting protein would be beneficial."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1540,
+          "carbs_g": 193,
+          "protein_g": 94,
+          "fat_g": 44,
+          "sodium_mg": 3250,
+          "hydration_l": 2.1
+        },
+        "daily_tip": {
+          "text": "During this recovery phase, prioritize consistent protein intake (around 0.4g per kg per meal) spread throughout the day to support muscle repair and adaptation, even on lower-intensity training days. To meet your sodium target of 3250mg, consider adding a pinch of salt to your main meals and incorporating electrolyte-rich fluids, especially if you anticipate any sweat loss."
+        },
+        "timeline_count": 9
+      },
+      "usage": {
+        "prompt_tokens": 17225,
+        "completion_tokens": 1155,
+        "total_tokens": 18380,
+        "prompt_tokens_details": {
+          "cached_tokens": 16376
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_4",
+      "athlete_name": "\ud83c\udfca Marcus - Triathlete Peak Week",
+      "profile": {
+        "weight_kg": 70,
+        "height_cm": 175,
+        "age": 32,
+        "gender": "male",
+        "training_phase": "race",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "very_high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts_count": 3,
+      "targets": {
+        "weight_kg": 70,
+        "daily_energy_target_kcal": 3197,
+        "daily_protein_target_g": 126,
+        "daily_carb_target_g": 700,
+        "daily_fat_target_g": 56,
+        "hydration_target_l": 4.6,
+        "sodium_target_mg": 5400,
+        "calorie_breakdown": {
+          "total": 3197,
+          "bmr": 1682,
+          "tdee": 3197,
+          "activityFactor": 1.9,
+          "activityLevel": "Extremely Active",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 3808
+        },
+        "explanations": {
+          "protein": "Protein set to 126 g (1.8 g/kg \u00d7 70 kg). Rationale: Elevated protein (race phase baseline +0.2 g/kg) due to long/intense session requiring enhanced recovery per ISSN2017.",
+          "carbs": "Carbs set to 700 g (10.0 g/kg \u00d7 70 kg). Training load: 5.40 (very high band). Rationale: Training load of 5.4 places you in the \"very high\" band per IOC/ACSM guidance. High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.",
+          "fat": "Fat set to 56 g (0.8 g/kg \u00d7 70 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 4610 ml (4.6 L). Base: 2450 ml (35 ml/kg). Workout additions: 2160 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 5400 mg. Base: 3000 mg (athlete baseline). Workout losses: +2400 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1682 kcal) \u00d7 1.9 (Extremely Active) = TDEE 3197 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 4,
+        "tip": 7,
+        "macros": 2,
+        "practical": 4,
+        "timeline": 7
+      },
+      "technical_score": 3.5,
+      "technical_issues": [
+        "Calories don't match macros: 4004 vs 3868",
+        "Summary calories don't match timeline: 3197 vs 4004",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 2 (06:45): calories don't match macros",
+        "Entry 3 (08:00): calories don't match macros",
+        "Entry 6 (11:00): calories don't match macros",
+        "Entry 8 (15:30): calories don't match macros",
+        "Entry 10 (16:45): calories don't match macros",
+        "Entry 11 (19:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan attempts to provide a comprehensive daily schedule for a high-performance athlete in a race phase. It hits many of the right notes in terms of targeting high carb and sodium intake. However, the numerous inaccuracies in calorie calculations throughout the timeline and the final daily summary significantly undermine its credibility and usability. While the general structure and intent are good, the fundamental mathematical errors make it unreliable for an athlete who needs precise nutritional guidance.",
+        "tip": "The daily tip is good. It's motivating, actionable, and directly relates to the high training load and specific nutritional targets (carbs and sodium). It also provides practical advice on how to achieve the sodium target (adding salt, electrolyte drinks) and considers environmental factors (warm conditions). It successfully avoids codified citations, making it feel more natural and coach-like.",
+        "macros": "This is the weakest aspect of the plan. The 'TECHNICAL VALIDATION SCORE' clearly indicates multiple inconsistencies. The daily summary calories (3197) do not match the sum of timeline calories (4004), and neither matches the calories derived from the total macros (3868). Furthermore, almost every individual meal entry has a calorie calculation error based on the provided macros. This level of inaccuracy makes the plan untrustworthy from a nutritional perspective.",
+        "practical": "While the overall structure of training and fueling makes sense for a high-performance athlete (multiple sessions, frequent fueling), there are significant practical issues. The plan includes 'Intra-Bike Fuel' at 09:00, which is logical for a 2-hour bike, but also lists 'Intra-Bike Fuel' as a 'meal' at the exact same time as the workout 'Bike (120 min, high)'. This implies a simultaneous 'meal' and 'workout' entry, which is confusing. The 'Intra-Bike Fuel' itself has 160g carbs and 1500ml hydration, which is a very substantial amount to consume *during* a bike ride, especially if it's high intensity, and might lead to gastrointestinal distress for some athletes. The 'Evening Meal' at 19:00 having 0g carbs is questionable for a race-phase athlete who needs to maximize glycogen replenishment, though it could be a strategic choice depending on the next day's schedule. The plan correctly omits carbs during the swim, as consumption during swimming is generally not practical.",
+        "timeline": "The timeline is mostly logical in its chronological order of workouts and meals. The spacing between sessions and recovery meals/snacks is generally appropriate for a high-volume training day. Workouts are clearly delineated from fueling periods. The main issue here is the simultaneous listing of 'Intra-Bike Fuel' and the 'Bike' workout at the exact same time (09:00), which is a formatting/logic flaw, not a chronological one. Otherwise, the progression of activities throughout the day is well-structured."
+      },
+      "improvements": [
+        "**Correct all calorie calculations:** Ensure that the calories for each meal accurately reflect the provided carb, protein, and fat grams. Also, ensure the daily summary calories correctly sum up all meal calories and align with the total calories derived from the daily macro targets.",
+        "**Refine intra-workout fueling entries:** Separate intra-workout fueling (like 'Intra-Bike Fuel') from the workout entry itself, or clarify that it's consumed *during* the workout. For example, list 'Intra-Bike Fuel' as a separate event that spans the duration of the bike, or simply note its intake *within* the workout description.",
+        "**Review 'Evening Meal' carb content:** For a race-phase athlete with high carb targets, having 0g carbs in the evening meal might be counterproductive for glycogen replenishment unless there's a specific, strategic reason. Consider adding a moderate amount of complex carbohydrates to this meal.",
+        "**Add specific food examples/types:** While not explicitly requested, for a comprehensive plan, providing examples of what these meals might consist of (e.g., 'Pre-Swim Fuel: Oatmeal with banana and a scoop of protein powder') would greatly enhance practicality and user experience.",
+        "**Clarify sodium distribution:** While the tip mentions adding salt and using electrolyte drinks, the plan could explicitly show where the high sodium targets are being met within the meal breakdown, especially for the large 'Intra-Bike Fuel' sodium content."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 3197,
+          "carbs_g": 700,
+          "protein_g": 126,
+          "fat_g": 56,
+          "sodium_mg": 5400,
+          "hydration_l": 4.6
+        },
+        "daily_tip": {
+          "text": "As you're in a race phase with multiple intense sessions, maintaining your high carbohydrate intake of 10g/kg is crucial for fully replenishing glycogen and sustaining performance. Don't forget your sodium target of 5400mg today; consider adding 1/4 to 1/2 teaspoon of salt to your main meals and utilizing electrolyte-rich sports drinks during your longer bike session to replace sweat losses and prevent cramping, especially in the warm conditions."
+        },
+        "timeline_count": 12
+      },
+      "usage": {
+        "prompt_tokens": 17385,
+        "completion_tokens": 1497,
+        "total_tokens": 18882,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_5",
+      "athlete_name": "\ud83c\udf31 Rachel - Vegan Fat Loss",
+      "profile": {
+        "weight_kg": 58,
+        "height_cm": 162,
+        "age": 29,
+        "gender": "female",
+        "training_phase": "base",
+        "goal": "fat_loss",
+        "diet_pattern": "vegan",
+        "gi_tolerance": "low",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "female_specific"
+        ]
+      },
+      "workouts_count": 1,
+      "targets": {
+        "weight_kg": 58,
+        "daily_energy_target_kcal": 1504,
+        "daily_protein_target_g": 133,
+        "daily_carb_target_g": 226,
+        "daily_fat_target_g": 52,
+        "hydration_target_l": 2.4,
+        "sodium_target_mg": 3417,
+        "calorie_breakdown": {
+          "total": 1504,
+          "bmr": 1367,
+          "tdee": 1880,
+          "activityFactor": 1.375,
+          "activityLevel": "Lightly Active",
+          "isFatLoss": true,
+          "isSurplus": false,
+          "deficitPercent": 20,
+          "caloriesFromMacros": 1908
+        },
+        "explanations": {
+          "protein": "Protein set to 133 g (2.3 g/kg \u00d7 58 kg). Rationale: Higher protein (2.3 g/kg) during fat loss preserves lean muscle mass per Morton2018 meta-analysis. Distribute across 3-4 meals (0.25-0.4 g/kg each) to maximize muscle protein synthesis.",
+          "carbs": "Carbs set to 226 g (3.9 g/kg \u00d7 58 kg (reduced by 35% for fat loss while maintaining workout fuel)). Training load: 1.00 (moderate band). Rationale: Training load of 1.0 places you in the \"moderate\" band per IOC/ACSM guidance. For fat loss with moderate training, carbs reduced by 35% from baseline (5-7 g/kg \u2192 3.3-4.5 g/kg) to accelerate fat oxidation while preventing performance loss per Thomas2016.",
+          "fat": "Fat set to 52 g (0.9 g/kg \u00d7 58 kg). Rationale: Moderate fat (0.9 g/kg) during fat loss provides satiety and supports hormone production while maintaining calorie deficit.",
+          "hydration": "Hydration set to 2430 ml (2.4 L). Base: 2030 ml (35 ml/kg). Workout additions: 400 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 3417 mg. Base: 3000 mg (athlete baseline). Workout losses: +417 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1367 kcal) \u00d7 1.375 (Lightly Active) = TDEE 1880 kcal. Fat loss: 20% deficit = 1504 kcal. This moderate deficit promotes sustainable fat loss (~0.5-1% bodyweight/week) while preserving muscle mass and supporting training per ACSM2016."
+        }
+      },
+      "scores": {
+        "overall": 6,
+        "tip": 7,
+        "macros": 4,
+        "practical": 8,
+        "timeline": 7
+      },
+      "technical_score": 6.5,
+      "technical_issues": [
+        "Summary calories don't match timeline: 1504 vs 1727",
+        "Summary carbs don't match timeline: 226 vs 201",
+        "Entry 3 (08:10): calories don't match macros",
+        "Entry 5 (13:30): calories don't match macros",
+        "Entry 7 (19:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a solid conceptual framework for fat loss with moderate activity, but significant inconsistencies in nutritional calculations undermine its effectiveness. The training load and hydration targets seem appropriate, but the discrepancy between summary and timeline macros, and incorrect calorie calculations for individual meals, make the plan unreliable for an athlete trying to accurately hit their targets.",
+        "tip": "The daily tip is generally good. It's actionable by suggesting adding a pinch of salt and using electrolyte drinks. It's motivating in its purpose (support fat loss, maintain performance, prevent fatigue). However, the specific sodium number (3417mg) is a bit too precise and feels like it's pulled directly from the target, making it less natural and slightly less conversational than ideal. It also includes the 'per kg' protein recommendation which, while accurate, might be too technical for a daily tip.",
+        "macros": "There are critical macro accuracy issues. The 'daily_summary' macros (calories, carbs) do not match the sum of the 'timeline' entries. Furthermore, several individual meal entries have incorrect calorie calculations based on the provided carbs, protein, and fat (e.g., Post-Workout Recovery, Lunch, Dinner). The 'daily_summary' calories (1504) match the 'daily_energy_target_kcal', but the sum of the timeline calories is 1727, creating a significant mismatch. The 'caloriesFromMacros' in the target (1908) is also very different from the daily summary (1504) and timeline sum (1727), indicating a fundamental calculation error somewhere in the macro-to-calorie conversion or target setting.",
+        "practical": "The plan makes good practical sense in terms of meal timings and workout integration. A 06:00 pre-workout snack followed by a 07:00 run is logical. Post-workout recovery is prompt. Meals are reasonably spaced throughout the day. The question about consuming carbs during a swim workout is not applicable here as the workout is a run, and no carbs are listed for the workout itself. The overall structure is something a real athlete could reasonably follow, provided the nutritional inaccuracies are corrected.",
+        "timeline": "The timeline is chronologically sound. The distribution of macros throughout the day, with a pre-workout snack, post-workout recovery, and spaced meals, is generally logical for supporting performance and recovery during a fat loss phase. Protein is distributed well across meals. Hydration events are appropriately placed around the workout and in the afternoon."
+      },
+      "improvements": [
+        "**Correct all macro and calorie calculations:** Ensure that the sum of macros and calories in the 'timeline' exactly matches the 'daily_summary'. Verify that the calories listed for each individual meal correctly correspond to the provided carbs, protein, and fat (using 4-4-9 kcal/g respectively).",
+        "**Align daily summary with target:** The 'daily_summary' should accurately reflect the 'daily_energy_target_kcal' and other macro targets, and the timeline should build up to this correct summary.",
+        "**Refine daily tip for natural language:** Rephrase the daily tip to be more conversational and less like a direct quote from the target macros. For example, instead of 'around 0.25-0.4g per kg', it could say 'ensure a good source of protein at each meal'. Remove the exact sodium number from the tip to make it more general advice.",
+        "**Re-evaluate 'caloriesFromMacros' vs. 'daily_energy_target_kcal':** There's a significant discrepancy between the target's 'caloriesFromMacros' (1908 kcal) and the 'daily_energy_target_kcal' (1504 kcal). This needs to be resolved, as a plan built on macros totaling 1908 kcal cannot achieve a 1504 kcal target."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1504,
+          "carbs_g": 226,
+          "protein_g": 133,
+          "fat_g": 52,
+          "sodium_mg": 3417,
+          "hydration_l": 2.4
+        },
+        "daily_tip": {
+          "text": "To support fat loss while maintaining performance, prioritize protein at each meal (around 0.25-0.4g per kg) to preserve muscle mass. With your moderate training, ensure you're consuming enough sodium, around 3417mg today, by adding a pinch of salt to meals and using electrolyte drinks, especially around your workout, to stay hydrated and prevent fatigue."
+        },
+        "timeline_count": 8
+      },
+      "usage": {
+        "prompt_tokens": 17352,
+        "completion_tokens": 1062,
+        "total_tokens": 18414,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_6",
+      "athlete_name": "\ud83c\udfcb\ufe0f Alex - Muscle Gain + Strength",
+      "profile": {
+        "weight_kg": 80,
+        "height_cm": 185,
+        "age": 25,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "muscle_gain",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts_count": 2,
+      "targets": {
+        "weight_kg": 80,
+        "daily_energy_target_kcal": 3638,
+        "daily_protein_target_g": 128,
+        "daily_carb_target_g": 800,
+        "daily_fat_target_g": 64,
+        "hydration_target_l": 4.2,
+        "sodium_target_mg": 4575,
+        "calorie_breakdown": {
+          "total": 3638,
+          "bmr": 1917,
+          "tdee": 3307,
+          "activityFactor": 1.725,
+          "activityLevel": "Very Active",
+          "isFatLoss": false,
+          "isSurplus": true,
+          "deficitPercent": -10,
+          "caloriesFromMacros": 4288
+        },
+        "explanations": {
+          "protein": "Protein set to 128 g (1.6 g/kg \u00d7 80 kg). Rationale: Moderate protein for build training phase supports adaptation and recovery per ACSM2016 guidelines.",
+          "carbs": "Carbs set to 800 g (10.0 g/kg \u00d7 80 kg). Training load: 3.38 (very high band). Rationale: Training load of 3.4 places you in the \"very high\" band per IOC/ACSM guidance. High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.",
+          "fat": "Fat set to 64 g (0.8 g/kg \u00d7 80 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 4150 ml (4.2 L). Base: 2800 ml (35 ml/kg). Workout additions: 1350 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 4575 mg. Base: 3000 mg (athlete baseline). Workout losses: +1575 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1917 kcal) \u00d7 1.725 (Very Active) = TDEE 3307 kcal. Muscle gain: 10% surplus = 3638 kcal to support hypertrophy and recovery per ISSN2017."
+        }
+      },
+      "scores": {
+        "overall": 4,
+        "tip": 7,
+        "macros": 2,
+        "practical": 4,
+        "timeline": 5
+      },
+      "technical_score": 3.5,
+      "technical_issues": [
+        "Calories don't match macros: 4492 vs 4348",
+        "Summary calories don't match timeline: 4288 vs 4492",
+        "Summary hydration doesn't match timeline: 4.2 vs 3.8",
+        "Entry 0 (07:00): calories don't match macros",
+        "Entry 3 (09:30): calories don't match macros",
+        "Entry 4 (12:30): calories don't match macros",
+        "Entry 5 (15:30): calories don't match macros",
+        "Entry 8 (18:30): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a good structure with clear goals and a detailed timeline, but it suffers significantly from macro and calorie calculation inaccuracies. The training load seems very high for a 'build' phase for muscle gain, and the protein intake is surprisingly low given the high training volume and muscle gain goal. The extremely high carbohydrate target, while justified by the AI for the training load, makes the overall calorie target very difficult to hit with balanced nutrition, and the actual calories calculated from the provided macros are incorrect and inconsistent throughout the plan, making it unreliable.",
+        "tip": "The tip is mostly good. It's motivating, actionable (consistent protein, sodium intake), and avoids codified citations in its final presentation. However, the specific recommendation of '0.4g of protein per kg of bodyweight in each of your main meals' is a bit rigid and might not be optimal for everyone, especially with the overall low protein target. The emphasis on sodium for hydration and cramping is good, especially with the high training volume.",
+        "macros": "This is the weakest aspect of the plan. There are multiple inconsistencies: the daily summary calories (4288) do not match the sum of timeline meal calories (4492), nor do they match the calories calculated from the daily summary macros (800g C * 4 + 128g P * 4 + 64g F * 9 = 3200 + 512 + 576 = 4288, which actually matches the summary but not the target). The target calories (3638) are significantly lower than what the plan actually provides (4288-4492). Many individual meal entries have calorie calculations that don't match their listed macros. The protein target (128g for an 80kg athlete, 1.6g/kg) is on the lower end for muscle gain, especially with such a high training load. The carb target (800g) is excessively high, leading to a very carb-heavy diet that might be hard to adhere to and makes hitting other macro targets difficult within a reasonable calorie range.",
+        "practical": "The plan proposes two high-intensity strength sessions (75 min and 60 min) in one day, which is an extremely high training volume for a 'build' phase focused on muscle gain and could lead to overtraining or injury for many athletes, especially if done daily. The intra-workout fuels are well-placed, but consuming substantial meals (e.g., Lunch with 150g carbs, 25g protein, 15g fat) between morning workout and pre-afternoon workout is a lot to digest. The 'Evening Snack' with 100g carbs and 0g protein seems unbalanced, especially after a high-carb dinner, and lacks protein for overnight recovery. The sheer volume of food, particularly carbohydrates, would be very challenging for most athletes to consume daily without discomfort or digestive issues. The target sodium (4575mg) is very high, and while justified by the AI's explanation, it's a significant amount to manage daily.",
+        "timeline": "The timeline is chronologically sound, with meals spaced out around workouts. The distribution of macros, however, could be improved. The protein distribution is good with multiple servings, but the 'Evening Snack' is purely carb-focused, lacking protein for overnight muscle repair. The intra-workout fueling is well-timed. The two large strength sessions are very close together, with only a few hours between the end of the morning post-workout meal and the start of the afternoon pre-workout meal, which might not allow for adequate digestion and recovery, especially if the morning session was truly high intensity."
+      },
+      "improvements": [
+        "Correct all calorie calculations to accurately reflect the provided macronutrients for each meal and the daily summary. Ensure consistency between summary and timeline totals.",
+        "Re-evaluate the overall daily calorie target and macro distribution, especially the protein and carbohydrate targets. For muscle gain, increase protein to at least 1.8-2.2g/kg (144-176g for 80kg) and potentially reduce the extremely high carbohydrate target to create a more balanced and manageable diet.",
+        "Adjust the training load and schedule. Two high-intensity strength sessions on the same day are excessive for a muscle gain 'build' phase. Consider splitting into different days, or having one primary strength session and one lighter, complementary session (e.g., active recovery, mobility, or a different muscle group).",
+        "Modify the 'Evening Snack' to include a source of protein (e.g., casein protein, Greek yogurt) to support overnight muscle protein synthesis, rather than being purely carbohydrate-focused.",
+        "Provide specific food examples for meals to make the plan more actionable and practical for the athlete, especially given the very high macro targets."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 4288,
+          "carbs_g": 800,
+          "protein_g": 128,
+          "fat_g": 64,
+          "sodium_mg": 4575,
+          "hydration_l": 4.2
+        },
+        "daily_tip": {
+          "text": "For your muscle gain goal in this build phase, consistent protein intake is key. Aim for roughly 0.4g of protein per kg of bodyweight in each of your main meals today to maximize muscle protein synthesis, as research suggests this strategy is highly effective for hypertrophy. Also, ensure you're hitting your sodium target of 4575mg by using electrolyte drinks during and after your sessions and adding a pinch of salt to your meals to support optimal hydration and prevent cramping."
+        },
+        "timeline_count": 11
+      },
+      "usage": {
+        "prompt_tokens": 17332,
+        "completion_tokens": 1406,
+        "total_tokens": 18738,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_7",
+      "athlete_name": "\ud83d\udc74 Michael - Masters Endurance",
+      "profile": {
+        "weight_kg": 65,
+        "height_cm": 172,
+        "age": 55,
+        "gender": "male",
+        "training_phase": "base",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "masters"
+        ]
+      },
+      "workouts_count": 2,
+      "targets": {
+        "weight_kg": 65,
+        "daily_energy_target_kcal": 2236,
+        "daily_protein_target_g": 117,
+        "daily_carb_target_g": 520,
+        "daily_fat_target_g": 52,
+        "hydration_target_l": 3.2,
+        "sodium_target_mg": 4125,
+        "calorie_breakdown": {
+          "total": 2236,
+          "bmr": 1443,
+          "tdee": 2236,
+          "activityFactor": 1.55,
+          "activityLevel": "Moderately Active",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 3016
+        },
+        "explanations": {
+          "protein": "Protein set to 117 g (1.8 g/kg \u00d7 65 kg). Rationale: Moderate protein for base training phase supports adaptation and recovery per ACSM2016 guidelines.",
+          "carbs": "Carbs set to 520 g (8.0 g/kg \u00d7 65 kg). Training load: 2.10 (high band). Rationale: Training load of 2.1 places you in the \"high\" band per IOC/ACSM guidance. Elevated carbs (6-10 g/kg) support intensive training sessions and glycogen repletion per ACSM2016.",
+          "fat": "Fat set to 52 g (0.8 g/kg \u00d7 65 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 3235 ml (3.2 L). Base: 2275 ml (35 ml/kg). Workout additions: 960 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 4125 mg. Base: 3000 mg (athlete baseline). Workout losses: +1125 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1443 kcal) \u00d7 1.55 (Moderately Active) = TDEE 2236 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 6,
+        "tip": 7,
+        "macros": 4,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 5.5,
+      "technical_issues": [
+        "Calories don't match macros: 2995 vs 2895",
+        "Entry 0 (07:00): calories don't match macros",
+        "Entry 3 (09:30): calories don't match macros",
+        "Entry 4 (12:00): calories don't match macros",
+        "Entry 8 (17:00): calories don't match macros",
+        "Entry 9 (20:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has a good structure for a performance-oriented athlete with multiple workouts, but the significant discrepancies in calorie calculations from macros and the extremely high sodium target are major flaws. The macro distribution throughout the day is generally appropriate for fueling and recovery.",
+        "tip": "The tip is actionable and relevant to a master athlete in a base phase, emphasizing consistent protein and sodium intake. It avoids codified citations as requested. However, the sodium target mentioned in the tip (4125mg) is exceptionally high and might be based on an error, making the advice potentially problematic if followed without scrutiny.",
+        "macros": "There are significant discrepancies between the calories listed in the 'daily_summary' (3016) and the sum of calories from individual timeline entries (2995). Furthermore, the calories calculated from the provided macros (520g Carbs * 4 + 117g Protein * 4 + 52g Fat * 9 = 2080 + 468 + 468 = 3016 kcal) match the daily_summary. However, the 'TARGET MACROS' section states a 'daily_energy_target_kcal' of 2236, and 'caloriesFromMacros' as 3016. This is a massive 780 kcal surplus from the stated TDEE, which is a critical error for a 'maintenance' plan. Additionally, the individual meal entries frequently have calorie calculations that don't match their listed macros (e.g., Pre-Ride Breakfast: 98C*4 + 20P*4 + 8F*9 = 392 + 80 + 72 = 544 kcal, but listed as 552 kcal). The sodium target of 4125mg is also extremely high and questionable.",
+        "practical": "The plan generally makes practical sense in terms of meal timings around workouts. The concept of 'hydration during ride' and 'hydration during swim' is good. However, the plan states 'carbs_g: 0' for workouts, which is generally fine for low-intensity shorter sessions, but the 'hydration during ride' and 'hydration during swim' entries also list 0 carbs. For a 90-minute low-intensity bike ride, a small amount of carbs might be beneficial, and for a moderate intensity 45-minute swim, it's less common to consume carbs *during* the swim itself, although a carb-containing drink before/after or in a bottle by the side of the pool is common. The main practical issue is the extremely high sodium target, which would require deliberate and potentially excessive sodium intake.",
+        "timeline": "The timeline is chronologically sound with meals spaced appropriately around the two workouts. The distribution of macros generally follows a good pattern, with higher carbs around workouts for fueling and recovery, and consistent protein. The timing of hydration events is also logical."
+      },
+      "improvements": [
+        "Recalculate all calorie values from macros consistently across the entire plan (daily summary and individual entries) to match the stated macro targets and ensure accuracy. Address the discrepancy between the 'daily_energy_target_kcal' (TDEE) and the 'caloriesFromMacros' in the target macros.",
+        "Re-evaluate the sodium target of 4125mg. While athletes do need more sodium, this level is exceptionally high and should be justified or adjusted. If it's intended to be this high, the plan should provide clear, safe, and practical ways to achieve it without health risks.",
+        "Consider adding a small amount of carbohydrates to the 'hydration during ride' entry for longer low-intensity sessions, as this is common practice for sustained energy. Clarify if 'hydration during swim' implies a drink consumed on deck during breaks or if it's meant to be consumed in the water.",
+        "Provide specific meal examples or food suggestions for each meal and snack to make the plan more actionable and less abstract for the user.",
+        "Add a 'warnings' entry for the high sodium target to flag it for the user, even if it's deemed appropriate, to ensure they are aware of the rationale and potential implications."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 3016,
+          "carbs_g": 520,
+          "protein_g": 117,
+          "fat_g": 52,
+          "sodium_mg": 4125,
+          "hydration_l": 3.2
+        },
+        "daily_tip": {
+          "text": "As a master athlete in a base phase, prioritize consistent protein intake throughout the day, aiming for about 0.3-0.4g per kg per meal, to support muscle recovery and adaptation. Don't forget to hit your sodium target of 4125mg; consider adding a pinch of salt to meals and using electrolyte-enhanced fluids, especially around your workouts, to combat sweat losses and maintain hydration."
+        },
+        "timeline_count": 11
+      },
+      "usage": {
+        "prompt_tokens": 17304,
+        "completion_tokens": 1379,
+        "total_tokens": 18683,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_8",
+      "athlete_name": "\ud83d\udd25 Lisa - HIIT Fat Loss",
+      "profile": {
+        "weight_kg": 52,
+        "height_cm": 158,
+        "age": 38,
+        "gender": "female",
+        "training_phase": "build",
+        "goal": "fat_loss",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "medium",
+        "sweat_rate": "high",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "female_specific"
+        ]
+      },
+      "workouts_count": 2,
+      "targets": {
+        "weight_kg": 52,
+        "daily_energy_target_kcal": 1562,
+        "daily_protein_target_g": 130,
+        "daily_carb_target_g": 291,
+        "daily_fat_target_g": 47,
+        "hydration_target_l": 2.6,
+        "sodium_target_mg": 3950,
+        "calorie_breakdown": {
+          "total": 1562,
+          "bmr": 1260,
+          "tdee": 1953,
+          "activityFactor": 1.55,
+          "activityLevel": "Moderately Active",
+          "isFatLoss": true,
+          "isSurplus": false,
+          "deficitPercent": 20,
+          "caloriesFromMacros": 2106
+        },
+        "explanations": {
+          "protein": "Protein set to 130 g (2.5 g/kg \u00d7 52 kg). Rationale: Higher protein (2.3 g/kg) during fat loss preserves lean muscle mass per Morton2018 meta-analysis. Distribute across 3-4 meals (0.25-0.4 g/kg each) to maximize muscle protein synthesis.",
+          "carbs": "Carbs set to 291 g (5.6 g/kg \u00d7 52 kg (reduced by 30% for fat loss while maintaining workout fuel)). Training load: 1.95 (high band). Rationale: Training load of 1.9 places you in the \"high\" band per IOC/ACSM guidance. For fat loss with moderate-high training, carbs reduced by 30% from performance baseline (6-10 g/kg \u2192 4.2-7 g/kg) to create deficit while fueling workouts per ACSM2016. Pre/post-workout carbs prioritized.",
+          "fat": "Fat set to 47 g (0.9 g/kg \u00d7 52 kg). Rationale: Moderate fat (0.9 g/kg) during fat loss provides satiety and supports hormone production while maintaining calorie deficit.",
+          "hydration": "Hydration set to 2600 ml (2.6 L). Base: 1820 ml (35 ml/kg). Workout additions: 780 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 3950 mg. Base: 3000 mg (athlete baseline). Workout losses: +950 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1260 kcal) \u00d7 1.55 (Moderately Active) = TDEE 1953 kcal. Fat loss: 20% deficit = 1562 kcal. This moderate deficit promotes sustainable fat loss (~0.5-1% bodyweight/week) while preserving muscle mass and supporting training per ACSM2016."
+        }
+      },
+      "scores": {
+        "overall": 4,
+        "tip": 7,
+        "macros": 2,
+        "practical": 4,
+        "timeline": 7
+      },
+      "technical_score": 4.0,
+      "technical_issues": [
+        "Calories don't match macros: 1927 vs 1907",
+        "Summary calories don't match timeline: 1562 vs 1927",
+        "Summary carbs don't match timeline: 291 vs 241",
+        "Entry 2 (07:10): calories don't match macros",
+        "Entry 3 (08:30): calories don't match macros",
+        "Entry 5 (17:00): calories don't match macros",
+        "Entry 8 (20:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan has significant issues with macro and calorie calculations, making it unreliable for its stated fat loss goal. While the structure and general intent of fueling around workouts are present, the fundamental numerical errors undermine its utility. The extreme sodium target and low calorie intake for a high-intensity athlete are also concerning.",
+        "tip": "The tip is generally good, providing actionable advice on protein intake for muscle preservation during fat loss. It also appropriately addresses the high sodium target by suggesting practical ways to meet it. It avoids codified citations and is motivating. However, the sodium target itself is extremely high and might be a miscalculation, which impacts the overall helpfulness of the tip.",
+        "macros": "There are critical macro and calorie calculation errors. The daily summary calories (1562) do not match the sum of timeline calories (1927), nor do the daily summary carbs (291) match the sum of timeline carbs (241). Several individual meal entries also have calorie calculations that do not align with their listed macros. Furthermore, the 'caloriesFromMacros' (2106) in the target macros does not align with the 'daily_energy_target_kcal' (1562). This makes the plan numerically unreliable.",
+        "practical": "The plan's practicality is questionable. The proposed training load (70 min of HIIT and high-intensity intervals daily) for someone on a 1562-calorie fat loss diet (especially for a 52kg individual) is extremely aggressive and likely unsustainable, leading to burnout or injury. The sodium target of 3950mg is unusually high for an athlete of this weight and could be problematic if not carefully managed or if based on an incorrect premise. While consuming carbs during a swim workout is possible (e.g., in a drink bottle at the side of the pool, or a gel for longer sessions), the plan doesn't specify a swim workout. The two workouts are 'HIIT Session' and 'Intervals Session', which typically imply land-based activities. If it were a swim, 'carbs_g: 0' for the workout period is fine as pre-workout fuel is provided. Meal timings are generally logical around the workouts, but the overall calorie deficit combined with high intensity makes the plan difficult to adhere to for a real athlete long-term without significant fatigue.",
+        "timeline": "The timeline is chronologically sound with logical spacing between meals and workouts. The distribution of macros generally makes sense, with carbs prioritized around the high-intensity workouts. However, the dinner is extremely low in carbs (7g) which might not be ideal for recovery after an evening workout, especially if glycogen replenishment is a goal, although it aligns with the overall low carb sum for the day based on the timeline."
+      },
+      "improvements": [
+        "Correct all calorie and macro calculation discrepancies. Ensure that the sum of macros and calories in the timeline accurately reflects the daily summary and the target macros.",
+        "Re-evaluate the training load and calorie target. For a 52kg individual, 70 minutes of high-intensity training daily on 1562 calories for fat loss is very aggressive. Consider reducing training volume/intensity or increasing calories to ensure sustainability and prevent overtraining/under-fueling.",
+        "Review the extremely high sodium target (3950mg) for a 52kg athlete. While athletes have higher needs, this level should be carefully justified and potentially adjusted if it's an error. If correct, provide more specific guidance on how to safely and effectively consume this amount.",
+        "Adjust the carb distribution to better support recovery, especially after the evening workout. A dinner with only 7g of carbs might not be optimal for glycogen replenishment.",
+        "Provide more detail on the 'HIIT Session' and 'Intervals Session' workouts, e.g., types of exercises, to ensure they are appropriate for the athlete's phase and goal."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1562,
+          "carbs_g": 291,
+          "protein_g": 130,
+          "fat_g": 47,
+          "sodium_mg": 3950,
+          "hydration_l": 2.6
+        },
+        "daily_tip": {
+          "text": "To support your fat loss goal while maintaining performance, prioritize protein at each meal, aiming for about 0.3-0.4g per kg of bodyweight, which helps protect your muscle mass. Don't forget your sodium target of 3950mg; consider adding a pinch of salt to your meals or using a quality electrolyte drink during and after your workouts to replace losses and prevent cramping."
+        },
+        "timeline_count": 9
+      },
+      "usage": {
+        "prompt_tokens": 17428,
+        "completion_tokens": 1176,
+        "total_tokens": 18604,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_9",
+      "athlete_name": "\ud83c\udfc3 Tom - Ultra Runner Single Long Run",
+      "profile": {
+        "weight_kg": 68,
+        "height_cm": 176,
+        "age": 34,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "very_high",
+        "timezone": "Asia/Jerusalem",
+        "populations": []
+      },
+      "workouts_count": 1,
+      "targets": {
+        "weight_kg": 68,
+        "daily_energy_target_kcal": 2840,
+        "daily_protein_target_g": 136,
+        "daily_carb_target_g": 680,
+        "daily_fat_target_g": 54,
+        "hydration_target_l": 3.8,
+        "sodium_target_mg": 4500,
+        "calorie_breakdown": {
+          "total": 2840,
+          "bmr": 1646,
+          "tdee": 2840,
+          "activityFactor": 1.725,
+          "activityLevel": "Very Active",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 3754
+        },
+        "explanations": {
+          "protein": "Protein set to 136 g (2 g/kg \u00d7 68 kg). Rationale: Elevated protein (build phase baseline +0.2 g/kg) due to long/intense session requiring enhanced recovery per ISSN2017.",
+          "carbs": "Carbs set to 680 g (10.0 g/kg \u00d7 68 kg). Training load: 3.60 (very high band). Rationale: Training load of 3.6 places you in the \"very high\" band per IOC/ACSM guidance. High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.",
+          "fat": "Fat set to 54 g (0.8 g/kg \u00d7 68 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 3820 ml (3.8 L). Base: 2380 ml (35 ml/kg). Workout additions: 1440 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 4500 mg. Base: 3000 mg (athlete baseline). Workout losses: +1500 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1646 kcal) \u00d7 1.725 (Very Active) = TDEE 2840 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 6,
+        "tip": 8,
+        "macros": 3,
+        "practical": 7,
+        "timeline": 8
+      },
+      "technical_score": 5.0,
+      "technical_issues": [
+        "Calories don't match macros: 3880 vs 3750",
+        "Summary calories don't match timeline: 3020 vs 3880",
+        "Entry 0 (05:00): calories don't match macros",
+        "Entry 7 (10:30): calories don't match macros",
+        "Entry 8 (14:00): calories don't match macros",
+        "Entry 9 (18:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan demonstrates a good understanding of endurance athlete nutrition principles, particularly the high carbohydrate and sodium needs. The structure and timing of meals around the workout are generally appropriate. However, the significant caloric and macro calculation errors, as highlighted by the technical validation, severely undermine its practical utility and accuracy. If these calculation errors were resolved, the plan would be very strong.",
+        "tip": "The daily tip is excellent. It's motivating, actionable (e.g., 'add a quarter teaspoon of salt'), and directly relevant to the athlete's goal and the specific training session. It avoids codified citations while still providing sound, evidence-based advice. It reinforces the key nutritional strategies for the day (high carbs, high sodium).",
+        "macros": "This is the plan's weakest area. The technical validation clearly shows significant discrepancies between the calculated calories from macros and the stated calorie values, both at the summary level and for individual meals. The daily summary calories (3020) also do not match the sum of the timeline calories (3880), nor do they match the target TDEE (2840 kcal). This makes the plan unreliable for an athlete needing precise fueling.",
+        "practical": "The plan makes good practical sense for an endurance athlete. The timing of the pre-workout meal, intra-workout fueling, and post-workout recovery is appropriate for a long 3-hour endurance ride. The specific question about consuming carbs during a swim workout is irrelevant here as the workout is a 'Long Endurance Ride', not a swim. The overall meal timings throughout the day (late breakfast, lunch, dinner, evening snack) are logical and spaced well. A real athlete *would* follow this general structure, assuming the macro and calorie numbers were accurate.",
+        "timeline": "The timeline is chronologically sound, with events progressing logically through the day. The distribution of macros makes sense, with a heavy front-loading of carbohydrates around the long endurance workout, which is crucial for glycogen loading and recovery. Protein is also distributed reasonably well throughout the day to support recovery and muscle protein synthesis."
+      },
+      "improvements": [
+        "**Resolve all calorie and macro calculation discrepancies:** The most critical improvement is to ensure that all stated calorie values accurately reflect the sum of the provided carbohydrates, protein, and fat, and that the daily summary totals match the sum of individual timeline entries and the target macros.",
+        "**Clarify calorie target vs. actual:** The target TDEE is 2840 kcal, but the plan's daily summary states 3020 kcal, and the sum of timeline items is 3880 kcal. This needs to be consistent and align with the athlete's goal (maintenance in this case).",
+        "**Provide meal examples or suggestions:** While the current names are descriptive, providing a brief example of what each meal might consist of (e.g., 'Pre-Workout Meal: Oatmeal with banana and honey') would enhance practicality for the user."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 3020,
+          "carbs_g": 680,
+          "protein_g": 136,
+          "fat_g": 54,
+          "sodium_mg": 4500,
+          "hydration_l": 3.8
+        },
+        "daily_tip": {
+          "text": "For your performance goal in this build phase, remember that consistent high carbohydrate intake (like your 10g/kg target) is crucial for maintaining glycogen stores and fueling intense workouts. Don't forget that hitting your 4500mg sodium target is vital, especially after your long endurance session; try adding a quarter teaspoon of salt to each main meal and using electrolyte drinks to replenish losses and prevent cramping."
+        },
+        "timeline_count": 11
+      },
+      "usage": {
+        "prompt_tokens": 17256,
+        "completion_tokens": 1396,
+        "total_tokens": 18652,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_10",
+      "athlete_name": "\ud83e\uddd8\u200d\u2640\ufe0f Yael - Rest Day Nutrition",
+      "profile": {
+        "weight_kg": 62,
+        "height_cm": 168,
+        "age": 31,
+        "gender": "female",
+        "training_phase": "recovery",
+        "goal": "performance",
+        "diet_pattern": "vegetarian",
+        "gi_tolerance": "medium",
+        "sweat_rate": "low",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "female_specific"
+        ]
+      },
+      "workouts_count": 0,
+      "targets": {
+        "weight_kg": 62,
+        "daily_energy_target_kcal": 1688,
+        "daily_protein_target_g": 105,
+        "daily_carb_target_g": 217,
+        "daily_fat_target_g": 50,
+        "hydration_target_l": 2.2,
+        "sodium_target_mg": 3000,
+        "calorie_breakdown": {
+          "total": 1688,
+          "bmr": 1407,
+          "tdee": 1688,
+          "activityFactor": 1.2,
+          "activityLevel": "Sedentary",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 1736
+        },
+        "explanations": {
+          "protein": "Protein set to 105 g (1.7 g/kg \u00d7 62 kg). Rationale: Moderate protein for recovery training phase supports adaptation and recovery per ACSM2016 guidelines.",
+          "carbs": "Carbs set to 217 g (3.5 g/kg \u00d7 62 kg). Training load: 0.00 (rest/recovery band). Rationale: Training load of 0.0 places you in the \"rest/recovery\" band per IOC/ACSM guidance. Lower carbs appropriate for rest/recovery days, maintains baseline glycogen without excess.",
+          "fat": "Fat set to 50 g (0.8 g/kg \u00d7 62 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 2170 ml (2.2 L). Base: 2170 ml (35 ml/kg). Workout additions: 0 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 3000 mg. Base: 3000 mg (athlete baseline). Workout losses: +0 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1407 kcal) \u00d7 1.2 (Sedentary) = TDEE 1688 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 7,
+        "tip": 8,
+        "macros": 7,
+        "practical": 8,
+        "timeline": 9
+      },
+      "technical_score": 8.5,
+      "technical_issues": [
+        "Entry 0 (07:00): calories don't match macros",
+        "Entry 2 (13:00): calories don't match macros",
+        "Entry 4 (19:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan is generally well-structured for a recovery day, aligning with the low training load and goals. The macronutrient targets are met, and hydration/sodium are addressed. However, the calorie discrepancies in individual meals detract from its overall precision and trustworthiness. The lack of specific food items makes it difficult to fully assess practicality.",
+        "tip": "The daily tip is actionable and relevant to a recovery phase, emphasizing protein distribution and sodium intake for future training. It is motivating and natural in tone, avoiding codified citations as requested. The guidance on protein per kg of bodyweight per meal is a good practical recommendation.",
+        "macros": "While the daily summary macros (calories, carbs, protein, fat, sodium, hydration) perfectly match the target macros, there are significant calorie calculation errors at the individual meal level. For example, Breakfast (07:00) has 55g carbs (220 kcal), 25g protein (100 kcal), 10g fat (90 kcal) which sums to 410 kcal, but the plan states 420 kcal. Similar issues exist for Lunch and Dinner. This inconsistency in individual meal calorie calculations significantly impacts the macro accuracy score, even if the daily totals align.",
+        "practical": "The plan makes practical sense given it's a recovery day with no training. The meal timings (every 3 hours) are logical for consistent nutrient delivery and satiety. The distribution of macros throughout the day, particularly protein, seems appropriate for recovery. The plan avoids impractical elements like consuming carbs during a non-existent swim workout. A real athlete would likely follow this timing structure, though the lack of specific food items prevents a deeper assessment of meal practicality (e.g., 'is this meal easy to prepare and consume?').",
+        "timeline": "The timeline is chronologically sound, with meals spaced approximately every 3 hours from 7 AM to 7 PM, which is a common and effective strategy for nutrient delivery. The macro distribution seems relatively balanced across the meals, with protein consistently present to support recovery as highlighted in the tip. There are no conflicting or illogical time entries."
+      },
+      "improvements": [
+        "Correct the calorie calculations for individual meals to accurately reflect the provided macronutrients (carbs x 4, protein x 4, fat x 9).",
+        "Add specific examples of food items for each meal to enhance practicality and provide clearer guidance to the user. This would allow for a better assessment of whether the recommended macros are achievable with realistic meals.",
+        "Consider adding a specific recommendation for an electrolyte source or a note about how to achieve the high sodium target beyond just 'a pinch of salt' and 'electrolyte-enhanced fluids', perhaps mentioning specific foods or types of drinks for clarity."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 1736,
+          "carbs_g": 217,
+          "protein_g": 105,
+          "fat_g": 50,
+          "sodium_mg": 3000,
+          "hydration_l": 2.2
+        },
+        "daily_tip": {
+          "text": "As you're in a recovery phase, focus on consistent protein intake spread throughout the day to support muscle repair and adaptation, aiming for about 0.3-0.4g per kg of bodyweight per meal. To meet your sodium target of 3000mg, consider adding a pinch of salt to your meals and utilizing electrolyte-enhanced fluids, especially as you return to more intense training."
+        },
+        "timeline_count": 5
+      },
+      "usage": {
+        "prompt_tokens": 17155,
+        "completion_tokens": 770,
+        "total_tokens": 17925,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    },
+    {
+      "athlete_id": "athlete_11",
+      "athlete_name": "\ud83c\udfc3\u200d\u2642\ufe0f Lior - Masters Long Run",
+      "profile": {
+        "weight_kg": 75,
+        "height_cm": 178,
+        "age": 48,
+        "gender": "male",
+        "training_phase": "build",
+        "goal": "performance",
+        "diet_pattern": "omnivore",
+        "gi_tolerance": "high",
+        "sweat_rate": "moderate",
+        "timezone": "Asia/Jerusalem",
+        "populations": [
+          "masters"
+        ]
+      },
+      "workouts_count": 1,
+      "targets": {
+        "weight_kg": 75,
+        "daily_energy_target_kcal": 2858,
+        "daily_protein_target_g": 150,
+        "daily_carb_target_g": 750,
+        "daily_fat_target_g": 60,
+        "hydration_target_l": 3.8,
+        "sodium_target_mg": 4250,
+        "calorie_breakdown": {
+          "total": 2858,
+          "bmr": 1657,
+          "tdee": 2858,
+          "activityFactor": 1.725,
+          "activityLevel": "Very Active",
+          "isFatLoss": false,
+          "isSurplus": false,
+          "deficitPercent": 0,
+          "caloriesFromMacros": 4140
+        },
+        "explanations": {
+          "protein": "Protein set to 150 g (2 g/kg \u00d7 75 kg). Rationale: Elevated protein (build phase baseline +0.2 g/kg) due to long/intense session requiring enhanced recovery per ISSN2017.",
+          "carbs": "Carbs set to 750 g (10.0 g/kg \u00d7 75 kg). Training load: 3.00 (very high band). Rationale: Training load of 3.0 places you in the \"very high\" band per IOC/ACSM guidance. High carb intake (8-12 g/kg) critical for maintaining glycogen stores during heavy training per ISSN2017.",
+          "fat": "Fat set to 60 g (0.8 g/kg \u00d7 75 kg). Rationale: Balanced fat intake (0.8 g/kg) supports hormone production, vitamin absorption, and satiety per ACSM2016 (20-35% calories).",
+          "hydration": "Hydration set to 3825 ml (3.8 L). Base: 2625 ml (35 ml/kg). Workout additions: 1200 ml. Rationale: Base hydration plus workout-specific needs adjusted for intensity per ACSM2016 fluid guidelines.",
+          "sodium": "Sodium set to 4250 mg. Base: 3000 mg (athlete baseline). Workout losses: +1250 mg. Rationale: Athletes need 3-4g daily minimum per McCubbin2025, plus replacement for sweat losses (~500-1000 mg/hour exercise). Include electrolyte drinks and salt meals to hit target.",
+          "calories": "BMR (1657 kcal) \u00d7 1.725 (Very Active) = TDEE 2858 kcal. Maintenance calories to support current training load and performance."
+        }
+      },
+      "scores": {
+        "overall": 6,
+        "tip": 7,
+        "macros": 3,
+        "practical": 6,
+        "timeline": 7
+      },
+      "technical_score": 3.5,
+      "technical_issues": [
+        "Calories don't match macros: 4358 vs 4220",
+        "Summary calories don't match timeline: 4140 vs 4358",
+        "Summary hydration doesn't match timeline: 3.8 vs 3.5",
+        "Entry 0 (06:00): calories don't match macros",
+        "Entry 6 (11:00): calories don't match macros",
+        "Entry 7 (14:00): calories don't match macros",
+        "Entry 8 (17:00): calories don't match macros",
+        "Entry 9 (20:00): calories don't match macros"
+      ],
+      "evaluation_explanations": {
+        "overall": "The plan demonstrates a good understanding of the athlete's phase and goal, especially regarding the high carb and protein requirements for a masters athlete in a build phase with a long endurance session. However, significant inconsistencies in calorie calculations from macros and between the summary and timeline significantly detract from its overall quality and trustworthiness. The practical aspects are mostly sound, but the intra-workout fueling during a 'long endurance session' needs clarification regarding the activity type.",
+        "tip": "The daily tip is generally good. It's motivating by affirming the athlete's carb intake, actionable with advice on protein distribution and sodium intake, and sounds natural. The reference to 'ISSN2017' and 'McCubbin2025' in the target macros' explanations is a minor issue (as the prompt asked to avoid codified citations in the *tip*), but the tip itself avoids them, which is good. It effectively reinforces key nutritional strategies for the athlete.",
+        "macros": "This is the weakest point of the plan. There are multiple discrepancies: the daily summary calories (4140) do not match the sum of timeline calories (4358), and neither matches the calories calculated from the daily summary macros (750g Carbs * 4 + 150g Protein * 4 + 60g Fat * 9 = 3000 + 600 + 540 = 4140 kcal). Furthermore, several individual meal entries have calorie counts that do not align with their listed macros. The daily summary hydration (3.8L) also does not match the sum of timeline hydration (3.5L). These inconsistencies make the plan unreliable for precise nutritional tracking.",
+        "practical": "The practical sense is mixed. The general approach of high carbs, distributed protein, and intra-workout fueling for a long endurance session is appropriate for a performance goal. However, 'Long Endurance Session' is vague. If this is a swim, consuming intra-workout fuels at 07:30 and 08:30 would be challenging. If it's cycling or running, it's more feasible. Meal timings are generally logical, with frequent fueling around the workout and regular meals throughout the day. The sodium target is very high but justified by the 'warnings' and the 'explanations' for a heavy sweater.",
+        "timeline": "The timeline is chronologically sound, with appropriate spacing between meals and hydration events. The distribution of macros makes sense, with a significant pre-workout meal, intra-workout fueling, and a strong post-workout recovery focus with subsequent meals to replenish glycogen and support protein synthesis. The evening protein is also a good touch for a masters athlete. The only minor point is the ambiguity of the 'Long Endurance Session' type impacting the practicality of intra-workout fueling."
+      },
+      "improvements": [
+        "**Fix all macro and calorie calculation discrepancies:** Ensure that all calorie values in the timeline accurately reflect the associated carb, protein, and fat grams, and that the daily summary totals perfectly match the sum of the timeline entries. This is critical for trust and usability.",
+        "**Clarify the 'Long Endurance Session' activity type:** Specify what type of endurance activity (e.g., cycling, running, swimming) the 150-minute session entails. This will allow for a more accurate assessment of the practicality of intra-workout fueling and hydration strategies.",
+        "**Refine intra-workout fueling strategy based on activity:** If the activity is swimming, the intra-workout fueling might need to be adjusted (e.g., more concentrated gels at fewer intervals, or a different timing/delivery method). If it's running/cycling, the current strategy is more feasible.",
+        "**Ensure all daily summary totals perfectly align with timeline sums:** The hydration discrepancy between the summary and timeline also needs to be corrected for accuracy.",
+        "**Consider adding a note about the high sodium intake's implementation:** While the tip mentions it, a brief note within the timeline or the daily summary could reinforce that the high sodium is specifically for sweat replacement during the high-intensity, long duration workout, and not a general daily recommendation for all athletes."
+      ],
+      "response_sample": {
+        "daily_summary": {
+          "calories": 4140,
+          "carbs_g": 750,
+          "protein_g": 150,
+          "fat_g": 60,
+          "sodium_mg": 4250,
+          "hydration_l": 3.8
+        },
+        "daily_tip": {
+          "text": "As a masters athlete in a build phase, your high carb intake of 10g/kg is spot on for fueling today's long endurance session. Remember to spread your protein intake (around 0.4g/kg per meal) throughout the day to maximize muscle protein synthesis, which is crucial for recovery and adaptation as you age. Given your high sodium target, consider adding a pinch of salt to your meals and consistently using electrolyte drinks to stay on top of hydration and prevent cramping, especially after heavy sweating."
+        },
+        "timeline_count": 11
+      },
+      "usage": {
+        "prompt_tokens": 17256,
+        "completion_tokens": 1408,
+        "total_tokens": 18664,
+        "prompt_tokens_details": {
+          "cached_tokens": 13305
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "status": "success"
+    }
+  ]
+}
