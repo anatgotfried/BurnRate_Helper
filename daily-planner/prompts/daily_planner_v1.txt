@@ -42,10 +42,12 @@ calories = (carbs_g × 4) + (protein_g × 4) + (fat_g × 9)
 - Round all grams and calories to the nearest whole number to prevent cumulative rounding errors
 
 **Before returning, recalculate:**
-1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`
-2. Verify: `total_calories ≈ (total_carbs × 4) + (total_protein × 4) + (total_fat × 9)` (±1%)
-3. If mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios
-4. Ensure `daily_summary` matches these recalculated totals
+1. Sum all timeline entries: `total_carbs`, `total_protein`, `total_fat`, `total_calories`, `total_hydration_ml`
+2. **Calorie check**: Verify `total_calories ≈ (total_carbs × 4) + (total_protein × 4) + (total_fat × 9)` (±1%)
+3. **Hydration check**: If `total_hydration_ml / 1000` exceeds `hydration_target_l` by >5%, proportionally scale all `hydration_ml` values
+4. If calorie mismatch: automatically rebalance macros proportionally (reduce carbs first, then fat, then protein) to hit target calories while maintaining macro ratios
+5. Ensure `daily_summary` matches these recalculated totals (round all values to nearest whole number)
+6. Verify `daily_summary.hydration_l` matches `hydration_target_l` (±0.2L) after normalization
 
 ### 2. TIMELINE FORMAT (NOT FOOD LISTS)
 Each timeline entry represents a meal OR workout OR hydration event:
@@ -60,10 +62,17 @@ DO NOT list individual foods. Show only:
 - Macro totals
 
 ### 3. DAILY TIP GENERATION
+
 Generate `daily_tip` based on priority:
 1. **Research corpus evidence FIRST** - Cite specific research from corpus
 2. **Training phase context SECOND** - Phase-specific optimization (base/build/race/taper/recovery)
 3. **Goal alignment THIRD** - performance/fat_loss/hypertrophy considerations
+
+**Phase-Specific Guidance:**
+- **Race phase**: Mention race week/race day context explicitly - emphasize glycogen maintenance, reduced fiber/fat, steady carbs
+- **Taper phase**: Focus on glycogen optimization while staying lean
+- **Base/Build**: Focus on training adaptation and recovery
+- **Recovery**: Focus on muscle preservation and adaptation
 
 Requirements:
 - 1-2 sentences maximum
@@ -72,7 +81,8 @@ Requirements:
 - Avoid generic lifestyle advice
 
 Examples:
-- Taper phase: "During taper, maintain 7-10g/kg carbs but reduce fat by 10-15% to optimize glycogen while staying lean - improves power-to-weight ratio on race day (Burke2011)"
+- **Race phase**: "During race week, maintain 8-10g/kg carbs to sustain glycogen and reduce fatigue - slightly reduce fiber/fat pre-race to minimize GI distress (ISSN2017)"
+- **Taper phase**: "During taper, maintain 7-10g/kg carbs but reduce fat by 10-15% to optimize glycogen while staying lean - improves power-to-weight ratio on race day (Burke2011)"
 - Hot weather: "Pre-cooling with ice slurry 15min before exercise improves performance 3-7% in heat >28°C (Siegel2012) - try 500ml frozen sports drink"
 - Recovery: "Distribute 0.4g/kg protein across 4+ meals to preserve muscle during deficit - eating protein every 3-4h maintains MPS even in energy restriction (Morton2018)"
 
@@ -83,12 +93,19 @@ Calculate and include:
 - `intensity_level`: "Low", "Moderate", "High", or "Very High" based on workout intensity and duration
 
 ### 5. HYDRATION TRACKING
+
 Every timeline entry must include `hydration_ml`:
 - Meals: Include fluids consumed with meal
 - Workouts: Include sports drinks/water consumed during workout
 - Hydration events: Standalone electrolyte top-ups
 
 Convert all hydration to milliliters (mL). Do NOT use liters in timeline entries.
+
+**Hydration Normalization:**
+- After summing all timeline entry `hydration_ml` values, verify the total matches `hydration_target_l` (±0.2L)
+- If total hydration exceeds target by >5%, proportionally scale all `hydration_ml` values in timeline entries to match target
+- Example: If sum = 5.35L but target = 4.6L, multiply all hydration_ml values by (4.6 / 5.35) ≈ 0.86
+- This ensures `daily_summary.hydration_l` matches the target exactly (±0.2L)
 
 ## OUTPUT FORMAT
 
@@ -140,14 +157,15 @@ Before returning, verify:
 2. ✅ **Macro totals**: All timeline entries sum to `daily_summary` totals (±2%)
 3. ✅ **Daily summary calories**: `daily_summary.calories` = (daily_summary.carbs_g × 4) + (daily_summary.protein_g × 4) + (daily_summary.fat_g × 9) (±1%)
 4. ✅ **Entry-to-summary match**: Sum of timeline entry calories = daily_summary.calories (±1%)
-5. ✅ Timeline is sorted chronologically by time
-6. ✅ Every entry has `hydration_ml` (not `hydration_l`)
-7. ✅ `daily_tip` includes research citation
-8. ✅ `schema_version` is "1.0"
-9. ✅ `phase` and `goal` match athlete profile
-10. ✅ No trailing commas in JSON
-11. ✅ All numeric values are numbers (not strings)
-12. ✅ All values rounded to nearest whole number
+5. ✅ **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l × 1000 (±200ml)
+6. ✅ Timeline is sorted chronologically by time
+7. ✅ Every entry has `hydration_ml` (not `hydration_l`)
+8. ✅ `daily_tip` includes research citation and phase-specific context
+9. ✅ `schema_version` is "1.0"
+10. ✅ `phase` and `goal` match athlete profile
+11. ✅ No trailing commas in JSON
+12. ✅ All numeric values are numbers (not strings)
+13. ✅ All values rounded to nearest whole number
 
 ## COMMON ERRORS TO AVOID
 
