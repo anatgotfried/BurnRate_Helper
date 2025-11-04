@@ -19,7 +19,11 @@ The user has pre-planned these meals. They are LOCKED and cannot be changed. You
 If a skeleton is provided above, your role is to refine it minimally:
 
 **YOU MUST DO:**
-1. ✅ Fill in meal names (null → "Pre-Swim Fuel", "Breakfast", "Lunch", etc.)
+1. ✅ Fill in meal names (null → appropriate names)
+   - **Pre-workout meals**: Use "Fuel" (e.g., "Pre-Swim Fuel", "Pre-Bike Fuel")
+   - **Post-workout meals**: Use "Recovery" (e.g., "Post-Swim Recovery", "Post-Bike Recovery")
+   - **Merged meals**: Combine terms (e.g., "Recovery + Fuel", "Post-Swim Recovery + Pre-Bike Fuel")
+   - **Regular meals**: Use standard names ("Breakfast", "Lunch", "Dinner", "Snack")
 2. ✅ Ensure timeline is sorted chronologically
 3. ✅ Fix obvious timing conflicts (two meals at same time, pre-workout too far from workout)
 4. ✅ Redistribute macros ONLY if totals deviate >5% from targets (maintain same entry count and structure)
