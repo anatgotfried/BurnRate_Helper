@@ -333,17 +333,25 @@ function calculateRemainingMacros(targets, workoutMeals, lockedMeals) {
 function distributeRemainingMeals(remaining, numMeals, lockedMeals, workoutMeals) {
     const regularMeals = [];
     
-    // Calculate macros per meal (even distribution)
-    const perMeal = {
-        carbs_g: Math.round(remaining.carbs_g / numMeals),
-        protein_g: Math.round(remaining.protein_g / numMeals),
-        fat_g: Math.round(remaining.fat_g / numMeals),
-        sodium_mg: Math.round(remaining.sodium_mg / numMeals),
-        hydration_ml: Math.round(remaining.hydration_ml / numMeals)
+    if (numMeals === 0) return regularMeals;
+    
+    // Calculate base macros per meal (floor division)
+    const baseMacros = {
+        carbs_g: Math.floor(remaining.carbs_g / numMeals),
+        protein_g: Math.floor(remaining.protein_g / numMeals),
+        fat_g: Math.floor(remaining.fat_g / numMeals),
+        sodium_mg: Math.floor(remaining.sodium_mg / numMeals),
+        hydration_ml: Math.floor(remaining.hydration_ml / numMeals)
     };
     
-    // Calculate calories per meal
-    perMeal.calories = (perMeal.carbs_g * 4) + (perMeal.protein_g * 4) + (perMeal.fat_g * 9);
+    // Calculate remainders to distribute
+    const remainders = {
+        carbs_g: remaining.carbs_g - (baseMacros.carbs_g * numMeals),
+        protein_g: remaining.protein_g - (baseMacros.protein_g * numMeals),
+        fat_g: remaining.fat_g - (baseMacros.fat_g * numMeals),
+        sodium_mg: remaining.sodium_mg - (baseMacros.sodium_mg * numMeals),
+        hydration_ml: remaining.hydration_ml - (baseMacros.hydration_ml * numMeals)
+    };
     
     // Standard meal times (will be filtered for conflicts)
     const standardTimes = [
@@ -368,25 +376,51 @@ function distributeRemainingMeals(remaining, numMeals, lockedMeals, workoutMeals
         return !isTimeConflict(slot.time, occupiedTimes, 60); // 1-hour buffer
     });
     
-    // Take first N available slots
+    // Take first N available slots and distribute macros with remainders
     for (let i = 0; i < numMeals && i < availableSlots.length; i++) {
+        // Start with base macros
+        const mealMacros = { ...baseMacros };
+        
+        // Add 1 extra gram to first few meals to distribute remainder
+        // This prevents rounding errors from accumulating
+        if (i < remainders.carbs_g) mealMacros.carbs_g += 1;
+        if (i < remainders.protein_g) mealMacros.protein_g += 1;
+        if (i < remainders.fat_g) mealMacros.fat_g += 1;
+        if (i < remainders.sodium_mg) mealMacros.sodium_mg += 1;
+        if (i < remainders.hydration_ml) mealMacros.hydration_ml += 1;
+        
+        // Calculate calories for this meal
+        mealMacros.calories = (mealMacros.carbs_g * 4) + (mealMacros.protein_g * 4) + (mealMacros.fat_g * 9);
+        
         regularMeals.push({
             time: availableSlots[i].time,
             type: 'meal',
             name: availableSlots[i].name,
-            ...perMeal
+            ...mealMacros
         });
     }
     
     // If we couldn't fill all meals (too many conflicts), distribute remaining
     while (regularMeals.length < numMeals) {
+        const i = regularMeals.length;
+        const mealMacros = { ...baseMacros };
+        
+        // Add remainder distribution
+        if (i < remainders.carbs_g) mealMacros.carbs_g += 1;
+        if (i < remainders.protein_g) mealMacros.protein_g += 1;
+        if (i < remainders.fat_g) mealMacros.fat_g += 1;
+        if (i < remainders.sodium_mg) mealMacros.sodium_mg += 1;
+        if (i < remainders.hydration_ml) mealMacros.hydration_ml += 1;
+        
+        mealMacros.calories = (mealMacros.carbs_g * 4) + (mealMacros.protein_g * 4) + (mealMacros.fat_g * 9);
+        
         // Find gaps in timeline and add meals
         const nextAvailableTime = findNextAvailableSlot(occupiedTimes, regularMeals);
         regularMeals.push({
             time: nextAvailableTime,
             type: 'meal',
-            name: `Meal ${regularMeals.length + 1}`,
-            ...perMeal
+            name: `Meal ${i + 1}`,
+            ...mealMacros
         });
     }
     
