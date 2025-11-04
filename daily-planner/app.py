@@ -243,18 +243,45 @@ def generate_plan():
                             fat_scale = target_fat / timeline_totals['fat_g']
                     
                     # If scaling needed, proportionally reduce all timeline entries
-                    if needs_scaling and timeline_totals['carbs_g'] > target_carbs:
-                        # Scale down carbs first (most common overshoot)
-                        scale_factor = target_carbs / timeline_totals['carbs_g']
+                    if needs_scaling:
+                        scaling_applied = []
+                        
+                        # Scale carbs if over target
+                        if timeline_totals['carbs_g'] > target_carbs:
+                            carb_scale = target_carbs / timeline_totals['carbs_g']
+                            for entry in plan_data_pass1['timeline']:
+                                entry['carbs_g'] = round(entry['carbs_g'] * carb_scale)
+                            scaling_applied.append(f"carbs scaled by {carb_scale:.2f}")
+                        
+                        # Scale protein if over target
+                        if timeline_totals['protein_g'] > target_protein:
+                            protein_scale = target_protein / timeline_totals['protein_g']
+                            for entry in plan_data_pass1['timeline']:
+                                entry['protein_g'] = round(entry['protein_g'] * protein_scale)
+                            scaling_applied.append(f"protein scaled by {protein_scale:.2f}")
+                        
+                        # Scale fat if over target
+                        if timeline_totals['fat_g'] > target_fat:
+                            fat_scale = target_fat / timeline_totals['fat_g']
+                            for entry in plan_data_pass1['timeline']:
+                                entry['fat_g'] = round(entry['fat_g'] * fat_scale)
+                            scaling_applied.append(f"fat scaled by {fat_scale:.2f}")
+                        
+                        # Recalculate all calories after scaling
                         for entry in plan_data_pass1['timeline']:
-                            entry['carbs_g'] = round(entry['carbs_g'] * scale_factor)
-                            # Recalculate calories after scaling
                             calculated_cals = (entry['carbs_g'] * 4) + (entry['protein_g'] * 4) + (entry['fat_g'] * 9)
                             entry['calories'] = round(calculated_cals)
                         
                         # Recalculate totals after scaling
                         timeline_totals['carbs_g'] = sum(e.get('carbs_g', 0) for e in plan_data_pass1['timeline'])
+                        timeline_totals['protein_g'] = sum(e.get('protein_g', 0) for e in plan_data_pass1['timeline'])
+                        timeline_totals['fat_g'] = sum(e.get('fat_g', 0) for e in plan_data_pass1['timeline'])
                         timeline_totals['calories'] = sum(e.get('calories', 0) for e in plan_data_pass1['timeline'])
+                        
+                        # Add warning about scaling
+                        if 'warnings' not in plan_data_pass1:
+                            plan_data_pass1['warnings'] = []
+                        plan_data_pass1['warnings'].append(f"Backend auto-scaled to match targets: {', '.join(scaling_applied)}")
                 
                 # Update daily_summary with calculated totals (after scaling if applied)
                 plan_data_pass1['daily_summary']['carbs_g'] = round(timeline_totals['carbs_g'])

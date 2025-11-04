@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '1.3';
+const VERSION = '1.4';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
