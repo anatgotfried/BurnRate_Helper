@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurnRate Daily Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <h1 class="logo">BurnRate Daily Planner</h1>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-family: 'Inter', sans-serif;">
+                    <span>🧪 Load Test Athlete:</span>
+                    <select id="loadAthleteSelect" class="form-input" style="width: 320px; margin: 0; padding: 0.5rem;">
+                        <option value="">-- Select Profile --</option>
+                    </select>
+                </label>
+                <nav>
+                    <a href="/" class="nav-link">← Home</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Version Badge (Top Right) -->
+    <div class="version-badge" id="versionBadge" title="Click for changelog" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.0</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>AI-Powered Daily Planning</h1>
+        <p>Validate meal and workout timing with structured timeline view and AI-generated insights</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Model Selector -->
+        <div class="control-panel">
+            <div class="control-grid">
+                <label class="form-label">
+                    <span>AI Model</span>
+                    <select id="modelSelect" class="form-select">
+                        <option value="google/gemini-2.5-flash" selected>⭐ Gemini 2.5 Flash (FREE - Fastest 13s)</option>
+                        <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash Exp (FREE - Fast 19s)</option>
+                        <option value="google/gemini-2.0-flash-001">Gemini 2.0 Flash (FREE - Stable 24s)</option>
+                        <option value="mistralai/mistral-small-3.2-24b-instruct">Mistral Small 3.2 (~$0.001, 40s)</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini (~$0.015, 33s)</option>
+                        <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet (~$0.025 - Best Quality, 23s)</option>
+                        <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B (~$0.0015, slower 53s)</option>
+                        <option value="openai/gpt-4o">GPT-4o (~$0.050, 20s)</option>
+                    </select>
+                </label>
+                <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.5rem;">
+                    💡 <strong>Tested:</strong> Gemini 2.5 Flash is fastest (13s) & FREE! Claude 3.5 Sonnet for guaranteed quality (23s). All models verified 11/3/25.
+                </div>
+            </div>
+            <div class="control-grid" style="margin-top: 1rem;">
+                <label class="checkbox-label" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 8px;">
+                    <input type="checkbox" id="fastMode" checked>
+                    <span>
+                        <strong>⚡ Fast Mode</strong> (Recommended for Gemini, Mistral, GPT-4o Mini)
+                        <div style="font-size: 0.75rem; color: var(--text-lighter); margin-top: 0.25rem;">
+                            Filters corpus to relevant sections (~70% smaller). 2x faster, lower cost, minimal quality loss (tested by GPT-4o). ⚠️ Claude 3.5 needs full corpus for complete meals.
+                        </div>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="section-card">
+            <h2 class="section-title">Athlete Profile</h2>
+            <form id="profileForm" class="profile-form">
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Weight (kg)</span>
+                        <input type="number" id="weight" name="weight_kg" step="0.1" min="30" max="200" value="70" required class="form-input">
+                    </label>
+                    <label class="form-label">
+                        <span>Height (cm)</span>
+                        <input type="number" id="height" name="height_cm" step="1" min="120" max="230" value="175" required class="form-input">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Gender</span>
+                        <select id="gender" name="gender" class="form-select" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>Timezone</span>
+                        <select id="timezone" name="timezone" class="form-select" required>
+                            <option value="Asia/Jerusalem">Asia/Jerusalem (Israel)</option>
+                            <option value="America/New_York">America/New York (EST)</option>
+                            <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+                            <option value="Europe/London">Europe/London (GMT)</option>
+                            <option value="Europe/Paris">Europe/Paris (CET)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Training Phase 
+                            <button type="button" class="info-btn-inline" onclick="showPhaseInfo()" style="background: none; border: none; cursor: pointer; font-size: 0.9rem; color: var(--accent); margin-left: 0.25rem;" title="Click for phase explanations">ℹ️</button>
+                        </span>
+                        <select id="trainingPhase" name="training_phase" class="form-select" required>
+                            <option value="base">Base (Building endurance)</option>
+                            <option value="build">Build (Increasing intensity)</option>
+                            <option value="race">Race (Peak performance)</option>
+                            <option value="taper">Taper (Pre-race reduction)</option>
+                            <option value="recovery">Recovery (Active rest)</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>Goal</span>
+                        <select id="goal" name="goal" class="form-select" required>
+                            <option value="performance">Performance</option>
+                            <option value="fat_loss">Fat Loss with Performance</option>
+                            <option value="hypertrophy">Muscle Hypertrophy</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Dietary Pattern</span>
+                        <select id="dietPattern" name="diet_pattern" class="form-select" required>
+                            <option value="omnivore">Omnivore</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="low_fodmap">Low FODMAP</option>
+                            <option value="gluten_free">Gluten Free</option>
+                        </select>
+                    </label>
+                    <label class="form-label">
+                        <span>GI Tolerance</span>
+                        <select id="giTolerance" name="gi_tolerance" class="form-select" required>
+                            <option value="low">Low (Sensitive stomach)</option>
+                            <option value="medium" selected>Medium (Normal)</option>
+                            <option value="high">High (Can eat anything)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        <span>Sweat Rate (mL/hr, optional)</span>
+                        <input type="number" id="sweatRate" name="sweat_rate" step="50" min="0" max="3000" placeholder="e.g., 1000" class="form-input">
+                    </label>
+                    <div class="form-label">
+                        <span>Special Populations</span>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="masters">
+                                <span>Masters (>35 years)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="female_specific">
+                                <span>Female-specific considerations</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="youth">
+                                <span>Youth athlete</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Workout Builder -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2 class="section-title">Today's Workouts</h2>
+                <button type="button" id="addWorkoutBtn" class="btn btn-secondary">+ Add Workout</button>
+            </div>
+            <div id="workoutsList" class="workouts-list">
+                <!-- Workout cards will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="generate-section">
+            <button type="button" id="generateBtn" class="btn btn-primary btn-large">
+                Generate Plan
+            </button>
+            <button type="button" id="viewPromptBtn" class="btn btn-secondary" style="margin-left: 1rem;">
+                👁️ View Prompt
+            </button>
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+
+        <!-- Output Section -->
+        <div id="outputSection" class="section-card" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Generated Daily Plan</h2>
+                <div id="costDisplay" class="cost-display"></div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="summary">📊 Summary</button>
+                <button class="tab-btn" data-tab="timeline">🕑 Timeline</button>
+                <button class="tab-btn" data-tab="prompt">💬 Prompt & Response</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Summary Tab -->
+                <div id="summaryTab" class="tab-pane active">
+                    <div id="summaryContent">
+                        <!-- Summary will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Timeline Tab -->
+                <div id="timelineTab" class="tab-pane">
+                    <div class="timeline-actions" style="margin-bottom: 1rem;">
+                        <button type="button" onclick="copyTimeline()" class="btn btn-secondary">📋 Copy Timeline</button>
+                        <button type="button" onclick="savePlan()" class="btn btn-secondary">💾 Save Plan (JSON)</button>
+                    </div>
+                    <div id="timelineContent">
+                        <!-- Timeline will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Prompt & Response Tab -->
+                <div id="promptTab" class="tab-pane">
+                    <div class="collapsible-section">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span><strong>📤 Prompt Sent</strong></span>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content truncated" id="promptContentContainer">
+                            <div class="json-actions" style="margin-bottom: 0.5rem;">
+                                <button type="button" onclick="copyToClipboard('promptContent', 'Prompt')" class="btn btn-secondary" style="font-size: 0.875rem; padding: 0.5rem 1rem;">Copy Prompt</button>
+                            </div>
+                            <pre id="promptContent" class="json-output"></pre>
+                        </div>
+                    </div>
+                    <div class="collapsible-section">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span><strong>📥 AI Response</strong></span>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content truncated" id="responseContentContainer">
+                            <div class="json-actions" style="margin-bottom: 0.5rem;">
+                                <button type="button" onclick="copyToClipboard('responseContent', 'Response')" class="btn btn-secondary" style="font-size: 0.875rem; padding: 0.5rem 1rem;">Copy Response</button>
+                            </div>
+                            <pre id="responseContent" class="json-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Generating your personalized daily plan...</p>
+    </div>
+
+    <!-- Phase Info Modal -->
+    <div id="phaseInfoModal" class="info-modal" style="display: none;">
+        <div class="info-modal-content" style="max-width: 600px;">
+            <div class="info-modal-header">
+                <h3>Training Phases</h3>
+                <button class="info-modal-close" onclick="closePhaseInfo()">×</button>
+            </div>
+            <div class="info-modal-body">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 1rem;"><strong>Base:</strong> Building aerobic foundation with high volume, lower intensity</li>
+                    <li style="margin-bottom: 1rem;"><strong>Build:</strong> Increasing workout intensity and specificity for event</li>
+                    <li style="margin-bottom: 1rem;"><strong>Race:</strong> Peak performance phase, maintaining fitness while reducing fatigue</li>
+                    <li style="margin-bottom: 1rem;"><strong>Taper:</strong> Pre-race reduction in volume (50-70%) to optimize freshness while maintaining glycogen stores</li>
+                    <li><strong>Recovery:</strong> Active recovery with low intensity to facilitate adaptation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="version-footer">
+        v1.0-beta (Nov 2025) | <a href="https://github.com/anatgotfried/BurnRate_Helper">GitHub</a>
+    </footer>
+
+    <script src="macro-calculator.js"></script>
+    <script src="cost-calculator.js"></script>
+    <script src="corpus-filter.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
