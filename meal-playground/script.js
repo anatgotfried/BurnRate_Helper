@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.6.4';
+const VERSION = '1.6.5';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -1145,6 +1145,14 @@ function displayCost(usage, model, autoFixed) {
             costDisplay.innerHTML = '<div class="cost-summary"><span class="cost-details">Cost calculation error</span></div>';
             return;
         }
+        
+        // Store cost info for feedback system
+        window.lastCostInfo = {
+            estimated_cost: costInfo.totalCost || 0,
+            tokens_in: costInfo.promptTokens || 0,
+            tokens_out: costInfo.completionTokens || 0
+        };
+        console.log('💰 Stored cost info:', window.lastCostInfo);
         
         const cumulative = addToCumulativeCost(costInfo);
         
