@@ -430,15 +430,31 @@ function distributeRemainingMeals(remaining, numMeals, lockedMeals, workoutMeals
 /**
  * Merge meals that are too close together
  * @param {Array} timeline - Sorted timeline entries
- * @param {number} minGapMinutes - Minimum minutes between meals
+ * @param {number} minGapMinutes - Minimum minutes between meals (standard)
+ * @param {number} postWorkoutDinnerGap - Larger gap for post-workout + dinner merges
  * @returns {Array} Timeline with merged meals
  * 
  * Example: Post-swim at 07:15 + Pre-bike at 07:30 (15min apart)
  * → Merged to "Recovery + Pre-Bike Fuel" at 07:22 with combined macros
+ * 
+ * Example: Post-run at 18:15 + Dinner at 19:30 (75min apart)
+ * → Merged to "Recovery Dinner" at 18:52 with combined macros
  */
-function mergeMealsTooClose(timeline, minGapMinutes) {
+function mergeMealsTooClose(timeline, minGapMinutes, postWorkoutDinnerGap = 90) {
     const merged = [];
     let i = 0;
+    
+    // Helper to check if meal is a post-workout meal
+    const isPostWorkoutMeal = (entry, prevEntry) => {
+        return entry.type === 'meal' && 
+               prevEntry && prevEntry.type === 'workout';
+    };
+    
+    // Helper to check if meal is a regular dinner/evening meal (after 18:00)
+    const isEveningMeal = (entry) => {
+        const [h] = entry.time.split(':').map(Number);
+        return h >= 18 && entry.type === 'meal';
+    };
     
     while (i < timeline.length) {
         const current = timeline[i];
@@ -454,15 +470,30 @@ function mergeMealsTooClose(timeline, minGapMinutes) {
         if (i + 1 < timeline.length) {
             const next = timeline[i + 1];
             const gap = getTimeDifferenceMinutes(current.time, next.time);
+            const prevEntry = i > 0 ? timeline[i - 1] : null;
             
-            if (gap < minGapMinutes && gap >= 0 && 
+            // Determine merge threshold based on meal types
+            let threshold = minGapMinutes;
+            
+            // Special case: Post-workout + dinner/evening meal (18:00-20:00 window)
+            // Many athletes eat dinner shortly after evening workout - merge if <90min gap
+            if (isPostWorkoutMeal(current, prevEntry) && isEveningMeal(next)) {
+                threshold = postWorkoutDinnerGap; // 90min gap for post-workout + dinner
+            }
+            
+            // Special case: Any evening meal + late snack (merge if <2 hours)
+            if (isEveningMeal(current) && isEveningMeal(next)) {
+                threshold = 120; // 2-hour threshold for dinner + dessert
+            }
+            
+            if (gap < threshold && gap >= 0 && 
                 next.type === 'meal' && !next.locked) {
                 
                 // Merge current and next
                 const mergedMeal = {
                     time: getMidpointTime(current.time, next.time),
                     type: 'meal',
-                    name: null, // AI will name it appropriately (e.g., "Recovery + Pre-Bike Fuel")
+                    name: null, // AI will name it appropriately
                     carbs_g: current.carbs_g + next.carbs_g,
                     protein_g: current.protein_g + next.protein_g,
                     fat_g: current.fat_g + next.fat_g,
@@ -605,8 +636,10 @@ function generateTimelineSkeleton(athlete, workouts, lockedMeals, targets) {
     let timeline = [...workoutMeals, ...lockedTimeline, ...regularMeals];
     timeline.sort((a, b) => a.time.localeCompare(b.time));
     
-    // 6.5. Merge meals that are unrealistically close (<45 minutes apart)
-    timeline = mergeMealsTooClose(timeline, 45); // Minimum 45min between meals
+    // 6.5. Merge meals that are unrealistically close
+    // Standard threshold: 45 minutes
+    // Post-workout + dinner: 90 minutes (common to eat dinner shortly after evening workout)
+    timeline = mergeMealsTooClose(timeline, 45, 90); // 45min standard, 90min for post-workout+dinner
     
     // 7. Calculate totals
     const totals = {

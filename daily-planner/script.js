@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.5.2';
+const VERSION = '2.6';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -435,7 +435,7 @@ function buildPrompts(context, skeleton = null) {
     // Build skeleton text
     let skeletonText;
     if (skeleton && skeleton.timeline) {
-        skeletonText = `Here is a programmatically generated timeline skeleton (research-calculated):\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nSkeleton totals: ${skeleton.totals.carbs_g}C / ${skeleton.totals.protein_g}P / ${skeleton.totals.fat_g}F / ${skeleton.totals.calories} kcal\n\nYour job:\n1. Fill in meal names using athlete-focused language:\n   - Pre-workout → "Pre-[Sport] Fuel" (e.g., "Pre-Swim Fuel")\n   - Post-workout → "Post-[Sport] Recovery" (e.g., "Post-Bike Recovery")\n   - Merged meals → Combine terms (e.g., "Recovery + Fuel")\n   - Regular meals → Standard names ("Breakfast", "Lunch", "Dinner")\n2. Fix timing if obviously wrong\n3. Redistribute macros ONLY if totals deviate >5% from targets\n4. Keep same number of entries\n5. DO NOT change locked meals\n\nMaintain macro totals within ±2% of targets.`;
+        skeletonText = `Here is a programmatically generated timeline skeleton (research-calculated):\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nSkeleton totals: ${skeleton.totals.carbs_g}C / ${skeleton.totals.protein_g}P / ${skeleton.totals.fat_g}F / ${skeleton.totals.calories} kcal\n\nYour job:\n1. Fill in meal names using athlete-focused language:\n   - Pre-workout → "Pre-[Sport] Fuel" (e.g., "Pre-Swim Fuel")\n   - Post-workout → "Post-[Sport] Recovery" (e.g., "Post-Bike Recovery")\n   - Post-workout merged with dinner → "Recovery Dinner" or "Post-[Sport] Dinner"\n   - Last meal of day (after 20:00) → "Evening Snack / Dessert"\n   - Regular meals → Standard names ("Breakfast", "Lunch", "Dinner")\n2. Fix timing if obviously wrong\n3. Redistribute macros ONLY if totals deviate >5% from targets\n4. Keep same number of entries\n5. DO NOT change locked meals\n\nMaintain macro totals within ±2% of targets.`;
     } else {
         skeletonText = 'Generate the complete timeline from scratch.';
     }
