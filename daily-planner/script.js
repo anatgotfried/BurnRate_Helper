@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '1.4';
+const VERSION = '1.5';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -7,6 +7,7 @@ const API_URL = window.location.hostname === 'localhost'
     : window.location.origin;
 
 let workouts = [];
+let lockedMeals = [];
 let researchCorpus = {};
 let currentPlanData = null;
 let testAthletes = [];
@@ -21,6 +22,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Event listeners FIRST (before anything that could error)
     try {
         document.getElementById('addWorkoutBtn').addEventListener('click', addWorkout);
+        document.getElementById('addLockedMealBtn').addEventListener('click', addLockedMeal);
         document.getElementById('generateBtn').addEventListener('click', generatePlan);
         document.getElementById('viewPromptBtn').addEventListener('click', viewPromptOnly);
         document.getElementById('loadAthleteSelect').addEventListener('change', loadAthleteProfile);
@@ -179,6 +181,102 @@ function removeWorkout(id) {
     renderWorkouts();
 }
 
+// Add locked meal
+function addLockedMeal() {
+    const meal = {
+        id: Date.now(),
+        time: '12:00',
+        name: 'Team Lunch',
+        carbs: 100,
+        protein: 30,
+        fat: 15,
+        sodium: 800,
+        hydration: 500
+    };
+    
+    lockedMeals.push(meal);
+    renderLockedMeals();
+}
+
+// Remove locked meal
+function removeLockedMeal(id) {
+    lockedMeals = lockedMeals.filter(m => m.id !== id);
+    renderLockedMeals();
+}
+
+// Update locked meal
+function updateLockedMeal(id, field, value) {
+    const meal = lockedMeals.find(m => m.id === id);
+    if (meal) {
+        if (field === 'carbs' || field === 'protein' || field === 'fat' || field === 'sodium' || field === 'hydration') {
+            meal[field] = parseFloat(value) || 0;
+        } else {
+            meal[field] = value;
+        }
+        renderLockedMeals();
+    }
+}
+
+// Render locked meals
+function renderLockedMeals() {
+    const container = document.getElementById('lockedMealsList');
+    if (!container) return;
+    
+    if (lockedMeals.length === 0) {
+        container.innerHTML = '<p style="color: #6b7280; font-style: italic;">No locked meals added. Click "+ Add Locked Meal" to add meals you\'ve already planned.</p>';
+        return;
+    }
+    
+    container.innerHTML = lockedMeals.map(meal => `
+        <div class="workout-card" style="border-left: 4px solid #f59e0b;">
+            <div class="workout-header">
+                <span class="workout-number" style="background: #f59e0b;">🔒</span>
+                <button onclick="removeLockedMeal(${meal.id})" class="btn btn-danger" style="margin-left: auto;">Remove</button>
+            </div>
+            <div class="workout-form">
+                <label class="form-label">
+                    <span>Time</span>
+                    <input type="time" class="form-input" value="${meal.time}" 
+                        onchange="updateLockedMeal(${meal.id}, 'time', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Meal Name</span>
+                    <input type="text" class="form-input" value="${meal.name}" placeholder="e.g., Team Lunch"
+                        onchange="updateLockedMeal(${meal.id}, 'name', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Carbs (g)</span>
+                    <input type="number" class="form-input" value="${meal.carbs}" min="0" max="300" 
+                        onchange="updateLockedMeal(${meal.id}, 'carbs', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Protein (g)</span>
+                    <input type="number" class="form-input" value="${meal.protein}" min="0" max="150" 
+                        onchange="updateLockedMeal(${meal.id}, 'protein', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Fat (g)</span>
+                    <input type="number" class="form-input" value="${meal.fat}" min="0" max="100" 
+                        onchange="updateLockedMeal(${meal.id}, 'fat', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Sodium (mg)</span>
+                    <input type="number" class="form-input" value="${meal.sodium}" min="0" max="3000" 
+                        onchange="updateLockedMeal(${meal.id}, 'sodium', this.value)">
+                </label>
+                <label class="form-label">
+                    <span>Hydration (ml)</span>
+                    <input type="number" class="form-input" value="${meal.hydration}" min="0" max="2000" 
+                        onchange="updateLockedMeal(${meal.id}, 'hydration', this.value)">
+                </label>
+            </div>
+            <div style="margin-top: 0.5rem; padding: 0.5rem; background: #fef3c7; border-radius: 4px; font-size: 0.875rem;">
+                <strong>Locked:</strong> ${((meal.carbs * 4) + (meal.protein * 4) + (meal.fat * 9)).toFixed(0)} kcal | ${meal.carbs}g C | ${meal.protein}g P | ${meal.fat}g F
+            </div>
+        </div>
+    `).join('');
+}
+
 // Update workout
 function updateWorkout(id, field, value) {
     const workout = workouts.find(w => w.id === id);
@@ -265,6 +363,7 @@ function buildContext() {
         gi_tolerance: formData.get('gi_tolerance'),
         sweat_rate: formData.get('sweat_rate'),
         timezone: formData.get('timezone'),
+        meals_per_day: parseInt(formData.get('meals_per_day')) || 4,
         populations: []
     };
     
@@ -288,10 +387,32 @@ function buildContext() {
     // Calculate daily targets
     const calculated_targets = calculateDailyTargets(athlete, normalizedWorkouts);
     
+    // Calculate locked meal totals
+    const locked_meal_totals = {
+        calories: 0,
+        carbs_g: 0,
+        protein_g: 0,
+        fat_g: 0,
+        sodium_mg: 0,
+        hydration_ml: 0
+    };
+    
+    lockedMeals.forEach(meal => {
+        locked_meal_totals.carbs_g += meal.carbs || 0;
+        locked_meal_totals.protein_g += meal.protein || 0;
+        locked_meal_totals.fat_g += meal.fat || 0;
+        locked_meal_totals.sodium_mg += meal.sodium || 0;
+        locked_meal_totals.hydration_ml += meal.hydration || 0;
+        // Calculate calories from macros
+        locked_meal_totals.calories += (meal.carbs * 4) + (meal.protein * 4) + (meal.fat * 9);
+    });
+    
     return {
         athlete,
         workouts: normalizedWorkouts,
-        calculated_targets
+        calculated_targets,
+        locked_meals: lockedMeals,
+        locked_meal_totals
     };
 }
 
@@ -311,9 +432,15 @@ function buildPrompts(context) {
     }
     
     // Build Pass 1 prompt (computation)
+    const lockedMealsText = context.locked_meals && context.locked_meals.length > 0 
+        ? JSON.stringify(context.locked_meals, null, 2) 
+        : "No locked meals - you have full flexibility to create the entire timeline.";
+    
     let promptPass1 = promptTemplatePass1
         .replace('{RESEARCH_CORPUS}', JSON.stringify(corpus, null, 2))
-        .replace('{CONTEXT}', JSON.stringify(context, null, 2));
+        .replace('{CONTEXT}', JSON.stringify(context, null, 2))
+        .replace('{LOCKED_MEALS}', lockedMealsText)
+        .replace('{MEALS_PER_DAY}', context.athlete.meals_per_day || 4);
     
     // Build Pass 2 prompt (tip generation) - will be completed after Pass 1
     let promptPass2 = promptTemplatePass2

@@ -8,6 +8,12 @@ Based on current consensus from ACSM (2016), ISSN (2017), Burke & Jeukendrup (20
 ## ATHLETE CONTEXT & CALCULATED TARGETS
 {CONTEXT}
 
+## LOCKED MEALS
+The user has pre-planned these meals. They are LOCKED and cannot be changed. You must work around them:
+{LOCKED_MEALS}
+
+**IMPORTANT:** Locked meals are already fixed in the timeline. Subtract their totals from your targets and allocate the remaining calories/macros to other meals.
+
 ## CRITICAL REQUIREMENTS
 
 ### GLOBAL TOLERANCES
@@ -52,10 +58,11 @@ The timeline entries MUST sum exactly to these totals. Before returning, verify:
 - **Multi-workout:** If workouts <3 hours apart, merge post- and pre-fueling into one shared meal
 
 **Step 2: Allocate Workout Meals First** (if workouts exist)
-- **Pre-workout meals**: 1-4 hours before (separate timeline entry)
-- **Post-workout meals**: 30-60 min after (separate timeline entry)
+- **Pre-workout meals**: 1-4 hours before (separate timeline entry) - UNLESS a locked meal already covers this time
+- **Post-workout meals**: 30-60 min after (separate timeline entry) - UNLESS a locked meal already covers this time
 - **Intra-workout fuel**: Include carbs/fluids consumed DURING the workout in the workout entry itself (NOT a separate entry)
 - For workouts >90 min or very high intensity, add appropriate carbs to the workout entry's macros
+- **IF locked meal conflicts with workout meal timing:** Skip creating the workout meal and adjust macros in remaining meals to compensate
 - Calculate: `workout_calories`, `workout_carbs`, `workout_protein`, `workout_fat`
 
 **Step 3: Calculate Remaining**
@@ -63,7 +70,10 @@ The timeline entries MUST sum exactly to these totals. Before returning, verify:
 - `remaining_carbs = total_carbs_target - workout_carbs` (same for protein, fat)
 
 **Step 4: Distribute to Regular Meals**
-- Distribute remaining across breakfast, lunch, dinner, snacks
+- **IMPORTANT:** User wants exactly `{MEALS_PER_DAY}` regular meals (not including workout meals or locked meals)
+- Distribute remaining calories across this exact number of meals
+- Account for locked meals: if user has a locked lunch, only generate (meals_per_day - 1) additional meals
+- Typical names: Breakfast, Mid-Morning Snack, Lunch, Afternoon Snack, Dinner, Evening Snack
 - Protein: evenly (0.3-0.4g/kg per meal)
 - Carbs: higher around workouts, moderate elsewhere
 - Fat: lower around workouts, higher away from training
@@ -155,13 +165,29 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations. First char
 ```
 
 **TIMELINE ENTRY CONSOLIDATION:**
-- Pre-workout meal (separate entry)
+- Locked meals (MUST be included exactly as provided - do not modify)
+- Pre-workout meal (separate entry) - skip if locked meal already covers this time
 - Workout entry (includes any intra-workout fuel in THIS entry)
-- Post-workout meal (separate entry)
-- Regular meals (breakfast, lunch, dinner, snacks as needed)
+- Post-workout meal (separate entry) - skip if locked meal already covers this time
+- Regular meals (breakfast, lunch, dinner, snacks as needed) - fill gaps not covered by locked meals
 
-**TYPICAL DAY**: 3 workouts = ~9-11 entries total (3 pre + 3 workouts + 3 post + 2-3 regular meals)
-**DO NOT EXCEED** 12 timeline entries unless there are 4+ workouts
+**TIMELINE ENTRY CALCULATION:**
+```
+Total entries = locked_meals + (workouts × 3) + regular_meals
+
+Where:
+  - locked_meals = user-defined (MUST include exactly as given)
+  - workouts × 3 = pre-workout + workout + post-workout for each
+  - regular_meals = {MEALS_PER_DAY} minus any locked meals that count as regular meals
+
+Example 1: 3 workouts, 0 locked, wants 4 meals/day
+  = 0 + (3×3) + 4 = 13 entries
+
+Example 2: 3 workouts, 1 locked lunch, wants 4 meals/day
+  = 1 + (3×3) + 3 = 13 entries (only need 3 more meals since lunch is locked)
+```
+
+**DO NOT EXCEED** 15 timeline entries unless there are 5+ workouts
 
 ## VALIDATION CHECKLIST
 
@@ -174,11 +200,12 @@ Before returning, verify (use tolerances from Global Tolerances section):
 6. ✅ Timeline sorted chronologically by time
 7. ✅ Every entry has `hydration_ml` (not `hydration_l`)
 8. ✅ NO separate "intra-workout" or "hydration" entries - fuel is included in workout entries
-9. ✅ Timeline entry count is reasonable (typically 9-11 for 3 workouts, NOT 14+)
-10. ✅ `schema_version` is "1.0"
-11. ✅ `phase` is Title Case: "Base", "Build", "Race", "Taper", or "Recovery"
-12. ✅ `goal` matches athlete profile
-13. ✅ No trailing commas in JSON
-14. ✅ All numeric values are numbers (not strings)
-15. ✅ All values rounded to nearest whole number
+9. ✅ Timeline entry count matches calculation: locked_meals + (workouts × 3) + regular_meals = {MEALS_PER_DAY}
+10. ✅ All locked meals are included in timeline exactly as provided (same time, name, macros)
+11. ✅ `schema_version` is "1.0"
+12. ✅ `phase` is Title Case: "Base", "Build", "Race", "Taper", or "Recovery"
+13. ✅ `goal` matches athlete profile
+14. ✅ No trailing commas in JSON
+15. ✅ All numeric values are numbers (not strings)
+16. ✅ All values rounded to nearest whole number
 

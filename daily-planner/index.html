@@ -30,8 +30,8 @@
     </header>
 
     <!-- Version Badge (Top Right) -->
-    <div class="version-badge" id="versionBadge" title="Version 1.4 - Complete macro scaling (carbs, protein, fat) with warnings (2025-11-04)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
-        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.4</span>
+    <div class="version-badge" id="versionBadge" title="Version 1.5 - Locked meals & meal frequency preferences (2025-11-04)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">1.5</span>
     </div>
 
     <!-- Hero Section -->
@@ -159,6 +159,19 @@
                         <span>Sweat Rate (mL/hr, optional)</span>
                         <input type="number" id="sweatRate" name="sweat_rate" step="50" min="0" max="3000" placeholder="e.g., 1000" class="form-input">
                     </label>
+                    <label class="form-label">
+                        <span>Preferred Meals/Day</span>
+                        <select id="mealsPerDay" name="meals_per_day" class="form-select" required>
+                            <option value="3">3 meals (breakfast, lunch, dinner)</option>
+                            <option value="4" selected>4 meals (+ 1 snack)</option>
+                            <option value="5">5 meals (+ 2 snacks)</option>
+                            <option value="6">6 meals (+ 3 snacks)</option>
+                        </select>
+                        <small style="color: #6b7280; font-size: 0.875rem;">Pre/post workout meals are additional</small>
+                    </label>
+                </div>
+
+                <div class="form-row">
                     <div class="form-label">
                         <span>Special Populations</span>
                         <div class="checkbox-group">
@@ -188,6 +201,18 @@
             </div>
             <div id="workoutsList" class="workouts-list">
                 <!-- Workout cards will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Locked Meals (Optional) -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2 class="section-title">🔒 Locked Meals (Optional)</h2>
+                <button type="button" id="addLockedMealBtn" class="btn btn-secondary">+ Add Locked Meal</button>
+            </div>
+            <p class="section-description">Add meals you've already planned (e.g., team lunch, family dinner). The system will work around these.</p>
+            <div id="lockedMealsList" class="workouts-list">
+                <!-- Locked meal cards will be added here dynamically -->
             </div>
         </div>
 
