@@ -38,6 +38,7 @@ def normalize_timeline_entry(entry):
     return entry
 
 @app.route('/api/generate', methods=['POST'])
+@app.route('/daily-planner/api/generate', methods=['POST'])
 def generate_plan():
     """
     Generate daily plan using OpenRouter API

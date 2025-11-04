@@ -4,7 +4,7 @@ const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5002' 
-    : 'https://burn-rate-helper.vercel.app';
+    : window.location.origin;
 
 let workouts = [];
 let researchCorpus = {};
@@ -353,7 +353,7 @@ async function generatePlan() {
     showStatus(`Generating with ${selectedModel}... (prompt: ~${promptTokens.toLocaleString()} tokens)`, 'info');
     
     try {
-        const response = await fetch(`${API_URL}/api/generate`, {
+        const response = await fetch(`${API_URL}/daily-planner/api/generate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

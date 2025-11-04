@@ -6,6 +6,10 @@
       "use": "@vercel/python"
     },
     {
+      "src": "daily-planner/app.py",
+      "use": "@vercel/python"
+    },
+    {
       "src": "**/*.html",
       "use": "@vercel/static"
     },
@@ -27,6 +31,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/daily-planner/api/(.*)",
+      "dest": "daily-planner/app.py"
+    },
     {
       "src": "/api/(.*)",
       "dest": "meal-playground/app.py"
@@ -50,6 +58,14 @@
     {
       "src": "/tp-validator/(.*)",
       "dest": "/tp-validator/$1"
+    },
+    {
+      "src": "/daily-planner",
+      "dest": "/daily-planner/index.html"
+    },
+    {
+      "src": "/daily-planner/(.*)",
+      "dest": "/daily-planner/$1"
     },
     {
       "src": "/",
