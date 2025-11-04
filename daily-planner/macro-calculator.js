@@ -58,8 +58,36 @@ function calculateDailyTargets(athlete, workouts) {
         deficitPercent = -10;
     }
     
-    // Calculate calories from macros (may differ slightly from target)
-    const caloriesFromMacros = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
+    // Calculate calories from macros
+    let caloriesFromMacros = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
+    
+    // CRITICAL FIX: Adjust macros to match calorie target if there's a mismatch
+    let adjustedProtein = protein.target_g;
+    let adjustedCarbs = carbs.target_g;
+    let adjustedFat = fat.target_g;
+    
+    const tolerance = 0.02; // ±2%
+    if (Math.abs(caloriesFromMacros - targetCalories) > targetCalories * tolerance) {
+        console.log(`⚠️ Macro-calorie mismatch: ${caloriesFromMacros} kcal from macros vs ${targetCalories} kcal target`);
+        
+        // Scale macros to match calorie target
+        // Priority: Keep protein constant (preserve muscle), adjust carbs and fat proportionally
+        const scaleFactor = targetCalories / caloriesFromMacros;
+        
+        // Keep protein constant (critical for muscle preservation)
+        adjustedProtein = protein.target_g;
+        
+        // Scale carbs and fat proportionally
+        adjustedCarbs = carbs.target_g * scaleFactor;
+        adjustedFat = fat.target_g * scaleFactor;
+        
+        // Recalculate to verify
+        const newCalories = (adjustedProtein * 4) + (adjustedCarbs * 4) + (adjustedFat * 9);
+        
+        console.log(`✅ Adjusted macros: ${Math.round(adjustedCarbs)}C / ${Math.round(adjustedProtein)}P / ${Math.round(adjustedFat)}F = ${Math.round(newCalories)} kcal`);
+        
+        caloriesFromMacros = newCalories;
+    }
     
     // Calorie breakdown for info modal
     const calorieBreakdown = {
@@ -71,15 +99,15 @@ function calculateDailyTargets(athlete, workouts) {
         isFatLoss: goal === 'fat_loss' || goal === 'fat_loss_with_performance',
         isSurplus: goal === 'muscle_gain' || goal === 'hypertrophy',
         deficitPercent: deficitPercent,
-        caloriesFromMacros: caloriesFromMacros
+        caloriesFromMacros: Math.round(caloriesFromMacros)
     };
     
     return {
         weight_kg: weight,
         daily_energy_target_kcal: targetCalories,
-        daily_protein_target_g: Math.round(protein.target_g),
-        daily_carb_target_g: Math.round(carbs.target_g),
-        daily_fat_target_g: Math.round(fat.target_g),
+        daily_protein_target_g: Math.round(adjustedProtein),
+        daily_carb_target_g: Math.round(adjustedCarbs),
+        daily_fat_target_g: Math.round(adjustedFat),
         hydration_target_l: parseFloat((hydration.target_ml / 1000).toFixed(1)),
         sodium_target_mg: Math.round(sodium.target_mg),
         calorie_breakdown: calorieBreakdown,
