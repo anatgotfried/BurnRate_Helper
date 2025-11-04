@@ -61,7 +61,10 @@ function calculateDailyTargets(athlete, workouts) {
     // Calculate calories from macros
     let caloriesFromMacros = Math.round(protein.target_g * 4 + carbs.target_g * 4 + fat.target_g * 9);
     
-    // CRITICAL FIX: Adjust macros to match calorie target if there's a mismatch
+    // CRITICAL FIX: Ensure calorie target matches macros
+    // The calorie target should equal the calories from macros, not vice versa
+    // Macros are what you actually eat - calories are derived from them
+    
     let adjustedProtein = protein.target_g;
     let adjustedCarbs = carbs.target_g;
     let adjustedFat = fat.target_g;
@@ -70,23 +73,13 @@ function calculateDailyTargets(athlete, workouts) {
     if (Math.abs(caloriesFromMacros - targetCalories) > targetCalories * tolerance) {
         console.log(`⚠️ Macro-calorie mismatch: ${caloriesFromMacros} kcal from macros vs ${targetCalories} kcal target`);
         
-        // Scale macros to match calorie target
-        // Priority: Keep protein constant (preserve muscle), adjust carbs and fat proportionally
-        const scaleFactor = targetCalories / caloriesFromMacros;
+        // SOLUTION: Use calories from macros as the true target
+        // Macros are calculated based on training load and research
+        // Calories should be a derived value, not independent
+        targetCalories = caloriesFromMacros;
         
-        // Keep protein constant (critical for muscle preservation)
-        adjustedProtein = protein.target_g;
-        
-        // Scale carbs and fat proportionally
-        adjustedCarbs = carbs.target_g * scaleFactor;
-        adjustedFat = fat.target_g * scaleFactor;
-        
-        // Recalculate to verify
-        const newCalories = (adjustedProtein * 4) + (adjustedCarbs * 4) + (adjustedFat * 9);
-        
-        console.log(`✅ Adjusted macros: ${Math.round(adjustedCarbs)}C / ${Math.round(adjustedProtein)}P / ${Math.round(adjustedFat)}F = ${Math.round(newCalories)} kcal`);
-        
-        caloriesFromMacros = newCalories;
+        console.log(`✅ Using macro-derived calories: ${Math.round(targetCalories)} kcal from ${Math.round(adjustedCarbs)}C / ${Math.round(adjustedProtein)}P / ${Math.round(adjustedFat)}F`);
+        console.log(`   Note: This overrides TDEE-based target to ensure consistency`);
     }
     
     // Calorie breakdown for info modal
