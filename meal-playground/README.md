@@ -1,166 +1,275 @@
 # 🍽️ BurnRate AI Meal Planner
 
-**Version:** 1.4.0  
-**Live:** [callback.burnrate.fit/meal-playground](https://callback.burnrate.fit/meal-playground/)  
-**Status:** ✅ Production Ready - Fully Tested & Scored by GPT-4o
+> **AI-powered meal planning for endurance athletes** — backed by sports nutrition research, tested across 9+ AI models, with real-time feedback tracking.
 
-AI-powered personalized sports nutrition meal planning with comprehensive model testing.
-
----
-
-## ⭐ **NEW in v1.4.0: GPT-4o Scored All Models!**
-
-**Winner:** Gemini 2.5 Flash (9.0/10 score, FREE, 27.7s)  
-**Most Accurate:** Qwen 2.5 72B (9.4/10 score, perfect macros)  
-**Removed:** GPT-4o (7.0/10 score, expensive, weak macros)
-
-See `testing/scores/COMPARISON_REPORT.md` for full GPT-4o analysis!
+**Current Version:** v1.6.5  
+**Status:** ✅ Production Ready  
+**Live Demo:** [callback.burnrate.fit/meal-playground](https://callback.burnrate.fit/meal-playground/)
 
 ---
 
-## 🚀 **Quick Start**
+## 📋 Quick Links
 
-**Live App:** https://callback.burnrate.fit/meal-playground/
-
-1. Fill in profile (70kg default)
-2. Add workouts (1 run default)
-3. Click "Generate Meal Plan"
-4. Wait ~28 seconds
-5. Get 8-meal plan with full macros!
+- **[Start Here](docs/user-guides/START_HERE.md)** - New to the project? Begin here
+- **[Quickstart Guide](docs/user-guides/QUICKSTART.md)** - Get running in 5 minutes
+- **[Documentation Index](docs/INDEX.md)** - Complete documentation map
+- **[Troubleshooting](docs/user-guides/TROUBLESHOOTING.md)** - Common issues & fixes
 
 ---
 
-## 📁 **Documentation Structure**
+## 🎯 What is This?
+
+BurnRate Meal Planner generates **scientifically-backed daily meal plans** for endurance athletes based on:
+
+- **Athlete profile** (weight, height, age, gender, training phase, dietary preferences)
+- **Workout schedule** (type, duration, intensity)
+- **Training goals** (performance, fat loss, muscle gain)
+- **Research corpus** (Burke2011, Jeukendrup2011, Morton2018, ISSN2017, ACSM2016)
+
+### ✨ Key Features
+
+- ✅ **9 AI models tested** (GPT-4o, Claude, Gemini, Mistral, Qwen)
+- ✅ **Accurate macro calculations** (TDEE, BMR, activity factors)
+- ✅ **Fast Mode** (token reduction via corpus filtering)
+- ✅ **Feedback system** (n8n + Google Sheets integration)
+- ✅ **Cost tracking** (real-time token & cost monitoring)
+- ✅ **Israeli localization** (Tnuva, Osem, Strauss alternatives)
+- ✅ **Test athlete library** (11 pre-configured profiles)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Python 3.9+**
+- **OpenRouter API key** ([get one here](https://openrouter.ai))
+- **Vercel account** (for production deployment)
+
+### Local Development
+
+```bash
+# 1. Clone the repo
+cd meal-playground
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Set up environment
+cp .env.example .env
+# Add your OPENROUTER_API_KEY to .env
+
+# 4. Run the Flask backend
+python app.py
+# Backend runs on http://localhost:5001
+
+# 5. Open the frontend
+# Open index.html in your browser
+# Or use a local server: python -m http.server 8000
+```
+
+### Production Deployment
+
+```bash
+# Deploy to Vercel
+vercel --prod
+
+# Set environment variables
+vercel env add OPENROUTER_API_KEY production
+vercel env add N8N_FEEDBACK_WEBHOOK production
+
+# Verify deployment
+curl https://burn-rate-helper.vercel.app/api/health
+```
+
+📖 **Full deployment guide:** [docs/setup/DEPLOYMENT.md](docs/setup/DEPLOYMENT.md)
+
+---
+
+## 📁 Project Structure
 
 ```
-📚 docs/
-  ├── user-guides/          ← Start here!
-  │   ├── START_HERE.md     ← Read this first
-  │   ├── QUICKSTART.md
-  │   ├── TRANSPARENCY_FEATURES.md
-  │   ├── TROUBLESHOOTING.md
-  │   └── MODEL_GUIDE.md
-  │
-  ├── setup/                ← For installation
-  │   ├── ENV_SETUP.md
-  │   ├── DEPLOYMENT.md
-  │   └── ADD_GEMINI_MODELS.md
-  │
-  ├── test-results/         ← Test data & reports
-  │   ├── MODEL_TEST_REPORT.md
-  │   ├── TEST_RESULTS_TABLE.md
-  │   └── ...
-  │
-  └── development/          ← For developers
-      ├── VERSION.md
-      ├── CODE_REVIEW.md
-      └── ...
-
-🧪 testing/
-  ├── test1_structure/      ← Structure-only test results (8 JSONs)
-  ├── test2_full/           ← Full meal test results (8 JSONs)
-  ├── scores/               ← GPT-4o scores & comparison
-  │   ├── test2-scores.json
-  │   └── COMPARISON_REPORT.md ← **READ THIS!**
-  └── archive/              ← Previous test runs
+meal-playground/
+├── 🎨 FRONTEND
+│   ├── index.html              # Main app interface
+│   ├── script.js               # Core logic & API calls
+│   ├── styles.css              # Main styles
+│   ├── styles-info-modal.css   # Modal styles
+│   ├── feedback-modal.html     # Feedback form component
+│   ├── macro-calculator.js     # TDEE, BMR, macro calculations
+│   ├── corpus-filter.js        # Fast Mode token reduction
+│   ├── cost-calculator.js      # Token & cost tracking
+│   └── two-phase-generator.js  # Experimental generation logic
+│
+├── 🐍 BACKEND
+│   ├── app.py                  # Flask API server
+│   ├── requirements.txt        # Python dependencies
+│   ├── vercel.json            # Vercel deployment config
+│   └── render.yaml            # Render deployment config
+│
+├── 📊 DATA
+│   ├── data/
+│   │   ├── research_corpus.json    # Sports nutrition research
+│   │   └── test-athletes.json      # 11 test athlete profiles
+│   └── prompts/
+│       └── meal_planner_v2.txt     # Latest prompt template
+│
+├── 📚 DOCUMENTATION
+│   ├── docs/INDEX.md               # Documentation hub
+│   ├── docs/setup/                 # Setup guides
+│   ├── docs/user-guides/           # User documentation
+│   ├── docs/development/           # Developer docs
+│   └── docs/test-results/          # AI model test results
+│
+├── 🧪 TESTING
+│   └── testing/
+│       ├── test_models.py          # Python test runner
+│       ├── test-all-models.js      # JS test runner
+│       ├── run-model-tests.html    # Browser test UI
+│       ├── score_with_gpt4o.py     # GPT-4o scoring
+│       ├── test2_full/             # Full meal plan tests
+│       ├── test3_fast_comparison/  # Fast Mode comparison
+│       └── scores/                 # Test results & scores
+│
+└── 🔧 UTILITIES
+    ├── start.sh / start.bat        # Quick start scripts
+    └── script-github.js            # GitHub integration (WIP)
 ```
 
 ---
 
-## 🏆 **GPT-4o Scoring Results (Test 2 - Full Meals):**
+## 🧪 Testing & Model Performance
 
-| Rank | Model | Score | Strengths | Use For |
-|------|-------|-------|-----------|---------|
-| 🥇 | Qwen 2.5 72B | 9.4/10 | Perfect macros (10/10) | Accuracy-critical plans |
-| 🥈 | **Gemini 2.5 Flash** | **9.0/10** | FREE, fast, excellent rationales | **Daily use** ⭐ |
-| 🥈 | Gemini 2.0 Exp | 9.0/10 | FREE, very fast | Fast generation |
-| 🥈 | GPT-4o Mini | 9.0/10 | Perfect macros (10/10) | Reliability |
-| 🥈 | Mistral Small | 9.0/10 | Perfect macros (10/10), cheap | Budget scale |
-| 🥉 | Gemini 2.0 Flash | 8.0/10 | FREE, stable | Backup option |
-| 🥉 | Claude 3.5 Sonnet | 8.0/10 | Premium quality | When willing to pay |
-| 7 | GPT-4o | 7.0/10 | Fast but weak macros | ❌ Not recommended |
+We've comprehensively tested 9 AI models across multiple dimensions:
 
----
+### Test Results Summary
 
-## ✨ **Key Features**
+| Model | Accuracy Score | Speed | Cost | Recommended Use |
+|-------|---------------|-------|------|-----------------|
+| **GPT-4o** | 9.2/10 | Medium | $$$$ | Best overall quality |
+| **Claude 3.5 Sonnet** | 9.1/10 | Medium | $$$ | Complex calculations |
+| **Gemini 2.5 Flash** | 8.7/10 | Fast | $ | Production default |
+| **GPT-4o Mini** | 8.3/10 | Fast | $ | Budget option |
+| **Mistral Small** | 7.9/10 | Fast | $$ | Good balance |
 
-- 🤖 **7 AI Models** (GPT-4o scored & verified)
-- 👁️ **Full Transparency** - View prompts, responses, costs
-- 📊 **Deterministic Macros** - Evidence-based calculations
-- 🏃 **Workout-Aware** - Meal timing optimized for training
-- 💰 **Cost Tracking** - Session totals & estimates
-- 🇮🇱 **Israel Products** - Tnuva, Osem, Yotvata alternatives
-- 🔧 **Auto-Healing JSON** - Automatic error correction
+📊 **Full test results:** [docs/test-results/MODEL_TEST_REPORT.md](docs/test-results/MODEL_TEST_REPORT.md)
 
 ---
 
-## 📖 **Documentation**
+## 🔧 Configuration
 
-**Start Here:**
-1. `docs/user-guides/START_HERE.md` - 30-second overview
-2. `testing/scores/COMPARISON_REPORT.md` - GPT-4o scoring
-3. `docs/user-guides/QUICKSTART.md` - 5-minute setup
+### Environment Variables
 
-**All Docs:** See `docs/` folder for organized guides
+**Required:**
+- `OPENROUTER_API_KEY` - Your OpenRouter API key
 
----
+**Optional (for feedback system):**
+- `N8N_FEEDBACK_WEBHOOK` - n8n webhook URL for feedback collection
 
-## 🧪 **Testing Methodology**
+### Customization
 
-**Test 1:** Structure + Rationale only (lightweight)
-- 8 models tested
-- Results: `testing/test1_structure/`
-
-**Test 2:** Full meal generation (complete)
-- 8 models tested
-- Results: `testing/test2_full/`
-
-**Scoring:** GPT-4o evaluated all Test 2 results
-- 7 criteria per model
-- Overall score 1-10
-- Results: `testing/scores/`
+- **Research corpus:** Edit `data/research_corpus.json`
+- **Test athletes:** Edit `data/test-athletes.json`
+- **Prompt template:** Edit `prompts/meal_planner_v2.txt`
+- **Macro calculations:** Edit `macro-calculator.js`
+- **Fast Mode logic:** Edit `corpus-filter.js`
 
 ---
 
-## 💰 **Pricing (Verified by Testing)**
+## 📡 Feedback System
 
-| Model | Cost/Plan | GPT-4o Score | Best For |
-|-------|-----------|--------------|----------|
-| Gemini 2.5 Flash | FREE | 9.0/10 | Everything |
-| Mistral Small | $0.001 | 9.0/10 | Budget scale |
-| GPT-4o Mini | $0.015 | 9.0/10 | Reliability |
-| Claude 3.5 | $0.025 | 8.0/10 | Premium |
+The app includes a production-ready feedback system that captures:
 
----
+- Athlete profile & workout data
+- AI model performance metrics
+- Target vs. actual macros with diffs
+- Token usage & cost
+- User ratings & comments
 
-## 🚀 **Tech Stack**
+**Setup guide:** [docs/setup/N8N_FEEDBACK_SETUP.md](docs/setup/N8N_FEEDBACK_SETUP.md)
 
-- **Backend:** Python Flask (OpenRouter API proxy)
-- **Frontend:** Vanilla JavaScript
-- **AI:** OpenRouter (multi-model)
-- **Deployment:** Vercel
-- **Testing:** Python + GPT-4o evaluation
+**⚠️ Webhook payload structure is LOCKED** - see [docs/setup/WEBHOOK_PAYLOAD_SPEC_LOCKED.md](docs/setup/WEBHOOK_PAYLOAD_SPEC_LOCKED.md)
 
 ---
 
-## 📊 **Project Stats**
+## 🎓 Research & Science
 
-- **Lines of Code:** ~3,000
-- **Documentation:** 20+ markdown files
-- **Models Tested:** 9 (8 working, 1 removed)
-- **GPT-4o Scored:** 8 models
-- **Success Rate:** 100% (all working models)
-- **Versions:** 14 (v1.0.0 → v1.4.0)
+This planner is built on peer-reviewed sports nutrition research:
 
----
+- **Burke et al. (2011)** - Carbohydrate periodization for endurance
+- **Jeukendrup (2011)** - Nutrition for endurance sports
+- **Morton et al. (2018)** - Protein intake for athletes
+- **ACSM (2016)** - Nutrition and athletic performance
+- **ISSN (2017)** - International Society of Sports Nutrition guidelines
+- **McCubbin et al. (2025)** - Sodium and hydration strategies
 
-## 🔗 **Links**
-
-- **Live App:** https://callback.burnrate.fit/meal-playground/
-- **GitHub:** https://github.com/anatgotfried/BurnRate_Helper
-- **Version:** v1.4.0
+📖 **Corpus details:** `data/research_corpus.json`
 
 ---
 
-**Questions?** See `docs/user-guides/TROUBLESHOOTING.md` or open an issue.
+## 🛠️ Development
 
+### Key Technologies
+
+- **Frontend:** Vanilla JavaScript, HTML5, CSS3
+- **Backend:** Flask (Python)
+- **AI:** OpenRouter API (multi-model proxy)
+- **Deployment:** Vercel (serverless)
+- **Feedback:** n8n + Google Sheets
+- **Version Control:** Git/GitHub
+
+### Code Quality
+
+- ✅ No linter errors
+- ✅ Modular architecture
+- ✅ Comprehensive error handling
+- ✅ Cost tracking & monitoring
+- ✅ Production logging
+
+### Contributing
+
+1. Test locally before deploying
+2. Update version numbers in `script.js` and `index.html`
+3. Document changes in `docs/development/VERSION.md`
+4. **DO NOT** change webhook payload structure without approval (see [WEBHOOK_PAYLOAD_SPEC_LOCKED.md](docs/setup/WEBHOOK_PAYLOAD_SPEC_LOCKED.md))
+
+---
+
+## 📝 Version History
+
+**Latest: v1.6.5** (2025-11-04)
+- ✅ Fixed token/cost capture for feedback system
+- ✅ Increased max_tokens to 10k (prevent truncated JSON)
+- ✅ Production webhook configured
+- ✅ Flat payload structure (42 fields)
+
+**See full changelog:** [docs/development/VERSION.md](docs/development/VERSION.md)
+
+---
+
+## 📞 Support & Documentation
+
+- **Getting Started:** [docs/user-guides/START_HERE.md](docs/user-guides/START_HERE.md)
+- **Troubleshooting:** [docs/user-guides/TROUBLESHOOTING.md](docs/user-guides/TROUBLESHOOTING.md)
+- **Model Selection:** [docs/user-guides/MODEL_GUIDE.md](docs/user-guides/MODEL_GUIDE.md)
+- **All Documentation:** [docs/INDEX.md](docs/INDEX.md)
+
+---
+
+## 🙏 Acknowledgments
+
+Built with research from:
+- Australian Institute of Sport (AIS)
+- International Society of Sports Nutrition (ISSN)
+- American College of Sports Medicine (ACSM)
+- Leading sports nutrition researchers worldwide
+
+---
+
+## 📄 License
+
+Proprietary - BurnRate © 2025
+
+---
+
+**Made with ❤️ for endurance athletes**
