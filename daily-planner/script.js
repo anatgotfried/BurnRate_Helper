@@ -501,6 +501,9 @@ async function generatePlan() {
                 model: selectedModel,
                 prompt_pass1: prompts.pass1,
                 prompt_pass2: prompts.pass2,
+                athlete: context.athlete,
+                workouts: context.workouts,
+                locked_meals: context.locked_meals || [],
                 calculated_targets: context.calculated_targets,
                 max_tokens: 3000
             })

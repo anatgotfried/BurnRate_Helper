@@ -8,11 +8,14 @@ Based on current consensus from ACSM (2016), ISSN (2017), Burke & Jeukendrup (20
 ## ATHLETE CONTEXT & CALCULATED TARGETS
 {CONTEXT}
 
+## PROGRAMMATIC SKELETON
+{SKELETON}
+
 ## LOCKED MEALS
 The user has pre-planned these meals. They are LOCKED and cannot be changed. You must work around them:
 {LOCKED_MEALS}
 
-**IMPORTANT:** Locked meals are already fixed in the timeline. Subtract their totals from your targets and allocate the remaining calories/macros to other meals.
+**IMPORTANT:** If a skeleton is provided above, use it as your starting point and refine it. If no skeleton is provided, generate the complete timeline from scratch.
 
 ## CRITICAL REQUIREMENTS
 
