@@ -157,6 +157,7 @@ def generate_plan():
 
         # Pass 0: Generate programmatic skeleton (if we have athlete data)
         skeleton = None
+        skeleton_error = None
         if athlete and workouts and calculated_targets and not is_pass2_only:
             try:
                 skeleton = generate_skeleton_via_node(athlete, workouts, locked_meals, calculated_targets)
@@ -165,8 +166,13 @@ def generate_plan():
                 print(f"   - Locked meals: {skeleton['num_locked_entries']}")
                 print(f"   - Regular meals: {skeleton['num_regular_entries']}")
             except Exception as e:
-                print(f"⚠️ Skeleton generation failed: {e}")
+                import traceback
+                skeleton_error = str(e)
+                error_trace = traceback.format_exc()
+                print(f"⚠️ Skeleton generation failed: {skeleton_error}")
+                print(f"   Trace: {error_trace}")
                 # Continue without skeleton - AI will generate everything
+                skeleton = None
         
         # Pass 1: Generate computation layer (or refine skeleton)
         if not is_pass2_only:
@@ -408,9 +414,13 @@ def generate_plan():
             'error': f'Network error: {str(e)}'
         }), 500
     except Exception as e:
+        import traceback
+        error_trace = traceback.format_exc()
+        print(f"❌ Server error: {error_trace}")
         return jsonify({
             'success': False,
-            'error': f'Server error: {str(e)}'
+            'error': f'Server error: {str(e)}',
+            'trace': error_trace if app.debug else None
         }), 500
 
 if __name__ == '__main__':

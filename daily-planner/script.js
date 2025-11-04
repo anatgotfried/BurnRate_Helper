@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '2.0';
+const VERSION = '2.0.1';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -509,7 +509,18 @@ async function generatePlan() {
             })
         });
         
-        const data = await response.json();
+        let data;
+        const responseText = await response.text();
+        
+        try {
+            data = JSON.parse(responseText);
+        } catch (parseError) {
+            console.error('Failed to parse response as JSON:', responseText);
+            console.error('Parse error:', parseError);
+            showStatus(`Error: Server returned invalid JSON. Response: ${responseText.substring(0, 200)}`, 'error');
+            showLoading(false);
+            return;
+        }
         
         // Store raw response
         window.lastResponse = data;
