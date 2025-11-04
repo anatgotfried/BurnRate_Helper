@@ -208,14 +208,16 @@ function calculatePostWorkoutMeal(athlete, workout) {
  * Calculate timing for workout meals
  * @param {string} workoutStartTime - HH:MM format
  * @param {number} durationMin - Workout duration in minutes
+ * @param {number} preWorkoutTimingMin - How many minutes before workout to eat (user preference)
  * @returns {Object} Pre and post workout times
  */
-function calculateWorkoutMealTimes(workoutStartTime, durationMin) {
+function calculateWorkoutMealTimes(workoutStartTime, durationMin, preWorkoutTimingMin = 90) {
     // Parse time
     const [hours, minutes] = workoutStartTime.split(':').map(Number);
     
-    // Pre-workout: 90 minutes before (1.5 hours)
-    const preMinutes = hours * 60 + minutes - 90;
+    // Pre-workout: User-defined minutes before workout
+    // Options: 30min (eat close), 90min (default), 120min (need digestion time), 180min (drive + prep)
+    const preMinutes = hours * 60 + minutes - preWorkoutTimingMin;
     const preHours = Math.floor(preMinutes / 60);
     const preMins = preMinutes % 60;
     const preTime = `${String(preHours).padStart(2, '0')}:${String(preMins).padStart(2, '0')}`;
@@ -240,9 +242,10 @@ function calculateWorkoutMealTimes(workoutStartTime, durationMin) {
  */
 function generateWorkoutMeals(athlete, workouts) {
     const timeline = [];
+    const preWorkoutTiming = athlete.pre_workout_timing_min || 90; // User preference
     
     for (const workout of workouts) {
-        const times = calculateWorkoutMealTimes(workout.startTime, workout.duration_min);
+        const times = calculateWorkoutMealTimes(workout.startTime, workout.duration_min, preWorkoutTiming);
         
         // Pre-workout meal
         const preMeal = calculatePreWorkoutMeal(athlete, workout);

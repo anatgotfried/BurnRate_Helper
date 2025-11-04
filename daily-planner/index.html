@@ -30,8 +30,8 @@
     </header>
 
     <!-- Version Badge (Top Right) -->
-    <div class="version-badge" id="versionBadge" title="Version 2.3.1 - AI can fix skeleton errors (balanced approach) (2025-11-04)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
-        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">2.3.1</span>
+    <div class="version-badge" id="versionBadge" title="Version 2.4 - Customizable pre-workout meal timing (2025-11-04)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">2.4</span>
     </div>
 
     <!-- Hero Section -->
@@ -159,6 +159,20 @@
                         <span>Sweat Rate (mL/hr, optional)</span>
                         <input type="number" id="sweatRate" name="sweat_rate" step="50" min="0" max="3000" placeholder="e.g., 1000" class="form-input">
                     </label>
+                    <label class="form-label">
+                        <span>Pre-Workout Timing</span>
+                        <select id="preWorkoutTiming" name="pre_workout_timing" class="form-select" required>
+                            <option value="30">30 min before workout</option>
+                            <option value="60">1 hour before workout</option>
+                            <option value="90" selected>1.5 hours before workout</option>
+                            <option value="120">2 hours before workout</option>
+                            <option value="180">3 hours before workout</option>
+                        </select>
+                        <small style="color: #6b7280; font-size: 0.875rem;">When you eat before workouts</small>
+                    </label>
+                </div>
+
+                <div class="form-row">
                     <label class="form-label">
                         <span>Preferred Meals/Day</span>
                         <select id="mealsPerDay" name="meals_per_day" class="form-select" required>

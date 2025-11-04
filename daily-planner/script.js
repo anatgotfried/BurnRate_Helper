@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.3.1';
+const VERSION = '2.4';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -364,6 +364,7 @@ function buildContext() {
         sweat_rate: formData.get('sweat_rate'),
         timezone: formData.get('timezone'),
         meals_per_day: parseInt(formData.get('meals_per_day')) || 4,
+        pre_workout_timing_min: parseInt(formData.get('pre_workout_timing')) || 90,
         populations: []
     };
     
