@@ -527,14 +527,19 @@ function getTimeDifferenceMinutes(time1, time2) {
 }
 
 /**
- * Get midpoint time between two HH:MM times
+ * Get midpoint time between two HH:MM times, rounded to nearest 15-minute interval
+ * Example: 18:15 + 19:30 = 18:52.5 → rounds to 19:00 (not 18:53)
  */
 function getMidpointTime(time1, time2) {
     const [h1, m1] = time1.split(':').map(Number);
     const [h2, m2] = time2.split(':').map(Number);
     const mid = Math.round(((h1 * 60 + m1) + (h2 * 60 + m2)) / 2);
-    const hours = Math.floor(mid / 60);
-    const mins = mid % 60;
+    
+    // Round to nearest 15-minute interval (0, 15, 30, 45)
+    const rounded = Math.round(mid / 15) * 15;
+    
+    const hours = Math.floor(rounded / 60) % 24;
+    const mins = rounded % 60;
     return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
 }
 
