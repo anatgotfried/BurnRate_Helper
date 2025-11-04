@@ -200,7 +200,7 @@ def generate_plan():
                     calculated_cals = (entry.get('carbs_g', 0) * 4) + (entry.get('protein_g', 0) * 4) + (entry.get('fat_g', 0) * 9)
                     entry['calories'] = round(calculated_cals)
             
-            # Recalculate daily_summary from timeline totals to ensure accuracy
+            # Recalculate daily_summary from timeline totals and scale to targets
             if 'daily_summary' in plan_data_pass1 and 'timeline' in plan_data_pass1:
                 timeline_totals = {
                     'carbs_g': sum(e.get('carbs_g', 0) for e in plan_data_pass1['timeline']),
@@ -210,7 +210,53 @@ def generate_plan():
                     'hydration_ml': sum(e.get('hydration_ml', 0) for e in plan_data_pass1['timeline'])
                 }
                 
-                # Update daily_summary with calculated totals
+                # Get targets from request data (passed from frontend)
+                request_data = request.get_json()
+                targets = request_data.get('calculated_targets', {})
+                
+                # Check if we need to scale down to match targets
+                tolerance = 0.02  # ±2%
+                needs_scaling = False
+                
+                if targets:
+                    target_carbs = targets.get('daily_carb_target_g', 0)
+                    target_protein = targets.get('daily_protein_target_g', 0)
+                    target_fat = targets.get('daily_fat_target_g', 0)
+                    
+                    # Check if any macro exceeds target by >2%
+                    if target_carbs > 0:
+                        carb_diff_pct = abs(timeline_totals['carbs_g'] - target_carbs) / target_carbs
+                        if carb_diff_pct > tolerance:
+                            needs_scaling = True
+                            carb_scale = target_carbs / timeline_totals['carbs_g']
+                    
+                    if target_protein > 0:
+                        protein_diff_pct = abs(timeline_totals['protein_g'] - target_protein) / target_protein
+                        if protein_diff_pct > tolerance:
+                            needs_scaling = True
+                            protein_scale = target_protein / timeline_totals['protein_g']
+                    
+                    if target_fat > 0:
+                        fat_diff_pct = abs(timeline_totals['fat_g'] - target_fat) / target_fat
+                        if fat_diff_pct > tolerance:
+                            needs_scaling = True
+                            fat_scale = target_fat / timeline_totals['fat_g']
+                    
+                    # If scaling needed, proportionally reduce all timeline entries
+                    if needs_scaling and timeline_totals['carbs_g'] > target_carbs:
+                        # Scale down carbs first (most common overshoot)
+                        scale_factor = target_carbs / timeline_totals['carbs_g']
+                        for entry in plan_data_pass1['timeline']:
+                            entry['carbs_g'] = round(entry['carbs_g'] * scale_factor)
+                            # Recalculate calories after scaling
+                            calculated_cals = (entry['carbs_g'] * 4) + (entry['protein_g'] * 4) + (entry['fat_g'] * 9)
+                            entry['calories'] = round(calculated_cals)
+                        
+                        # Recalculate totals after scaling
+                        timeline_totals['carbs_g'] = sum(e.get('carbs_g', 0) for e in plan_data_pass1['timeline'])
+                        timeline_totals['calories'] = sum(e.get('calories', 0) for e in plan_data_pass1['timeline'])
+                
+                # Update daily_summary with calculated totals (after scaling if applied)
                 plan_data_pass1['daily_summary']['carbs_g'] = round(timeline_totals['carbs_g'])
                 plan_data_pass1['daily_summary']['protein_g'] = round(timeline_totals['protein_g'])
                 plan_data_pass1['daily_summary']['fat_g'] = round(timeline_totals['fat_g'])

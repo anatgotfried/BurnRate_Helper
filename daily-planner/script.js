@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '1.2';
+const VERSION = '1.3';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -374,6 +374,7 @@ async function generatePlan() {
                 model: selectedModel,
                 prompt_pass1: prompts.pass1,
                 prompt_pass2: prompts.pass2,
+                calculated_targets: context.calculated_targets,
                 max_tokens: 3000
             })
         });
