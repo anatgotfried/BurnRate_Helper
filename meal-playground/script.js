@@ -1,5 +1,5 @@
 // BurnRate Meal Playground - Main Script
-const VERSION = '1.6.3';
+const VERSION = '1.6.4';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -1255,43 +1255,77 @@ window.submitFeedback = async function() {
         const selectedModel = document.getElementById('modelSelect').value;
         const fastMode = document.getElementById('fastMode')?.checked ?? true;
         
-        // Build feedback payload
+        // Calculate diffs
+        const targets = context.calculated_targets;
+        const actuals = currentMealPlan.daily_totals || {};
+        
+        const calDiff = (actuals.calories || 0) - (targets.daily_energy_target_kcal || 0);
+        const calPctDiff = targets.daily_energy_target_kcal ? ((calDiff / targets.daily_energy_target_kcal) * 100).toFixed(2) : 0;
+        
+        const proteinDiff = (actuals.protein_g || 0) - (targets.daily_protein_target_g || 0);
+        const proteinPctDiff = targets.daily_protein_target_g ? ((proteinDiff / targets.daily_protein_target_g) * 100).toFixed(2) : 0;
+        
+        const carbsDiff = (actuals.carbs_g || 0) - (targets.daily_carb_target_g || 0);
+        const carbsPctDiff = targets.daily_carb_target_g ? ((carbsDiff / targets.daily_carb_target_g) * 100).toFixed(2) : 0;
+        
+        const fatDiff = (actuals.fat_g || 0) - (targets.daily_fat_target_g || 0);
+        
+        const sodiumDiff = (actuals.sodium_mg || 0) - (targets.sodium_target_mg || 0);
+        
+        // Calculate accuracy score (average of absolute % diffs, inverted so lower diff = higher score)
+        const avgPctDiff = (Math.abs(parseFloat(calPctDiff)) + Math.abs(parseFloat(proteinPctDiff)) + Math.abs(parseFloat(carbsPctDiff))) / 3;
+        const accuracyScore = Math.max(0, Math.min(10, 10 - (avgPctDiff / 2))).toFixed(2);
+        
+        // Build FLAT feedback payload matching exact Google Sheets columns
         const feedbackData = {
             timestamp: new Date().toISOString(),
             version: VERSION,
-            
-            // Athlete & Workouts
-            athlete: context.athlete,
-            workouts: context.workouts,
-            
-            // Model & Settings
+            weight_kg: context.athlete.weight_kg || null,
+            height_cm: context.athlete.height_cm || null,
+            age: context.athlete.age || null,
+            gender: context.athlete.gender || null,
+            goal: context.athlete.goal || null,
+            training_phase: context.athlete.training_phase || null,
+            diet_pattern: context.athlete.diet_pattern || null,
             model_used: selectedModel,
-            fast_mode_enabled: fastMode,
-            
-            // Targets vs Actuals
-            calculated_targets: context.calculated_targets,
-            actual_totals: currentMealPlan.daily_totals || null,
-            
-            // Accuracy metrics
+            fast_mode: fastMode,
+            cal_target: targets.daily_energy_target_kcal || null,
+            cal_actual: actuals.calories || null,
+            cal_diff: calDiff,
+            cal_pct_diff: parseFloat(calPctDiff),
+            protein_target: targets.daily_protein_target_g || null,
+            protein_actual: actuals.protein_g || null,
+            protein_diff: proteinDiff,
+            protein_pct_diff: parseFloat(proteinPctDiff),
+            carbs_target: targets.daily_carb_target_g || null,
+            carbs_actual: actuals.carbs_g || null,
+            carbs_diff: carbsDiff,
+            carbs_pct_diff: parseFloat(carbsPctDiff),
+            fat_target: targets.daily_fat_target_g || null,
+            fat_actual: actuals.fat_g || null,
+            fat_diff: fatDiff,
+            sodium_target: targets.sodium_target_mg || null,
+            sodium_actual: actuals.sodium_mg || null,
+            sodium_diff: sodiumDiff,
             has_daily_totals: !!currentMealPlan.daily_totals,
             meal_count: currentMealPlan.meals?.length || 0,
             food_count: currentMealPlan.meals?.reduce((sum, m) => sum + (m.foods?.length || 0), 0) || 0,
-            
-            // Prompt & Response
-            prompt_sent: window.lastPrompt || null,
-            prompt_length_chars: window.lastPrompt?.length || 0,
-            ai_response: currentMealPlan,
-            response_length_chars: JSON.stringify(currentMealPlan).length,
-            
-            // Cost
-            cost_info: window.lastCostInfo || null,
-            
-            // User Feedback
-            user_feedback: {
-                rating: rating,
-                issues: issues,
-                comments: comments
-            }
+            cost_usd: window.lastCostInfo?.estimated_cost || null,
+            tokens_in: window.lastCostInfo?.tokens_in || null,
+            tokens_out: window.lastCostInfo?.tokens_out || null,
+            tokens_total: (window.lastCostInfo?.tokens_in || 0) + (window.lastCostInfo?.tokens_out || 0),
+            prompt_chars: window.lastPrompt?.length || 0,
+            response_chars: JSON.stringify(currentMealPlan).length,
+            rating: rating,
+            issues: issues.join(', '),
+            comments: comments || '',
+            accuracy_score: parseFloat(accuracyScore),
+            headers: '',
+            params: '',
+            query: '',
+            body: '',
+            webhookUrl: '',
+            executionMode: ''
         };
         
         // Send to backend (which forwards to n8n)
