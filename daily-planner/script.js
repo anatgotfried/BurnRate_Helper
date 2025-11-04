@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.5.1';
+const VERSION = '2.5.2';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -840,11 +840,18 @@ function renderTimelineHTML(timeline, timelineTotals, targets) {
         hydration: '💧'
     };
     
-    const html = timeline.map((entry, idx) => `
+    const html = timeline.map((entry, idx) => {
+        // Build workout duration display if it's a workout
+        let workoutInfo = '';
+        if (entry.type === 'workout' && entry.duration_min) {
+            workoutInfo = ` (${entry.duration_min} min${entry.intensity ? ', ' + entry.intensity : ''})`;
+        }
+        
+        return `
         <div class="timeline-entry" style="background: ${idx % 2 === 0 ? 'var(--bg-subtle)' : 'white'};">
             <div class="timeline-time">${entry.time}</div>
             <div class="timeline-content">
-                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}</h4>
+                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}${workoutInfo}</h4>
                 <div class="timeline-macros">
                     ${entry.carbs_g || 0}g carbs | ${entry.protein_g || 0}g protein | 
                     ${entry.fat_g || 0}g fat | ${entry.calories || 0} kcal | 
@@ -852,7 +859,8 @@ function renderTimelineHTML(timeline, timelineTotals, targets) {
                 </div>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
     
     return `
         <div class="summary-section" style="margin-top: 2rem;">
