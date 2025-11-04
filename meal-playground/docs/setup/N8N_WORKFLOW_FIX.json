@@ -1,0 +1,273 @@
+{
+  "name": "BurnRate Feedback Workflow (FIXED)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "burnrate-feedback",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "timestamp",
+              "value": "={{ $json.body.timestamp }}"
+            },
+            {
+              "name": "version",
+              "value": "={{ $json.body.version }}"
+            },
+            {
+              "name": "weight_kg",
+              "value": "={{ $json.body.weight_kg }}"
+            },
+            {
+              "name": "height_cm",
+              "value": "={{ $json.body.height_cm }}"
+            },
+            {
+              "name": "age",
+              "value": "={{ $json.body.age }}"
+            },
+            {
+              "name": "gender",
+              "value": "={{ $json.body.gender }}"
+            },
+            {
+              "name": "goal",
+              "value": "={{ $json.body.goal }}"
+            },
+            {
+              "name": "training_phase",
+              "value": "={{ $json.body.training_phase }}"
+            },
+            {
+              "name": "diet_pattern",
+              "value": "={{ $json.body.diet_pattern }}"
+            },
+            {
+              "name": "model_used",
+              "value": "={{ $json.body.model_used }}"
+            },
+            {
+              "name": "fast_mode",
+              "value": "={{ $json.body.fast_mode }}"
+            },
+            {
+              "name": "cal_target",
+              "value": "={{ $json.body.cal_target }}"
+            },
+            {
+              "name": "cal_actual",
+              "value": "={{ $json.body.cal_actual }}"
+            },
+            {
+              "name": "cal_diff",
+              "value": "={{ $json.body.cal_diff }}"
+            },
+            {
+              "name": "cal_pct_diff",
+              "value": "={{ $json.body.cal_pct_diff }}"
+            },
+            {
+              "name": "protein_target",
+              "value": "={{ $json.body.protein_target }}"
+            },
+            {
+              "name": "protein_actual",
+              "value": "={{ $json.body.protein_actual }}"
+            },
+            {
+              "name": "protein_diff",
+              "value": "={{ $json.body.protein_diff }}"
+            },
+            {
+              "name": "protein_pct_diff",
+              "value": "={{ $json.body.protein_pct_diff }}"
+            },
+            {
+              "name": "carbs_target",
+              "value": "={{ $json.body.carbs_target }}"
+            },
+            {
+              "name": "carbs_actual",
+              "value": "={{ $json.body.carbs_actual }}"
+            },
+            {
+              "name": "carbs_diff",
+              "value": "={{ $json.body.carbs_diff }}"
+            },
+            {
+              "name": "carbs_pct_diff",
+              "value": "={{ $json.body.carbs_pct_diff }}"
+            },
+            {
+              "name": "fat_target",
+              "value": "={{ $json.body.fat_target }}"
+            },
+            {
+              "name": "fat_actual",
+              "value": "={{ $json.body.fat_actual }}"
+            },
+            {
+              "name": "fat_diff",
+              "value": "={{ $json.body.fat_diff }}"
+            },
+            {
+              "name": "sodium_target",
+              "value": "={{ $json.body.sodium_target }}"
+            },
+            {
+              "name": "sodium_actual",
+              "value": "={{ $json.body.sodium_actual }}"
+            },
+            {
+              "name": "sodium_diff",
+              "value": "={{ $json.body.sodium_diff }}"
+            },
+            {
+              "name": "has_daily_totals",
+              "value": "={{ $json.body.has_daily_totals }}"
+            },
+            {
+              "name": "meal_count",
+              "value": "={{ $json.body.meal_count }}"
+            },
+            {
+              "name": "food_count",
+              "value": "={{ $json.body.food_count }}"
+            },
+            {
+              "name": "cost_usd",
+              "value": "={{ $json.body.cost_usd }}"
+            },
+            {
+              "name": "tokens_in",
+              "value": "={{ $json.body.tokens_in }}"
+            },
+            {
+              "name": "tokens_out",
+              "value": "={{ $json.body.tokens_out }}"
+            },
+            {
+              "name": "tokens_total",
+              "value": "={{ $json.body.tokens_total }}"
+            },
+            {
+              "name": "prompt_chars",
+              "value": "={{ $json.body.prompt_chars }}"
+            },
+            {
+              "name": "response_chars",
+              "value": "={{ $json.body.response_chars }}"
+            },
+            {
+              "name": "rating",
+              "value": "={{ $json.body.rating }}"
+            },
+            {
+              "name": "issues",
+              "value": "={{ $json.body.issues }}"
+            },
+            {
+              "name": "comments",
+              "value": "={{ $json.body.comments }}"
+            },
+            {
+              "name": "accuracy_score",
+              "value": "={{ $json.body.accuracy_score }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-node",
+      "name": "Extract Body Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": ["timestamp"],
+          "value": {}
+        },
+        "options": {}
+      },
+      "id": "sheets-node",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Feedback received!\" } }}"
+      },
+      "id": "respond-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Body Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Body Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+
