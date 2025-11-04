@@ -485,13 +485,128 @@ function switchTab(tabName) {
     document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 }
 
-// Render plan
+// Render plan (merged summary + timeline)
 function renderPlan(planData) {
-    // Render summary
-    renderSummary(planData);
+    const container = document.getElementById('planContent');
+    const summary = planData.daily_summary || {};
+    const targets = context.calculated_targets;
     
-    // Render timeline
-    renderTimeline(planData);
+    // Daily tip
+    let tipHtml = '';
+    if (planData.daily_tip) {
+        tipHtml = renderDailyTip(planData.daily_tip);
+    }
+    
+    // Training load
+    let loadHtml = '';
+    if (planData.training_load) {
+        loadHtml = renderTrainingLoad(planData.training_load);
+    }
+    
+    // Format deviation
+    const compareValue = (actual, target) => {
+        if (typeof actual !== 'number' || typeof target !== 'number' || target === 0) {
+            return '⚠️';
+        }
+        const diff = Math.abs(actual - target);
+        const pctDiff = (diff / target) * 100;
+        return pctDiff <= 2 ? '✅' : pctDiff <= 5 ? '⚠️' : '❌';
+    };
+    
+    const formatDiff = (actual, target) => {
+        if (typeof actual !== 'number' || typeof target !== 'number') {
+            return 'no data';
+        }
+        const diff = actual - target;
+        const sign = diff >= 0 ? '+' : '';
+        const pct = ((diff / target) * 100).toFixed(1);
+        return `${sign}${diff.toFixed(0)} (${sign}${pct}%)`;
+    };
+    
+    // Info button helper
+    const infoBtn = (key) => `<button class="info-btn" onclick="showTargetInfo('${key}')" title="Why this target?">ℹ️</button>`;
+    
+    // Calculate timeline totals for validation
+    const timeline = planData.timeline || [];
+    const timelineTotals = calculateTimelineTotals([...timeline]);
+    
+    // Summary section
+    const summaryHtml = `
+        ${tipHtml}
+        ${loadHtml}
+        
+        <div class="summary-section">
+            <h3>Daily Targets ${infoBtn('overview')}</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">Target Calories ${infoBtn('calories')}</span>
+                    <span class="summary-value">${targets.daily_energy_target_kcal || 0} kcal</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Carbs ${infoBtn('carbs')}</span>
+                    <span class="summary-value">${targets.daily_carb_target_g || 0} g</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Protein ${infoBtn('protein')}</span>
+                    <span class="summary-value">${targets.daily_protein_target_g || 0} g</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Fat ${infoBtn('fat')}</span>
+                    <span class="summary-value">${targets.daily_fat_target_g || 0} g</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Sodium ${infoBtn('sodium')}</span>
+                    <span class="summary-value">${targets.sodium_target_mg || 0} mg</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Hydration ${infoBtn('hydration')}</span>
+                    <span class="summary-value">${targets.hydration_target_l || 0} L</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-section">
+            <h3>Daily Totals ${compareValue(summary.calories, targets.daily_energy_target_kcal)}</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">Calories ${compareValue(summary.calories, targets.daily_energy_target_kcal)}</span>
+                    <span class="summary-value">${summary.calories || 0} kcal <span class="summary-diff">${formatDiff(summary.calories, targets.daily_energy_target_kcal)}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Carbs ${compareValue(summary.carbs_g, targets.daily_carb_target_g)}</span>
+                    <span class="summary-value">${summary.carbs_g || 0} g <span class="summary-diff">${formatDiff(summary.carbs_g, targets.daily_carb_target_g)}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Protein ${compareValue(summary.protein_g, targets.daily_protein_target_g)}</span>
+                    <span class="summary-value">${summary.protein_g || 0} g <span class="summary-diff">${formatDiff(summary.protein_g, targets.daily_protein_target_g)}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Fat ${compareValue(summary.fat_g, targets.daily_fat_target_g)}</span>
+                    <span class="summary-value">${summary.fat_g || 0} g <span class="summary-diff">${formatDiff(summary.fat_g, targets.daily_fat_target_g)}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Sodium ${compareValue(summary.sodium_mg, targets.sodium_target_mg)}</span>
+                    <span class="summary-value">${summary.sodium_mg || 0} mg <span class="summary-diff">${formatDiff(summary.sodium_mg, targets.sodium_target_mg)}</span></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Hydration ${compareValue(summary.hydration_l, targets.hydration_target_l)}</span>
+                    <span class="summary-value">${summary.hydration_l || 0} L <span class="summary-diff">${formatDiff(summary.hydration_l, targets.hydration_target_l)}</span></span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Timeline section
+    const timelineHtml = renderTimelineHTML(planData.timeline || [], timelineTotals, targets);
+    
+    container.innerHTML = summaryHtml + timelineHtml + (planData.warnings && planData.warnings.length > 0 ? `
+        <div class="summary-section">
+            <h3>⚠️ Warnings</h3>
+            <ul class="warnings-list">
+                ${planData.warnings.map(warn => `<li>${warn}</li>`).join('')}
+            </ul>
+        </div>
+    ` : '');
 }
 
 // Calculate timeline totals
@@ -517,99 +632,48 @@ function calculateTimelineTotals(timeline) {
     });
 }
 
-// Render summary
-function renderSummary(planData) {
-    const container = document.getElementById('summaryContent');
-    const summary = planData.daily_summary || {};
-    const targets = context.calculated_targets;
+// Render timeline HTML (used by renderPlan)
+function renderTimelineHTML(timeline, timelineTotals, targets) {
+    // Sort chronologically
+    timeline.sort((a, b) => a.time.localeCompare(b.time));
     
-    // Daily tip
-    let tipHtml = '';
-    if (planData.daily_tip) {
-        tipHtml = renderDailyTip(planData.daily_tip);
-    }
-    
-    // Training load
-    let loadHtml = '';
-    if (planData.training_load) {
-        loadHtml = renderTrainingLoad(planData.training_load);
-    }
-    
-    // Format deviation
-    const formatDeviation = (actual, target) => {
-        if (typeof actual !== 'number' || typeof target !== 'number' || target === 0) {
-            return '⚠️';
-        }
-        const diff = Math.abs(actual - target);
-        const pctDiff = (diff / target) * 100;
-        return pctDiff <= 2 ? '✅' : pctDiff <= 5 ? '⚠️' : '❌';
+    const typeIcons = {
+        meal: '🍽️',
+        workout: '🏃',
+        hydration: '💧'
     };
     
-    const formatDiff = (actual, target) => {
-        if (typeof actual !== 'number' || typeof target !== 'number') {
-            return 'no data';
-        }
-        const diff = actual - target;
-        const sign = diff >= 0 ? '+' : '';
-        const pct = ((diff / target) * 100).toFixed(1);
-        return `${sign}${diff.toFixed(0)} (${sign}${pct}%)`;
-    };
-    
-    container.innerHTML = `
-        ${tipHtml}
-        ${loadHtml}
-        
-        <div class="summary-section">
-            <h3>Daily Totals</h3>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <span class="summary-label">Calories ${formatDeviation(summary.calories, targets.daily_energy_target_kcal)}</span>
-                    <span class="summary-value">${summary.calories || 0} kcal <span class="summary-diff">${formatDiff(summary.calories, targets.daily_energy_target_kcal)}</span></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Carbs ${formatDeviation(summary.carbs_g, targets.daily_carb_target_g)}</span>
-                    <span class="summary-value">${summary.carbs_g || 0} g <span class="summary-diff">${formatDiff(summary.carbs_g, targets.daily_carb_target_g)}</span></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Protein ${formatDeviation(summary.protein_g, targets.daily_protein_target_g)}</span>
-                    <span class="summary-value">${summary.protein_g || 0} g <span class="summary-diff">${formatDiff(summary.protein_g, targets.daily_protein_target_g)}</span></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Fat ${formatDeviation(summary.fat_g, targets.daily_fat_target_g)}</span>
-                    <span class="summary-value">${summary.fat_g || 0} g <span class="summary-diff">${formatDiff(summary.fat_g, targets.daily_fat_target_g)}</span></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Sodium ${formatDeviation(summary.sodium_mg, targets.sodium_target_mg)}</span>
-                    <span class="summary-value">${summary.sodium_mg || 0} mg <span class="summary-diff">${formatDiff(summary.sodium_mg, targets.sodium_target_mg)}</span></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Hydration ${formatDeviation(summary.hydration_l, targets.hydration_target_l)}</span>
-                    <span class="summary-value">${summary.hydration_l || 0} L <span class="summary-diff">${formatDiff(summary.hydration_l, targets.hydration_target_l)}</span></span>
+    const html = timeline.map((entry, idx) => `
+        <div class="timeline-entry" style="background: ${idx % 2 === 0 ? 'var(--bg-subtle)' : 'white'};">
+            <div class="timeline-time">${entry.time}</div>
+            <div class="timeline-content">
+                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}</h4>
+                <div class="timeline-macros">
+                    ${entry.carbs_g || 0}g carbs | ${entry.protein_g || 0}g protein | 
+                    ${entry.fat_g || 0}g fat | ${entry.calories || 0} kcal | 
+                    💧 ${entry.hydration_ml || 0} ml | 🧂 ${entry.sodium_mg || 0} mg
                 </div>
             </div>
         </div>
-        
-        ${planData.warnings && planData.warnings.length > 0 ? `
-            <div class="summary-section">
-                <h3>⚠️ Warnings</h3>
-                <ul class="warnings-list">
-                    ${planData.warnings.map(warn => `<li>${warn}</li>`).join('')}
-                </ul>
-            </div>
-        ` : ''}
+    `).join('');
+    
+    return `
+        <div class="summary-section" style="margin-top: 2rem;">
+            <h3>Timeline</h3>
+            ${html}
+        </div>
     `;
 }
 
 // Render daily tip
 function renderDailyTip(tip) {
     const tipText = typeof tip === 'string' ? tip : tip.text;
-    const source = typeof tip === 'object' && tip.source ? `<span class="tip-source">${tip.source}</span>` : '';
     
     return `
         <div class="daily-tip-card">
             <div class="tip-icon">💡</div>
             <div class="tip-content">
-                <h4>Today's Insight ${source}</h4>
+                <h4>Today's Insight</h4>
                 <p>${tipText}</p>
             </div>
         </div>
@@ -633,87 +697,209 @@ function renderTrainingLoad(load) {
     `;
 }
 
-// Render timeline
-function renderTimeline(planData) {
-    const container = document.getElementById('timelineContent');
-    const timeline = planData.timeline || [];
+
+// Show target info modal
+window.showTargetInfo = function(metricKey) {
+    if (!context || !context.calculated_targets) return;
     
-    // Sort chronologically BEFORE rendering
-    timeline.sort((a, b) => a.time.localeCompare(b.time));
+    const targets = context.calculated_targets;
+    const explanations = targets.explanations || {};
+    const breakdown = targets.calorie_breakdown || {};
     
-    const typeIcons = {
-        meal: '🍽️',
-        workout: '🏃',
-        hydration: '💧'
-    };
+    let title = '';
+    let content = '';
     
-    const html = timeline.map((entry, idx) => `
-        <div class="timeline-entry" style="background: ${idx % 2 === 0 ? 'var(--bg-subtle)' : 'white'};">
-            <div class="timeline-time">${entry.time}</div>
-            <div class="timeline-content">
-                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}</h4>
-                <div class="timeline-macros">
-                    ${entry.carbs_g || 0}g carbs | ${entry.protein_g || 0}g protein | 
-                    ${entry.fat_g || 0}g fat | ${entry.calories || 0} kcal | 
-                    💧 ${entry.hydration_ml || 0} ml | 🧂 ${entry.sodium_mg || 0} mg
-                </div>
+    switch(metricKey) {
+        case 'calories':
+            title = '🔥 Daily Calorie Target';
+            if (breakdown.isFatLoss) {
+                const deficitAmount = breakdown.tdee - breakdown.total;
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
+                        <div class="breakdown-row">
+                            <span>1️⃣ Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>3️⃣ TDEE (Maintenance):</span>
+                            <span>${breakdown.tdee} kcal</span>
+                        </div>
+                        <div class="breakdown-row deficit">
+                            <span>4️⃣ Fat Loss Deficit (${breakdown.deficitPercent}%):</span>
+                            <span>-${deficitAmount} kcal</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>Daily Target:</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
+                    <p class="info-note">✅ <strong>Safe & Sustainable:</strong> This ${breakdown.deficitPercent}% deficit is applied to your TDEE (which already includes your training). No need to "add back" workout calories - your activity is built into the calculation! This supports ~0.5-1% bodyweight loss per week while maintaining training performance.</p>
+                `;
+            } else if (breakdown.isSurplus) {
+                const surplusAmount = breakdown.total - breakdown.tdee;
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
+                        <div class="breakdown-row">
+                            <span>1️⃣ Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>3️⃣ TDEE (Maintenance):</span>
+                            <span>${breakdown.tdee} kcal</span>
+                        </div>
+                        <div class="breakdown-row positive">
+                            <span>4️⃣ Muscle Gain Surplus:</span>
+                            <span>+${surplusAmount} kcal</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>Daily Target:</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
+                `;
+            } else {
+                content = `
+                    <div class="info-breakdown">
+                        <h4>Your Target: ${targets.daily_energy_target_kcal} kcal/day</h4>
+                        <div class="breakdown-row">
+                            <span>1️⃣ Base Metabolism (BMR):</span>
+                            <span>${breakdown.bmr} kcal</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>2️⃣ Activity Factor:</span>
+                            <span>× ${breakdown.activityFactor} (${breakdown.activityLevel})</span>
+                        </div>
+                        <div class="breakdown-total">
+                            <span><strong>TDEE (Maintenance):</strong></span>
+                            <span><strong>${breakdown.total} kcal</strong></span>
+                        </div>
+                    </div>
+                    <p class="info-explanation">${explanations.calories || ''}</p>
+                `;
+            }
+            break;
+            
+        case 'protein':
+            title = '🥩 Daily Protein Target';
+            content = `
+                <h4>Your Target: ${targets.daily_protein_target_g} g</h4>
+                <p class="info-explanation">${explanations.protein || ''}</p>
+            `;
+            break;
+            
+        case 'carbs':
+            title = '🍞 Daily Carbohydrate Target';
+            content = `
+                <h4>Your Target: ${targets.daily_carb_target_g} g</h4>
+                <p class="info-explanation">${explanations.carbs || ''}</p>
+            `;
+            break;
+            
+        case 'fat':
+            title = '🥑 Daily Fat Target';
+            content = `
+                <h4>Your Target: ${targets.daily_fat_target_g} g</h4>
+                <p class="info-explanation">${explanations.fat || ''}</p>
+            `;
+            break;
+            
+        case 'sodium':
+            title = '🧂 Daily Sodium Target';
+            content = `
+                <h4>Your Target: ${targets.sodium_target_mg} mg</h4>
+                <p class="info-explanation">${explanations.sodium || ''}</p>
+            `;
+            break;
+            
+        case 'hydration':
+            title = '💧 Daily Hydration Target';
+            content = `
+                <h4>Your Target: ${targets.hydration_target_l} L</h4>
+                <p class="info-explanation">${explanations.hydration || ''}</p>
+            `;
+            break;
+            
+        case 'overview':
+            title = '📊 Daily Targets Overview';
+            content = `
+                <p class="info-explanation">These targets are calculated based on your athlete profile, training load, and goals. Click the ℹ️ icon next to any metric to see detailed calculation breakdown.</p>
+            `;
+            break;
+    }
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'info-modal';
+    modal.innerHTML = `
+        <div class="info-modal-content">
+            <div class="info-modal-header">
+                <h3>${title}</h3>
+                <button class="info-modal-close" onclick="this.closest('.info-modal').remove()">×</button>
+            </div>
+            <div class="info-modal-body">
+                ${content}
             </div>
         </div>
-    `).join('');
-    
-    // Calculate totals and validate
-    const totals = calculateTimelineTotals([...timeline]); // Copy array to avoid mutating original
-    const validation = renderValidation(totals, context.calculated_targets);
-    
-    container.innerHTML = html + validation;
-}
-
-// Render validation
-function renderValidation(totals, targets) {
-    const formatDeviation = (actual, target) => {
-        if (typeof actual !== 'number' || typeof target !== 'number' || target === 0) {
-            return '⚠️';
-        }
-        const diff = Math.abs(actual - target);
-        const pctDiff = (diff / target) * 100;
-        return pctDiff <= 2 ? '✅' : pctDiff <= 5 ? '⚠️' : '❌';
-    };
-    
-    const formatDeviationText = (actual, target) => {
-        if (typeof actual !== 'number' || typeof target !== 'number') {
-            return 'no data';
-        }
-        const pct = ((actual - target) / target * 100).toFixed(1);
-        return `(${pct > 0 ? '+' : ''}${pct}%)`;
-    };
-    
-    return `
-        <div class="validation-totals">
-            <h4>Daily Totals Validation:</h4>
-            <div class="validation-row">Calories: ${formatDeviation(totals.calories, targets.daily_energy_target_kcal)} ${totals.calories} / ${targets.daily_energy_target_kcal} <span class="deviation">${formatDeviationText(totals.calories, targets.daily_energy_target_kcal)}</span></div>
-            <div class="validation-row">Carbs: ${formatDeviation(totals.carbs_g, targets.daily_carb_target_g)} ${totals.carbs_g} / ${targets.daily_carb_target_g} <span class="deviation">${formatDeviationText(totals.carbs_g, targets.daily_carb_target_g)}</span></div>
-            <div class="validation-row">Protein: ${formatDeviation(totals.protein_g, targets.daily_protein_target_g)} ${totals.protein_g} / ${targets.daily_protein_target_g} <span class="deviation">${formatDeviationText(totals.protein_g, targets.daily_protein_target_g)}</span></div>
-            <div class="validation-row">Fat: ${formatDeviation(totals.fat_g, targets.daily_fat_target_g)} ${totals.fat_g} / ${targets.daily_fat_target_g} <span class="deviation">${formatDeviationText(totals.fat_g, targets.daily_fat_target_g)}</span></div>
-            <div class="validation-row">Sodium: ${formatDeviation(totals.sodium_mg, targets.sodium_target_mg)} ${totals.sodium_mg} / ${targets.sodium_target_mg} <span class="deviation">${formatDeviationText(totals.sodium_mg, targets.sodium_target_mg)}</span></div>
-            <div class="validation-row">Hydration: ${formatDeviation(totals.hydration_ml / 1000, targets.hydration_target_l)} ${(totals.hydration_ml / 1000).toFixed(2)} / ${targets.hydration_target_l} <span class="deviation">${formatDeviationText(totals.hydration_ml / 1000, targets.hydration_target_l)}</span></div>
-        </div>
     `;
-}
+    
+    // Add to body
+    document.body.appendChild(modal);
+    
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+};
 
-// Copy timeline
-function copyTimeline() {
-    if (!currentPlanData || !currentPlanData.timeline) {
-        showStatus('No timeline data available', 'error');
+// Copy plan (summary + timeline)
+function copyPlan() {
+    if (!currentPlanData) {
+        showStatus('No plan data available', 'error');
         return;
     }
     
-    const timeline = [...currentPlanData.timeline].sort((a, b) => a.time.localeCompare(b.time));
-    const text = timeline.map(e => 
+    const summary = currentPlanData.daily_summary || {};
+    const targets = context.calculated_targets;
+    const timeline = [...(currentPlanData.timeline || [])].sort((a, b) => a.time.localeCompare(b.time));
+    
+    let text = `Daily Plan Summary\n`;
+    text += `==================\n\n`;
+    text += `Targets:\n`;
+    text += `  Calories: ${targets.daily_energy_target_kcal || 0} kcal\n`;
+    text += `  Carbs: ${targets.daily_carb_target_g || 0} g\n`;
+    text += `  Protein: ${targets.daily_protein_target_g || 0} g\n`;
+    text += `  Fat: ${targets.daily_fat_target_g || 0} g\n`;
+    text += `  Sodium: ${targets.sodium_target_mg || 0} mg\n`;
+    text += `  Hydration: ${targets.hydration_target_l || 0} L\n\n`;
+    text += `Actual Totals:\n`;
+    text += `  Calories: ${summary.calories || 0} kcal\n`;
+    text += `  Carbs: ${summary.carbs_g || 0} g\n`;
+    text += `  Protein: ${summary.protein_g || 0} g\n`;
+    text += `  Fat: ${summary.fat_g || 0} g\n`;
+    text += `  Sodium: ${summary.sodium_mg || 0} mg\n`;
+    text += `  Hydration: ${summary.hydration_l || 0} L\n\n`;
+    text += `Timeline:\n`;
+    text += `==========\n`;
+    text += timeline.map(e => 
         `${e.time} – ${e.name}\n→ ${e.carbs_g || 0}g C | ${e.protein_g || 0}g P | ${e.fat_g || 0}g F | ${e.calories || 0} kcal | ${e.hydration_ml || 0}ml | ${e.sodium_mg || 0}mg Na`
     ).join('\n\n');
     
     navigator.clipboard.writeText(text).then(() => {
-        showStatus('Timeline copied to clipboard!', 'success');
+        showStatus('Plan copied to clipboard!', 'success');
     });
 }
 

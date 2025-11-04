@@ -63,28 +63,32 @@ DO NOT list individual foods. Show only:
 
 ### 3. DAILY TIP GENERATION
 
-Generate `daily_tip` based on priority:
-1. **Research corpus evidence FIRST** - Cite specific research from corpus
-2. **Training phase context SECOND** - Phase-specific optimization (base/build/race/taper/recovery)
-3. **Goal alignment THIRD** - performance/fat_loss/hypertrophy considerations
+Generate `daily_tip` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.
+
+**Language Style:**
+- Use natural, encouraging tone (like a coach speaking to an athlete)
+- Be specific and actionable ("try this" rather than "consider")
+- Reference research naturally (e.g., "studies show" or "research suggests") rather than codified citations like "ISSN2017"
+- Keep it concise (1-2 sentences)
+- Make it relevant to the athlete's current training phase and goals
 
 **Phase-Specific Guidance:**
-- **Race phase**: Mention race week/race day context explicitly - emphasize glycogen maintenance, reduced fiber/fat, steady carbs
+- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs
 - **Taper phase**: Focus on glycogen optimization while staying lean
 - **Base/Build**: Focus on training adaptation and recovery
 - **Recovery**: Focus on muscle preservation and adaptation
 
-Requirements:
-- 1-2 sentences maximum
-- Must include research citation (e.g., ACSM2016, Burke2011, ISSN2017)
-- Actionable and specific to this athlete's context
-- Avoid generic lifestyle advice
+**Examples of Good Tips:**
+- **Race phase**: "With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber and fat in the days before your event can help minimize GI distress on race day."
+- **Taper phase**: "During taper, you can maintain your carb intake but reduce fat by 10-15% to optimize glycogen storage while staying lean - this improves your power-to-weight ratio when it matters most."
+- **Hot weather**: "If you're training in heat over 28°C, try pre-cooling with an ice slurry 15 minutes before your workout. Studies show this can improve performance by 3-7% in hot conditions."
+- **Recovery**: "Spread your protein across 4 or more meals today - eating about 0.4g per kg every 3-4 hours helps preserve muscle even during a calorie deficit, keeping your strength while you lean out."
 
-Examples:
-- **Race phase**: "During race week, maintain 8-10g/kg carbs to sustain glycogen and reduce fatigue - slightly reduce fiber/fat pre-race to minimize GI distress (ISSN2017)"
-- **Taper phase**: "During taper, maintain 7-10g/kg carbs but reduce fat by 10-15% to optimize glycogen while staying lean - improves power-to-weight ratio on race day (Burke2011)"
-- Hot weather: "Pre-cooling with ice slurry 15min before exercise improves performance 3-7% in heat >28°C (Siegel2012) - try 500ml frozen sports drink"
-- Recovery: "Distribute 0.4g/kg protein across 4+ meals to preserve muscle during deficit - eating protein every 3-4h maintains MPS even in energy restriction (Morton2018)"
+**What to Avoid:**
+- ❌ Codified citations like "(ISSN2017)" or "(ACSM2016)" - use natural language
+- ❌ Generic advice like "stay hydrated" or "eat well"
+- ❌ Overly technical jargon without explanation
+- ❌ Tips that don't relate to the athlete's current context
 
 ### 4. TRAINING LOAD SUMMARY
 Calculate and include:
@@ -143,8 +147,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations. First char
     }
   ],
   "daily_tip": {
-    "text": "Research-backed actionable tip (1-2 sentences)",
-    "source": "Primary citation (e.g., ACSM2016)"
+    "text": "Motivating, actionable tip in natural language (1-2 sentences)"
   },
   "warnings": []
 }
@@ -160,7 +163,7 @@ Before returning, verify:
 5. ✅ **Hydration normalization**: Sum of timeline hydration_ml = daily_summary.hydration_l × 1000 (±200ml)
 6. ✅ Timeline is sorted chronologically by time
 7. ✅ Every entry has `hydration_ml` (not `hydration_l`)
-8. ✅ `daily_tip` includes research citation and phase-specific context
+8. ✅ `daily_tip` is motivating, natural, and phase-specific (no codified citations)
 9. ✅ `schema_version` is "1.0"
 10. ✅ `phase` and `goal` match athlete profile
 11. ✅ No trailing commas in JSON
@@ -193,14 +196,19 @@ Before returning, verify:
 {"time": "08:00", "type": "meal", "hydration_ml": 500}
 ```
 
-❌ Generic tip without citation:
+❌ Generic tip:
 ```json
 "daily_tip": {"text": "Stay hydrated"}
 ```
 
-✅ Correct:
+❌ Tip with codified citation (too technical):
 ```json
-"daily_tip": {"text": "Consume 0.4g/kg protein within 30min post-workout to maximize MPS per ACSM2016", "source": "ACSM2016"}
+"daily_tip": {"text": "Maintain 8-10g/kg carbs during race week (ISSN2017)"}
+```
+
+✅ Correct (natural, motivating):
+```json
+"daily_tip": {"text": "With race week here, keep your carbs steady at 8-10g per kg of bodyweight to maintain glycogen stores. Research shows slightly reducing fiber in the days before your event can help minimize GI distress on race day."}
 ```
 
 ❌ **Calories not calculated from macros:**

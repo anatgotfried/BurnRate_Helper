@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-info-modal.css">
 </head>
 <body>
     <!-- Header -->
@@ -210,28 +211,20 @@
             
             <!-- Tabs -->
             <div class="tabs">
-                <button class="tab-btn active" data-tab="summary">📊 Summary</button>
-                <button class="tab-btn" data-tab="timeline">🕑 Timeline</button>
+                <button class="tab-btn active" data-tab="plan">📊 Plan</button>
                 <button class="tab-btn" data-tab="prompt">💬 Prompt & Response</button>
             </div>
 
             <!-- Tab Content -->
             <div class="tab-content">
-                <!-- Summary Tab -->
-                <div id="summaryTab" class="tab-pane active">
-                    <div id="summaryContent">
-                        <!-- Summary will be rendered here -->
-                    </div>
-                </div>
-
-                <!-- Timeline Tab -->
-                <div id="timelineTab" class="tab-pane">
-                    <div class="timeline-actions" style="margin-bottom: 1rem;">
-                        <button type="button" onclick="copyTimeline()" class="btn btn-secondary">📋 Copy Timeline</button>
+                <!-- Plan Tab (Summary + Timeline) -->
+                <div id="planTab" class="tab-pane active">
+                    <div class="plan-actions" style="margin-bottom: 1rem;">
+                        <button type="button" onclick="copyPlan()" class="btn btn-secondary">📋 Copy Plan</button>
                         <button type="button" onclick="savePlan()" class="btn btn-secondary">💾 Save Plan (JSON)</button>
                     </div>
-                    <div id="timelineContent">
-                        <!-- Timeline will be rendered here -->
+                    <div id="planContent">
+                        <!-- Summary and Timeline will be rendered here together -->
                     </div>
                 </div>
 
