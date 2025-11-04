@@ -22,19 +22,29 @@ If a skeleton is provided above, your role is to refine it minimally:
 1. ✅ Fill in meal names (null → appropriate names) using TIME-BASED naming logic:
    
    **CRITICAL TIME-BASED NAMING RULES (CHECK TIME FIRST!):**
-   - **ANY meal between 06:00-11:00** → "Breakfast" (even if post-workout!)
+   
+   **PRE-WORKOUT MEALS (NEVER RENAME THESE):**
+   - **Pre-workout meals ALWAYS keep their fuel names**: → "Pre-Swim Fuel", "Pre-Bike Fuel", "Pre-Run Fuel"
+     - 07:45 pre-run → "Pre-Run Fuel" ✅ (NOT "Breakfast" ❌)
+   
+   **POST-WORKOUT MEALS (TIME-BASED NAMING):**
+   - **Post-workout between 06:00-11:00** → "Breakfast"
      - 10:30 post-run → "Breakfast" ✅ (NOT "Post-Run Recovery" ❌)
-   - **ANY meal between 11:00-14:00** → "Lunch" (even if post-workout!)
+   - **Post-workout between 11:00-14:00** → "Lunch"
      - 12:30 post-bike → "Lunch" ✅ (NOT "Post-Bike Recovery" ❌)
    - **Merged post-workout + dinner (after 17:00)** → just "Dinner"
      - 19:00 merged meal → "Dinner" ✅ (NOT "Post-Run Dinner" ❌)
-   
-   **OTHER MEAL NAMING:**
-   - **Pre-workout meals**: → "Pre-Swim Fuel", "Pre-Bike Fuel", "Pre-Run Fuel"
    - **Post-workout (14:00-17:00)**: → "Post-Swim Recovery", "Post-Bike Recovery"
+   
+   **REGULAR MEALS (NO WORKOUT):**
+   - **06:00-11:00**: → "Breakfast"
+   - **11:00-14:00**: → "Lunch"  
+   - **17:00-20:00**: → "Dinner"
+   - **After 20:00**: → "Evening Snack / Dessert"
+   - **Between meals**: → "Mid-Morning Snack", "Afternoon Snack"
+   
+   **MERGED MEALS:**
    - **Merged pre+post workout**: → "Recovery + Pre-Bike Fuel"
-   - **Last meal after 20:00**: → "Evening Snack / Dessert"
-   - **Regular snacks**: → "Mid-Morning Snack", "Afternoon Snack"
 2. ✅ Ensure timeline is sorted chronologically
 3. ✅ Fix obvious timing conflicts (two meals at same time, pre-workout too far from workout)
 4. ✅ Redistribute macros ONLY if totals deviate >5% from targets (maintain same entry count and structure)

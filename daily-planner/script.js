@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.7.1';
+const VERSION = '2.8';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -435,7 +435,10 @@ function buildPrompts(context, skeleton = null) {
     // Build skeleton text
     let skeletonText;
     if (skeleton && skeleton.timeline) {
-        skeletonText = `Here is a programmatically generated timeline skeleton (research-calculated):\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nSkeleton totals: ${skeleton.totals.carbs_g}C / ${skeleton.totals.protein_g}P / ${skeleton.totals.fat_g}F / ${skeleton.totals.calories} kcal\n\nYour job:\n1. Fill in meal names using TIME-BASED naming (check time FIRST!):\n   CRITICAL: Name meals based on TIME OF DAY, not workout status:\n   - ANY meal 06:00-11:00 → "Breakfast" (even if post-workout!)\n     Example: 10:30 post-run → "Breakfast" (NOT "Post-Run Recovery")\n   - ANY meal 11:00-14:00 → "Lunch" (even if post-workout!)\n   - Pre-workout meals → "Pre-[Sport] Fuel"\n   - Merged dinner (after 17:00) → just "Dinner" (NOT "Post-Run Dinner")\n   - Post-workout (14:00-17:00) → "Post-[Sport] Recovery"\n   - Last meal (after 20:00) → "Evening Snack / Dessert"\n2. Fix timing if obviously wrong\n3. Redistribute macros ONLY if totals deviate >5% from targets\n4. Keep same number of entries\n5. DO NOT change locked meals\n\nMaintain macro totals within ±2% of targets.`;
+        skeletonText = `Here is a programmatically generated timeline skeleton (research-calculated):\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nSkeleton totals: ${skeleton.totals.carbs_g}C / ${skeleton.totals.protein_g}P / ${skeleton.totals.fat_g}F / ${skeleton.totals.calories} kcal\n\nYour job:\n1. Fill in meal names using TIME-BASED naming:\n   
+   PRE-WORKOUT MEALS (NEVER RENAME!):\n   - Pre-workout ALWAYS keeps fuel name → "Pre-Run Fuel", "Pre-Bike Fuel"\n     Example: 07:45 pre-run → "Pre-Run Fuel" (NOT "Breakfast")\n   
+   POST-WORKOUT MEALS (TIME-BASED):\n   - Post-workout 06:00-11:00 → "Breakfast"\n     Example: 10:30 post-run → "Breakfast" (NOT "Post-Run Recovery")\n   - Post-workout 11:00-14:00 → "Lunch"\n   - Merged dinner (after 17:00) → just "Dinner"\n   - Post-workout (14:00-17:00) → "Post-[Sport] Recovery"\n   
+   REGULAR MEALS:\n   - 06:00-11:00 → "Breakfast"\n   - 11:00-14:00 → "Lunch"\n   - 17:00-20:00 → "Dinner"\n   - After 20:00 → "Evening Snack / Dessert"\n\n2. Fix timing if obviously wrong\n3. Redistribute macros ONLY if totals deviate >5% from targets\n4. Keep same number of entries\n5. DO NOT change locked meals\n\nMaintain macro totals within ±2% of targets.`;
     } else {
         skeletonText = 'Generate the complete timeline from scratch.';
     }
@@ -840,6 +843,9 @@ function renderTimelineHTML(timeline, timelineTotals, targets) {
         hydration: '💧'
     };
     
+    // Store timeline for info modals
+    window.currentTimeline = timeline;
+    
     const html = timeline.map((entry, idx) => {
         // Build workout duration display if it's a workout
         let workoutInfo = '';
@@ -847,11 +853,14 @@ function renderTimelineHTML(timeline, timelineTotals, targets) {
             workoutInfo = ` (${entry.duration_min} min${entry.intensity ? ', ' + entry.intensity : ''})`;
         }
         
+        // Info button for this entry
+        const infoBtn = `<button class="info-btn" onclick="showMealInfo(${idx})" title="Why these macros?">ℹ️</button>`;
+        
         return `
         <div class="timeline-entry" style="background: ${idx % 2 === 0 ? 'var(--bg-subtle)' : 'white'};">
             <div class="timeline-time">${entry.time}</div>
             <div class="timeline-content">
-                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}${workoutInfo}</h4>
+                <h4>${typeIcons[entry.type] || '📌'} ${entry.name}${workoutInfo} ${infoBtn}</h4>
                 <div class="timeline-macros">
                     ${entry.carbs_g || 0}g carbs | ${entry.protein_g || 0}g protein | 
                     ${entry.fat_g || 0}g fat | ${entry.calories || 0} kcal | 
@@ -1221,5 +1230,398 @@ document.addEventListener('click', (e) => {
     if (phaseModal && e.target === phaseModal) {
         closePhaseInfo();
     }
+    
+    const infoModal = document.getElementById('calculationInfoModal');
+    if (infoModal && e.target === infoModal) {
+        closeInfoModal();
+    }
 });
+
+// Calculation info modal functions
+function showTargetInfo(key) {
+    const athlete = context?.athlete || {};
+    const targets = context?.calculated_targets || {};
+    const workouts = context?.workouts || [];
+    
+    let title = '';
+    let body = '';
+    
+    const bw = athlete.weight_kg || 70;
+    const goal = athlete.goal || 'performance';
+    const phase = athlete.phase || 'base';
+    
+    switch(key) {
+        case 'overview':
+            title = 'Daily Targets Overview';
+            body = `
+                <div class="info-explanation">
+                    <p>Your daily macro targets are calculated using research-based formulas that account for:</p>
+                    <ul>
+                        <li><strong>Body weight</strong> (${bw} kg)</li>
+                        <li><strong>Training load</strong> (${workouts.length} workout${workouts.length === 1 ? '' : 's'})</li>
+                        <li><strong>Goal</strong> (${goal})</li>
+                        <li><strong>Training phase</strong> (${phase})</li>
+                    </ul>
+                    <p>Click the ℹ️ button next to each macro to see how it was calculated.</p>
+                </div>
+            `;
+            break;
+            
+        case 'calories':
+            const bmr = Math.round(370 + (21.6 * bw));
+            const tdee = Math.round(bmr * 1.5); // Moderate activity
+            title = 'Daily Calories Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Basal Metabolic Rate (BMR)</span>
+                        <span><strong>${bmr} kcal</strong></span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>Activity Factor (moderate)</span>
+                        <span><strong>×1.5</strong></span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>Total Daily Energy Expenditure (TDEE)</span>
+                        <span><strong>${tdee} kcal</strong></span>
+                    </div>
+                </div>
+                <div class="info-note">
+                    <strong>Note:</strong> This TDEE already includes your training energy expenditure. 
+                    Workouts add extra carbs for performance, but don't add extra calories on top.
+                </div>
+                <div class="info-explanation">
+                    <p><strong>Formula:</strong> BMR = 370 + (21.6 × body weight)</p>
+                    <p>Research: Cunningham Equation (validated for athletes)</p>
+                </div>
+            `;
+            break;
+            
+        case 'carbs':
+            const carbsPerKg = targets.carb_factor_g_per_kg || 7;
+            title = 'Carbohydrate Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Body Weight</span>
+                        <span><strong>${bw} kg</strong></span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>Carb Factor (training load)</span>
+                        <span><strong>${carbsPerKg} g/kg</strong></span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>Daily Carbohydrate Target</span>
+                        <span><strong>${Math.round(bw * carbsPerKg)} g</strong></span>
+                    </div>
+                </div>
+                <div class="info-explanation">
+                    <p><strong>Calculation:</strong> ${bw} kg × ${carbsPerKg} g/kg = ${Math.round(bw * carbsPerKg)}g</p>
+                    <p><strong>Why this amount?</strong> Based on your training load, this ensures adequate glycogen for performance and recovery.</p>
+                    <p><strong>Research:</strong> IOC Consensus Statement (Burke et al., 2011) - Athletes need 5-12 g/kg/day based on training intensity.</p>
+                </div>
+            `;
+            break;
+            
+        case 'protein':
+            const proteinPerKg = targets.protein_factor_g_per_kg || 2.0;
+            title = 'Protein Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Body Weight</span>
+                        <span><strong>${bw} kg</strong></span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>Protein Factor (goal: ${goal})</span>
+                        <span><strong>${proteinPerKg} g/kg</strong></span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>Daily Protein Target</span>
+                        <span><strong>${Math.round(bw * proteinPerKg)} g</strong></span>
+                    </div>
+                </div>
+                <div class="info-explanation">
+                    <p><strong>Calculation:</strong> ${bw} kg × ${proteinPerKg} g/kg = ${Math.round(bw * proteinPerKg)}g</p>
+                    <p><strong>Why this amount?</strong> Supports muscle repair, recovery, and adaptation from training.</p>
+                    <p><strong>Research:</strong> ISSN Position Stand (Jäger et al., 2017) - Endurance athletes need 1.2-2.0 g/kg/day; strength athletes up to 2.2 g/kg/day.</p>
+                </div>
+            `;
+            break;
+            
+        case 'fat':
+            const fatCals = Math.round((targets.daily_fat_target_g || 50) * 9);
+            title = 'Fat Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Daily Fat Target</span>
+                        <span><strong>${targets.daily_fat_target_g || 0} g</strong></span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>Calories from Fat (9 kcal/g)</span>
+                        <span><strong>${fatCals} kcal</strong></span>
+                    </div>
+                </div>
+                <div class="info-explanation">
+                    <p><strong>How it's calculated:</strong> Fat fills remaining calories after carbs and protein are allocated.</p>
+                    <p><strong>Formula:</strong> Fat (g) = [TDEE - (Carbs × 4) - (Protein × 4)] ÷ 9</p>
+                    <p><strong>Why?</strong> Ensures adequate energy intake while prioritizing carbs for performance and protein for recovery.</p>
+                    <p><strong>Research:</strong> Fat should provide 20-35% of total daily calories for athletes (ACSM, 2016).</p>
+                </div>
+            `;
+            break;
+            
+        case 'sodium':
+            const baseSodium = 2000; // mg baseline
+            const sweatLoss = workouts.length * 500; // ~500mg per workout
+            title = 'Sodium Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Baseline Sodium Needs</span>
+                        <span><strong>${baseSodium} mg</strong></span>
+                    </div>
+                    <div class="breakdown-row positive">
+                        <span>Sweat Loss (${workouts.length} workout${workouts.length === 1 ? '' : 's'})</span>
+                        <span><strong>+${sweatLoss} mg</strong></span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>Total Sodium Target</span>
+                        <span><strong>${targets.sodium_target_mg || 0} mg</strong></span>
+                    </div>
+                </div>
+                <div class="info-explanation">
+                    <p><strong>Calculation:</strong> ${baseSodium} mg baseline + ~500-1000 mg per hour of training</p>
+                    <p><strong>Why?</strong> Athletes lose 500-1500 mg sodium per liter of sweat. Adequate sodium prevents hyponatremia and supports performance.</p>
+                    <p><strong>Research:</strong> ACSM Position Stand on Fluid Replacement (2007) - Active individuals need 1500-2300 mg/day baseline plus sweat losses.</p>
+                </div>
+            `;
+            break;
+            
+        case 'hydration':
+            const baseFluid = 2.0; // liters
+            const trainingFluid = workouts.length * 0.5; // ~500ml per hour
+            title = 'Hydration Target';
+            body = `
+                <div class="info-breakdown">
+                    <div class="breakdown-row">
+                        <span>Baseline Fluid Needs</span>
+                        <span><strong>${baseFluid} L</strong></span>
+                    </div>
+                    <div class="breakdown-row positive">
+                        <span>Training Fluid (${workouts.length} workout${workouts.length === 1 ? '' : 's'})</span>
+                        <span><strong>+${trainingFluid.toFixed(1)} L</strong></span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>Total Hydration Target</span>
+                        <span><strong>${targets.hydration_target_l || 0} L</strong></span>
+                    </div>
+                </div>
+                <div class="info-explanation">
+                    <p><strong>Calculation:</strong> 2-3L baseline + 500-1000ml per hour of training</p>
+                    <p><strong>Why?</strong> Maintains plasma volume, thermoregulation, and cardiovascular function during exercise.</p>
+                    <p><strong>Research:</strong> ACSM recommends 5-10 ml/kg body weight 2-4 hours pre-exercise, plus 200-300ml every 10-20 minutes during exercise.</p>
+                </div>
+            `;
+            break;
+    }
+    
+    document.getElementById('infoModalTitle').textContent = title;
+    document.getElementById('infoModalBody').innerHTML = body;
+    document.getElementById('calculationInfoModal').style.display = 'flex';
+}
+
+function showMealInfo(entryIdx) {
+    if (!window.currentTimeline || !window.currentTimeline[entryIdx]) {
+        console.error('No timeline entry found at index', entryIdx);
+        return;
+    }
+    
+    const entry = window.currentTimeline[entryIdx];
+    const athlete = context?.athlete || {};
+    const bw = athlete.weight_kg || 70;
+    
+    let title = `${entry.name}`;
+    let body = '';
+    
+    const carbCals = (entry.carbs_g || 0) * 4;
+    const proteinCals = (entry.protein_g || 0) * 4;
+    const fatCals = (entry.fat_g || 0) * 9;
+    
+    // Build explanation based on entry type and name
+    if (entry.type === 'workout') {
+        title = `Workout Fuel: ${entry.name}`;
+        body = `
+            <div class="info-explanation">
+                <p><strong>Type:</strong> Intra-workout carbohydrate fueling</p>
+                <p><strong>Goal:</strong> Maintain blood glucose and delay fatigue during exercise</p>
+            </div>
+            <div class="info-breakdown">
+                <h4>Fueling Breakdown</h4>
+                <div class="breakdown-row">
+                    <span>Carbohydrates</span>
+                    <span><strong>${entry.carbs_g || 0}g (${carbCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Hydration</span>
+                    <span><strong>${entry.hydration_ml || 0} ml</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Sodium (electrolytes)</span>
+                    <span><strong>${entry.sodium_mg || 0} mg</strong></span>
+                </div>
+            </div>
+            <div class="info-note">
+                <strong>Research:</strong> For workouts >60 minutes, consuming 30-60g carbs/hour delays fatigue and improves performance (Burke et al., 2011).
+            </div>
+        `;
+    } else if (entry.name && entry.name.toLowerCase().includes('pre-')) {
+        title = `Pre-Workout Meal: ${entry.name}`;
+        body = `
+            <div class="info-explanation">
+                <p><strong>Timing:</strong> ${entry.time} (${context?.pre_workout_timing_min || 90} minutes before workout)</p>
+                <p><strong>Goal:</strong> Top off glycogen stores and provide sustained energy without GI distress</p>
+            </div>
+            <div class="info-breakdown">
+                <h4>Macro Breakdown</h4>
+                <div class="breakdown-row">
+                    <span>Carbohydrates</span>
+                    <span><strong>${entry.carbs_g || 0}g (~1g/kg BW)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Protein</span>
+                    <span><strong>${entry.protein_g || 0}g (muscle protection)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Fat</span>
+                    <span><strong>${entry.fat_g || 0}g (kept low for digestion)</strong></span>
+                </div>
+                <div class="breakdown-total">
+                    <span>Total</span>
+                    <span><strong>${entry.calories || 0} kcal</strong></span>
+                </div>
+            </div>
+            <div class="info-note">
+                <strong>Research:</strong> Pre-workout meals should emphasize carbs (1-4 g/kg) consumed 1-4 hours before exercise (ACSM/ISSN guidelines).
+            </div>
+        `;
+    } else if (entry.name && (entry.name.toLowerCase().includes('post-') || entry.name === 'Breakfast' || entry.name === 'Lunch')) {
+        // Check if this is post-workout based on timeline
+        const prevEntry = entryIdx > 0 ? window.currentTimeline[entryIdx - 1] : null;
+        const isPostWorkout = prevEntry && prevEntry.type === 'workout';
+        
+        title = isPostWorkout ? `Post-Workout Meal: ${entry.name}` : `Meal: ${entry.name}`;
+        
+        const explanation = isPostWorkout 
+            ? '<p><strong>Goal:</strong> Replenish glycogen, initiate muscle repair, and rehydrate</p>' 
+            : '<p><strong>Goal:</strong> Provide balanced nutrition and contribute to daily macro targets</p>';
+        
+        const researchNote = isPostWorkout
+            ? '<strong>Research:</strong> Consuming carbs + protein within 2 hours post-exercise optimizes recovery (Jäger et al., 2017). Recommended ratio: 3-4:1 carbs:protein.'
+            : '<strong>Distribution:</strong> Regular meals are distributed evenly across the day to meet remaining macro needs after workout fueling.';
+        
+        body = `
+            <div class="info-explanation">
+                <p><strong>Timing:</strong> ${entry.time}</p>
+                ${explanation}
+            </div>
+            <div class="info-breakdown">
+                <h4>Macro Breakdown</h4>
+                <div class="breakdown-row">
+                    <span>Carbohydrates</span>
+                    <span><strong>${entry.carbs_g || 0}g (${carbCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Protein</span>
+                    <span><strong>${entry.protein_g || 0}g (${proteinCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Fat</span>
+                    <span><strong>${entry.fat_g || 0}g (${fatCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-total">
+                    <span>Total</span>
+                    <span><strong>${entry.calories || 0} kcal</strong></span>
+                </div>
+            </div>
+            <div class="info-note">
+                ${researchNote}
+            </div>
+        `;
+    } else if (entry.name === 'Dinner') {
+        title = `Dinner`;
+        body = `
+            <div class="info-explanation">
+                <p><strong>Timing:</strong> ${entry.time}</p>
+                <p><strong>Goal:</strong> Main meal providing substantial calories and balanced macros for recovery and daily needs</p>
+            </div>
+            <div class="info-breakdown">
+                <h4>Macro Breakdown</h4>
+                <div class="breakdown-row">
+                    <span>Carbohydrates</span>
+                    <span><strong>${entry.carbs_g || 0}g (${carbCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Protein</span>
+                    <span><strong>${entry.protein_g || 0}g (${proteinCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Fat</span>
+                    <span><strong>${entry.fat_g || 0}g (${fatCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-total">
+                    <span>Total</span>
+                    <span><strong>${entry.calories || 0} kcal</strong></span>
+                </div>
+            </div>
+            <div class="info-note">
+                <strong>Tip:</strong> Dinner often serves as both recovery meal and main calorie source. Higher in both carbs and protein to support overnight recovery.
+            </div>
+        `;
+    } else {
+        // Generic meal/snack
+        title = `${entry.name}`;
+        body = `
+            <div class="info-explanation">
+                <p><strong>Timing:</strong> ${entry.time}</p>
+                <p><strong>Type:</strong> Regular meal contributing to daily macro targets</p>
+            </div>
+            <div class="info-breakdown">
+                <h4>Macro Breakdown</h4>
+                <div class="breakdown-row">
+                    <span>Carbohydrates</span>
+                    <span><strong>${entry.carbs_g || 0}g (${carbCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Protein</span>
+                    <span><strong>${entry.protein_g || 0}g (${proteinCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-row">
+                    <span>Fat</span>
+                    <span><strong>${entry.fat_g || 0}g (${fatCals} kcal)</strong></span>
+                </div>
+                <div class="breakdown-total">
+                    <span>Total</span>
+                    <span><strong>${entry.calories || 0} kcal</strong></span>
+                </div>
+            </div>
+            <div class="info-note">
+                <strong>Distribution:</strong> Remaining macros after workout fueling are distributed across ${context?.athlete?.meals_per_day || 3} meals per day.
+            </div>
+        `;
+    }
+    
+    document.getElementById('infoModalTitle').textContent = title;
+    document.getElementById('infoModalBody').innerHTML = body;
+    document.getElementById('calculationInfoModal').style.display = 'flex';
+}
+
+function closeInfoModal(event) {
+    // Only close if clicking backdrop or close button
+    if (event && event.target !== event.currentTarget) {
+        return;
+    }
+    document.getElementById('calculationInfoModal').style.display = 'none';
+}
 
