@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script
-const VERSION = '2.0.1';
+const VERSION = '2.1';
 const VERSION_DATE = '2025-11-04';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -417,7 +417,7 @@ function buildContext() {
 }
 
 // Build prompts (two-pass mode)
-function buildPrompts(context) {
+function buildPrompts(context, skeleton = null) {
     // Check if fast mode is enabled
     const fastMode = document.getElementById('fastMode')?.checked ?? true;
     
@@ -431,14 +431,24 @@ function buildPrompts(context) {
         console.log(`⚡ Fast mode enabled: ${filtered.savings}`);
     }
     
-    // Build Pass 1 prompt (computation)
+    // Build skeleton text
+    let skeletonText;
+    if (skeleton && skeleton.timeline) {
+        skeletonText = `Here is a programmatically generated timeline skeleton:\n${JSON.stringify(skeleton.timeline, null, 2)}\n\nPlease refine this timeline by:\n1. Filling in meal names (currently null)\n2. Making minor macro adjustments if timing seems impractical (±5% max)\n3. Ensuring timeline makes sense for the athlete\n\nDo NOT change locked meals (marked with 'locked': true). Keep all macro totals within ±2% of targets.`;
+    } else {
+        skeletonText = 'Generate the complete timeline from scratch.';
+    }
+    
+    // Build locked meals text
     const lockedMealsText = context.locked_meals && context.locked_meals.length > 0 
         ? JSON.stringify(context.locked_meals, null, 2) 
         : "No locked meals - you have full flexibility to create the entire timeline.";
     
+    // Build Pass 1 prompt (computation)
     let promptPass1 = promptTemplatePass1
         .replace('{RESEARCH_CORPUS}', JSON.stringify(corpus, null, 2))
         .replace('{CONTEXT}', JSON.stringify(context, null, 2))
+        .replace('{SKELETON}', skeletonText)
         .replace('{LOCKED_MEALS}', lockedMealsText)
         .replace('{MEALS_PER_DAY}', context.athlete.meals_per_day || 4);
     
@@ -478,18 +488,40 @@ async function generatePlan() {
     // Show loading
     showLoading(true);
     
+    // Generate programmatic skeleton (frontend calculation)
+    let skeleton = null;
+    if (window.generateTimelineSkeleton) {
+        try {
+            skeleton = generateTimelineSkeleton(
+                context.athlete,
+                context.workouts,
+                context.locked_meals || [],
+                context.calculated_targets
+            );
+            console.log(`✅ Generated skeleton: ${skeleton.total_entries} entries`);
+            console.log(`   - Workout meals: ${skeleton.num_workout_entries}`);
+            console.log(`   - Locked meals: ${skeleton.num_locked_entries}`);
+            console.log(`   - Regular meals: ${skeleton.num_regular_entries}`);
+        } catch (error) {
+            console.warn('⚠️ Skeleton generation failed:', error);
+            skeleton = null;
+        }
+    }
+    
     // Build prompts (two-pass mode)
-    const prompts = buildPrompts(context);
+    const prompts = buildPrompts(context, skeleton);
     window.lastPrompt = prompts.pass1;
     window.lastPromptPass2 = prompts.pass2;
     window.lastModel = selectedModel;
+    window.lastSkeleton = skeleton;
     
     // Update prompt display (show Pass 1)
     document.getElementById('promptContent').textContent = prompts.pass1;
     
     // Show prompt stats
     const promptTokens = Math.ceil((prompts.pass1.length + prompts.pass2.length) / 4);
-    showStatus(`Generating with ${selectedModel} (two-pass mode)... (prompts: ~${promptTokens.toLocaleString()} tokens)`, 'info');
+    const skeletonMsg = skeleton ? ' (with programmatic skeleton)' : '';
+    showStatus(`Generating with ${selectedModel} (two-pass mode${skeletonMsg})... (prompts: ~${promptTokens.toLocaleString()} tokens)`, 'info');
     
     try {
         const response = await fetch(`${API_URL}/daily-planner/api/generate`, {
@@ -501,10 +533,8 @@ async function generatePlan() {
                 model: selectedModel,
                 prompt_pass1: prompts.pass1,
                 prompt_pass2: prompts.pass2,
-                athlete: context.athlete,
-                workouts: context.workouts,
-                locked_meals: context.locked_meals || [],
                 calculated_targets: context.calculated_targets,
+                skeleton: skeleton,  // Send pre-computed skeleton
                 max_tokens: 3000
             })
         });

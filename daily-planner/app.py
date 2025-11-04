@@ -134,11 +134,9 @@ def generate_plan():
         plan_json = data.get('plan_json', None)  # For Pass 2 only
         max_tokens = data.get('max_tokens', 3000)
         
-        # Get athlete data, workouts, locked meals, and targets
-        athlete = data.get('athlete', {})
-        workouts = data.get('workouts', [])
-        locked_meals = data.get('locked_meals', [])
+        # Get calculated targets and pre-computed skeleton (from frontend)
         calculated_targets = data.get('calculated_targets', {})
+        skeleton = data.get('skeleton', None)  # Pre-computed by frontend
         
         # Determine if this is a two-pass request or single-pass
         is_two_pass = bool(prompt_pass1 and prompt_pass2)
@@ -155,38 +153,14 @@ def generate_plan():
             prompt_pass1 = old_prompt
             is_two_pass = False
 
-        # Pass 0: Generate programmatic skeleton (if we have athlete data)
-        skeleton = None
-        skeleton_error = None
-        if athlete and workouts and calculated_targets and not is_pass2_only:
-            try:
-                skeleton = generate_skeleton_via_node(athlete, workouts, locked_meals, calculated_targets)
-                print(f"✅ Generated skeleton: {skeleton['total_entries']} entries")
-                print(f"   - Workout meals: {skeleton['num_workout_entries']}")
-                print(f"   - Locked meals: {skeleton['num_locked_entries']}")
-                print(f"   - Regular meals: {skeleton['num_regular_entries']}")
-            except Exception as e:
-                import traceback
-                skeleton_error = str(e)
-                error_trace = traceback.format_exc()
-                print(f"⚠️ Skeleton generation failed: {skeleton_error}")
-                print(f"   Trace: {error_trace}")
-                # Continue without skeleton - AI will generate everything
-                skeleton = None
+        # Log if skeleton was provided by frontend
+        if skeleton:
+            print(f"✅ Using frontend-generated skeleton: {skeleton.get('total_entries', 'unknown')} entries")
+        else:
+            print("⚠️ No skeleton provided - AI will generate complete timeline")
         
-        # Pass 1: Generate computation layer (or refine skeleton)
+        # Pass 1: Generate computation layer (skeleton already in prompt from frontend)
         if not is_pass2_only:
-            # If we have a skeleton, modify the prompt to use it
-            if skeleton:
-                skeleton_json = json.dumps(skeleton['timeline'], indent=2)
-                prompt_pass1 = prompt_pass1.replace(
-                    '{SKELETON}',
-                    f"Here is a programmatically generated timeline skeleton:\n{skeleton_json}\n\nPlease refine this timeline by:\n1. Filling in meal names (currently null)\n2. Making minor macro adjustments if timing seems impractical (±5% max)\n3. Ensuring timeline makes sense for the athlete\n\nDo NOT change locked meals (marked with 'locked': true). Keep all macro totals within ±2% of targets."
-                )
-            else:
-                # No skeleton - remove placeholder
-                prompt_pass1 = prompt_pass1.replace('{SKELETON}', 'Generate the complete timeline from scratch.')
-            
             response = call_openrouter_api(model, prompt_pass1, max_tokens, temperature=0.3)
 
             if response.status_code != 200:
