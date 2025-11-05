@@ -21,15 +21,30 @@ Generate TWO outputs:
 
 **Requirements:**
 - **1 sentence ONLY** - max 100 characters
-- Friendly, motivating tone (like a coach texting you)
-- Reference their training load or goal
-- NO technical jargon
+- Be SPECIFIC: state actual numbers, actual workouts, actual strategies
+- Sound like you're sharing a surprising fact or key priority
+- NO generic motivational phrases ("crush your goals", "fuel smart", "stay strong")
+- NO obvious statements ("eat well today")
 
-**Examples:**
-- "Big day ahead! 3 workouts = 700g carbs to keep you fueled 💪"
-- "Rest day recovery - protein and hydration are your priorities today"
-- "Race week! Keeping carbs high and digestion easy"
-- "Moderate load today - perfect for quality over quantity"
+**WHAT MAKES A GOOD INSIGHT:**
+✅ States a specific number or fact: "700g carbs today = your 3 workouts are well-fueled"
+✅ Reveals the strategy: "Fat loss: deficit comes from rest days, not workout fuel"
+✅ Highlights key priority: "2.5L hydration target = 500ml every 2 hours"
+✅ Shows the tradeoff: "Moderate carbs today (420g) = quality over volume"
+
+**BAD Examples (Generic Fluff):**
+❌ "Two runs and fat loss today! Fuel smart to crush your goals 💪"
+❌ "Big training day ahead - stay focused and hydrated!"
+❌ "Rest up and recover strong today 💪"
+❌ "Eat well and train hard - you've got this!"
+
+**GOOD Examples (Specific & Insightful):**
+✅ "2 runs + fat loss: 392g carbs (30% cut) but workouts still prioritized"
+✅ "3 workouts = 4.5L hydration target - spread it out every hour"
+✅ "Rest day: protein is king (161g) for recovery without the carbs"
+✅ "Race week: 700g carbs daily to top off glycogen without stuffing"
+✅ "Taper day: same carbs (560g), less volume = glycogen supercomp"
+✅ "Hot today (30°C): +1L hydration, +1000mg sodium for sweat losses"
 
 ---
 
