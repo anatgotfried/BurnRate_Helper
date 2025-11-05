@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '3.0';
+const VERSION = '3.1';
 const VERSION_DATE = '2025-11-05';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -913,18 +913,45 @@ function renderTimelineHTML(timeline, timelineTotals, targets) {
     `;
 }
 
-// Render daily tip
-function renderDailyTip(tip) {
-    const tipText = typeof tip === 'string' ? tip : tip.text;
+// Render daily tip (now includes insight + pro tip)
+function renderDailyTip(tipData) {
+    // Handle both old format (just text) and new format (insight + pro_tip)
+    let insightText = '';
+    let proTipText = '';
+    
+    if (typeof tipData === 'string') {
+        // Old format - just text
+        insightText = tipData;
+    } else if (tipData.text) {
+        // Old format - object with text field
+        insightText = tipData.text;
+    } else {
+        // New format - separate insight and pro_tip
+        insightText = tipData.daily_insight || tipData.text || '';
+        proTipText = tipData.pro_tip || '';
+    }
     
     return `
-        <div class="daily-tip-card">
-            <div class="tip-icon">💡</div>
-            <div class="tip-content">
-                <h4>Today's Insight</h4>
-                <p>${tipText}</p>
+        <div class="daily-tip-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                <div class="tip-icon" style="font-size: 2rem; flex-shrink: 0;">💡</div>
+                <div class="tip-content" style="flex: 1;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: white; font-size: 1rem; font-weight: 600;">Today's Insight</h4>
+                    <p style="margin: 0; font-size: 1.125rem; line-height: 1.4; font-weight: 500;">${insightText}</p>
+                </div>
             </div>
         </div>
+        ${proTipText ? `
+        <div class="pro-tip-card" style="background: white; border-left: 4px solid #10b981; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                <div style="font-size: 1.5rem; flex-shrink: 0;">🎯</div>
+                <div style="flex: 1;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #10b981; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Pro Tip</h4>
+                    <p style="margin: 0; color: #1f2937; line-height: 1.6; font-size: 0.9375rem;">${proTipText}</p>
+                </div>
+            </div>
+        </div>
+        ` : ''}
     `;
 }
 

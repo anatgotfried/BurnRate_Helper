@@ -344,7 +344,15 @@ def generate_plan():
                     tip_data = parse_json_response(content_pass2)
                     
                     # Merge tip into plan data
-                    if 'daily_tip' in tip_data:
+                    # Support both old format (daily_tip.text) and new format (daily_insight + pro_tip)
+                    if 'daily_insight' in tip_data or 'pro_tip' in tip_data:
+                        # New format - separate insight and pro tip
+                        plan_data_pass1['daily_tip'] = {
+                            'daily_insight': tip_data.get('daily_insight', ''),
+                            'pro_tip': tip_data.get('pro_tip', '')
+                        }
+                    elif 'daily_tip' in tip_data:
+                        # Old format - backward compatibility
                         plan_data_pass1['daily_tip'] = tip_data['daily_tip']
                     else:
                         plan_data_pass1['daily_tip'] = {'text': 'Tip generated but format invalid.'}

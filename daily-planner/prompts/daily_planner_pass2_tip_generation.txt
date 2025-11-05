@@ -9,61 +9,99 @@ Based on current consensus from ACSM (2016), ISSN (2017), Burke & Jeukendrup (20
 ## COMPUTED PLAN DATA
 {PLAN_JSON}
 
-## DAILY TIP GENERATION
+## DAILY INSIGHT & PRO TIP GENERATION
 
-Generate `daily_tip.text` that is **motivating, actionable, and informative** - written in natural, conversational language that an athlete would actually want to read.
+Generate TWO outputs:
+1. **`daily_insight`** - Short, motivating, friendly summary (1 sentence, max 100 characters for iOS display)
+2. **`pro_tip`** - Specific, actionable, non-obvious endurance tip based on their day
 
-**Dynamic Tip Logic - Reference Actual Plan Data:**
+---
 
-Analyze the computed plan and add contextual tips based on:
+### 1. DAILY INSIGHT (Short & Friendly)
 
-1. **If `sodium_target_mg > 4000`**: Include practical sodium guidance
-   Example: "Hitting your sodium target of 4500mg is crucial today - try adding 1/4 teaspoon of salt to each main meal and using electrolyte drinks."
+**Requirements:**
+- **1 sentence ONLY** - max 100 characters
+- Friendly, motivating tone (like a coach texting you)
+- Reference their training load or goal
+- NO technical jargon
 
-2. **If `daily_summary.carbs_g < target × 0.95`**: Include glycogen-focused message
-   Example: "Your carb intake is slightly below target - consider adding a post-workout carb source to optimize glycogen replenishment."
+**Examples:**
+- "Big day ahead! 3 workouts = 700g carbs to keep you fueled 💪"
+- "Rest day recovery - protein and hydration are your priorities today"
+- "Race week! Keeping carbs high and digestion easy"
+- "Moderate load today - perfect for quality over quantity"
 
-3. **If `daily_summary.hydration_l < hydration_target_l × 0.9`**: Include hydration reminder
-   Example: "Spread your hydration throughout the day - aim for 500ml with each meal to hit your target."
+---
 
-4. **If protein is unevenly distributed**: Include protein timing tip
-   Example: "Try spacing your protein intake evenly - aim for 0.3-0.4g per kg in each meal to maximize muscle protein synthesis."
+### 2. PRO TIP (Specific & Contextual)
 
-5. **If no workouts exist (rest day)**: Shift emphasis to recovery
-   Example: "On rest days, focus on protein distribution and hydration maintenance - your body uses this time to repair and adapt."
+**Requirements:**
+- **2-3 sentences max**
+- Specific to THEIR day (workouts, training load, goals)
+- Non-obvious endurance athlete wisdom
+- Actionable ("try this" not "consider")
 
-**Multi-Condition Tips:** If multiple conditions trigger advice, combine them into 2–3 concise sentences.
+**Dynamic Tip Logic - Pick the MOST relevant:**
 
-**Language Style:**
-- Use natural, encouraging tone (like a coach speaking to an athlete)
-- Be specific and actionable ("try this" rather than "consider")
-- Reference research naturally (e.g., "studies show" or "research suggests") rather than codified citations like "ISSN2017"
-- Keep it concise (1-2 sentences, or 2-3 if multiple conditions)
-- Make it relevant to the athlete's current training phase and goals
+1. **High Sodium Day (>4000mg)**
+   - Practical tips: Salt packets in pocket, pickle juice, broth
+   - Example: "Hitting 4500mg sodium? Pack 3-4 salt packets for your bike - add one to each bottle. Bonus: salty foods taste better when you're sweating hard."
 
-**Phase-Specific Guidance:**
-- **Race phase**: Mention race week/race day context - emphasize glycogen maintenance, reduced fiber/fat, steady carbs
-- **Taper phase**: Focus on glycogen optimization while staying lean
-- **Base/Build**: Focus on training adaptation and recovery
-- **Recovery**: Focus on muscle preservation and adaptation
+2. **Long Workout (>90 min)**
+   - Fueling strategy: When to start, how to carry, mixing tips
+   - Example: "For your 2hr bike, start fueling at 20 minutes (not when you're hungry). Mix gels/chews with liquid carbs - easier on the gut than gels alone."
+
+3. **Multiple Workouts (brick/double day)**
+   - Recovery window timing, meal logistics
+   - Example: "With a 30-min window between workouts, prioritize liquid carbs (smoothie, juice) over solid food - faster absorption, less GI distress."
+
+4. **Pre-Workout Timing (<90 min before)**
+   - What to eat, GI management
+   - Example: "Eating 60 min pre-run? Skip fiber and fat - stick to white rice, banana, or toast with honey. Save the oatmeal for post-workout."
+
+5. **Fat Loss Goal**
+   - Strategic timing, adherence hacks
+   - Example: "Fat loss tip: Eat your biggest meal within 2 hours post-workout. You'll be hungrier then anyway, and it supports recovery while keeping evening hunger manageable."
+
+6. **Rest Day**
+   - Active recovery, meal timing
+   - Example: "Rest day pro move: Front-load your protein (40g+ at breakfast). Research shows it reduces cravings later and supports overnight muscle repair."
+
+7. **High Training Load (>3.0)**
+   - Recovery priorities, sleep, stress
+   - Example: "Heavy training load today - prioritize 8+ hours of sleep tonight. Glycogen storage rates are 50% higher with adequate sleep vs. sleep-deprived."
+
+8. **Hot Weather (temp >25°C)**
+   - Pre-cooling, sodium timing, hydration hacks
+   - Example: "Hot day ahead? Drink 500ml ice-cold water 15 min before your workout (pre-cooling). Add extra 500mg sodium to breakfast to start sessions hydrated."
+
+9. **Taper Phase**
+   - Carb loading mistakes to avoid
+   - Example: "Taper week: Don't stuff yourself - just maintain carb portions while reducing volume. Your glycogen will fill naturally without the post-workout depletion."
 
 **What to Avoid:**
-- ❌ Codified citations like "(ISSN2017)" or "(ACSM2016)" - use natural language
-- ❌ Generic advice like "stay hydrated" or "eat well"
-- ❌ Overly technical jargon without explanation
-- ❌ Tips that don't relate to the athlete's current context
+- ❌ Generic advice ("stay hydrated", "eat balanced meals")
+- ❌ Obvious tips ("bring water on long runs")
+- ❌ Vague language ("consider trying", "you might want to")
+- ❌ Research citations (ISSN2017, etc)
+- ❌ Advice that doesn't match their specific day
 
 ## OUTPUT FORMAT
 
-Return ONLY valid JSON with the `daily_tip` object:
+Return ONLY valid JSON with BOTH fields:
 
 ```json
 {
-  "daily_tip": {
-    "text": "Motivating, actionable tip in natural language (1-2 sentences, or 2-3 if multiple conditions)"
-  }
+  "daily_insight": "Short, friendly 1-sentence summary (max 100 chars)",
+  "pro_tip": "Specific, actionable 2-3 sentence tip relevant to their day"
 }
 ```
 
-Return ONLY valid JSON. No markdown, no code blocks, no explanations. First character must be { and last character must be }.
+**CRITICAL:**
+- Return ONLY valid JSON
+- No markdown, no code blocks, no explanations
+- First character must be `{` and last character must be `}`
+- Both fields are REQUIRED
+- `daily_insight` must be ≤100 characters
+- `pro_tip` must be contextual to their specific workouts/goals
 
