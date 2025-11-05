@@ -30,8 +30,8 @@
     </header>
 
     <!-- Version Badge (Top Right) -->
-    <div class="version-badge" id="versionBadge" title="Version 2.9 - Added intensity estimation guide (HR zones, RPE, talk test, TrainingPeaks equivalents) (2025-11-05)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
-        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">2.9</span>
+    <div class="version-badge" id="versionBadge" title="Version 3.0 - Complete fat loss system: customizable deficit, smart carb cycling, safety warnings, full transparency (2025-11-05)" style="position: fixed; top: 1rem; right: 1rem; z-index: 1000; background: linear-gradient(135deg, #6366f1, #667eea); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); cursor: pointer; white-space: nowrap; transition: transform 0.2s ease;">
+        <span style="opacity: 0.8; margin-right: 0.25rem;">v</span><span id="versionNumber">3.0</span>
     </div>
 
     <!-- Hero Section -->
@@ -125,10 +125,18 @@
                     </label>
                     <label class="form-label">
                         <span>Goal</span>
-                        <select id="goal" name="goal" class="form-select" required>
+                        <select id="goal" name="goal" class="form-select" required onchange="toggleFatLossOptions()">
                             <option value="performance">Performance</option>
                             <option value="fat_loss">Fat Loss with Performance</option>
                             <option value="hypertrophy">Muscle Hypertrophy</option>
+                        </select>
+                    </label>
+                    <label class="form-label" id="fatLossRateContainer" style="display: none;">
+                        <span>Weekly Fat Loss Target <button class="info-btn" onclick="showFatLossRateGuide(); event.preventDefault();" title="How much fat loss is safe?">ℹ️</button></span>
+                        <select id="fat_loss_rate" name="fat_loss_rate" class="form-select">
+                            <option value="0.5">0.5 lbs/week (Conservative - safest)</option>
+                            <option value="1.0" selected>1.0 lbs/week (Moderate - recommended)</option>
+                            <option value="1.5">1.5 lbs/week (Aggressive - max safe rate)</option>
                         </select>
                     </label>
                 </div>

@@ -14,6 +14,7 @@ function calculateDailyTargets(athlete, workouts) {
     const age = athlete.age || 30; // Default age if not provided
     const goal = athlete.goal; // 'performance', 'fat_loss', 'hypertrophy'
     const phase = athlete.training_phase; // 'base', 'build', 'race', 'recovery'
+    const fatLossRateLbsPerWeek = athlete.fat_loss_rate_lbs_per_week || 1.0; // User-selected rate
     
     // Calculate training load for the day
     const trainingLoad = calculateTrainingLoad(workouts);
@@ -23,7 +24,7 @@ function calculateDailyTargets(athlete, workouts) {
     
     // Calculate each macro
     const protein = calculateProtein(weight, goal, phase, workouts, context);
-    const carbs = calculateCarbs(weight, goal, trainingLoad, workouts, context);
+    const carbs = calculateCarbs(weight, goal, trainingLoad, workouts, context, fatLossRateLbsPerWeek);
     const fat = calculateFat(weight, context, goal);
     const hydration = calculateHydration(weight, workouts, context);
     const sodium = calculateSodium(workouts, weight, hydration.target_ml);
@@ -82,6 +83,40 @@ function calculateDailyTargets(athlete, workouts) {
         console.log(`   Note: This overrides TDEE-based target to ensure consistency`);
     }
     
+    // Calculate actual deficit created (for fat loss goals)
+    let actualDeficitKcal = 0;
+    let actualDeficitLbsPerWeek = 0;
+    let deficitWarnings = [];
+    
+    if (goal === 'fat_loss' || goal === 'fat_loss_with_performance') {
+        // Calculate baseline maintenance calories (if they were eating for performance)
+        const maintenanceProtein = weight * 1.8; // Performance baseline protein
+        const maintenanceCarbs = weight * (trainingLoad < 0.5 ? 3.5 : trainingLoad < 1.5 ? 6.0 : trainingLoad < 3.0 ? 8.0 : 10.0);
+        const maintenanceFat = weight * 0.8;
+        const maintenanceCals = (maintenanceProtein * 4) + (maintenanceCarbs * 4) + (maintenanceFat * 9);
+        
+        actualDeficitKcal = Math.round(maintenanceCals - targetCalories);
+        actualDeficitLbsPerWeek = (actualDeficitKcal * 7) / 3500;
+        
+        // Safety warnings
+        const minimumCalories = gender === 'female' ? 1200 : 1500;
+        if (targetCalories < minimumCalories) {
+            deficitWarnings.push(`⚠️ SAFETY: Calories (${Math.round(targetCalories)}) below recommended minimum (${minimumCalories} kcal for ${gender}s). Risk of nutrient deficiencies and metabolic adaptation.`);
+        }
+        
+        // Check if rate exceeds 1% body weight per week (research-based max)
+        const weightLbs = weight * 2.20462;
+        const maxSafeRate = weightLbs * 0.01;
+        if (actualDeficitLbsPerWeek > maxSafeRate * 1.1) {
+            deficitWarnings.push(`⚠️ RATE TOO AGGRESSIVE: ${actualDeficitLbsPerWeek.toFixed(2)} lbs/week exceeds safe maximum (${maxSafeRate.toFixed(2)} lbs/week for your weight). Risk of muscle loss and performance decline per Helms2014.`);
+        }
+        
+        // Check if deficit is creating more than 30% reduction
+        if (actualDeficitKcal / maintenanceCals > 0.30) {
+            deficitWarnings.push(`⚠️ LARGE DEFICIT: ${Math.round((actualDeficitKcal/maintenanceCals)*100)}% calorie reduction. Consider increasing to ${Math.round(maintenanceCals * 0.75)} kcal/day to preserve muscle and performance.`);
+        }
+    }
+    
     // Calorie breakdown for info modal
     const calorieBreakdown = {
         total: targetCalories,
@@ -92,7 +127,12 @@ function calculateDailyTargets(athlete, workouts) {
         isFatLoss: goal === 'fat_loss' || goal === 'fat_loss_with_performance',
         isSurplus: goal === 'muscle_gain' || goal === 'hypertrophy',
         deficitPercent: deficitPercent,
-        caloriesFromMacros: Math.round(caloriesFromMacros)
+        caloriesFromMacros: Math.round(caloriesFromMacros),
+        actualDeficitKcal: actualDeficitKcal,
+        actualDeficitLbsPerWeek: actualDeficitLbsPerWeek,
+        targetDeficitKcal: carbs.targetDeficitKcal || 0,
+        fatLossRateLbsPerWeek: fatLossRateLbsPerWeek,
+        deficitWarnings: deficitWarnings
     };
     
     return {
@@ -269,7 +309,7 @@ function getProteinRationale(goal, phase, hasLongOrIntense) {
 /**
  * Calculate carbohydrate target
  */
-function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
+function calculateCarbs(weight, goal, trainingLoad, workouts, context, fatLossRateLbsPerWeek = 1.0) {
     // Workout-based bands (performance baseline)
     let carbPerKg = 3.5;
     
@@ -283,24 +323,45 @@ function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
         carbPerKg = 10.0;
     }
     
-    // FAT LOSS ADJUSTMENT: Reduce carbs by 30-40% while maintaining workout fuel
+    // FAT LOSS ADJUSTMENT: Calculate required deficit based on user's target rate
     const isFatLoss = (goal === 'fat_loss' || goal === 'fat_loss_with_performance');
     let fatLossModifier = 1.0;
+    let targetDeficitKcal = 0;
     
     if (isFatLoss) {
+        // Calculate required daily deficit: 1 lb = 3500 kcal, divide by 7 days
+        targetDeficitKcal = (fatLossRateLbsPerWeek * 3500) / 7;
+        
+        // Baseline calories from performance carbs (before cut)
+        const baselineCarbCals = weight * carbPerKg * 4;
+        
+        // Calculate what % of carb calories to cut to achieve deficit
+        // We primarily cut carbs, not protein (which stays high) or fat (stays moderate)
+        const carbDeficitPercent = targetDeficitKcal / baselineCarbCals;
+        
+        // Adjust carb cut intensity based on training load (smart carb cycling)
+        // More aggressive on rest days, less aggressive on hard training days
+        let trainingLoadModifier = 1.0;
         if (trainingLoad < 0.5) {
-            // Rest day: aggressive cut (40%)
-            fatLossModifier = 0.6;
+            // Rest day: can cut more aggressively (120% of target deficit from carbs)
+            trainingLoadModifier = 1.2;
         } else if (trainingLoad < 1.5) {
-            // Light training: moderate cut (35%)
-            fatLossModifier = 0.65;
+            // Light training: moderate cut (110% of target)
+            trainingLoadModifier = 1.1;
         } else if (trainingLoad < 3.0) {
-            // Moderate-high training: conservative cut (30%) to maintain performance
-            fatLossModifier = 0.70;
+            // Moderate-high training: standard cut (100% of target)
+            trainingLoadModifier = 1.0;
         } else {
-            // Very high training: minimal cut (25%) to prevent performance loss
-            fatLossModifier = 0.75;
+            // Very high training: conservative cut (85% of target to preserve performance)
+            trainingLoadModifier = 0.85;
         }
+        
+        // Calculate final carb modifier
+        const adjustedDeficitPercent = carbDeficitPercent * trainingLoadModifier;
+        fatLossModifier = 1 - adjustedDeficitPercent;
+        
+        // Safety bounds: don't cut carbs by more than 50% or less than 10%
+        fatLossModifier = Math.max(0.5, Math.min(0.9, fatLossModifier));
         
         carbPerKg = carbPerKg * fatLossModifier;
     }
@@ -318,7 +379,7 @@ function calculateCarbs(weight, goal, trainingLoad, workouts, context) {
         `Training load: ${trainingLoad.toFixed(2)} (${band} band). ` +
         `Rationale: ${getCarbRationale(band, goal, trainingLoad, isFatLoss, fatLossModifier)}`;
     
-    return { target_g, carbPerKg, band, explanation, isFatLoss, fatLossModifier };
+    return { target_g, carbPerKg, band, explanation, isFatLoss, fatLossModifier, targetDeficitKcal };
 }
 
 function getCarbRationale(band, goal, load, isFatLoss, fatLossModifier) {

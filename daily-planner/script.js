@@ -1,5 +1,5 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.9';
+const VERSION = '3.0';
 const VERSION_DATE = '2025-11-05';
 
 const API_URL = window.location.hostname === 'localhost' 
@@ -365,6 +365,7 @@ function buildContext() {
         timezone: formData.get('timezone'),
         meals_per_day: parseInt(formData.get('meals_per_day')) || 4,
         pre_workout_timing_min: parseInt(formData.get('pre_workout_timing')) || 90,
+        fat_loss_rate_lbs_per_week: formData.get('goal') === 'fat_loss' ? parseFloat(formData.get('fat_loss_rate') || 1.0) : null,
         populations: []
     };
     
@@ -799,7 +800,40 @@ function renderPlan(planData) {
     // Timeline section
     const timelineHtml = renderTimelineHTML(planData.timeline || [], timelineTotals, targets);
     
-    container.innerHTML = summaryHtml + timelineHtml + (planData.warnings && planData.warnings.length > 0 ? `
+    // Fat loss deficit section (if applicable)
+    const fatLossHtml = (targets.calorie_breakdown && targets.calorie_breakdown.isFatLoss) ? `
+        <div class="summary-section" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #f59e0b;">
+            <h3>🔥 Fat Loss Progress Tracker <button class="info-btn" onclick="showFatLossStrategyInfo()" title="How is the deficit created?">ℹ️</button></h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">Target Weekly Loss</span>
+                    <span class="summary-value">${targets.calorie_breakdown.fatLossRateLbsPerWeek || 1.0} lbs/week</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Target Daily Deficit</span>
+                    <span class="summary-value">${Math.round(targets.calorie_breakdown.targetDeficitKcal || 0)} kcal/day</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Actual Daily Deficit</span>
+                    <span class="summary-value">${Math.round(targets.calorie_breakdown.actualDeficitKcal || 0)} kcal/day</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Projected Weekly Loss</span>
+                    <span class="summary-value">${(targets.calorie_breakdown.actualDeficitLbsPerWeek || 0).toFixed(2)} lbs/week</span>
+                </div>
+            </div>
+            ${targets.calorie_breakdown.deficitWarnings && targets.calorie_breakdown.deficitWarnings.length > 0 ? `
+                <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 6px; border-left: 4px solid #ef4444;">
+                    <strong style="color: #ef4444;">⚠️ Safety Warnings:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0; list-style: disc;">
+                        ${targets.calorie_breakdown.deficitWarnings.map(warn => `<li style="margin: 0.25rem 0;">${warn}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        </div>
+    ` : '';
+    
+    container.innerHTML = summaryHtml + fatLossHtml + timelineHtml + (planData.warnings && planData.warnings.length > 0 ? `
         <div class="summary-section">
             <h3>⚠️ Warnings</h3>
             <ul class="warnings-list">
@@ -1623,6 +1657,285 @@ function closeInfoModal(event) {
         return;
     }
     document.getElementById('calculationInfoModal').style.display = 'none';
+}
+
+// Toggle fat loss rate options visibility
+function toggleFatLossOptions() {
+    const goalSelect = document.getElementById('goal');
+    const fatLossContainer = document.getElementById('fatLossRateContainer');
+    
+    if (goalSelect && fatLossContainer) {
+        if (goalSelect.value === 'fat_loss') {
+            fatLossContainer.style.display = 'block';
+        } else {
+            fatLossContainer.style.display = 'none';
+        }
+    }
+}
+
+// Show fat loss strategy info
+function showFatLossStrategyInfo() {
+    const athlete = context?.athlete || {};
+    const targets = context?.calculated_targets || {};
+    const workouts = context?.workouts || [];
+    const trainingLoad = workouts.reduce((sum, w) => {
+        const hours = w.duration_min / 60;
+        const intensityFactors = { 'low': 0.8, 'moderate': 1.2, 'high': 1.5, 'very_high': 1.8 };
+        return sum + (hours * (intensityFactors[w.intensity] || 1.0));
+    }, 0);
+    
+    const title = 'How BurnRate Creates Your Fat Loss Deficit';
+    const body = `
+        <div class="info-explanation">
+            <p><strong>Smart Carb Cycling Strategy</strong> - We don't just cut calories blindly. Your deficit is created through research-based macro manipulation that preserves muscle and performance.</p>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #f59e0b; margin-top: 0;">🎯 The Strategy</h4>
+            <div class="breakdown-row">
+                <span><strong>1. Protein INCREASED:</strong></span>
+                <span>2.3 g/kg (vs 1.6-1.8 for performance)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Why:</strong></span>
+                <span>Preserves muscle mass during deficit (Morton et al. 2018)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>2. Carbs REDUCED:</strong></span>
+                <span>Varies by training load (25-40% cut)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Why:</strong></span>
+                <span>Creates calorie deficit while maintaining workout fuel</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>3. Fat MAINTAINED:</strong></span>
+                <span>0.9 g/kg (slightly higher than performance)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Why:</strong></span>
+                <span>Supports satiety, hormones, and vitamin absorption</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #3b82f6; margin-top: 0;">📊 Your Daily Carb Cycling</h4>
+            <p style="margin: 0.5rem 0;"><strong>Training Load: ${trainingLoad.toFixed(2)}</strong></p>
+            ${trainingLoad < 0.5 ? `
+                <div class="breakdown-row">
+                    <span><strong>Rest Day Strategy:</strong></span>
+                    <span>40% carb reduction</span>
+                </div>
+                <div class="breakdown-row">
+                    <span><strong>Rationale:</strong></span>
+                    <span>Maximize fat burning when glycogen demand is low</span>
+                </div>
+            ` : trainingLoad < 1.5 ? `
+                <div class="breakdown-row">
+                    <span><strong>Light Training Strategy:</strong></span>
+                    <span>35% carb reduction</span>
+                </div>
+                <div class="breakdown-row">
+                    <span><strong>Rationale:</strong></span>
+                    <span>Balance fat loss with easy workout fueling</span>
+                </div>
+            ` : trainingLoad < 3.0 ? `
+                <div class="breakdown-row">
+                    <span><strong>Moderate Training Strategy:</strong></span>
+                    <span>30% carb reduction</span>
+                </div>
+                <div class="breakdown-row">
+                    <span><strong>Rationale:</strong></span>
+                    <span>Maintain workout quality while creating deficit</span>
+                </div>
+            ` : `
+                <div class="breakdown-row">
+                    <span><strong>Heavy Training Strategy:</strong></span>
+                    <span>25% carb reduction (conservative)</span>
+                </div>
+                <div class="breakdown-row">
+                    <span><strong>Rationale:</strong></span>
+                    <span>Preserve performance on key training days</span>
+                </div>
+            `}
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #10b981; margin-top: 0;">⚡ Workout Fuel Priority</h4>
+            <div class="breakdown-row">
+                <span><strong>Pre-Workout:</strong></span>
+                <span>Carbs prioritized (~1 g/kg)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Intra-Workout:</strong></span>
+                <span>Full fueling maintained (30-60g/hr)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Post-Workout:</strong></span>
+                <span>Recovery optimized (1 g/kg carbs + 0.35 g/kg protein)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Regular Meals:</strong></span>
+                <span>Reduced to create deficit</span>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <strong>📚 Research Support:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li><strong>Morton et al. (2018):</strong> High protein (2.3+ g/kg) preserves 95-98% muscle mass during deficit</li>
+                <li><strong>Burke et al. (2011):</strong> Carb periodization maintains performance better than chronic restriction</li>
+                <li><strong>Helms et al. (2014):</strong> Athletes should lose 0.5-1% body weight/week maximum</li>
+                <li><strong>ACSM (2016):</strong> Maintain workout fueling even in deficit to preserve training adaptations</li>
+            </ul>
+        </div>
+        
+        <div class="info-explanation" style="background: #d1fae5; padding: 1rem; border-radius: 6px; margin-top: 1rem; border-left: 4px solid #10b981;">
+            <strong>✅ Why This Works Better Than Generic Dieting:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li><strong>Muscle preservation:</strong> High protein + resistance training</li>
+                <li><strong>Performance maintenance:</strong> Workouts still properly fueled</li>
+                <li><strong>Metabolic adaptation minimized:</strong> Cycling carbs by training load</li>
+                <li><strong>Adherence:</strong> Not hungry on training days when calories are higher</li>
+                <li><strong>Sustainable:</strong> Can maintain for 8-16 weeks without burnout</li>
+            </ul>
+        </div>
+    `;
+    
+    document.getElementById('infoModalTitle').textContent = title;
+    document.getElementById('infoModalBody').innerHTML = body;
+    document.getElementById('calculationInfoModal').style.display = 'flex';
+}
+
+// Show fat loss rate guide
+function showFatLossRateGuide() {
+    const athlete = context?.athlete || {};
+    const weight_kg = athlete.weight_kg || 70;
+    const weight_lbs = Math.round(weight_kg * 2.20462);
+    
+    // Calculate 1% body weight per week (research-based max)
+    const maxSafeRate = weight_lbs * 0.01;
+    
+    const title = 'Safe Fat Loss Rates';
+    const body = `
+        <div class="info-explanation">
+            <p><strong>How fast should you lose fat?</strong> Research shows that losing too fast causes muscle loss and performance decline.</p>
+            <p>Your body weight: <strong>${weight_kg} kg (${weight_lbs} lbs)</strong></p>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #10b981; margin-top: 0;">🟢 Conservative: 0.5 lbs/week</h4>
+            <div class="breakdown-row">
+                <span><strong>Daily Deficit:</strong></span>
+                <span>~250 kcal/day</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Muscle Preservation:</strong></span>
+                <span>Excellent (99%+ retention)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Performance Impact:</strong></span>
+                <span>Minimal - can maintain training intensity</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Best For:</strong></span>
+                <span>Athletes with <10 lbs to lose, in-season training</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Time to Lose 10 lbs:</strong></span>
+                <span>~20 weeks (5 months)</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #3b82f6; margin-top: 0;">🔵 Moderate: 1.0 lbs/week (Recommended)</h4>
+            <div class="breakdown-row">
+                <span><strong>Daily Deficit:</strong></span>
+                <span>~500 kcal/day</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Muscle Preservation:</strong></span>
+                <span>Very Good (95-98% retention with high protein)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Performance Impact:</strong></span>
+                <span>Slight - may need to reduce volume 5-10%</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Best For:</strong></span>
+                <span>Most athletes, 10-30 lbs to lose, off-season</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Time to Lose 10 lbs:</strong></span>
+                <span>~10 weeks (2.5 months)</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #f59e0b; margin-top: 0;">🟠 Aggressive: 1.5 lbs/week</h4>
+            <div class="breakdown-row">
+                <span><strong>Daily Deficit:</strong></span>
+                <span>~750 kcal/day</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Muscle Preservation:</strong></span>
+                <span>Good (90-95% retention - requires strict protein intake)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Performance Impact:</strong></span>
+                <span>Moderate - expect 10-15% performance decline</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Best For:</strong></span>
+                <span>Athletes with >30 lbs to lose, early off-season</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Time to Lose 10 lbs:</strong></span>
+                <span>~7 weeks (1.75 months)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>⚠️ Risk Level:</strong></span>
+                <span>Higher - monitor energy, recovery, and strength</span>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <strong>📊 Research-Based Guidelines:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li><strong>Maximum safe rate: 1% of body weight per week</strong> (${maxSafeRate.toFixed(2)} lbs/week for you)</li>
+                <li><strong>Morton et al. (2018):</strong> High protein (2.3 g/kg) preserves muscle during deficit</li>
+                <li><strong>Helms et al. (2014):</strong> Athletes should lose 0.5-1% body weight/week max</li>
+                <li><strong>ACSM (2016):</strong> Minimum 1200 kcal/day (women), 1500 kcal/day (men)</li>
+            </ul>
+        </div>
+        
+        <div class="info-explanation" style="background: #fef3c7; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+            <strong>🎯 How BurnRate Creates the Deficit:</strong>
+            <p style="margin: 0.5rem 0 0 0;"><strong>Smart Carb Cycling</strong> - we don't just cut calories blindly:</p>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li><strong>Rest days:</strong> Larger carb cut (30-40%) → maximize fat burning</li>
+                <li><strong>Training days:</strong> Smaller carb cut (25-30%) → maintain performance</li>
+                <li><strong>Protein:</strong> INCREASED to 2.3 g/kg → preserve muscle</li>
+                <li><strong>Pre/post-workout:</strong> Carbs prioritized → fuel key sessions</li>
+            </ul>
+        </div>
+        
+        <div class="info-explanation" style="background: #fee2e2; padding: 1rem; border-radius: 6px; margin-top: 1rem; border-left: 4px solid #ef4444;">
+            <strong>⚠️ Warning Signs You're Losing Too Fast:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li>Strength declining >10% in key lifts</li>
+                <li>Constant fatigue, poor sleep quality</li>
+                <li>Increased resting heart rate (>5 bpm)</li>
+                <li>Getting sick frequently</li>
+                <li>Losing >2 lbs/week for multiple weeks</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0; font-style: italic;">If you see these signs, reduce your deficit immediately.</p>
+        </div>
+    `;
+    
+    document.getElementById('infoModalTitle').textContent = title;
+    document.getElementById('infoModalBody').innerHTML = body;
+    document.getElementById('calculationInfoModal').style.display = 'flex';
 }
 
 // Show intensity estimation guide
