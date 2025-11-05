@@ -1,6 +1,6 @@
 // BurnRate Daily Planner - Main Script  
-const VERSION = '2.8';
-const VERSION_DATE = '2025-11-04';
+const VERSION = '2.9';
+const VERSION_DATE = '2025-11-05';
 
 const API_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5002' 
@@ -320,12 +320,12 @@ function renderWorkouts() {
                         onchange="updateWorkout(${workout.id}, 'duration', parseInt(this.value))">
                 </label>
                 <label class="form-label">
-                    <span>Intensity</span>
+                    <span>Intensity <button class="info-btn" onclick="showIntensityGuide(); event.preventDefault();" title="How to estimate intensity">ℹ️</button></span>
                     <select class="form-select" onchange="updateWorkout(${workout.id}, 'intensity', this.value)">
-                        <option value="low" ${workout.intensity === 'low' ? 'selected' : ''}>Low</option>
-                        <option value="moderate" ${workout.intensity === 'moderate' ? 'selected' : ''}>Moderate</option>
-                        <option value="high" ${workout.intensity === 'high' ? 'selected' : ''}>High</option>
-                        <option value="very_high" ${workout.intensity === 'very_high' ? 'selected' : ''}>Very High</option>
+                        <option value="low" ${workout.intensity === 'low' ? 'selected' : ''}>Low (Zone 1-2, Recovery)</option>
+                        <option value="moderate" ${workout.intensity === 'moderate' ? 'selected' : ''}>Moderate (Zone 3, Aerobic)</option>
+                        <option value="high" ${workout.intensity === 'high' ? 'selected' : ''}>High (Zone 4, Threshold)</option>
+                        <option value="very_high" ${workout.intensity === 'very_high' ? 'selected' : ''}>Very High (Zone 5, VO2max)</option>
                     </select>
                 </label>
                 <label class="form-label">
@@ -1623,5 +1623,157 @@ function closeInfoModal(event) {
         return;
     }
     document.getElementById('calculationInfoModal').style.display = 'none';
+}
+
+// Show intensity estimation guide
+function showIntensityGuide() {
+    const title = 'How to Estimate Workout Intensity';
+    const body = `
+        <div class="info-explanation">
+            <p><strong>Choosing the right intensity is critical</strong> - it directly affects your daily carb and calorie targets.</p>
+            <p>Use this guide to estimate intensity without a power meter or heart rate monitor:</p>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #10b981; margin-top: 0;">🟢 Low Intensity (0.8x factor)</h4>
+            <div class="breakdown-row">
+                <span><strong>Heart Rate Zones:</strong></span>
+                <span>Zone 1-2 (50-70% max HR)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>RPE (Rate of Perceived Exertion):</strong></span>
+                <span>2-4 out of 10</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Talk Test:</strong></span>
+                <span>Can hold full conversation easily</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Breathing:</strong></span>
+                <span>Nasal breathing, relaxed</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Examples:</strong></span>
+                <span>Recovery jog, easy spin, yoga, active rest</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #3b82f6; margin-top: 0;">🔵 Moderate Intensity (1.2x factor)</h4>
+            <div class="breakdown-row">
+                <span><strong>Heart Rate Zones:</strong></span>
+                <span>Zone 3 (70-80% max HR)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>RPE:</strong></span>
+                <span>5-6 out of 10</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Talk Test:</strong></span>
+                <span>Can talk in sentences, slightly labored</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Breathing:</strong></span>
+                <span>Moderate, rhythmic breathing</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Examples:</strong></span>
+                <span>Long run, endurance ride, steady swim, "all-day" pace</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>TrainingPeaks Equivalent:</strong></span>
+                <span>IF 0.65-0.75, TSS ~50-70/hour</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #f59e0b; margin-top: 0;">🟠 High Intensity (1.5x factor)</h4>
+            <div class="breakdown-row">
+                <span><strong>Heart Rate Zones:</strong></span>
+                <span>Zone 4 (80-90% max HR)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>RPE:</strong></span>
+                <span>7-8 out of 10</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Talk Test:</strong></span>
+                <span>Can only speak a few words at a time</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Breathing:</strong></span>
+                <span>Deep, forceful breathing</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Examples:</strong></span>
+                <span>Tempo run, threshold intervals, race pace, "comfortably hard"</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>TrainingPeaks Equivalent:</strong></span>
+                <span>IF 0.75-0.85, TSS ~80-100/hour</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Sustainability:</strong></span>
+                <span>Can maintain 30-60 minutes</span>
+            </div>
+        </div>
+        
+        <div class="info-breakdown" style="margin-bottom: 1.5rem;">
+            <h4 style="color: #ef4444; margin-top: 0;">🔴 Very High Intensity (1.8x factor)</h4>
+            <div class="breakdown-row">
+                <span><strong>Heart Rate Zones:</strong></span>
+                <span>Zone 5 (90-100% max HR)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>RPE:</strong></span>
+                <span>9-10 out of 10 (maximum effort)</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Talk Test:</strong></span>
+                <span>Cannot talk, gasping</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Breathing:</strong></span>
+                <span>Maximal, can't get enough air</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Examples:</strong></span>
+                <span>VO2max intervals, hill repeats, sprint intervals, races</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>TrainingPeaks Equivalent:</strong></span>
+                <span>IF 0.85-1.05+, TSS ~100-150/hour</span>
+            </div>
+            <div class="breakdown-row">
+                <span><strong>Sustainability:</strong></span>
+                <span>Can only maintain 2-8 minutes per interval</span>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <strong>💡 Pro Tips:</strong>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li>When in doubt, <strong>estimate conservatively</strong> (choose lower intensity)</li>
+                <li>Most "steady" workouts are <strong>Moderate</strong>, not High</li>
+                <li><strong>High</strong> should feel uncomfortable - if it felt "good", it was probably Moderate</li>
+                <li><strong>Very High</strong> is truly maximal - you shouldn't do this often</li>
+                <li>Mixed workouts (e.g., intervals + recovery): Use the <strong>dominant intensity</strong> or calculate weighted average</li>
+            </ul>
+        </div>
+        
+        <div class="info-explanation" style="background: #fef3c7; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+            <strong>⚠️ Impact on Nutrition:</strong>
+            <p style="margin: 0.5rem 0 0 0;">A 70kg athlete doing 2 hours of training:</p>
+            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+                <li><strong>Moderate</strong> (1.2x) → Training Load 2.4 → ~560g carbs → 3,200 kcal</li>
+                <li><strong>High</strong> (1.5x) → Training Load 3.0 → ~700g carbs → 3,900 kcal</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0; font-style: italic;">That's a 700 kcal difference! Get it right.</p>
+        </div>
+    `;
+    
+    document.getElementById('infoModalTitle').textContent = title;
+    document.getElementById('infoModalBody').innerHTML = body;
+    document.getElementById('calculationInfoModal').style.display = 'flex';
 }
 
